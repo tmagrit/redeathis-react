@@ -52,15 +52,15 @@ function App() {
       }
     }, [])
 
-    // GET PROFILE DATA 
-    useEffect(() => {
-        if (session.profileStatus === 'succeeded') {
-            dispatch(getProfile())
-          }
-      }, [])
+    // // GET PROFILE DATA 
+    // useEffect(() => {
+    //     if (session.sessionStatus === 'succeeded') {
+    //         dispatch(getProfile())
+    //       }
+    //   }, [session.sessionStatus])
 
 
-    if(session.sessionStatus === 'succeeded' && session.profileStatus === 'succeeded')
+    if(session.sessionStatus === 'succeeded')  
         return (
             <Routes>
                 <Route index element={<Home />} />

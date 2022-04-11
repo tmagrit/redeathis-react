@@ -17,7 +17,7 @@ export default function TopRightPanel() {
     <React.Fragment>
       <Title>Minhas Colaborações</Title>
       <Typography component="p" variant="h5">
-        {`Olá, ${profile?.name}!`}
+        {profile ? `Olá, ${profile?.name}!` : 'Olá'}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         Veja aqui duas principais contribuições na plataforma.

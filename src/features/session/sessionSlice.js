@@ -14,9 +14,10 @@ export const trackSession = createAsyncThunk('session/trackSession', async (obj 
     }
 })
 
-export const getSession = createAsyncThunk('session/getSession', async () => {
+export const getSession = createAsyncThunk('session/getSession', async (obj , { dispatch, getState }) => {
     try { 
         const session = supabase.auth.session()
+        dispatch(getProfile(session.user))
 
         return session
 
@@ -25,9 +26,8 @@ export const getSession = createAsyncThunk('session/getSession', async () => {
     }
 })
 
-export const getProfile = createAsyncThunk('session/getProfile', async () => {
+export const getProfile = createAsyncThunk('session/getProfile', async ( user , { dispatch, getState }) => {
     try {
-        const user = supabase.auth.user()
         const { data, error } = await supabase
             .from('profiles')
             .select('*')
@@ -37,6 +37,7 @@ export const getProfile = createAsyncThunk('session/getProfile', async () => {
             throw error
 
         return data
+            
     } catch (error) {
         alert('getProfile()-error')
         alert(error)
@@ -114,7 +115,7 @@ export const updateProfile = createAsyncThunk('session/updateProfile', async (ob
             ...obj,
             id: user.id,
           }
-        console.log('updateProfile()',updatedProfile)
+        //console.log('updateProfile()',updatedProfile)
         const { data, error } = await supabase
             .from('profiles')
             .update(updatedProfile)
@@ -263,7 +264,7 @@ export const sessionSlice = createSlice({
             state.joinError = action.error.message
         },
         [updateProfile.pending]: (state) => {
-            state.joinStatus = 'loading'
+            state.updateProfileStatus = 'loading'
           },
         [updateProfile.fulfilled]: (state, action) => {
             state.profile = action.payload
