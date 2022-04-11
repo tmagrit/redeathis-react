@@ -25,6 +25,26 @@ export const getSession = createAsyncThunk('session/getSession', async () => {
     }
 })
 
+export const getProfile = createAsyncThunk('session/getProfile', async () => {
+    try {
+        const user = supabase.auth.user()
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single()
+        if (error) 
+            throw error
+
+        return data
+    } catch (error) {
+        alert('getProfile()-error')
+        alert(error)
+        alert(error.message)
+        return error
+    } 
+})
+
 export const signIn = createAsyncThunk('session/signIn', async ({ email, password, navigate, trackLocation } , { dispatch, getState }) => {
     try { 
         const { session, error } = await supabase.auth.signIn({ 
@@ -137,6 +157,8 @@ export const sessionSlice = createSlice({
         sessionError: null,
         trackStatus: 'idle',
         trackError: null,
+        profileStatus: 'idle',
+        profileError: null,
         logoutStatus: 'idle',
         logoutError: null,
         signInStatus: 'idle',
@@ -174,6 +196,17 @@ export const sessionSlice = createSlice({
         [getSession.fulfilled]: (state, action) => {
             state.session = action.payload
             state.sessionStatus = 'succeeded'
+        },
+        [getProfile.rejected]: (state, action) => {
+          state.profileStatus = 'failed'
+          state.profileError = action.error.message
+        },
+        [getProfile.pending]: (state) => {
+            state.profileStatus = 'loading'
+        },
+        [getProfile.fulfilled]: (state, action) => {
+            state.profile = action.payload
+            state.profileStatus = 'succeeded'
         },
         [getSession.rejected]: (state, action) => {
           state.sessionStatus = 'failed'

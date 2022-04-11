@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession} from './features/session/sessionSlice';
+import { getSession, logout, trackSession, getProfile } from './features/session/sessionSlice';
 import {
   Routes,
   Route,
@@ -52,8 +52,15 @@ function App() {
       }
     }, [])
 
+    // GET PROFILE DATA 
+    useEffect(() => {
+        if (session.profileStatus === 'succeeded') {
+            dispatch(getProfile())
+          }
+      }, [])
 
-    if(session.sessionStatus === 'succeeded')
+
+    if(session.sessionStatus === 'succeeded' && session.profileStatus === 'succeeded')
         return (
             <Routes>
                 <Route index element={<Home />} />
