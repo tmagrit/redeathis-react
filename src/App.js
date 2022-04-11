@@ -1,19 +1,20 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { supabase } from './services/supabaseClient'
-
-import { getSession, logout, trackSession } from './features/session/sessionSlice'
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSession, logout, trackSession} from './features/session/sessionSlice';
 import {
   Routes,
   Route,
-  Link,
   useNavigate,
   useLocation,
   Navigate,
   Outlet,
 } from "react-router-dom";
 import './App.css';
-
+import ProtectedRoute from './components/ProtectedRoute';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Home from './components/Home';
+import HomeAdmin from './components/Admin';
 import Dashboard from './components/Dashboard';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
@@ -24,46 +25,69 @@ function App() {
   // REDUX SELECTORS
   const dispatch = useDispatch()
   const session = useSelector(state => state.session)
-  const authListener = useSelector(state => state.session.authListener)
+
+  // // TRACK ROUTES
+  // const navigate = useNavigate();
+  // const location = useLocation();  
+  // const origin = location.state?.from?.pathname; //  || '/admin';
+  // console.log('origin', origin);
+  // useEffect(() => {
+  //   dispatch(trackRoute(origin));
+
+  //   return () => { 
+  //     dispatch(trackRoute('/'));
+  //   }
+  // }, [])
+
+    useEffect(() => {
+    }, [session.sessionStatus])
+
+    // GET AND TRACK SESSION 
+    useEffect(() => {
+      dispatch(getSession())
+      dispatch(trackSession())
   
-  // GET AND TRACK SESSION 
-  useEffect(() => {
-    dispatch(getSession())
-    dispatch(trackSession())
+      return () => { 
+        dispatch(logout());
+      }
+    }, [])
 
-    return () => { 
-      dispatch(logout());
-    }
-  }, [])
 
-  return (
+    if(session.sessionStatus === 'succeeded')
+        return (
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="home" element={<Home />} />
+                <Route path="signin" element={<Signin />} />
+                <Route path="signup" element={<Signup />} />
+                <Route 
+                    path="admin" 
+                    element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                    } 
+                />
+                {/* <Route 
+                    path="signup" 
+                    element={
+                    <ProtectedRoute>
+                        <Signup />
+                    </ProtectedRoute>
+                    } 
+                /> */}
+            </Routes>
 
-    <Routes>
-      <Route index element={<Signin />} />
-      <Route path="signin" element={<Signin />} />
-      <Route path="invite" element={<Invite />} />
-      <Route path="signup" element={<Signup />} />
-      <Route path="admin" element={<Dashboard />} />
-    </Routes>
-
-   
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a 
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div> 
-  );
+        );
+    else 
+        return (
+            <Backdrop
+                open={true}
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>   
+        );          
 }
 
 export default App;

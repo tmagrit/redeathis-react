@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
@@ -7,19 +8,23 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function Deposits() {
+export default function TopRightPanel() {
+  
+  // REDUX SELECTORS
+  const profile = useSelector(state => state.session.profile)
+  
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
-      <Typography component="p" variant="h4">
-        $3,024.00
+      <Title>Minhas Colaborações</Title>
+      <Typography component="p" variant="h5">
+        {`Olá, ${profile?.name}!`}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
-        on 15 March, 2019
+        Veja aqui duas principais contribuições na plataforma.
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+          Ver todas
         </Link>
       </div>
     </React.Fragment>

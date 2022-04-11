@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { supabase } from '../../services/supabaseClient'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { supabase } from '../../services/supabaseClient';
 
 export const trackSession = createAsyncThunk('session/trackSession', async (obj , { dispatch, getState }) => {
     try { 
@@ -25,12 +25,12 @@ export const getSession = createAsyncThunk('session/getSession', async () => {
     }
 })
 
-export const signIn = createAsyncThunk('session/signIn', async ({ email, password } , { dispatch, getState }) => {
+export const signIn = createAsyncThunk('session/signIn', async ({ email, password, navigate, trackLocation } , { dispatch, getState }) => {
     try { 
         const { session, error } = await supabase.auth.signIn({ 
             email: email,
             password: password,
-        })
+        });
 
         if(error) {
             throw error
@@ -41,7 +41,9 @@ export const signIn = createAsyncThunk('session/signIn', async ({ email, passwor
         alert('signIn()-error')
         alert(error)
         alert(error.message)
-    } 
+    } finally {
+        navigate(trackLocation);
+    }
 })
 
 export const invite = createAsyncThunk('session/invite', async ({ email } , { dispatch, getState }) => {
@@ -60,7 +62,7 @@ export const invite = createAsyncThunk('session/invite', async ({ email } , { di
     } 
 })
 
-export const join = createAsyncThunk('session/join', async ({ name, surname, password } , { dispatch, getState }) => {
+export const join = createAsyncThunk('session/join', async ({ name, surname, password, navigate, trackLocation } , { dispatch, getState }) => {
     try { 
         const { user, error } = await supabase.auth.update({ password: password });
         alert('Senha cadastrada com sucesso');
@@ -80,6 +82,7 @@ export const join = createAsyncThunk('session/join', async ({ name, surname, pas
             surname: surname,
         }
         dispatch(updateProfile(updatedProfile));
+        navigate(trackLocation);
     }
 })
 
@@ -129,7 +132,6 @@ export const sessionSlice = createSlice({
     initialState: {
         session: null,
         event: null,
-        authListener: null,
         profile: null,
         sessionStatus: 'idle',
         sessionError: null,
@@ -159,7 +161,7 @@ export const sessionSlice = createSlice({
             state.trackStatus = 'loading'
           },
         [trackSession.fulfilled]: (state, action) => {
-            state.authListener = action.payload
+            //state.authListener = action.payload
             state.trackStatus = 'succeeded'
         },
         [trackSession.rejected]: (state, action) => {

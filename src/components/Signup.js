@@ -2,16 +2,14 @@ import * as React from 'react';
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { join, logout } from '../features/session/sessionSlice'
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
-import PersonIcon from '@mui/icons-material/Person';
-import LockIcon from '@mui/icons-material/Lock';
-import { Link } from 'react-router-dom';
+
 
 const Signup = () => {
 
@@ -23,6 +21,12 @@ const Signup = () => {
   const [confirmedPassword, setConfirmedPassword] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [surnameFocus, setSurnameFocus] = useState(false)
+
+  // REACT ROUTER 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const trackLocation = location.state?.from?.pathname || '/admin';
+  console.log('trackLocation', trackLocation)
 
   // COMPARE PASSWORDS
   const confirmPassword = (pass) => {
@@ -41,8 +45,8 @@ const Signup = () => {
   }
 
   // DISPATCH SIGN UP DATA
-  const handleSignup = (name, surname, password) => {
-    dispatch(join({ name, surname, password }))
+  const handleSignup = (name, surname, password, navigate, trackLocation) => {
+    dispatch(join({ name, surname, password, navigate, trackLocation }))
   }
 
   return (
@@ -72,7 +76,7 @@ const Signup = () => {
           required
           error={validateNames(name)}
           fullWidth
-          label="Nome"
+          label="Primeiro Nome"
           id="input-first-name"
           size="small"
           onFocus={() => setNameFocus(true)}
@@ -131,7 +135,7 @@ const Signup = () => {
           disabled={confirmPassword(confirmedPassword)}
           onClick={e => {
             e.preventDefault();
-            handleSignup(name, surname, password);
+            handleSignup(name, surname, password, navigate, trackLocation);
           }}
         >
           Inscrever-se

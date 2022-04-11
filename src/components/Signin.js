@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { signIn } from '../features/session/sessionSlice';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
@@ -11,16 +12,21 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Link } from 'react-router-dom';
 
 const Signin = () => {
 
   // REDUX STATES
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  // REACT ROUTER 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const trackLocation = location.state?.from?.pathname || '/admin';
+  console.log('trackLocation', trackLocation)
 
   // STATES
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   // VALIDATE FIELDS
   const validateEmail = (email) => {
@@ -30,21 +36,21 @@ const Signin = () => {
   };
   const validatePassword = (str) => {
     if(str.length < 6)
-      return true
+      return true;
     else
-      return false
-  }
+      return false;
+  };
   const emailError = (str) => {
     if(!validateEmail(str) && str.length > 0)
-      return true
+      return true;
     else
-      return false
-  }
+      return false;
+  };
 
    // DISPATCH SIGN IN DATA
-   const handleSignin = (email, password) => {
-    dispatch(signIn({ email, password }))
-  }
+   const handleSignin = (email, password, navigate, trackLocation) => {
+    dispatch(signIn({ email, password, navigate, trackLocation }));
+  };
  
   return (
     <React.Fragment>
@@ -103,7 +109,7 @@ const Signin = () => {
           sx={{ my: 2,}} 
           onClick={e => {
             e.preventDefault();
-            handleSignin(email, password);
+            handleSignin(email, password, navigate, trackLocation);
           }}  
         >
           Acessar

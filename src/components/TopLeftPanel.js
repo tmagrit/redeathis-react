@@ -20,12 +20,12 @@ function createData(time, amount) {
 //   createData('24:00', undefined),
 // ];
 
-export default function Chart() {
+export default function TopLeftPanel() {
   const theme = useTheme();
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>Resumo Geral</Title>
       {/* <ResponsiveContainer>
         <LineChart
           data={data}

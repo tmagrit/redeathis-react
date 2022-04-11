@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../features/session/sessionSlice';
+import { Link } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -6,36 +10,49 @@ import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { Divider } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
+import TopLeftPanel from './TopLeftPanel';
+import TopRightPanel from './TopRightPanel';
+import MiddlePanel from './MiddlePanel';
+import DefaultDialog from './DefaultDialog';
+import Invite from './Invite';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+        {new Date().getFullYear()}{' | '}
+        <a
+            href='https://labhabitar.ufba.br'
+            target='_blank'
+            rel="noreferrer"
+            aria-label='Lab Habitar'
+            style={{ color: "inherit", textDecoration: "none" }}
+        >
+            Lab Habitar PPGAU/UFBA
+        </a>
     </Typography>
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 240; // TODO CREATE STYLE FILE
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -84,16 +101,47 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
+
+    // REDUX SELECTORS
+    const dispatch = useDispatch()
+    const profile = useSelector(state => state.session.profile)
+
+    // MENU STATES
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(true);
+    // DIALOG STATES 
+    const [dialogOpen, setDialogOpen] = useState(false);
+    
+    // HANDLE TOGGLE MENU 
+    const toggleDrawer = () => {
     setOpen(!open);
-  };
+    };
+    // HANDLE MENU
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    // HANDLE TOGGLE DIALOG
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
+    const handleDialogClose = (value) => {
+        setDialogOpen(false);
+    };
+
+    // HANDLE LOGOUT
+    const handleLogout = (event) => {
+        dispatch(logout());
+    };
 
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" color="inherit" open={open}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -120,11 +168,79 @@ function DashboardContent() {
             >
               Rede Residência ATHIS
             </Typography>
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={handleMenu}>
               <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+                <VerifiedUserIcon />
               </Badge>
             </IconButton>
+            <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+            <MenuItem 
+                component={Typography}
+            >
+                <ListItemIcon>
+                    <AssignmentIndIcon fontSize="small" />
+                </ListItemIcon>
+                <Box sx={{ my: 1, mr: 1 }}>Acessando como</Box><Box sx={{ fontWeight: 'bold', my: 1 }}>{`${profile?.name}`}</Box>
+            </MenuItem> 
+            <Divider />
+            <MenuItem 
+                component={Link}
+                to="/" // TODO ACCOUNT COMPONENT
+                onClick={handleClose}  
+            >
+                <ListItemIcon>
+                    <ArrowBackIcon fontSize="small" />
+                </ListItemIcon>
+                Voltar para Rede ATHIS
+            </MenuItem>    
+            <MenuItem 
+                component={Link}
+                to="/" // TODO ACCOUNT COMPONENT
+                onClick={handleClose}  
+            >
+                <ListItemIcon>
+                    <AccountCircleIcon fontSize="small" />
+                </ListItemIcon>
+                Minha Conta
+            </MenuItem>
+            <Divider />
+            <MenuItem 
+                //component={Link}
+                //to="/invite" // TODO ACCOUNT COMPONENT
+                onClick={() => { handleDialogOpen(); handleClose();}}  
+            >
+                <ListItemIcon>
+                    <PersonAddIcon fontSize="small" />
+                </ListItemIcon>
+                Convidar Colaborador
+            </MenuItem>
+            <Divider />
+            <MenuItem 
+                component={Link}
+                to="/" // TODO ACCOUNT COMPONENT
+                onClick={() => { handleLogout(); handleClose();}}  
+            >
+                <ListItemIcon>
+                    <LogoutIcon fontSize="small" />
+                </ListItemIcon>
+                Sair
+            </MenuItem>
+
+            </Menu>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -162,7 +278,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
+              {/* RESUMO */}
               <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
@@ -172,10 +288,10 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Chart />
+                  <TopLeftPanel />
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
+              {/* MINHAS COLABORAÇÕES */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -185,13 +301,13 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Deposits />
+                  <TopRightPanel />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* ATIVIDADES RECENTES */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <MiddlePanel />
                 </Paper>
               </Grid>
             </Grid>
@@ -199,6 +315,14 @@ function DashboardContent() {
           </Container>
         </Box>
       </Box>
+        {/* INVITE DIALOG */}
+        <DefaultDialog
+            open={dialogOpen}
+            onClose={handleDialogClose}
+            title={'Convidar Colaborador'}
+            children={<Invite/>}
+        />
+  );
     </ThemeProvider>
   );
 }
