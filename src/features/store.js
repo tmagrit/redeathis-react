@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
-import sessionReducer from './session/sessionSlice';
-import membersReducer from './session/membersSlice';
+import sessionReducer from './sessionSlice';
+import membersReducer from './membersSlice';
 
 export const store = configureStore({
     reducer: {

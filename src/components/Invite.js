@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { invite } from '../features/session/sessionSlice';
+import { invite } from '../features/sessionSlice';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -99,7 +99,7 @@ export default Invite
 // import { supabase } from '../services/supabaseClient';
 // import { useState } from 'react';
 // import { useDispatch } from 'react-redux';
-// import { invite } from '../features/session/sessionSlice';
+// import { invite } from '../features/sessionSlice';
 // import Box from '@mui/material/Box';
 // import Paper from '@mui/material/Paper';
 // import TextField from '@mui/material/TextField';

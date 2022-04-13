@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/session/sessionSlice';
+import { logout } from '../features/sessionSlice';
 import { Link } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,9 +16,6 @@ import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -28,29 +25,13 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import { mainListItems, secondaryListItems } from './listItems';
-import TopLeftPanel from './TopLeftPanel';
-import TopRightPanel from './TopRightPanel';
-import MiddlePanel from './MiddlePanel';
+import { mainListItems, secondaryListItems } from '../components/listItems';
 import DefaultDialog from './DefaultDialog';
 import Invite from './Invite';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {new Date().getFullYear()}{' | '}
-        <a
-            href='https://labhabitar.ufba.br'
-            target='_blank'
-            rel="noreferrer"
-            aria-label='Lab Habitar'
-            style={{ color: "inherit", textDecoration: "none" }}
-        >
-            Lab Habitar PPGAU/UFBA
-        </a>
-    </Typography>
-  );
-}
+// PAGES 
+import Main from '../pages/Main';
+import Members from '../pages/Members';
 
 const drawerWidth = 240; // TODO CREATE STYLE FILE
 
@@ -100,7 +81,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-const Admin = () => {
+const Admin = ({ role }) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
@@ -160,13 +141,20 @@ const Admin = () => {
               <MenuIcon />
             </IconButton>
             <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                sx={{ flexGrow: 1 }}
             >
-              Rede Residência ATHIS
+                <Link 
+                    to="/admin" 
+                    //color="inherit" 
+                    variant="inherit" 
+                    style={{ color: "inherit", textDecoration: "none" }} 
+                >
+                    Rede Residência ATHIS
+                </Link>
             </Typography>
             <IconButton color="inherit" onClick={handleMenu}>
               <Badge badgeContent={4} color="secondary">
@@ -194,7 +182,7 @@ const Admin = () => {
                 <ListItemIcon>
                     <AssignmentIndIcon fontSize="small" />
                 </ListItemIcon>
-                <Box sx={{ my: 1, mr: 1 }}>Acessando como</Box><Box sx={{ fontWeight: 'bold', my: 1 }}>{`${profile?.name}`}</Box>
+                <Box sx={{ my: 1, mr: 0.5 }}>Acessando como</Box><Box sx={{ fontWeight: 'bold', my: 1 }}>{`${profile?.name}`}</Box>
             </MenuItem> 
             <Divider />
             <MenuItem 
@@ -275,44 +263,14 @@ const Admin = () => {
             overflow: 'auto',
           }}
         >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* RESUMO */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <TopLeftPanel />
-                </Paper>
-              </Grid>
-              {/* MINHAS COLABORAÇÕES */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <TopRightPanel />
-                </Paper>
-              </Grid>
-              {/* ATIVIDADES RECENTES */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <MiddlePanel />
-                </Paper>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
+        <Toolbar />
+
+        {/* PAGES */}
+        {role === 'admin' ? <Main /> : null }
+        {role === 'members' ? <Members /> : null }
+
+        {/* PAGES */}
+
         </Box>
       </Box>
         {/* INVITE DIALOG */}

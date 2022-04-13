@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { supabase } from '../../services/supabaseClient';
+import { supabase } from '../services/supabaseClient';
 
 export const trackSession = createAsyncThunk('session/trackSession', async (obj , { dispatch, getState }) => {
     try { 

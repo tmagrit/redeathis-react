@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/session/sessionSlice';
+import { logout } from '../features/sessionSlice';
 import { Link, useLocation } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -55,8 +55,8 @@ const Home = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Rede Residência ATHIS
                     </Typography>
-                    <Button color="inherit" component={Link} to="/" >História</Button>
-                    <Button color="inherit" component={Link} to="/" >Proposta</Button>
+                    <Button color="inherit" component={Link} to="/admin" >História</Button>
+                    <Button color="inherit" component={Link} to="/admin/members" >Proposta</Button>
                     <Button color="inherit" component={Link} to="/" >Quem Somos</Button>
                     <Button color="inherit" component={Link} to="/" >Colabore</Button>
                     <IconButton

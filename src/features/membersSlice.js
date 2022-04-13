@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { supabase } from '../../services/supabaseClient';
+import { supabase } from '../services/supabaseClient';
 
-export const getProfiles = createAsyncThunk('members/getProfiles', async (obj , { dispatch, getState }) => {
+export const getMembers = createAsyncThunk('members/getMembers', async (obj , { dispatch, getState }) => {
     try { 
         const { data, error } = await supabase
             .from('profiles')
@@ -14,7 +14,9 @@ export const getProfiles = createAsyncThunk('members/getProfiles', async (obj , 
         return data
 
     } catch (error) {
-        return error
+        alert('getMembers()-error')
+        console.log(error)
+        alert(error.message)
     }
 })
 
@@ -22,8 +24,8 @@ export const membersSlice = createSlice({
     name: 'session',
     initialState: {
         profiles: null,
-        getProfilesStatus: 'idle',
-        getProfilesError: null
+        getMembersStatus: 'idle',
+        getMembersError: null
     },
     reducers: {
         updateProfiles(state, action) {
@@ -31,16 +33,16 @@ export const membersSlice = createSlice({
         }
     },
     extraReducers: {
-        [getProfiles.pending]: (state) => {
-            state.getProfilesStatus = 'loading'
+        [getMembers.pending]: (state) => {
+            state.getMembersStatus = 'loading'
         },
-        [getProfiles.fulfilled]: (state, action) => {
-            state.session = action.payload
-            state.getProfilesStatus = 'succeeded'
+        [getMembers.fulfilled]: (state, action) => {
+            state.profiles = action.payload
+            state.getMembersStatus = 'succeeded'
         },
-        [getProfiles.rejected]: (state, action) => {
-          state.getProfilesStatus = 'failed'
-          state.getProfilesError = action.error
+        [getMembers.rejected]: (state, action) => {
+          state.getMembersStatus = 'failed'
+          state.getMembersError = action.error
         }
       }
 })

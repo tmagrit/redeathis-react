@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from "react-router-dom";
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -14,36 +15,41 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/admin/research" >
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Pesquisa" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/admin/categories" >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Categorias" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/admin/tags" >
       <ListItemIcon>
         <BookmarksIcon />
       </ListItemIcon>
       <ListItemText primary="Marcadores" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/admin/members" >
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Colaboradores" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/admin/pages" >
       <ListItemIcon>
         <ArticleIcon />
       </ListItemIcon>
       <ListItemText primary="Páginas" />
     </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Membros" />
-    </ListItemButton>
+
   </React.Fragment>
 );
 

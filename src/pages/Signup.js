@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { join, logout } from '../features/session/sessionSlice'
+import { join, logout } from '../features/sessionSlice'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';

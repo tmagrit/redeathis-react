@@ -1,18 +1,16 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession, getProfile } from './features/session/sessionSlice';
-import {
-    Routes,
-    Route
-} from "react-router-dom";
+import { getSession, logout, trackSession } from './features/sessionSlice';
+import { getMembers } from './features/membersSlice';
+import { Routes, Route } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Home from './components/Home';
 import Admin from './components/Admin';
-import Signin from './components/Signin';
-import Signup from './components/Signup';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
 
 function App() {
 
@@ -26,12 +24,17 @@ function App() {
         dispatch(trackSession())
     
         return () => { 
-            dispatch(logout());
+            dispatch(logout()); //TODO - PROBLEM: REFRESHING PAGE LOGOUT THE USER
         }
+    }, [])
+
+    // GET AND TRACK SESSION 
+    useEffect(() => {
+        dispatch(getMembers())
     }, [])
     
 
-    if(session.sessionStatus === 'succeeded')  
+    if(session.sessionStatus === 'succeeded') {
         return (
             <Routes>
                 <Route index element={<Home />} />
@@ -42,14 +45,23 @@ function App() {
                     path="admin" 
                     element={
                     <ProtectedRoute>
-                        <Admin />
+                        <Admin role={'admin'} />
+                    </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="admin/members" 
+                    element={
+                    <ProtectedRoute>
+                        <Admin role={'members'} />
                     </ProtectedRoute>
                     } 
                 />
             </Routes>
 
         );
-    else 
+
+    } else { 
         return (
             <Backdrop
                 open={true}
@@ -57,7 +69,8 @@ function App() {
             >
                 <CircularProgress color="inherit" />
             </Backdrop>   
-        );          
-}
+        ); 
+    };
+};
 
 export default App;
