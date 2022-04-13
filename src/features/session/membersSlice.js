@@ -27,20 +27,20 @@ export const membersSlice = createSlice({
     },
     reducers: {
         updateProfiles(state, action) {
-            state.session = action.payload
+            state.profiles = action.payload
         }
     },
     extraReducers: {
         [getProfiles.pending]: (state) => {
-            state.sessionStatus = 'loading'
+            state.getProfilesStatus = 'loading'
         },
         [getProfiles.fulfilled]: (state, action) => {
             state.session = action.payload
-            state.sessionStatus = 'succeeded'
+            state.getProfilesStatus = 'succeeded'
         },
         [getProfiles.rejected]: (state, action) => {
-          state.sessionStatus = 'failed'
-          state.sessionError = action.error.message
+          state.getProfilesStatus = 'failed'
+          state.getProfilesError = action.error
         }
       }
 })

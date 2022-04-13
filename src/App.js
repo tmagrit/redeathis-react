@@ -10,8 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Home from './components/Home';
-import HomeAdmin from './components/Admin';
-import Dashboard from './components/Dashboard';
+import Admin from './components/Admin';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 
@@ -30,12 +29,6 @@ function App() {
             dispatch(logout());
         }
     }, [])
-
-    // UPDATE PROFILE ON SESSION CHANGES
-    useEffect(() => {
-        if(session?.user)
-            dispatch(getProfile(session?.user))
-    }, [session])
     
 
     if(session.sessionStatus === 'succeeded')  
@@ -49,7 +42,7 @@ function App() {
                     path="admin" 
                     element={
                     <ProtectedRoute>
-                        <Dashboard />
+                        <Admin />
                     </ProtectedRoute>
                     } 
                 />
