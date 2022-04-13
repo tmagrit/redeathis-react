@@ -10,19 +10,24 @@ export const trackSession = createAsyncThunk('session/trackSession', async (obj 
         })
 
     } catch (error) {
-        return error
+        alert('trackSession()-error')
+        console.log(error)
+        alert(error.message)
     }
 })
 
 export const getSession = createAsyncThunk('session/getSession', async (obj , { dispatch, getState }) => {
     try { 
         const session = supabase.auth.session()
-        dispatch(getProfile(session.user))
+        if(session)
+            dispatch(getProfile(session.user))
 
         return session
 
     } catch (error) {
-        return error
+        alert('getSession()-error')
+        console.log(error)
+        alert(error.message)
     }
 })
 
@@ -40,7 +45,7 @@ export const getProfile = createAsyncThunk('session/getProfile', async ( user , 
             
     } catch (error) {
         alert('getProfile()-error')
-        alert(error)
+        console.log(error)
         alert(error.message)
         return error
     } 
@@ -56,11 +61,13 @@ export const signIn = createAsyncThunk('session/signIn', async ({ email, passwor
         if(error) {
             throw error
         } 
+
         alert('Sucesso')
-        return { session: session, error: error }
+        return session
+
     } catch (error) {
         alert('signIn()-error')
-        alert(error)
+        console.log(error)
         alert(error.message)
     } finally {
         navigate(trackLocation);
@@ -70,7 +77,7 @@ export const signIn = createAsyncThunk('session/signIn', async ({ email, passwor
 export const invite = createAsyncThunk('session/invite', async ({ email } , { dispatch, getState }) => {
     try { 
         const { error } = await supabase.auth.signIn({ email })
-        alert('Solicite ao convidado que acesse o link de cadastro no e-mail')
+        alert(`Solicite ao convidado que acesse o link enviado para ${email} para completar o cadastro.`)
 
         if(error) {
             throw error
@@ -78,7 +85,7 @@ export const invite = createAsyncThunk('session/invite', async ({ email } , { di
 
     } catch (error) {
         alert('invite()-error')
-        alert(error)
+        console.log(error)
         alert(error.message)
     } 
 })
@@ -93,9 +100,8 @@ export const join = createAsyncThunk('session/join', async ({ name, surname, pas
         } 
 
     } catch (error) {
-        //return { error: error }
-        alert('join()-catch-error')
-        console.log('error-object', error)
+        alert('join()-error')
+        console.log(error)
         alert(error.message)
     } finally {
         const updatedProfile = {
@@ -110,19 +116,17 @@ export const join = createAsyncThunk('session/join', async ({ name, surname, pas
 
 export const updateProfile = createAsyncThunk('session/updateProfile', async (obj , { dispatch, getState }) => {
     try { 
-        //const { profile } = getState()
         const user = supabase.auth.user()
         const updatedProfile = {
             ...obj,
           }
-        //console.log('updateProfile()',updatedProfile)
         const { data, error } = await supabase
             .from('profiles')
             .update(updatedProfile)
             .match({ id: user.id })
             .single()
 
-        alert('Dados cadastrais atualizados com sucesso');
+        alert('Dados do colaborador atualizados com sucesso.');
         if(error) {
             throw error
         }  
@@ -130,7 +134,7 @@ export const updateProfile = createAsyncThunk('session/updateProfile', async (ob
         return data
     } catch (error) {
         alert('updateProfile()-error')
-        console.log('updateProfile()-error',error)
+        console.log(error)
         alert(error.message)
     }
 })
@@ -151,25 +155,32 @@ export const logout = createAsyncThunk('session/logout', async () => {
 export const sessionSlice = createSlice({
     name: 'session',
     initialState: {
-        session: null,
         event: null,
-        profile: null,
+        trackSessionStatus: 'idle',
+        trackSessionError: null,
+
+        session: null,
         sessionStatus: 'idle',
         sessionError: null,
-        trackStatus: 'idle',
-        trackError: null,
-        profileStatus: 'idle',
-        profileError: null,
-        logoutStatus: 'idle',
-        logoutError: null,
+
+        profile: null,
+        getProfileStatus: 'idle',
+        getProfileError: null,
+
         signInStatus: 'idle',
         signInError: null,
+
         inviteStatus: 'idle',
         inviteError: null,
+
         joinStatus: 'idle',
         joinError: null,
+
         updateProfileStatus: 'idle',
-        updateProfileError: null
+        updateProfileError: null,
+
+        logoutStatus: 'idle',
+        logoutError: null
     },
     reducers: {
         updateSession(state, action) {
@@ -181,15 +192,14 @@ export const sessionSlice = createSlice({
     },
     extraReducers: {
         [trackSession.pending]: (state) => {
-            state.trackStatus = 'loading'
+            state.trackSessionStatus = 'loading'
           },
         [trackSession.fulfilled]: (state, action) => {
-            //state.authListener = action.payload
-            state.trackStatus = 'succeeded'
+            state.trackSessionStatus = 'succeeded'
         },
         [trackSession.rejected]: (state, action) => {
-            state.trackStatus = 'failed'
-            state.trackError = action.error.message
+            state.trackSessionStatus = 'failed'
+            state.trackSessionError = action.error
         },
         [getSession.pending]: (state) => {
             state.sessionStatus = 'loading'
@@ -198,20 +208,63 @@ export const sessionSlice = createSlice({
             state.session = action.payload
             state.sessionStatus = 'succeeded'
         },
-        [getProfile.rejected]: (state, action) => {
-          state.profileStatus = 'failed'
-          state.profileError = action.error.message
+        [getSession.rejected]: (state, action) => {
+            state.sessionStatus = 'failed'
+            state.sessionError = action.error
         },
         [getProfile.pending]: (state) => {
-            state.profileStatus = 'loading'
+            state.getProfileStatus = 'loading'
         },
         [getProfile.fulfilled]: (state, action) => {
             state.profile = action.payload
-            state.profileStatus = 'succeeded'
+            state.getProfileStatus = 'succeeded'
         },
-        [getSession.rejected]: (state, action) => {
-          state.sessionStatus = 'failed'
-          state.sessionError = action.error.message
+        [getProfile.rejected]: (state, action) => {
+            state.getProfileStatus = 'failed'
+            state.getProfileError = action.error
+        },
+        [signIn.pending]: (state) => {
+            state.signInStatus = 'loading'
+          },
+        [signIn.fulfilled]: (state, action) => {
+            state.session = action.payload
+            state.signInStatus = 'succeeded'
+        },
+        [signIn.rejected]: (state, action) => {
+            state.session = action.payload
+            state.signInStatus = 'failed'
+            state.signInError = action.error
+        },
+        [invite.pending]: (state) => {
+            state.inviteStatus = 'loading'
+          },
+        [invite.fulfilled]: (state, action) => {
+            state.inviteStatus = 'succeeded'
+        },
+        [invite.rejected]: (state, action) => {
+            state.inviteStatus = 'failed'
+            state.inviteError = action.error
+        },
+        [join.pending]: (state) => {
+            state.joinStatus = 'loading'
+          },
+        [join.fulfilled]: (state, action) => {
+            state.joinStatus = 'succeeded'
+        },
+        [join.rejected]: (state, action) => {
+            state.joinStatus = 'failed'
+            state.joinError = action.error
+        },
+        [updateProfile.pending]: (state) => {
+            state.updateProfileStatus = 'loading'
+          },
+        [updateProfile.fulfilled]: (state, action) => {
+            state.profile = action.payload
+            state.updateProfileStatus = 'succeeded'
+        },
+        [updateProfile.rejected]: (state, action) => {
+            state.updateProfileStatus = 'failed'
+            state.updateProfileError = action.error
         },
         [logout.pending]: (state) => {
             state.logoutStatus = 'loading'
@@ -222,59 +275,7 @@ export const sessionSlice = createSlice({
         },
         [logout.rejected]: (state, action) => {
             state.logoutStatus = 'failed'
-            state.logoutError = action.error.message
-        },
-        [signIn.pending]: (state) => {
-            state.signInStatus = 'loading'
-          },
-        [signIn.fulfilled]: (state, action) => {
-            state.session = action.payload.session
-            state.signInError = action.payload.error
-            state.signInStatus = 'succeeded'
-        },
-        [signIn.rejected]: (state, action) => {
-            state.session = action.payload.session
-            state.signInStatus = 'failed'
-            state.signInError = action.error.message
-        },
-        [invite.pending]: (state) => {
-            state.inviteStatus = 'loading'
-          },
-        [invite.fulfilled]: (state, action) => {
-            //state.session = action.payload.session
-            state.inviteError = action.payload.error
-            state.inviteStatus = 'succeeded'
-        },
-        [invite.rejected]: (state, action) => {
-            //state.session = action.payload.session
-            state.inviteStatus = 'failed'
-            state.inviteError = action.error.message
-        },
-        [join.pending]: (state) => {
-            state.joinStatus = 'loading'
-          },
-        [join.fulfilled]: (state, action) => {
-            //state.profile = action.payload
-            state.joinError = action.payload.error
-            state.joinStatus = 'succeeded'
-        },
-        [join.rejected]: (state, action) => {
-            //state.profile = action.payload
-            state.joinStatus = 'failed'
-            state.joinError = action.error.message
-        },
-        [updateProfile.pending]: (state) => {
-            state.updateProfileStatus = 'loading'
-          },
-        [updateProfile.fulfilled]: (state, action) => {
-            state.profile = action.payload
-            state.updateProfileError = action.payload.error
-            state.updateProfileStatus = 'succeeded'
-        },
-        [updateProfile.rejected]: (state, action) => {
-            //state.profile = action.payload
-            state.updateProfileStatus = 'failed'
-            state.updateProfileError = action.error.message
+            state.logoutError = action.error
         }
       }
 })
