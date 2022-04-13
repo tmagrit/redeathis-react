@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession, getProfile } from './features/session/sessionSlice';
+import { getSession, logout, trackSession } from './features/session/sessionSlice';
 import {
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-  Navigate,
-  Outlet,
+    Routes,
+    Route
 } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -18,47 +14,25 @@ import HomeAdmin from './components/Admin';
 import Dashboard from './components/Dashboard';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
-import Invite from './components/Invite';
 
 function App() {
 
-  // REDUX SELECTORS
-  const dispatch = useDispatch()
-  const session = useSelector(state => state.session)
-
-  // // TRACK ROUTES
-  // const navigate = useNavigate();
-  // const location = useLocation();  
-  // const origin = location.state?.from?.pathname; //  || '/admin';
-  // console.log('origin', origin);
-  // useEffect(() => {
-  //   dispatch(trackRoute(origin));
-
-  //   return () => { 
-  //     dispatch(trackRoute('/'));
-  //   }
-  // }, [])
+    // REDUX SELECTORS
+    const dispatch = useDispatch()
+    const session = useSelector(state => state.session)
 
     useEffect(() => {
-    }, [session.sessionStatus])
+        }, [session.sessionStatus])
 
-    // GET AND TRACK SESSION 
-    useEffect(() => {
-      dispatch(getSession())
-      dispatch(trackSession())
-  
-      return () => { 
-        dispatch(logout());
-      }
+        // GET AND TRACK SESSION 
+        useEffect(() => {
+        dispatch(getSession())
+        dispatch(trackSession())
+    
+        return () => { 
+            dispatch(logout());
+        }
     }, [])
-
-    // // GET PROFILE DATA 
-    // useEffect(() => {
-    //     if (session.sessionStatus === 'succeeded') {
-    //         dispatch(getProfile())
-    //       }
-    //   }, [session.sessionStatus])
-
 
     if(session.sessionStatus === 'succeeded')  
         return (
@@ -75,14 +49,6 @@ function App() {
                     </ProtectedRoute>
                     } 
                 />
-                {/* <Route 
-                    path="signup" 
-                    element={
-                    <ProtectedRoute>
-                        <Signup />
-                    </ProtectedRoute>
-                    } 
-                /> */}
             </Routes>
 
         );

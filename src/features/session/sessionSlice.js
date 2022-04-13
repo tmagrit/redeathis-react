@@ -101,6 +101,7 @@ export const join = createAsyncThunk('session/join', async ({ name, surname, pas
         const updatedProfile = {
             name: name,
             surname: surname,
+            active: true,
         }
         dispatch(updateProfile(updatedProfile));
         navigate(trackLocation);
@@ -113,7 +114,6 @@ export const updateProfile = createAsyncThunk('session/updateProfile', async (ob
         const user = supabase.auth.user()
         const updatedProfile = {
             ...obj,
-            id: user.id,
           }
         //console.log('updateProfile()',updatedProfile)
         const { data, error } = await supabase
