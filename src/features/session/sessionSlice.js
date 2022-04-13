@@ -20,7 +20,7 @@ export const getSession = createAsyncThunk('session/getSession', async (obj , { 
     try { 
         const session = supabase.auth.session()
         if(session)
-            dispatch(getProfile(session.user))
+            dispatch(getProfile(session?.user))
 
         return session
 
@@ -62,6 +62,10 @@ export const signIn = createAsyncThunk('session/signIn', async ({ email, passwor
             throw error
         } 
 
+        console.log('session?.user', session?.user)
+        if(session?.user)
+            dispatch(getProfile(session?.user))
+        
         alert('Sucesso')
         return session
 

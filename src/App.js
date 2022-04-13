@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession } from './features/session/sessionSlice';
+import { getSession, logout, trackSession, getProfile } from './features/session/sessionSlice';
 import {
     Routes,
     Route
@@ -21,11 +21,8 @@ function App() {
     const dispatch = useDispatch()
     const session = useSelector(state => state.session)
 
+    // GET AND TRACK SESSION 
     useEffect(() => {
-        }, [session.sessionStatus])
-
-        // GET AND TRACK SESSION 
-        useEffect(() => {
         dispatch(getSession())
         dispatch(trackSession())
     
@@ -33,6 +30,13 @@ function App() {
             dispatch(logout());
         }
     }, [])
+
+    // UPDATE PROFILE ON SESSION CHANGES
+    useEffect(() => {
+        if(session?.user)
+            dispatch(getProfile(session?.user))
+    }, [session])
+    
 
     if(session.sessionStatus === 'succeeded')  
         return (
