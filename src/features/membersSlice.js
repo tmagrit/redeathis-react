@@ -21,7 +21,7 @@ export const getMembers = createAsyncThunk('members/getMembers', async (obj , { 
 })
 
 export const membersSlice = createSlice({
-    name: 'session',
+    name: 'members',
     initialState: {
         profiles: null,
         getMembersStatus: 'idle',

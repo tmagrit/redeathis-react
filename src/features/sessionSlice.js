@@ -184,7 +184,8 @@ export const sessionSlice = createSlice({
         updateProfileError: null,
 
         logoutStatus: 'idle',
-        logoutError: null
+        logoutError: null,
+
     },
     reducers: {
         updateSession(state, action) {
@@ -192,7 +193,13 @@ export const sessionSlice = createSlice({
         },
         updateEvent(state, action) {
             state.event = action.payload
-        }
+        },
+        updateProfileSection(state, action) {
+            state.profile.section = action.payload
+        },
+        updateProfileContext(state, action) {
+            state.profile.context = action.payload
+        },
     },
     extraReducers: {
         [trackSession.pending]: (state) => {

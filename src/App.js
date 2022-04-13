@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession } from './features/sessionSlice';
+import { getSession, logout, trackSession, updateProfile } from './features/sessionSlice';
 import { getMembers } from './features/membersSlice';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
@@ -24,6 +24,7 @@ function App() {
         dispatch(trackSession())
     
         return () => { 
+            dispatch(updateProfile(session.profile))
             dispatch(logout()); //TODO - PROBLEM: REFRESHING PAGE LOGOUT THE USER
         }
     }, [])
@@ -45,7 +46,23 @@ function App() {
                     path="admin" 
                     element={
                     <ProtectedRoute>
-                        <Admin role={'admin'} />
+                        <Admin section={'admin'} />
+                    </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="admin/research" 
+                    element={
+                    <ProtectedRoute>
+                        <Admin section={'research'} />
+                    </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="admin/categories" 
+                    element={
+                    <ProtectedRoute>
+                        <Admin section={'categories'} />
                     </ProtectedRoute>
                     } 
                 />
@@ -53,7 +70,15 @@ function App() {
                     path="admin/members" 
                     element={
                     <ProtectedRoute>
-                        <Admin role={'members'} />
+                        <Admin section={'members'} />
+                    </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="admin/pages" 
+                    element={
+                    <ProtectedRoute>
+                        <Admin section={'pages'} />
                     </ProtectedRoute>
                     } 
                 />

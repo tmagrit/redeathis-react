@@ -15,7 +15,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton component={Link} to="/admin/research" >
+    <ListItemButton component={Link} to="/admin/research">
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>

@@ -25,13 +25,18 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import { mainListItems, secondaryListItems } from '../components/listItems';
+//import { mainListItems, secondaryListItems } from '../components/listItems';
 import DefaultDialog from './DefaultDialog';
 import Invite from './Invite';
+import MainMenu from './MainMenu';
+import ContextMenu from './ContextMenu';
 
 // PAGES 
 import Main from '../pages/Main';
+import Research from '../pages/Research';
+import Categories from '../pages/Categories';
 import Members from '../pages/Members';
+import Pages from '../pages/Pages';
 
 const drawerWidth = 240; // TODO CREATE STYLE FILE
 
@@ -81,7 +86,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-const Admin = ({ role }) => {
+const Admin = ({ section }) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
@@ -246,9 +251,11 @@ const Admin = ({ role }) => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            {/* {mainListItems} */}
+            <MainMenu section={section}/>
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {/* {secondaryListItems} */}
+            <ContextMenu section={section} context={'members'} />
           </List>
         </Drawer>
         <Box
@@ -266,8 +273,11 @@ const Admin = ({ role }) => {
         <Toolbar />
 
         {/* PAGES */}
-        {role === 'admin' ? <Main /> : null }
-        {role === 'members' ? <Members /> : null }
+        {section === 'admin' ? <Main context={'main'} /> : null }
+        {section === 'research' ? <Research context={'main'} /> : null }
+        {section === 'categories' ? <Categories context={'main'} /> : null }
+        {section === 'members' ? <Members context={'main'} /> : null }
+        {section === 'pages' ? <Pages context={'main'} /> : null }
 
         {/* PAGES */}
 

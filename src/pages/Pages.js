@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -9,7 +11,12 @@ import TopLeftPanel from '../components/TopLeftPanel';
 import TopRightPanel from '../components/TopRightPanel';
 import MiddlePanel from '../components/MiddlePanel';
 
-const Main = () => {
+const Pages = ({ context }) => {
+
+    // REDUX
+    const dispatch = useDispatch()
+    const profiles = useSelector(state => state.members.profiles)
+
     return (
 
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -52,35 +59,4 @@ const Main = () => {
     )
 };
 
-export default Main;
-
-
-// import { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { logout } from '../features/sessionSlice';
-// import { Link } from "react-router-dom";
-// import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-// import CssBaseline from '@mui/material/CssBaseline';
-// import MuiDrawer from '@mui/material/Drawer';
-// import Box from '@mui/material/Box';
-// import MuiAppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
-// import List from '@mui/material/List';
-// import MenuItem from '@mui/material/MenuItem';
-// import Menu from '@mui/material/Menu';
-// import Typography from '@mui/material/Typography';
-// import { Divider } from '@mui/material';
-// import IconButton from '@mui/material/IconButton';
-// import Badge from '@mui/material/Badge';
-// import MenuIcon from '@mui/icons-material/Menu';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-// import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-// import PersonAddIcon from '@mui/icons-material/PersonAdd';
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import LogoutIcon from '@mui/icons-material/Logout';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-// import { mainListItems, secondaryListItems } from './listItems';
-// import DefaultDialog from '../components/DefaultDialog';
-// import Invite from './Invite';
+export default Pages;
