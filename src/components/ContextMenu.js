@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import DefaultDialog from './DefaultDialog';
 import Invite from './Invite';
@@ -15,6 +16,11 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const MainMenu = ({ section, context }) => {
+
+    // REDUX SELECTORS
+    const dispatch = useDispatch()
+    // const section = useSelector(state => state.session.profile.section)
+    // const context = useSelector(state => state.session.profile.context)
 
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);

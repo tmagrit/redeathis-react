@@ -25,7 +25,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-//import { mainListItems, secondaryListItems } from '../components/listItems';
 import DefaultDialog from './DefaultDialog';
 import Invite from './Invite';
 import MainMenu from './MainMenu';
@@ -212,8 +211,6 @@ const Admin = ({ section }) => {
             </MenuItem>
             <Divider />
             <MenuItem 
-                //component={Link}
-                //to="/invite" // TODO ACCOUNT COMPONENT
                 onClick={() => { handleDialogOpen(); handleClose();}}  
             >
                 <ListItemIcon>
@@ -251,10 +248,8 @@ const Admin = ({ section }) => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {/* {mainListItems} */}
             <MainMenu section={section}/>
             <Divider sx={{ my: 1 }} />
-            {/* {secondaryListItems} */}
             <ContextMenu section={section} context={'members'} />
           </List>
         </Drawer>

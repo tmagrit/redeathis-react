@@ -30,7 +30,6 @@ const Home = () => {
     // REACT ROUTER 
     const location = useLocation();
     const trackLocation = location.state?.from?.pathname || '/admin';
-    console.log('trackLocation', trackLocation)
 
     // REACT STATES
     const [anchorEl, setAnchorEl] = useState(null);

@@ -295,7 +295,9 @@ export const selectSession = state => state.session
 
 export const { 
     updateSession,
-    updateEvent
+    updateEvent,
+    updateProfileSection,
+    updateProfileContext
 } = sessionSlice.actions
 
 export default sessionSlice.reducer

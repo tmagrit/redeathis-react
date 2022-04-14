@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession, updateProfile } from './features/sessionSlice';
+import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
 import { getMembers } from './features/membersSlice';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
@@ -12,11 +12,16 @@ import Admin from './components/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 
+import { useHistory } from './components/history';
+
 function App() {
 
     // REDUX SELECTORS
-    const dispatch = useDispatch()
-    const session = useSelector(state => state.session)
+    const dispatch = useDispatch();
+    const session = useSelector(state => state.session);
+
+    //const location = useLocation();
+    const history = useHistory();
 
     // GET AND TRACK SESSION 
     useEffect(() => {
@@ -25,7 +30,7 @@ function App() {
     
         return () => { 
             dispatch(updateProfile(session.profile))
-            dispatch(logout()); //TODO - PROBLEM: REFRESHING PAGE LOGOUT THE USER
+            //dispatch(logout()); //TODO - PROBLEM: REFRESHING PAGE LOGOUT THE USER
         }
     }, [])
 
@@ -33,6 +38,15 @@ function App() {
     useEffect(() => {
         dispatch(getMembers())
     }, [])
+
+    // TRACK ROUTES 
+    useEffect(() => {
+        dispatch(updateProfileSection(history.pathArray[1] || ''));
+        dispatch(updateProfileContext(history.pathArray[2] || '')); 
+    }, [history.location]);
+
+    
+    
     
 
     if(session.sessionStatus === 'succeeded') {

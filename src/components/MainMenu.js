@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -9,7 +10,12 @@ import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
 
-const MainMenu = ({ section }) => {
+const MainMenu = ({ section, context }) => {
+
+    // REDUX SELECTORS
+    // const dispatch = useDispatch()
+    // const section = useSelector(state => state.session.profile.section)
+    // const context = useSelector(state => state.session.profile.context)
 
     function activeMenu(section, link) {
         if(section === link)
