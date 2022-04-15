@@ -1,15 +1,21 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Copyright from '../components/Copyright';
+import Copyright from './Copyright';
 
 // PANELS
-import TopLeftPanel from '../components/TopLeftPanel';
-import TopRightPanel from '../components/TopRightPanel';
-import MiddlePanel from '../components/MiddlePanel';
+import TopLeftPanel from './TopLeftPanel';
+import TopRightPanel from './TopRightPanel';
+import MiddlePanel from './MiddlePanel';
 
-const Main = () => {
+const MainDashboard = () => {
+
+    // REDUX SELECTORS
+    const section = useSelector(state => state.session.profile.section)
+    const context = useSelector(state => state.session.profile.context)
+
     return (
 
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -37,7 +43,7 @@ const Main = () => {
                     height: 240,
                     }}
                 >
-                    ADMIN MAIN
+                    {`${section} -> ${context}`}
                     <TopRightPanel />
                 </Paper>
                 </Grid>
@@ -53,7 +59,7 @@ const Main = () => {
     )
 };
 
-export default Main;
+export default MainDashboard;
 
 
 // import { useState } from 'react';

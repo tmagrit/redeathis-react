@@ -1,21 +1,20 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Copyright from '../components/Copyright';
+import Copyright from './Copyright';
 
 // PANELS
-import TopLeftPanel from '../components/TopLeftPanel';
-import TopRightPanel from '../components/TopRightPanel';
-import MiddlePanel from '../components/MiddlePanel';
+import TopLeftPanel from './TopLeftPanel';
+import TopRightPanel from './TopRightPanel';
+import MiddlePanel from './MiddlePanel';
 
-const Pages = ({ context }) => {
+const Create = () => {
 
-    // REDUX
-    const dispatch = useDispatch()
-    const profiles = useSelector(state => state.members.profiles)
+    // REDUX SELECTORS
+    const section = useSelector(state => state.session.profile.section)
+    const context = useSelector(state => state.session.profile.context)
 
     return (
 
@@ -44,7 +43,7 @@ const Pages = ({ context }) => {
                     height: 240,
                     }}
                 >
-                    PAGES
+                    {`${section} -> ${context}`}
                     <TopRightPanel />
                 </Paper>
                 </Grid>
@@ -60,4 +59,4 @@ const Pages = ({ context }) => {
     )
 };
 
-export default Pages;
+export default Create;

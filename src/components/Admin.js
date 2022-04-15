@@ -31,11 +31,8 @@ import MainMenu from './MainMenu';
 import ContextMenu from './ContextMenu';
 
 // PAGES 
-import Main from '../pages/Main';
-import Research from '../pages/Research';
-import Categories from '../pages/Categories';
-import Members from '../pages/Members';
-import Pages from '../pages/Pages';
+import MainDashboard from './MainDashboard';
+import Section from '../pages/Section';
 
 const drawerWidth = 240; // TODO CREATE STYLE FILE
 
@@ -248,7 +245,7 @@ const Admin = ({ section, context }) => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            <MainMenu section={section}/>
+            <MainMenu />
             <Divider sx={{ my: 1 }} />
             <ContextMenu section={section} />
           </List>
@@ -267,34 +264,24 @@ const Admin = ({ section, context }) => {
         >
         <Toolbar />
 
-        {/* ROUTES */}
+        {/* NESTED ROUTES */}
         <Routes>
-          <Route index element={<Main context={'main'} />} />
-          <Route path="research" element={<Research context={'main'} />} />
-          <Route path="categories" element={<Categories context={'main'} />} />
-          <Route path="members" element={<Members context={'main'} />} />
-          <Route path="pages" element={<Pages context={'main'} />} />
+          <Route index element={<MainDashboard />} />
+          <Route path="research/*" element={<Section />} />
+          <Route path="categories/*" element={<Section />} />
+          <Route path="members/*" element={<Section />} />
+          <Route path="pages/*" element={<Section />} />
         </Routes>
-
-        {/* ROUTES */}
-
-        {/* PAGES */}
-        {/* {section === 'main' ? <Main context={'main'} /> : null }
-        {section === 'research' ? <Research context={'main'} /> : null }
-        {section === 'categories' ? <Categories context={'main'} /> : null }
-        {section === 'members' ? <Members context={'main'} /> : null }
-        {section === 'pages' ? <Pages context={'main'} /> : null } */}
-
-        {/* PAGES */}
+        {/* NESTED ROUTES */}
 
         </Box>
       </Box>
         {/* INVITE DIALOG */}
         <DefaultDialog
-            open={dialogOpen}
-            onClose={handleDialogClose}
-            title={'Convidar Colaborador'}
-            children={<Invite/>}
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          title={'Convidar Colaborador'}
+          children={<Invite/>}
         />
   );
     </ThemeProvider>
@@ -302,3 +289,17 @@ const Admin = ({ section, context }) => {
 }
 
 export default Admin;
+
+// import Research from '../pages/Research';
+// import Categories from '../pages/Categories';
+// import Members from '../pages/Members';
+// import Pages from '../pages/Section';
+
+        // {/* PAGES */}
+        // {/* {section === 'main' ? <Main context={'main'} /> : null }
+        // {section === 'research' ? <Research context={'main'} /> : null }
+        // {section === 'categories' ? <Categories context={'main'} /> : null }
+        // {section === 'members' ? <Members context={'main'} /> : null }
+        // {section === 'pages' ? <Pages context={'main'} /> : null } */}
+
+        // {/* PAGES */}

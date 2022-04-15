@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -10,12 +10,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
 
-const MainMenu = ({ section, context }) => {
+const MainMenu = () => {
 
     // REDUX SELECTORS
-    // const dispatch = useDispatch()
-    // const section = useSelector(state => state.session.profile.section)
-    // const context = useSelector(state => state.session.profile.context)
+    const section = useSelector(state => state.session.profile.section)
 
     function activeMenu(section, link) {
         console.log('section/link', section , link)

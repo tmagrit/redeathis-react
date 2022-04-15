@@ -11,7 +11,7 @@ import Home from './components/Home';
 import Admin from './components/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-
+// MY HISTORY HOOK
 import { useHistory } from './components/history';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
     const dispatch = useDispatch();
     const session = useSelector(state => state.session);
 
-    //const location = useLocation();
+    // MY HISTORY HOOK
     const history = useHistory();
 
     // GET AND TRACK SESSION 
@@ -41,8 +41,8 @@ function App() {
 
     // TRACK ROUTES 
     useEffect(() => {
-        dispatch(updateProfileSection(history.pathArray[1] || ''));
-        dispatch(updateProfileContext(history.pathArray[2] || '')); 
+        dispatch(updateProfileSection(history.pathArray[2] || ''));
+        dispatch(updateProfileContext(history.pathArray[3] || '')); 
     }, [history.location]);
 
     if(session.sessionStatus === 'succeeded') {
@@ -60,39 +60,6 @@ function App() {
                     </ProtectedRoute>
                     } 
                 />
-                    {/* <Route 
-                        path="research" 
-                        element={
-                        <ProtectedRoute>
-                            <Admin section={'research'} />
-                        </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="categories" 
-                        element={
-                        <ProtectedRoute>
-                            <Admin section={'categories'} />
-                        </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="members" 
-                        element={
-                        <ProtectedRoute>
-                            <Admin section={'members'} />
-                        </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="pages" 
-                        element={
-                        <ProtectedRoute>
-                            <Admin section={'pages'} />
-                        </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
             </Routes>
 
         );
@@ -110,3 +77,39 @@ function App() {
 };
 
 export default App;
+
+
+
+                //     <Route 
+                //         path="research" 
+                //         element={
+                //         <ProtectedRoute>
+                //             <Admin section={'research'} />
+                //         </ProtectedRoute>
+                //         } 
+                //     />
+                //     <Route 
+                //         path="categories" 
+                //         element={
+                //         <ProtectedRoute>
+                //             <Admin section={'categories'} />
+                //         </ProtectedRoute>
+                //         } 
+                //     />
+                //     <Route 
+                //         path="members" 
+                //         element={
+                //         <ProtectedRoute>
+                //             <Admin section={'members'} />
+                //         </ProtectedRoute>
+                //         } 
+                //     />
+                //     <Route 
+                //         path="pages" 
+                //         element={
+                //         <ProtectedRoute>
+                //             <Admin section={'pages'} />
+                //         </ProtectedRoute>
+                //         } 
+                //     />
+                // </Route> 

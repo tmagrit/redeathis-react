@@ -9,18 +9,24 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AddIcon from '@mui/icons-material/Add';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// MY HISTORY HOOK
+import { useHistory } from './history';
 
-const MainMenu = ({ section, context }) => {
+const MainMenu = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
-    // const section = useSelector(state => state.session.profile.section)
-    // const context = useSelector(state => state.session.profile.context)
+    const section = useSelector(state => state.session.profile.section)
+    const context = useSelector(state => state.session.profile.context)
+
+    // MY HISTORY HOOK
+    const history = useHistory();
 
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -33,66 +39,109 @@ const MainMenu = ({ section, context }) => {
         setDialogOpen(false);
     };
 
-    function activeMenu(section, context, link) {
-        if(section === link)
+    function activeMenu(context, match) {
+        if(context === match)
             return true;
         else
             return false;
     };
 
-    if(section === 'admin')
-        return null;
-
     if(section === 'research')
-        return (
-            null
-        );
+    return (
+        <React.Fragment>
+
+            <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} >
+                <ListItemIcon>
+                    <ViewListIcon />
+                </ListItemIcon>
+                <ListItemText primary="Ver Todas" />
+            </ListItemButton>
+
+            <ListItemButton component={Link} to="/admin/research/create" selected={activeMenu(context,'create')} >
+                <ListItemIcon>
+                    <AddCircleOutlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="Criar" />
+            </ListItemButton>
+
+            <ListItemButton onClick={() => history.goBack()} >
+                <ListItemIcon>
+                    <ArrowBackIcon />  
+                </ListItemIcon>
+            <ListItemText primary="Voltar" />
+        </ListItemButton>
+
+        </React.Fragment>
+    );
         
     if(section === 'categories')
         return (
-            null
+            'categories'
         );      
     
     if(section === 'members')
         return (
             <React.Fragment>
 
-            <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(section,'research')} >
+                <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} >
+                    <ListItemIcon>
+                        <ViewListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Ver Todos" />
+                </ListItemButton>
+
+                <ListItemButton >
+                    <ListItemIcon>
+                        <PersonAddIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Convidar" onClick={handleDialogOpen}/>
+                </ListItemButton>
+
+                {/* INVITE DIALOG */}
+                <DefaultDialog
+                    open={dialogOpen}
+                    onClose={handleDialogClose}
+                    title={'Convidar Colaborador'}
+                    children={<Invite/>}
+                />
+
+                <ListItemButton onClick={() => history.goBack()} >
+                    <ListItemIcon>
+                        <ArrowBackIcon />  
+                    </ListItemIcon>
+                <ListItemText primary="Voltar" />
+            </ListItemButton>
+
+            </React.Fragment>
+        );  
+        
+    if(section === 'pages')
+    return (
+        <React.Fragment>
+
+            <ListItemButton component={Link} to="/admin/pages/all" selected={activeMenu(context,'all')} >
                 <ListItemIcon>
                     <ViewListIcon />
                 </ListItemIcon>
-                <ListItemText primary="Ver Todos" />
+                <ListItemText primary="Ver Todas" />
             </ListItemButton>
 
-            <ListItemButton >
+            <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} >
                 <ListItemIcon>
-                    <PersonAddIcon />
+                    <AddCircleOutlineIcon />
                 </ListItemIcon>
-                <ListItemText primary="Convidar" onClick={handleDialogOpen}/>
-            </ListItemButton>
+                <ListItemText primary="Criar" />
+            </ListItemButton>            
 
-            {/* INVITE DIALOG */}
-            <DefaultDialog
-                open={dialogOpen}
-                onClose={handleDialogClose}
-                title={'Convidar Colaborador'}
-                children={<Invite/>}
-            />
-
-            <ListItemButton component={Link} to="/admin" >
+            <ListItemButton onClick={() => history.goBack()} >
                 <ListItemIcon>
                     <ArrowBackIcon />  
                 </ListItemIcon>
-                <ListItemText primary="Principal" />
+                <ListItemText primary="Voltar" />
             </ListItemButton>
 
         </React.Fragment>
-        );  
-        
-    if(section === 'research')
-        return (
-            null
-        );  
+    );   
 
 };
 
