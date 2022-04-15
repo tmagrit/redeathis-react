@@ -44,6 +44,7 @@ const Pages = ({ context }) => {
                     height: 240,
                     }}
                 >
+                    PAGES
                     <TopRightPanel />
                 </Paper>
                 </Grid>

@@ -44,6 +44,7 @@ const Research = ({ context }) => {
                     height: 240,
                     }}
                 >
+                    RESEARCH
                     <TopRightPanel />
                 </Paper>
                 </Grid>

@@ -44,6 +44,7 @@ const Members = () => {
                     height: 240,
                     }}
                 >
+                    MEMBERS
                     <TopRightPanel />
                 </Paper>
                 </Grid>

@@ -18,6 +18,7 @@ const MainMenu = ({ section, context }) => {
     // const context = useSelector(state => state.session.profile.context)
 
     function activeMenu(section, link) {
+        console.log('section/link', section , link)
         if(section === link)
             return true;
         else

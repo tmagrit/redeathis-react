@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
-import { Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-const Admin = ({ section }) => {
+const Admin = ({ section, context }) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
@@ -250,7 +250,7 @@ const Admin = ({ section }) => {
           <List component="nav">
             <MainMenu section={section}/>
             <Divider sx={{ my: 1 }} />
-            <ContextMenu section={section} context={'members'} />
+            <ContextMenu section={section} />
           </List>
         </Drawer>
         <Box
@@ -267,12 +267,23 @@ const Admin = ({ section }) => {
         >
         <Toolbar />
 
+        {/* ROUTES */}
+        <Routes>
+          <Route index element={<Main context={'main'} />} />
+          <Route path="research" element={<Research context={'main'} />} />
+          <Route path="categories" element={<Categories context={'main'} />} />
+          <Route path="members" element={<Members context={'main'} />} />
+          <Route path="pages" element={<Pages context={'main'} />} />
+        </Routes>
+
+        {/* ROUTES */}
+
         {/* PAGES */}
-        {section === 'admin' ? <Main context={'main'} /> : null }
+        {/* {section === 'main' ? <Main context={'main'} /> : null }
         {section === 'research' ? <Research context={'main'} /> : null }
         {section === 'categories' ? <Categories context={'main'} /> : null }
         {section === 'members' ? <Members context={'main'} /> : null }
-        {section === 'pages' ? <Pages context={'main'} /> : null }
+        {section === 'pages' ? <Pages context={'main'} /> : null } */}
 
         {/* PAGES */}
 

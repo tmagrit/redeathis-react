@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
 import { getMembers } from './features/membersSlice';
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
@@ -45,10 +45,6 @@ function App() {
         dispatch(updateProfileContext(history.pathArray[2] || '')); 
     }, [history.location]);
 
-    
-    
-    
-
     if(session.sessionStatus === 'succeeded') {
         return (
             <Routes>
@@ -57,45 +53,46 @@ function App() {
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />
                 <Route 
-                    path="admin" 
+                    path="admin/*" 
                     element={
                     <ProtectedRoute>
-                        <Admin section={'admin'} />
+                        <Admin section={'main'} />
                     </ProtectedRoute>
                     } 
                 />
-                <Route 
-                    path="admin/research" 
-                    element={
-                    <ProtectedRoute>
-                        <Admin section={'research'} />
-                    </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path="admin/categories" 
-                    element={
-                    <ProtectedRoute>
-                        <Admin section={'categories'} />
-                    </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path="admin/members" 
-                    element={
-                    <ProtectedRoute>
-                        <Admin section={'members'} />
-                    </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path="admin/pages" 
-                    element={
-                    <ProtectedRoute>
-                        <Admin section={'pages'} />
-                    </ProtectedRoute>
-                    } 
-                />
+                    {/* <Route 
+                        path="research" 
+                        element={
+                        <ProtectedRoute>
+                            <Admin section={'research'} />
+                        </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="categories" 
+                        element={
+                        <ProtectedRoute>
+                            <Admin section={'categories'} />
+                        </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="members" 
+                        element={
+                        <ProtectedRoute>
+                            <Admin section={'members'} />
+                        </ProtectedRoute>
+                        } 
+                    />
+                    <Route 
+                        path="pages" 
+                        element={
+                        <ProtectedRoute>
+                            <Admin section={'pages'} />
+                        </ProtectedRoute>
+                        } 
+                    />
+                </Route> */}
             </Routes>
 
         );

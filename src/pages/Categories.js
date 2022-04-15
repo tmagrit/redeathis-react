@@ -23,35 +23,36 @@ const Categories = ({ context }) => {
             <Grid container spacing={3}>
                 {/* RESUMO */}
                 <Grid item xs={12} md={8}>
-                <Paper
-                    sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                    }}
-                >
-                    <TopLeftPanel />
-                </Paper>
+                    <Paper
+                        sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: 240,
+                        }}
+                    >
+                        <TopLeftPanel />
+                    </Paper>
                 </Grid>
                 {/* MINHAS COLABORAÇÕES */}
                 <Grid item xs={12} md={4}>
-                <Paper
-                    sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                    }}
-                >
-                    <TopRightPanel />
-                </Paper>
+                    <Paper
+                        sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: 240,
+                        }}
+                    >
+                        CATEGORIES
+                        <TopRightPanel />
+                    </Paper>
                 </Grid>
                 {/* ATIVIDADES RECENTES */}
                 <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                    <MiddlePanel />
-                </Paper>
+                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        <MiddlePanel />
+                    </Paper>
                 </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />

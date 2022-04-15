@@ -37,6 +37,7 @@ const Main = () => {
                     height: 240,
                     }}
                 >
+                    ADMIN MAIN
                     <TopRightPanel />
                 </Paper>
                 </Grid>
