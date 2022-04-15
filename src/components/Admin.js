@@ -34,7 +34,7 @@ import ContextMenu from './ContextMenu';
 import MainDashboard from './MainDashboard';
 import Section from '../pages/Section';
 
-const drawerWidth = 240; // TODO CREATE STYLE FILE
+const drawerWidth = 260; // TODO CREATE STYLE FILE
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -91,13 +91,15 @@ const Admin = ({ section, context }) => {
     // MENU STATES
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(true);
+    
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
     
     // HANDLE TOGGLE MENU 
     const toggleDrawer = () => {
-    setOpen(!open);
+      setOpen(!open);
     };
+    
     // HANDLE MENU
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);

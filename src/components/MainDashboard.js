@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -13,8 +13,8 @@ import MiddlePanel from './MiddlePanel';
 const MainDashboard = () => {
 
     // REDUX SELECTORS
-    const section = useSelector(state => state.session.profile.section)
-    const context = useSelector(state => state.session.profile.context)
+    // const section = useSelector(state => state.session.profile.section)
+    // const context = useSelector(state => state.session.profile.context)
 
     return (
 
@@ -43,7 +43,6 @@ const MainDashboard = () => {
                     height: 240,
                     }}
                 >
-                    {`${section} -> ${context}`}
                     <TopRightPanel />
                 </Paper>
                 </Grid>

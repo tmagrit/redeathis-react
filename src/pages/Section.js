@@ -14,7 +14,11 @@ const Section = () => {
         <Routes>
             <Route index element={<MainDashboard />} />
             <Route path="all" element={<All />} />
+            <Route path="groups" element={<All />} />
+            <Route path="tags" element={<All />} />
             <Route path="create" element={<Create />} />
+            <Route path="creategroup" element={<Create />} />
+            <Route path="createtag" element={<Create />} />
             <Route path="edit\:id" element={<Edit />} />
         </Routes>
     );
