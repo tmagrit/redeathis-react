@@ -291,17 +291,3 @@ const Admin = ({ section, context }) => {
 }
 
 export default Admin;
-
-// import Research from '../pages/Research';
-// import Categories from '../pages/Categories';
-// import Members from '../pages/Members';
-// import Pages from '../pages/Section';
-
-        // {/* PAGES */}
-        // {/* {section === 'main' ? <Main context={'main'} /> : null }
-        // {section === 'research' ? <Research context={'main'} /> : null }
-        // {section === 'categories' ? <Categories context={'main'} /> : null }
-        // {section === 'members' ? <Members context={'main'} /> : null }
-        // {section === 'pages' ? <Pages context={'main'} /> : null } */}
-
-        // {/* PAGES */}

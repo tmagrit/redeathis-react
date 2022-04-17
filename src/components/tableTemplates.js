@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { useDispatch } from 'react-redux';
 import { toggleProfileActive } from '../features/membersSlice';
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import IconButton from '@mui/material/IconButton';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
@@ -56,7 +57,7 @@ export function useTableTemplates() {
                                     color={row.active ? 'success' : 'error'}
                                     onClick={() => dispatch(toggleProfileActive({ ind: row.ind, active: row.active }))}
                                 />,
-                sortable: true,
+                //sortable: true,
                 grow: 1,
             },
             {
@@ -73,9 +74,14 @@ export function useTableTemplates() {
             },
             {
                 name: 'Ações',
-                selector: row => <IconButton aria-label="editar" size="small" color="primary">
-                                    <EditIcon fontSize="small" />
-                                </IconButton>,
+                selector: row => <React.Fragment>
+                                    <IconButton aria-label="editar" size="small" color="info">
+                                        <VisibilityIcon fontSize="small" />
+                                    </IconButton>
+                                    <IconButton aria-label="editar" size="small" color="warning" edge="end">
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
+                                </React.Fragment>,
                 right: true,
                 grow: 1,
             },

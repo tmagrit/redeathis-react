@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -12,13 +11,8 @@ import MiddlePanel from './MiddlePanel';
 
 const MainDashboard = () => {
 
-    // REDUX SELECTORS
-    // const section = useSelector(state => state.session.section)
-    // const context = useSelector(state => state.session.context)
-
     return (
-
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
                 {/* RESUMO */}
                 <Grid item xs={12} md={8}>
