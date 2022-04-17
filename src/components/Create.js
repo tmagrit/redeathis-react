@@ -13,8 +13,8 @@ import MiddlePanel from './MiddlePanel';
 const Create = () => {
 
     // REDUX SELECTORS
-    const section = useSelector(state => state.session.profile.section)
-    const context = useSelector(state => state.session.profile.context)
+    const section = useSelector(state => state.session.section)
+    const context = useSelector(state => state.session.context)
 
     return (
 
@@ -43,7 +43,6 @@ const Create = () => {
                     height: 240,
                     }}
                 >
-                    {`${section} -> ${context}`}
                     <TopRightPanel />
                 </Paper>
                 </Grid>

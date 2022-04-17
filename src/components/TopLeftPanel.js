@@ -5,8 +5,8 @@ import Title from './Title';
 const TopLeftPanel = () => {
 
     // REDUX SELECTORS
-    const section = useSelector(state => state.session.profile.section);
-    const context = useSelector(state => state.session.profile.context);
+    const section = useSelector(state => state.session.section);
+    const context = useSelector(state => state.session.context);
 
     function titleGenerator(section, context) {
         

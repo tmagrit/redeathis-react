@@ -186,6 +186,9 @@ export const sessionSlice = createSlice({
         logoutStatus: 'idle',
         logoutError: null,
 
+        section: 'main',
+        context: ''
+
     },
     reducers: {
         updateSession(state, action) {
@@ -195,10 +198,10 @@ export const sessionSlice = createSlice({
             state.event = action.payload
         },
         updateProfileSection(state, action) {
-            state.profile.section = action.payload
+            state.section = action.payload
         },
         updateProfileContext(state, action) {
-            state.profile.context = action.payload
+            state.context = action.payload
         },
     },
     extraReducers: {
@@ -297,7 +300,7 @@ export const {
     updateSession,
     updateEvent,
     updateProfileSection,
-    updateProfileContext
+    updateProfileContext,
 } = sessionSlice.actions
 
 export default sessionSlice.reducer

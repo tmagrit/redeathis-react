@@ -11,8 +11,8 @@ import MiddlePanel from './MiddlePanel';
 const Edit = () => {
 
     // REDUX SELECTORS
-    const section = useSelector(state => state.session.profile.section)
-    const context = useSelector(state => state.session.profile.context)
+    const section = useSelector(state => state.session.section)
+    const context = useSelector(state => state.session.context)
 
     return (
 
@@ -21,7 +21,6 @@ const Edit = () => {
                 {/* LIST INDEX */}
                 <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                    {`${section} -> ${context}`}
                     <MiddlePanel />
                 </Paper>
                 </Grid>

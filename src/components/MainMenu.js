@@ -13,10 +13,9 @@ import LayersIcon from '@mui/icons-material/Layers';
 const MainMenu = () => {
 
     // REDUX SELECTORS
-    const section = useSelector(state => state.session.profile.section)
+    const section = useSelector(state => state.session.section)
 
     function activeMenu(section, link) {
-        console.log('section/link', section , link)
         if(section === link)
             return true;
         else
@@ -24,7 +23,7 @@ const MainMenu = () => {
     };
 
     return (
-        <React.Fragment>
+        <div>
 
             <ListItemButton component={Link} to="/admin/research" selected={activeMenu(section,'research')} >
                 <ListItemIcon>
@@ -40,13 +39,6 @@ const MainMenu = () => {
                 <ListItemText primary="Categorias" />
             </ListItemButton>
 
-            {/* <ListItemButton component={Link} to="/admin/tags" selected={activeMenu(section,'tags')} >
-                <ListItemIcon>
-                    <BookmarksIcon />
-                </ListItemIcon>
-                <ListItemText primary="Marcadores" />
-            </ListItemButton> */}
-
             <ListItemButton component={Link} to="/admin/members" selected={activeMenu(section,'members')} >
                 <ListItemIcon>
                     <PeopleIcon />
@@ -61,8 +53,15 @@ const MainMenu = () => {
                 <ListItemText primary="Páginas" />
             </ListItemButton>
 
-        </React.Fragment>
+        </div>
     )
 };
 
 export default MainMenu;
+
+            // {/* <ListItemButton component={Link} to="/admin/tags" selected={activeMenu(section,'tags')} >
+            //     <ListItemIcon>
+            //         <BookmarksIcon />
+            //     </ListItemIcon>
+            //     <ListItemText primary="Marcadores" />
+            // </ListItemButton> */}

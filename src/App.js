@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
-import { getMembers } from './features/membersSlice';
+import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -29,14 +29,18 @@ function App() {
         dispatch(trackSession())
     
         return () => { 
-            dispatch(updateProfile(session.profile))
+            if(session?.event === 'SIGNED_IN')
+                dispatch(updateProfile(session.profile))
             //dispatch(logout()); //TODO - PROBLEM: REFRESHING PAGE LOGOUT THE USER
         }
     }, [])
 
-    // GET AND TRACK SESSION 
+    // GET MEMBERS STATE
     useEffect(() => {
-        dispatch(getMembers())
+        dispatch(getMembers());
+        dispatch(getProfileRoles());
+        dispatch(getRoles());
+        dispatch(getOrganizations());
     }, [])
 
     // TRACK ROUTES 

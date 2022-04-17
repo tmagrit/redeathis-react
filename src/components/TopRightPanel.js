@@ -12,8 +12,8 @@ function preventDefault(event) {
   
   // REDUX SELECTORS
   const profile = useSelector(state => state.session.profile);
-  const section = useSelector(state => state.session.profile.section);
-  const context = useSelector(state => state.session.profile.context);
+  const section = useSelector(state => state.session.section);
+  const context = useSelector(state => state.session.context);
 
   function titleGenerator(section, context) {
         

@@ -13,8 +13,8 @@ import MiddlePanel from './MiddlePanel';
 const MainDashboard = () => {
 
     // REDUX SELECTORS
-    // const section = useSelector(state => state.session.profile.section)
-    // const context = useSelector(state => state.session.profile.context)
+    // const section = useSelector(state => state.session.section)
+    // const context = useSelector(state => state.session.context)
 
     return (
 

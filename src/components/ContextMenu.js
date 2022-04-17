@@ -22,8 +22,8 @@ const MainMenu = () => {
 
     // REDUX SELECTORS
     // const dispatch = useDispatch()
-    const section = useSelector(state => state.session.profile.section)
-    const context = useSelector(state => state.session.profile.context)
+    const section = useSelector(state => state.session.section)
+    const context = useSelector(state => state.session.context)
 
     // MY HISTORY HOOK
     const history = useHistory();
@@ -48,7 +48,7 @@ const MainMenu = () => {
 
     if(section === 'research')
     return (
-        <React.Fragment>
+        <div>
 
             <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} >
                 <ListItemIcon>
@@ -68,15 +68,15 @@ const MainMenu = () => {
                 <ListItemIcon>
                     <ArrowBackIcon />  
                 </ListItemIcon>
-            <ListItemText primary="Voltar" />
-        </ListItemButton>
+                <ListItemText primary="Voltar" />
+            </ListItemButton>
 
-        </React.Fragment>
+        </div>
     );
         
     if(section === 'categories')
         return (
-            <React.Fragment>
+            <div>
 
                 <ListItemButton component={Link} to="/admin/categories/all" selected={activeMenu(context,'all')} >
                     <ListItemIcon>
@@ -113,12 +113,12 @@ const MainMenu = () => {
                     <ListItemText primary="Voltar" />
                 </ListItemButton>
 
-            </React.Fragment>
+            </div>
         );    
     
     if(section === 'members')
         return (
-            <React.Fragment>
+            <div>
 
                 <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} >
                     <ListItemIcon>
@@ -160,15 +160,15 @@ const MainMenu = () => {
                     <ListItemIcon>
                         <ArrowBackIcon />  
                     </ListItemIcon>
-                <ListItemText primary="Voltar" />
-            </ListItemButton>
+                    <ListItemText primary="Voltar" />
+                </ListItemButton>
 
-            </React.Fragment>
+            </div>
         );  
         
     if(section === 'pages')
         return (
-            <React.Fragment>
+            <div>
 
                 <ListItemButton component={Link} to="/admin/pages/all" selected={activeMenu(context,'all')} >
                     <ListItemIcon>
@@ -191,7 +191,7 @@ const MainMenu = () => {
                     <ListItemText primary="Voltar" />
                 </ListItemButton>
 
-            </React.Fragment>
+            </div>
         );   
 
 };
