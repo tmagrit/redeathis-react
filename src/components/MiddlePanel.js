@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { selectFullProfiles } from '../features/membersSlice';
 import Title from './Title';
-import { profilesColumns } from './tableTemplates';
+import { useTableTemplates } from './tableTemplates';
 
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
@@ -26,7 +26,10 @@ const MiddlePanel = () => {
         return 'Páginas';
 };
 
- // REDUX SELECTORS
+// TABLE TEMPLATES HOOK
+const tableTemplates = useTableTemplates(); 
+
+// REDUX SELECTORS
  const fullProfiles = useSelector(selectFullProfiles);
  const getMembersStatus = useSelector(state => state.members.getMembersStatus);
  const getRolesStatus = useSelector(state => state.members.getRolesStatus);
@@ -43,9 +46,10 @@ const createProfileTable = Boolean( getMembersStatus === "succeeded" &&
   return (
     <React.Fragment>
       <Title>{titleGenerator(section, context)}</Title>
-        {createProfileTable ? (
+        {/* MEMBERS SECTION TABLE  */}
+        {createProfileTable && section === "members" ? (
             <DataTable
-                columns={profilesColumns}
+                columns={tableTemplates.fullProfilesColumns}
                 data={fullProfiles}
                 selectableRows
                 pagination

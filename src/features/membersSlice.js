@@ -106,7 +106,36 @@ export const membersSlice = createSlice({
     reducers: {
         updateProfiles(state, action) {
             state.profiles = action.payload
-        }
+        },
+        toggleProfileActive: {
+            reducer(state, action) {
+                const newstate = state.profiles.map(p => {
+                    if(p.ind !== action.payload.ind) 
+                        return p
+                    else {
+                        const updatedProfile = {
+                            ...p,
+                            active: !action.payload.active,
+                        }
+                        console.log('action.payload', action.payload)
+                        console.log('updatedProfile', updatedProfile)
+                        return updatedProfile   
+                    } 
+                }) 
+                return {
+                    ...state,
+                    profiles: newstate,
+                }  
+            },
+            prepare({ ind, active }) {
+                return {
+                    payload: {
+                        ind,
+                        active
+                    }
+                }
+            }
+        },
     },
     extraReducers: {
         [getMembers.pending]: (state) => {
@@ -182,6 +211,7 @@ export const selectFullProfiles  = state => {
 
 export const { 
     updateProfiles,
+    toggleProfileActive,
 } = membersSlice.actions
 
 export default membersSlice.reducer
