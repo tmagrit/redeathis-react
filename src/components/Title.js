@@ -1,17 +1,165 @@
 import * as React from 'react';
+//import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 
-function Title(props) {
+
+
+const Title = (props) => {
+
+  // REDUX SELECTORS
+  const section = useSelector(state => state.session.section);
+  const context = useSelector(state => state.session.context);
+
+  function titleGenerator(section, context) {
+    // MAIN 
+    if(section === '') {
+      // 
+      if(context === '') {
+        if(props.position === 'left')  
+          return 'Resumo Geral'; 
+        if(props.position === 'right')  
+          return 'Minhas Colaborações';
+        else  
+          return 'Atualizações';
+      }
+    }
+
+    // RESEARCH 
+    if(section === 'research') {
+      // RESEARCH / MAIN
+      if(context === '') {
+        if(props.position === 'left')  
+          return 'Resumo de Pesquisas'; 
+        if(props.position === 'right')  
+          return 'Minhas Pesquisas';
+        else  
+          return 'Índice de Pesquisas';
+      }
+      // RESEARCH / ALL
+      if(context === 'all') 
+        return 'Índice de Pesquisas';  
+      // RESEARCH / CREATE  
+      if(context === 'create') {
+        if(props.position === 'left')  
+          return 'Nova Pesquisa'; 
+        if(props.position === 'right')  
+          return 'Publicar';
+        else  
+          return 'Itens Relacionados';
+      }      
+      // RESEARCH / EDIT 
+      if(context === 'edit') {
+        if(props.position === 'left')  
+          return 'Editar Pesquisa'; 
+        if(props.position === 'right')  
+          return 'Publicar';
+        else  
+          return 'Itens Relacionados';  
+      } 
+    }
+      
+    // CATEGORIES 
+    if(section === 'categories') {
+      // CATEGORIES / MAIN
+      if(context === '') {
+        if(props.position === 'left')  
+          return 'Resumo de Categorias'; 
+        if(props.position === 'right')  
+          return '???';
+        else  
+          return 'Índice de Categorias';
+      }
+      // CATEGORIES / ALL
+      if(context === 'all') 
+        return 'Índice de Categorias';  
+      // CATEGORIES / CREATE  
+      if(context === 'create') {
+        if(props.position === 'left')  
+          return 'Nova Categoria'; 
+        if(props.position === 'right')  
+          return 'Publicar';
+        else  
+          return 'Itens Relacionados';
+      }      
+      // RESEARCH / EDIT 
+      if(context === 'edit') {
+        if(props.position === 'left')  
+          return 'Editar Categoria'; 
+        if(props.position === 'right')  
+          return 'Publicar';
+        else  
+          return 'Itens Relacionados';  
+      } 
+    }
+
+    // MEMBERS 
+    if(section === 'members') {
+      // MEMBERS / MAIN
+      if(context === '') {
+        if(props.position === 'left')  
+          return 'Resumo de Colaboradores'; 
+        if(props.position === 'right')  
+          return 'Minha Conta???';
+        else  
+          return 'Índice de Colaboradores';
+      }
+      // MEMBERS / ALL
+      if(context === 'all') 
+        return 'Índice de Colaboradores';     
+      // MEMBERS / EDIT 
+      if(context === 'edit') {
+        if(props.position === 'left')  
+          return 'Editar Colaborador'; 
+        if(props.position === 'right')  
+          return 'Atualizar';
+        else  
+          return 'Produção Relacionada';  
+      } 
+    }
+
+    if(section === 'categories' && context === '')
+      return 'Minhas Categorias';
+
+    if(section === 'members' && context === '')
+      return 'Minha Conta';
+
+    if(section === 'pages' && context === '')
+      return 'Minhas Páginas';
+  };
+
+
   return (
-    <Typography component="h2" variant="h6" color="inherit" gutterBottom>
-      {props.children}
-    </Typography>
+      <Typography component="h2" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 500, }}>
+        {titleGenerator(section, context)}
+      </Typography>
   );
-}
+};
 
 Title.propTypes = {
-  children: PropTypes.node,
+  position: PropTypes.string,
 };
 
 export default Title;
+
+
+
+
+// function titleGenerator(section, context) {
+        
+//   // MAIN DASHBOARD TITLES 
+//   if(section === 'research' && context === '')
+//       return 'Síntese de Pesquisa';
+//   if(section === 'research' && context === 'create')
+//       return 'Criar Pesquisa';
+  
+//   if(section === 'categories' && context === '')
+//       return 'Resumo de Categorias';
+
+//   if(section === 'members' && context === '')
+//       return 'Síntese de Colaboradores';
+  
+//   if(section === 'pages' && context === '')
+//       return 'Resumo de Páginas';
+// };

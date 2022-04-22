@@ -13,16 +13,26 @@ const Section = () => {
     return (
         <Routes>
             <Route index element={<MainDashboard />} />
-            <Route path="all" element={<All />} />
-            <Route path="groups" element={<All />} />
-            <Route path="tags" element={<All />} />
-            <Route path="create" element={<Create />} />
-            <Route path="creategroup" element={<Create />} />
-            <Route path="createtag" element={<Create />} />
-            <Route path="edit\:id" element={<Edit />} />
+            <Route path="all" element={<MainDashboard />} />
+            <Route path="groups" element={<MainDashboard />} />
+            <Route path="tags" element={<MainDashboard />} />
+            <Route path="create" element={<MainDashboard />} />
+            <Route path="creategroup" element={<MainDashboard />} />
+            <Route path="createtag" element={<MainDashboard />} />
+            <Route path="edit" element={<MainDashboard />} />
         </Routes>
     );
 
 };
 
 export default Section;
+
+
+{/* <Route index element={<MainDashboard />} />
+            <Route path="all" element={<All />} />
+            <Route path="groups" element={<All />} />
+            <Route path="tags" element={<All />} />
+            <Route path="create" element={<MainDashboard />} />
+            <Route path="creategroup" element={<Create />} />
+            <Route path="createtag" element={<Create />} />
+            <Route path="edit\:id" element={<MainDashboard />} /> */}

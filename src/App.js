@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
 import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
+import { getResearch, getCategories, getStatuses } from './features/researchSlice';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -25,8 +26,11 @@ function App() {
 
     // GET AND TRACK SESSION 
     useEffect(() => {
-        dispatch(getSession())
-        dispatch(trackSession())
+        dispatch(getSession());
+        dispatch(trackSession());
+        dispatch(getResearch());
+        dispatch(getCategories());
+        dispatch(getStatuses());
     
         return () => { 
             if(session?.event === 'SIGNED_IN')

@@ -18,7 +18,7 @@ const Create = () => {
 
     return (
 
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
                 {/* RESUMO */}
                 <Grid item xs={12} md={8}>
@@ -27,7 +27,7 @@ const Create = () => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
+                    minHeight: 340,
                     }}
                 >
                     <TopLeftPanel />
@@ -40,7 +40,7 @@ const Create = () => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
+                    minHeight: 340,
                     }}
                 >
                     <TopRightPanel />

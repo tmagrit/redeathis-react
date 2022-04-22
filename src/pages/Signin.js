@@ -22,7 +22,6 @@ const Signin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const trackLocation = location.state?.from?.pathname || '/admin';
-  console.log('trackLocation', trackLocation)
 
   // STATES
   const [email, setEmail] = useState('');
