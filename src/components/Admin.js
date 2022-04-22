@@ -266,14 +266,15 @@ const Admin = ({ section, context }) => {
         >
         <Toolbar />
 
+        <MainDashboard />  
         {/* NESTED ROUTES */}
-        <Routes>
+        {/* <Routes>
           <Route index element={<MainDashboard />} />
           <Route path="research/*" element={<Section />} />
           <Route path="categories/*" element={<Section />} />
           <Route path="members/*" element={<Section />} />
           <Route path="pages/*" element={<Section />} />
-        </Routes>
+        </Routes> */}
         {/* NESTED ROUTES */}
 
         </Box>
