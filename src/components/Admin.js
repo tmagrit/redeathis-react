@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
-import { Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -32,7 +32,6 @@ import ContextMenu from './ContextMenu';
 
 // PAGES 
 import MainDashboard from './MainDashboard';
-import Section from '../pages/Section';
 
 const drawerWidth = 260; // TODO CREATE STYLE FILE
 
@@ -267,15 +266,6 @@ const Admin = ({ section, context }) => {
         <Toolbar />
 
         <MainDashboard />  
-        {/* NESTED ROUTES */}
-        {/* <Routes>
-          <Route index element={<MainDashboard />} />
-          <Route path="research/*" element={<Section />} />
-          <Route path="categories/*" element={<Section />} />
-          <Route path="members/*" element={<Section />} />
-          <Route path="pages/*" element={<Section />} />
-        </Routes> */}
-        {/* NESTED ROUTES */}
 
         </Box>
       </Box>
