@@ -18,7 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // MY HISTORY HOOK
 import { useHistory } from './history';
 
-const MainMenu = () => {
+const ContextMenu = () => {
 
     // REDUX SELECTORS
     // const dispatch = useDispatch()
@@ -196,4 +196,4 @@ const MainMenu = () => {
 
 };
 
-export default MainMenu;
+export default ContextMenu;

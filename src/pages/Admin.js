@@ -25,13 +25,13 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import DefaultDialog from './DefaultDialog';
-import Invite from './Invite';
-import MainMenu from './MainMenu';
-import ContextMenu from './ContextMenu';
+import DefaultDialog from '../components/DefaultDialog';
+import Invite from '../components/Invite';
+import MainMenu from '../components/MainMenu';
+import ContextMenu from '../components/ContextMenu';
 
 // PAGES 
-import MainDashboard from './MainDashboard';
+import MainDashboard from '../components/MainDashboard';
 
 const drawerWidth = 260; // TODO CREATE STYLE FILE
 
@@ -81,7 +81,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-const Admin = ({ section, context }) => {
+const Admin = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
@@ -248,7 +248,7 @@ const Admin = ({ section, context }) => {
           <List component="nav">
             <MainMenu />
             <Divider sx={{ my: 1 }} />
-            <ContextMenu section={section} />
+            <ContextMenu />
           </List>
         </Drawer>
         <Box

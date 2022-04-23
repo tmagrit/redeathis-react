@@ -49,7 +49,6 @@ export const getStatuses = createAsyncThunk('research/getStatuses', async (obj ,
         if (error) 
             throw error;
 
-            console.log('getStatus()-data', data)
         return data;
 
     } catch (error) {

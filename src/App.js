@@ -9,7 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Home from './components/Home';
-import Admin from './components/Admin';
+import Admin from './pages/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 // MY HISTORY HOOK
@@ -64,7 +64,7 @@ function App() {
                     path="admin/*" 
                     element={
                     <ProtectedRoute>
-                        <Admin section={'main'} />
+                        <Admin />
                     </ProtectedRoute>
                     } 
                 />

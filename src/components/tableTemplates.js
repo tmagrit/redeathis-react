@@ -15,6 +15,77 @@ export function useTableTemplates() {
    // REDUX SELECTORS
    const dispatch = useDispatch();
 
+
+    // COLUMNS TO RESEARCH LIST
+    const fullResearchColumns = (
+        [
+            {
+                name: 'Id',
+                selector: row => row.id ,
+                omit: true,
+            },
+            {
+                name: 'Título',
+                selector: row => row.title ,
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Resumo',
+                // selector: row => row.summary,
+                selector: row => row.summary.substr(0, 10),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Data',
+                selector: row => row.date ,
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Status',
+                selector: row => <Chip 
+                                    clickable 
+                                    //icon={row.active ? <ToggleOnIcon /> : <ToggleOffIcon />} 
+                                    icon={<ToggleOnIcon />} 
+                                    label={row.status} 
+                                    size="small" 
+                                    variant="outlined" 
+                                    color="info"
+                                    //onClick={() => dispatch(toggleProfileActive({ ind: row.ind, active: row.active }))}
+                                />,
+                //sortable: true,
+                grow: 1,
+            },
+            {
+                name: 'Atualização',
+                selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Criação',
+                selector: row => DateTime.fromISO(row.created_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 1,
+            },
+            {
+                name: 'Ações',
+                selector: row => <React.Fragment>
+                                    <IconButton aria-label="editar" size="small" color="info">
+                                        <VisibilityIcon fontSize="small" />
+                                    </IconButton>
+                                    <IconButton aria-label="editar" size="small" color="warning" edge="end">
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
+                                </React.Fragment>,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );
+
     // COLUMNS TO MEMBERS LIST
     const fullProfilesColumns = (
         [
@@ -61,7 +132,7 @@ export function useTableTemplates() {
                 grow: 1,
             },
             {
-                name: 'Última Atualização',
+                name: 'Atualização',
                 selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
                 sortable: true,
                 grow: 2,
@@ -93,7 +164,7 @@ export function useTableTemplates() {
   
     return {
         fullProfilesColumns: fullProfilesColumns,
-        // go: navigate,
+        fullResearchColumns: fullResearchColumns,
         // goBack: () => navigate(-1),
         // goForward: () => navigate(1),
         // pathArray,
