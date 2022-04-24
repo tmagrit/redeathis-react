@@ -84,7 +84,7 @@ const Home = () => {
                         onClose={handleClose}
                     >
                        {session?.session?.user?.aud === "authenticated" ? (
-                           <React.Fragment>
+                           <div>
                                 <MenuItem 
                                     component={Typography}
                                 >
@@ -94,7 +94,7 @@ const Home = () => {
                                     <Box sx={{ my: 1, mr: 1 }}>Acessando como</Box><Box sx={{ fontWeight: 'bold', my: 1 }}>{`${profile?.name}`}</Box>
                                 </MenuItem> 
                                 <Divider />
-                            </React.Fragment>
+                            </div>
                         ) : null }
                         
                         <MenuItem 

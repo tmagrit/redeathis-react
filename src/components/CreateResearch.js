@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import RichTextEditor from 'react-rte/lib/RichTextEditor';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import LinkIcon from '@mui/icons-material/Link';
@@ -50,6 +51,15 @@ const CreateResearch = () => {
                 sx={{ my: 1,}}
                 InputLabelProps={{ shrink: true }}
             />
+
+<RichTextEditor
+        value={summary}
+        onChange={null}
+      />
+
+
+
+
             <TextField
                 value={link}
                 onChange={handleChangeLink}
@@ -61,7 +71,7 @@ const CreateResearch = () => {
                 sx={{ my: 1,}}
                 InputProps={{
                     startAdornment: <InputAdornment position="start"><LinkIcon /></InputAdornment>,
-                    }}
+                }}
                 InputLabelProps={{ shrink: true }}
             />
             <TextField
