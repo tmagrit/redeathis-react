@@ -58,10 +58,3 @@ const MainMenu = () => {
 };
 
 export default MainMenu;
-
-            // {/* <ListItemButton component={Link} to="/admin/tags" selected={activeMenu(section,'tags')} >
-            //     <ListItemIcon>
-            //         <BookmarksIcon />
-            //     </ListItemIcon>
-            //     <ListItemText primary="Marcadores" />
-            // </ListItemButton> */}

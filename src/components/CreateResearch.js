@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import RichTextEditor from 'react-rte/lib/RichTextEditor';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import LinkIcon from '@mui/icons-material/Link';
+import TextEditor from './TextEditor';
 
 const CreateResearch = () => {
 
@@ -21,9 +21,6 @@ const CreateResearch = () => {
     // CHANGE RESEARCH STATES
     const handleChangeTitle = (event) => {
         setTitle(event.target.value);
-    };
-    const handleChangeSummary = (event) => {
-        setSummary(event.target.value);
     };
     const handleChangeLink = (event) => {
         setLink(event.target.value);
@@ -52,13 +49,10 @@ const CreateResearch = () => {
                 InputLabelProps={{ shrink: true }}
             />
 
-<RichTextEditor
-        value={summary}
-        onChange={null}
-      />
-
-
-
+            <TextEditor 
+                value={summary}
+                setValue={summary => setSummary(summary)}
+            />
 
             <TextField
                 value={link}

@@ -108,7 +108,7 @@ const Home = () => {
                             Acessar Painel Administrativo
                         </MenuItem>
                         {session?.session?.user?.aud === "authenticated" ? (
-                            <React.Fragment>
+                            <div>
                                 <MenuItem 
                                     component={Link}
                                     to="/" // TODO ACCOUNT COMPONENT
@@ -130,7 +130,7 @@ const Home = () => {
                                     </ListItemIcon>
                                     Sair
                                 </MenuItem>
-                            </React.Fragment>
+                            </div>
                         ) : null }
                     </Menu>
                 </Toolbar>

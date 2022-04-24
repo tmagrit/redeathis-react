@@ -36,7 +36,6 @@ export const getProfileRoles = createAsyncThunk('members/getProfileRoles', async
         if (error) 
             throw error;
 
-            console.log('getProfileRoles()-data', data)
         return data;
 
     } catch (error) {
