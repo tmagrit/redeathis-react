@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DateTime } from 'luxon';
 import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import { toggleProfileActive } from '../features/membersSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -33,9 +34,9 @@ export function useTableTemplates() {
             {
                 name: 'Resumo',
                 // selector: row => row.summary,
-                selector: row => row.summary.substr(0, 10),
+                selector: row => row.summary,
                 sortable: true,
-                grow: 2,
+                omit: true,
             },
             {
                 name: 'Data',
@@ -73,11 +74,17 @@ export function useTableTemplates() {
             {
                 name: 'Ações',
                 selector: row => <React.Fragment>
-                                    <IconButton aria-label="editar" size="small" color="info">
+                                    <IconButton aria-label="ver" size="small" color="info">
                                         <VisibilityIcon fontSize="small" />
                                     </IconButton>
-                                    <IconButton aria-label="editar" size="small" color="warning" edge="end">
-                                        <EditIcon fontSize="small" />
+                                    <IconButton aria-label="editar" size="small" color="warning" edge="end" >
+                                        <Link 
+                                            to={`/admin/research/edit/${row.id}`} 
+                                            variant="inherit" 
+                                            style={{ color: "inherit", textDecoration: "none" }} 
+                                        >
+                                            <EditIcon fontSize="small" />
+                                        </Link>
                                     </IconButton>
                                 </React.Fragment>,
                 right: true,

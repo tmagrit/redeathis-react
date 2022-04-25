@@ -5,13 +5,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
 
 const MainMenu = () => {
-
+    
     // REDUX SELECTORS
     const section = useSelector(state => state.session.section)
 
@@ -24,7 +23,6 @@ const MainMenu = () => {
 
     return (
         <div>
-
             <ListItemButton component={Link} to="/admin/research" selected={activeMenu(section,'research')} >
                 <ListItemIcon>
                     <LayersIcon />
@@ -52,7 +50,6 @@ const MainMenu = () => {
                 </ListItemIcon>
                 <ListItemText primary="Páginas" />
             </ListItemButton>
-
         </div>
     )
 };

@@ -167,7 +167,7 @@ export const researchSlice = createSlice({
         },
         [getCategories.fulfilled]: (state, action) => {
             state.categories = action.payload
-            state.CategoriesStatus = 'succeeded'
+            state.getCategoriesStatus = 'succeeded'
         },
         [getCategories.rejected]: (state, action) => {
           state.getCategoriesStatus = 'failed'

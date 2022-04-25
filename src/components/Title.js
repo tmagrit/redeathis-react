@@ -1,16 +1,19 @@
 import * as React from 'react';
-//import { useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
-
-
 
 const Title = (props) => {
 
   // REDUX SELECTORS
   const section = useSelector(state => state.session.section);
   const context = useSelector(state => state.session.context);
+
+  // RENDER WHEN CHANGE ROUTE
+  useEffect(() => {
+  
+  }, [section,context])
 
   function titleGenerator(section, context) {
     // MAIN 

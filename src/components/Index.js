@@ -6,9 +6,8 @@ import Typography from '@mui/material/Typography';
 
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
-import researchSlice from '../features/researchSlice';
 
-const ListAll = () => {
+const Index = () => {
 
     // TABLE TEMPLATES HOOK
     const tableTemplates = useTableTemplates(); 
@@ -36,7 +35,7 @@ const ListAll = () => {
 
     const createResearchTable = Boolean( getResearchStatus === "succeeded" && 
                                     getCategoriesStatus === "succeeded" && 
-                                    getStatusesStatus === "succeeded" )                                
+                                    getStatusesStatus === "succeeded" )    
 
     if(section === 'research') {
         return (
@@ -85,4 +84,4 @@ const ListAll = () => {
 
 };
 
-export default ListAll;
+export default Index;

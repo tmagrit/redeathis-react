@@ -186,7 +186,7 @@ export const sessionSlice = createSlice({
         logoutStatus: 'idle',
         logoutError: null,
 
-        section: 'main',
+        section: '',
         context: ''
 
     },

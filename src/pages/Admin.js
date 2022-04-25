@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -265,7 +265,8 @@ const Admin = () => {
         >
         <Toolbar />
 
-        <MainDashboard />  
+        {/* <MainDashboard />   */}
+        <Outlet />
 
         </Box>
       </Box>

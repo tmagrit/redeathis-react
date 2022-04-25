@@ -64,7 +64,7 @@ const Home = () => {
                         edge="end"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ ml: 1 }}
+                        sx={{ ml: 1, }}
                     >
                         <AdminPanelSettingsIcon />
                     </IconButton>

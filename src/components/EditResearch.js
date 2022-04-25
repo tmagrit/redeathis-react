@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from "react-router-dom";
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -15,22 +16,30 @@ import MenuItem from '@mui/material/MenuItem';
 import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
+import { Button } from '@mui/material';
 
-const CreateResearch = () => {
+const EditResearch = () => {
+
+    // REACT ROUTER DYNAMIC PARAMETER
+    let params = useParams();
 
     // REDUX SELECTORS
+    const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
 
     // EDIT RESEARCH STATES
-    const [title, setTitle] = useState('');
-    const [summary, setSummary] = useState('');
-    const [link, setLink] = useState('');
-    const [notes, setNotes] = useState('');
-    const [category, setCategory] = useState('');
-    const [status, setStatus] = useState(statuses[1].status || '');
+    const [title, setTitle] = useState(research.title);
+    const [summary, setSummary] = useState(research.summary);
+    const [link, setLink] = useState(research.link);
+    const [notes, setNotes] = useState(research.notes);
+    const [categoryId, setCategoryId] = useState(research.category_id);
+    const [statusId, setStatusId] = useState(research.status);
     const [geolocation, setGeolocation] = useState({});
     const [date, setDate] = useState({});
+
+    console.log('category', categoryId);
+    console.log('status', statusId);
     
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -46,10 +55,10 @@ const CreateResearch = () => {
         setNotes(event.target.value);
     }; 
     const handleChangeStatus = (event) => {
-        setStatus(event.target.value);
+        setStatusId(event.target.value);
     };
     const handleChangeCategory = (event) => {
-        setCategory(event.target.value);
+        setCategoryId(event.target.value);
     };
 
     return (
@@ -79,6 +88,23 @@ const CreateResearch = () => {
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
+
+                            <TextField
+                                id="category"
+                                select
+                                label="Categoria"
+                                size="small"
+                                value={categoryId}
+                                onChange={handleChangeCategory}
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
+                            >
+                                {categories.map((c) => (
+                                <MenuItem key={c.id} value={c.id}>
+                                    {c.name}
+                                </MenuItem>
+                                ))}
+                            </TextField>
 
                             <TextEditor 
                                 value={summary}
@@ -120,6 +146,40 @@ const CreateResearch = () => {
 
                 {/* RIGHT PANEL */}
                 <Grid item xs={12} md={4}>
+                    
+                    <Paper sx={{ mb: 3, }} >
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Title position={'right'}/> 
+                        </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            <TextField
+                                id="status"
+                                select
+                                label="Status"
+                                size="small"
+                                value={statusId}
+                                onChange={handleChangeStatus}
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
+                            >
+                                {statuses.map((c) => (
+                                    <MenuItem key={c.id} value={c.id}>
+                                        {c.status}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <Button 
+                                variant="contained" 
+                                fullWidth 
+                                sx={{ my: 2,}} 
+                                onClick={ () => {} }  
+                            >
+                                Salvar
+                            </Button>
+                            
+                        </Grid>
+                    </Paper>
                     <Paper sx={{ minHeight: 240, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'right'}/> 
@@ -131,33 +191,18 @@ const CreateResearch = () => {
                                 select
                                 label="Status"
                                 size="small"
-                                value={status}
+                                value={statusId}
                                 onChange={handleChangeStatus}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             >
                                 {statuses.map((c) => (
-                                    <MenuItem key={c.id} value={c.status}>
+                                    <MenuItem key={c.id} value={c.id}>
                                         {c.status}
                                     </MenuItem>
                                 ))}
                             </TextField>
-                            <TextField
-                                id="category"
-                                select
-                                label="Categoria"
-                                size="small"
-                                value={category}
-                                onChange={handleChangeCategory}
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                            >
-                                {categories.map((c) => (
-                                <MenuItem key={c.id} value={c.name}>
-                                    {c.name}
-                                </MenuItem>
-                                ))}
-                            </TextField>
+                            
                         </Grid>
                     </Paper>
                 </Grid>
@@ -181,4 +226,4 @@ const CreateResearch = () => {
     )
 };
 
-export default CreateResearch;
+export default EditResearch;

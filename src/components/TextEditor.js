@@ -3,7 +3,7 @@ import { useState } from 'react';
 import RichTextEditor from 'react-rte';
 import Box from '@mui/material/Box';
 
-const TextEditor = ({ value, setValue }) => {
+const TextEditor = ({ value, setValue, readOnly }) => {
 
     const [editorValue, setEditorValue] = useState(RichTextEditor.createValueFromString(value, 'html'));
   
@@ -17,7 +17,12 @@ const TextEditor = ({ value, setValue }) => {
             <RichTextEditor
                 value={editorValue}
                 onChange={handleChange}
-                style={{ minHeight: 410 }}
+                readOnly={readOnly}
+                rootStyle={{
+                    fontFamily: 'inherit',
+                    minHeight: 320,
+                    h1: { fontSize: 300, }, 
+                }}
             />
         </Box>
     );
