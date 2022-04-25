@@ -27,8 +27,8 @@ const CreateResearch = () => {
     const [summary, setSummary] = useState('');
     const [link, setLink] = useState('');
     const [notes, setNotes] = useState('');
-    const [category, setCategory] = useState('');
-    const [status, setStatus] = useState(statuses[1].status || '');
+    const [categoryId, setCategoryId] = useState('');
+    const [statusId, setStatusId] = useState(statuses[1].status || '');
     const [geolocation, setGeolocation] = useState({});
     const [date, setDate] = useState({});
     
@@ -46,10 +46,10 @@ const CreateResearch = () => {
         setNotes(event.target.value);
     }; 
     const handleChangeStatus = (event) => {
-        setStatus(event.target.value);
+        setStatusId(event.target.value);
     };
     const handleChangeCategory = (event) => {
-        setCategory(event.target.value);
+        setCategoryId(event.target.value);
     };
 
     return (
@@ -120,7 +120,7 @@ const CreateResearch = () => {
 
                 {/* RIGHT PANEL */}
                 <Grid item xs={12} md={4}>
-                    <Paper sx={{ minHeight: 240, }} >
+                    <Paper sx={{ mb: 3, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'right'}/> 
                         </Grid>
@@ -131,7 +131,7 @@ const CreateResearch = () => {
                                 select
                                 label="Status"
                                 size="small"
-                                value={status}
+                                value={statusId}
                                 onChange={handleChangeStatus}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -147,7 +147,7 @@ const CreateResearch = () => {
                                 select
                                 label="Categoria"
                                 size="small"
-                                value={category}
+                                value={categoryId}
                                 onChange={handleChangeCategory}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -158,6 +158,38 @@ const CreateResearch = () => {
                                 </MenuItem>
                                 ))}
                             </TextField>
+                        </Grid>
+                    </Paper>
+                    <Paper sx={{ minHeight: 240, }} >
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Title position={'rightbelow'}/> 
+                        </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            
+                            
+                            
+                            
+                            
+                            {/* <TextField
+                                id="status"
+                                select
+                                label="Status"
+                                size="small"
+                                value={statusId}
+                                onChange={handleChangeStatus}
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
+                            >
+                                {statuses.map((c) => (
+                                    <MenuItem key={c.id} value={c.id}>
+                                        {c.status}
+                                    </MenuItem>
+                                ))}
+                            </TextField> */}
+
+
+                            
                         </Grid>
                     </Paper>
                 </Grid>

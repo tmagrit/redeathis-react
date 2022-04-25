@@ -13,14 +13,15 @@ import MainDashboard from './components/MainDashboard';
 import MainResearch from './components/MainResearch';
 import CreateResearch from './components/CreateResearch';
 import EditResearch from './components/EditResearch';
+import ManageAll from './components/ManageAll';
 // PAGES
-import Home from './components/Home';
+import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 // MY HISTORY HOOK
 import { useHistory } from './components/history';
-import ManageAll from './components/ManageAll';
+
 
 function App() {
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import DefaultDialog from './DefaultDialog';
 import Invite from './Invite';
@@ -15,18 +14,18 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// MY HISTORY HOOK
 import { useHistory } from './history';
 
 const ContextMenu = () => {
 
-    // REDUX SELECTORS
-    // const dispatch = useDispatch()
-    const section = useSelector(state => state.session.section)
-    const context = useSelector(state => state.session.context)
-
     // MY HISTORY HOOK
     const history = useHistory();
+    const section = history?.pathArray[2] || ''
+    const context = history?.pathArray[3] || ''
+
+    // TRACK ROUTES 
+    useEffect(() => {
+    }, [history.location]);
 
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -92,7 +91,7 @@ const ContextMenu = () => {
                     <ListItemText primary="Criar Nova Categoria" />
                 </ListItemButton>   
 
-                <ListItemButton component={Link} to="/admin/categories/tags" selected={activeMenu(context,'alltags')} >
+                <ListItemButton component={Link} to="/admin/categories/tags" selected={activeMenu(context,'tags')} >
                     <ListItemIcon>
                         <BookmarksIcon />
                     </ListItemIcon>
@@ -142,7 +141,7 @@ const ContextMenu = () => {
                     children={<Invite/>}
                 />
 
-                <ListItemButton component={Link} to="/admin/members/groups" selected={activeMenu(context,'allgroups')} >
+                <ListItemButton component={Link} to="/admin/members/groups" selected={activeMenu(context,'groups')} >
                     <ListItemIcon>
                         <GroupWorkIcon />
                     </ListItemIcon>

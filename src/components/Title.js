@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
+import { useHistory } from './history';
 
 const Title = (props) => {
 
-  // REDUX SELECTORS
-  const section = useSelector(state => state.session.section);
-  const context = useSelector(state => state.session.context);
-
-  // RENDER WHEN CHANGE ROUTE
-  useEffect(() => {
+  // MY HISTORY HOOK
+  const history = useHistory();
+  const section = history?.pathArray[2] || ''
+  const context = history?.pathArray[3] || ''
   
-  }, [section,context])
+  // TRACK ROUTES 
+  useEffect(() => {
+  }, [history.location]);
 
   function titleGenerator(section, context) {
     // MAIN 
@@ -23,9 +23,9 @@ const Title = (props) => {
         if(props.position === 'left')  
           return 'Resumo Geral'; 
         if(props.position === 'right')  
-          return 'Minhas Colaborações';
+          return 'Minhas Colaborações?';
         else  
-          return 'Atualizações';
+          return 'Atualizações Recentes';
       }
     }
 
@@ -34,7 +34,7 @@ const Title = (props) => {
       // RESEARCH / MAIN
       if(context === '') {
         if(props.position === 'left')  
-          return 'Resumo de Pesquisas'; 
+          return 'Resumo Geral'; 
         if(props.position === 'right')  
           return 'Minhas Pesquisas';
         else  
@@ -49,6 +49,8 @@ const Title = (props) => {
           return 'Nova Pesquisa'; 
         if(props.position === 'right')  
           return 'Publicar';
+        if(props.position === 'rightbelow')  
+          return 'Localização e Data';  
         else  
           return 'Itens Relacionados';
       }      
@@ -58,6 +60,8 @@ const Title = (props) => {
           return 'Editar Pesquisa'; 
         if(props.position === 'right')  
           return 'Publicar';
+        if(props.position === 'rightbelow')  
+          return 'Localização e Data';  
         else  
           return 'Itens Relacionados';  
       } 

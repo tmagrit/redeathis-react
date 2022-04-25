@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,11 +8,17 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
+import { useHistory } from './history';
 
 const MainMenu = () => {
-    
-    // REDUX SELECTORS
-    const section = useSelector(state => state.session.section)
+
+    // MY HISTORY HOOK
+    const history = useHistory();
+    const section = history?.pathArray[2] || ''
+
+    // TRACK ROUTES 
+    useEffect(() => {
+    }, [history.location]);
 
     function activeMenu(section, link) {
         if(section === link)
@@ -23,7 +29,7 @@ const MainMenu = () => {
 
     return (
         <div>
-            <ListItemButton component={Link} to="/admin/research" selected={activeMenu(section,'research')} >
+            <ListItemButton component={Link} to="/admin/research" selected={activeMenu(history?.pathArray[2],'research')} >
                 <ListItemIcon>
                     <LayersIcon />
                 </ListItemIcon>

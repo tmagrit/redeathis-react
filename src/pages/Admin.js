@@ -30,9 +30,6 @@ import Invite from '../components/Invite';
 import MainMenu from '../components/MainMenu';
 import ContextMenu from '../components/ContextMenu';
 
-// PAGES 
-import MainDashboard from '../components/MainDashboard';
-
 const drawerWidth = 260; // TODO CREATE STYLE FILE
 
 const AppBar = styled(MuiAppBar, {

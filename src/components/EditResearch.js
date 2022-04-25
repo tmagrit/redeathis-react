@@ -38,9 +38,6 @@ const EditResearch = () => {
     const [geolocation, setGeolocation] = useState({});
     const [date, setDate] = useState({});
 
-    console.log('category', categoryId);
-    console.log('status', statusId);
-    
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
 
@@ -146,7 +143,6 @@ const EditResearch = () => {
 
                 {/* RIGHT PANEL */}
                 <Grid item xs={12} md={4}>
-                    
                     <Paper sx={{ mb: 3, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'right'}/> 
@@ -182,11 +178,16 @@ const EditResearch = () => {
                     </Paper>
                     <Paper sx={{ minHeight: 240, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Title position={'right'}/> 
+                            <Title position={'rightbelow'}/> 
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <TextField
+                            
+                            
+                            
+                            
+                            
+                            {/* <TextField
                                 id="status"
                                 select
                                 label="Status"
@@ -201,7 +202,9 @@ const EditResearch = () => {
                                         {c.status}
                                     </MenuItem>
                                 ))}
-                            </TextField>
+                            </TextField> */}
+
+
                             
                         </Grid>
                     </Paper>
