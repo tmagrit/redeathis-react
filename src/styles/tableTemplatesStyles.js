@@ -52,8 +52,8 @@ export const customStyles = {
 	},
 	headCells: {
 		style: {
-			paddingLeft: '8px',
-			paddingRight: '8px',
+			paddingLeft: '16px',
+			paddingRight: '16px',
 		},
 		draggingStyle: {
 			// cursor: 'move',
@@ -78,8 +78,8 @@ export const customStyles = {
 	},
 	cells: {
 		style: {
-			paddingLeft: '8px',
-			paddingRight: '8px',
+			paddingLeft: '16px',
+			paddingRight: '16px',
 			wordBreak: 'break-word',
 		},
 		draggingStyle: {},

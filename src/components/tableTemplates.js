@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
@@ -7,9 +8,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import IconButton from '@mui/material/IconButton';
 import Chip from '@mui/material/Chip';
+import List from '@mui/material/List';
+
+import ListItemIcon from '@mui/material/ListItemIcon';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuList from '@mui/material/MenuList';
+import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import { Typography } from '@mui/material';
+
+import ActionMenu from './ActionMenu';
 
 export function useTableTemplates() {
 
@@ -17,6 +30,19 @@ export function useTableTemplates() {
     const dispatch = useDispatch();
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
+
+    // // ACTION MENU STATES
+    // const [anchorActionEl, setAnchorActionEl] = useState(null);
+    // const [open, setOpen] = useState(true);
+
+    // // HANDLE ACTION MENU
+    // const handleMenu = (event) => {
+    //     setAnchorActionEl(event.currentTarget);
+    //     console.log('event.currentTarget', event.currentTarget)
+    // };
+    // const handleClose = () => {
+    //     setAnchorActionEl(null);
+    // };
 
     function statusColor(id) {
         if(id === 1)
@@ -29,6 +55,63 @@ export function useTableTemplates() {
             return 'error'    
     }
 
+    // const ActionMenu = ({section , row}) => (
+    //     <React.Fragment>
+    //         <IconButton 
+    //             id="action-button" 
+    //             aria-label="ações" 
+    //             size="small" 
+    //             onClick={handleMenu} 
+    //             aria-controls={open ? 'basic-menu' : undefined}
+    //             aria-haspopup="true"
+    //             aria-expanded={open ? 'true' : undefined}
+    //         >
+    //             <MoreVertIcon fontSize="small" />
+    //         </IconButton>
+
+    //         <Menu
+    //             id="action-menu"
+    //             anchorEl={anchorActionEl}
+    //             anchorOrigin={{
+    //                 vertical: 'bottom',
+    //                 horizontal: 'right',
+    //             }}
+    //             keepMounted
+    //             transformOrigin={{
+    //                 vertical: 'bottom',
+    //                 horizontal: 'left',
+    //             }}
+    //             open={Boolean(anchorActionEl)}
+    //             onClose={handleClose}
+    //             MenuListProps={{
+    //                 'aria-labelledby': 'action-button',
+    //             }}
+    //         >
+    //             <MenuList dense>
+    //                 <MenuItem component={Link} to="#" onClick={handleClose} >
+    //                     <ListItemIcon>
+    //                         <VisibilityIcon fontSize="small" color="info"/> 
+    //                     </ListItemIcon>
+    //                     Pré Visualizar
+    //                 </MenuItem> 
+    //                 <MenuItem component={Link} to={`/admin/${section}/edit/${row.id}`} onClick={handleClose} >
+    //                     <ListItemIcon>
+    //                         <EditIcon fontSize="small"  color="warning"/> 
+    //                     </ListItemIcon>
+    //                     Editar
+    //                 </MenuItem> 
+    //                 <Divider />
+    //                 <MenuItem component={Link} to="#" onClick={handleClose} >
+    //                     <ListItemIcon>
+    //                         <DeleteIcon fontSize="small" color="error"/> 
+    //                     </ListItemIcon>
+    //                     Excluir
+    //                 </MenuItem> 
+    //             </MenuList>    
+    //         </Menu>
+    //     </React.Fragment>
+    // );        
+
     // COLUMNS TO RESEARCH LIST
     const fullResearchColumns = (
         [
@@ -39,9 +122,12 @@ export function useTableTemplates() {
             },
             {
                 name: 'Título',
-                selector: row => row.title ,
+                //selector: row => row.title ,
+                selector: 'title',
+                cell: row => <span style={{ wordBreak: "break-word" }}>{row.title}</span>, 
                 sortable: true,
-                //grow: 1,
+                //maxWidth: '220px',
+                grow: 3,
             },
             {
                 name: 'Resumo',
@@ -54,34 +140,40 @@ export function useTableTemplates() {
                 name: 'Data',
                 selector: row => row.date ,
                 sortable: true,
-                //grow: 1,
+                maxWidth: '120px',
+                grow: 1,
             },
             {
                 name: 'Categoria',
-                selector: row => <Chip 
+                selector: 'categorie_id',
+                cell: row => <Chip 
                                     label={categories.find(c => c.id === row.category_id).name} 
                                     size="small" 
                                     variant="outlined" 
                                 />,
                 sortable: true,
-                //grow: 1,
+                maxWidth: '180px',
+                grow: 1,
             },
             {
                 name: 'Status',
-                selector: row => <Chip 
+                selector: 'status',
+                cell: row => <Chip 
                                     label={statuses.find(s => s.id === row.status).status} 
                                     size="small" 
                                     variant="outlined" 
                                     color={statusColor(row.status)}
                                 />,
                 sortable: true,
-                //grow: 1,
+                maxWidth: '140px',
+                grow: 1,
             },
             {
                 name: 'Atualização',
                 selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
                 sortable: true,
-                //grow: 1,
+                maxWidth: '120px',
+                grow: 1,
             },
             {
                 name: 'Criação',
@@ -92,25 +184,13 @@ export function useTableTemplates() {
             },
             {
                 name: 'Ações',
-                selector: row => <React.Fragment>
-                                    <IconButton aria-label="ver" size="small" color="info">
-                                        <VisibilityIcon fontSize="small" />
-                                    </IconButton>
-                                    <IconButton aria-label="editar" size="small" color="warning" edge="end" >
-                                        <Link 
-                                            to={`/admin/research/edit/${row.id}`} 
-                                            variant="inherit" 
-                                            style={{ color: "inherit", textDecoration: "none" }} 
-                                        >
-                                            <EditIcon fontSize="small" />
-                                        </Link>
-                                    </IconButton>
-                                </React.Fragment>,
+                maxWidth: '100px',
+                cell: row => <ActionMenu section={'research'} row={row} />,
                 right: true,
-                //grow: 0.1,
+                grow: 1,
             },
         ]
-    );
+    ); 
 
     // COLUMNS TO MEMBERS LIST
     const fullProfilesColumns = (
