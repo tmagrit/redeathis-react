@@ -6,11 +6,13 @@ import Typography from '@mui/material/Typography';
 
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
+import { customStyles } from '../styles/tableTemplatesStyles'
 
 const Index = () => {
 
     // TABLE TEMPLATES HOOK
     const tableTemplates = useTableTemplates(); 
+    //const customStyles = customStyles();
 
     // REDUX SELECTORS
     //MEMBERS
@@ -45,6 +47,9 @@ const Index = () => {
                     <DataTable
                         columns={tableTemplates.fullResearchColumns}
                         data={fullResearch}
+                        customStyles={customStyles}
+                        striped
+                        responsive
                         selectableRows
                         pagination
                     />
@@ -67,6 +72,8 @@ const Index = () => {
                     <DataTable
                         columns={tableTemplates.fullProfilesColumns}
                         data={fullProfiles}
+                        striped
+                        responsive
                         selectableRows
                         pagination
                     />

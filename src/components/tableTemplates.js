@@ -13,12 +13,12 @@ import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 
 export function useTableTemplates() {
 
-   // REDUX SELECTORS
-   const dispatch = useDispatch();
-   const categories = useSelector(state => state.research.categories);
-   const statuses = useSelector(state => state.research.statuses);
+    // REDUX SELECTORS
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.research.categories);
+    const statuses = useSelector(state => state.research.statuses);
 
-   function statusColor(id) {
+    function statusColor(id) {
         if(id === 1)
             return 'success';
         if(id === 2)
@@ -27,7 +27,7 @@ export function useTableTemplates() {
             return 'warning'
         if(id === 4)
             return 'error'    
-   }
+    }
 
     // COLUMNS TO RESEARCH LIST
     const fullResearchColumns = (
@@ -41,7 +41,7 @@ export function useTableTemplates() {
                 name: 'Título',
                 selector: row => row.title ,
                 sortable: true,
-                grow: 1,
+                //grow: 1,
             },
             {
                 name: 'Resumo',
@@ -54,7 +54,7 @@ export function useTableTemplates() {
                 name: 'Data',
                 selector: row => row.date ,
                 sortable: true,
-                grow: 1,
+                //grow: 1,
             },
             {
                 name: 'Categoria',
@@ -64,7 +64,7 @@ export function useTableTemplates() {
                                     variant="outlined" 
                                 />,
                 sortable: true,
-                grow: 1,
+                //grow: 1,
             },
             {
                 name: 'Status',
@@ -75,20 +75,20 @@ export function useTableTemplates() {
                                     color={statusColor(row.status)}
                                 />,
                 sortable: true,
-                grow: 1,
+                //grow: 1,
             },
             {
                 name: 'Atualização',
                 selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
                 sortable: true,
-                grow: 1,
+                //grow: 1,
             },
             {
                 name: 'Criação',
                 selector: row => DateTime.fromISO(row.created_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
                 sortable: true,
                 omit: true,
-                grow: 1,
+                //grow: 0.1,
             },
             {
                 name: 'Ações',
@@ -107,7 +107,7 @@ export function useTableTemplates() {
                                     </IconButton>
                                 </React.Fragment>,
                 right: true,
-                grow: 1,
+                //grow: 0.1,
             },
         ]
     );
