@@ -160,7 +160,7 @@ const EditResearch = () => {
                                 sx={{ my: 2,}} 
                                 onClick={handleUpdateResearch}  
                             >
-                                Salvar
+                                Atualizar
                             </Button>
                             
                         </Grid>

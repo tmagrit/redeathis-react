@@ -58,8 +58,8 @@ function App() {
 
     // TRACK ROUTES 
     useEffect(() => {
-        dispatch(updateProfileSection(history?.pathArray[2] || ''));
-        dispatch(updateProfileContext(history?.pathArray[3] || ''));
+        // dispatch(updateProfileSection(history?.pathArray[2] || ''));
+        // dispatch(updateProfileContext(history?.pathArray[3] || ''));
     }, [history.location]);
 
     if(session.sessionStatus === 'succeeded') {
@@ -80,7 +80,7 @@ function App() {
                 >
                     {/* MAIN DASHBOARD */}
                     <Route index element={<MainDashboard />} />
-                    
+
                     {/* RESEARCH ROUTE */}
                     <Route path="research" element={<MainResearch />} />
                     <Route path="research/all" element={<ManageAll />} />

@@ -167,7 +167,7 @@ const CreateResearch = () => {
                                 sx={{ my: 2,}} 
                                 onClick={handleCreateResearch}  
                             >
-                                Salvar
+                                Criar
                             </Button>
                             
                         </Grid>

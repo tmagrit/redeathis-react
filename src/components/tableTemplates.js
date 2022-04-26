@@ -65,14 +65,14 @@ export function useTableTemplates() {
             },
             {
                 name: 'Categoria',
-                selector: row => row.categorie_id,
+                selector: row => row.category_id,
                 cell: row => <Chip 
                                     label={categories.find(c => c.id === row.category_id).name} 
                                     size="small" 
                                     variant="outlined" 
                                 />,
                 sortable: true,
-                maxWidth: '180px',
+                maxWidth: '200px',
                 grow: 1,
             },
             {

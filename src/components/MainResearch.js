@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -9,17 +8,6 @@ import Title from './Title';
 import Index from './Index';  
 
 const MainResearch = () => {
-
-    // REDUX SELECTORS
-    const section = useSelector(state => state.session.section);
-    const context = useSelector(state => state.session.context);
-
-    function upperPanels(context) {
-        if(context === '' || context === 'create' || context === 'creategroup' || context === 'createtag' || context === 'edit' )
-            return true;
-        else
-            return false;
-    }
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

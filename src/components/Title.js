@@ -50,7 +50,7 @@ const Title = (props) => {
         if(props.position === 'right')  
           return 'Publicar';
         if(props.position === 'rightbelow')  
-          return 'Localização e Data';  
+          return 'Localização e Cronologia';  
         else  
           return 'Itens Relacionados';
       }      
@@ -61,7 +61,7 @@ const Title = (props) => {
         if(props.position === 'right')  
           return 'Publicar';
         if(props.position === 'rightbelow')  
-          return 'Localização e Data';  
+          return 'Localização e Cronologia';  
         else  
           return 'Itens Relacionados';  
       } 
