@@ -14,6 +14,7 @@ import MainResearch from './components/MainResearch';
 import CreateResearch from './components/CreateResearch';
 import EditResearch from './components/EditResearch';
 import ManageAll from './components/ManageAll';
+import MainMembers from './components/MainMembers';
 // PAGES
 import Home from './pages/Home';
 import Admin from './pages/Admin';
@@ -77,7 +78,10 @@ function App() {
                         </ProtectedRoute>
                     } 
                 >
+                    {/* MAIN DASHBOARD */}
                     <Route index element={<MainDashboard />} />
+                    
+                    {/* RESEARCH ROUTE */}
                     <Route path="research" element={<MainResearch />} />
                     <Route path="research/all" element={<ManageAll />} />
                     <Route path="research/create" element={<CreateResearch />} />
@@ -87,9 +91,12 @@ function App() {
                     <Route path="categories" element={<MainDashboard />} >
                         
                     </Route>
-                    <Route path="members" element={<MainDashboard />} >
-                        
-                    </Route>
+
+                    {/* MEMBERS ROUTE */}
+                    <Route path="members" element={<MainMembers />} />
+                    <Route path="members/all" element={<ManageAll />} />
+
+
                     <Route path="pages" element={<MainDashboard />} >
                         
                     </Route>

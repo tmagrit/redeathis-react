@@ -116,8 +116,6 @@ export const membersSlice = createSlice({
                             ...p,
                             active: !action.payload.active,
                         }
-                        console.log('action.payload', action.payload)
-                        console.log('updatedProfile', updatedProfile)
                         return updatedProfile   
                     } 
                 }) 

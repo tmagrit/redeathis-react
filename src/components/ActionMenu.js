@@ -46,12 +46,12 @@ const ActionMenu = ({ section, row }) => {
                 anchorEl={anchorActionEl}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'left',
+                    horizontal: 'right',
                 }}
                 keepMounted
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'left',
+                    horizontal: 'right',
                 }}
                 open={Boolean(anchorActionEl)}
                 onClose={handleClose}

@@ -32,7 +32,7 @@ const MainResearch = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            MAIN RESEARCH CONTENT
+                            
                         </Grid>
                     </Paper>
                 </Grid>
@@ -45,7 +45,7 @@ const MainResearch = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            RIGHT MAIN RESEARCH CONTENT
+                            
                         </Grid>
                     </Paper>
                 </Grid>

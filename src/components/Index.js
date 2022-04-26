@@ -3,16 +3,21 @@ import { useSelector } from 'react-redux';
 import { selectFullProfiles } from '../features/membersSlice';
 import { useTableTemplates } from './tableTemplates';
 import Typography from '@mui/material/Typography';
-
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../styles/tableTemplatesStyles'
+// MY HISTORY HOOK
+import { useHistory } from './history';
 
 const Index = () => {
 
     // TABLE TEMPLATES HOOK
     const tableTemplates = useTableTemplates(); 
-    //const customStyles = customStyles();
+
+    // MY HISTORY HOOK
+    const history = useHistory();
+    const section = history?.pathArray[2] || ''
+    const context = history?.pathArray[3] || ''
 
     // REDUX SELECTORS
     //MEMBERS
@@ -27,8 +32,6 @@ const Index = () => {
     const getCategoriesStatus = useSelector(state => state.research.getCategoriesStatus);
     const getStatusesStatus = useSelector(state => state.research.getStatusesStatus);
     
-    const section = useSelector(state => state.session.section);
-    const context = useSelector(state => state.session.context);
 
     const createProfileTable = Boolean( getMembersStatus === "succeeded" && 
                                     getRolesStatus === "succeeded" && 
