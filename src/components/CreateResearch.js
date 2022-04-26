@@ -187,8 +187,6 @@ const CreateResearch = () => {
                                     </MenuItem>
                                 ))}
                             </TextField> */}
-
-
                             
                         </Grid>
                     </Paper>

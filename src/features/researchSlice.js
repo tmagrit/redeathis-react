@@ -58,43 +58,37 @@ export const getStatuses = createAsyncThunk('research/getStatuses', async (obj ,
     };
 });
 
-// export const getRoles = createAsyncThunk('research/getRoles', async (obj , { dispatch, getState }) => {
-//     try { 
-//         const { data, error } = await supabase
-//             .from('roles')
-//             .select('*')
-//             .order('updated_at', { ascending: false }); 
+export const updateResearch = createAsyncThunk('research/updateResearch', async (obj , { dispatch, getState }) => {
+    try { 
+        const { research } = getState()
+        const updatedResearch = {
+            ...obj,
+          }
+        const { data, error } = await supabase
+            .from('research')
+            .update(updatedResearch)
+            .match({ id: updatedResearch.id })
+            .single()
 
-//         if (error) 
-//             throw error;
+        
+        const payload = research.research.map(r => {
+            if(r.id === updatedResearch.id)
+                return data;
+            else 
+                return r;
+        });  
+        alert('Pesquisa atualizada com sucesso.');
+        if(error) {
+            throw error
+        }  
 
-//         return data;
-
-//     } catch (error) {
-//         alert('getRoles()-error');
-//         console.log(error);
-//         alert(error.message);
-//     };
-// });
-
-// export const getOrganizations = createAsyncThunk('research/getOrganizations', async (obj , { dispatch, getState }) => {
-//     try { 
-//         const { data, error } = await supabase
-//             .from('organizations')
-//             .select('*')
-//             .order('updated_at', { ascending: false });
-
-//         if (error) 
-//             throw error;
-
-//         return data;
-
-//     } catch (error) {
-//         alert('getOrganizations()-error')
-//         console.log(error)
-//         alert(error.message)
-//     };
-// });
+        return payload;
+    } catch (error) {
+        alert('updateResearch()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -102,6 +96,9 @@ export const researchSlice = createSlice({
         research: [],
         getResearchStatus: 'idle',
         getResearchError: null,
+
+        updateResearchStatus: 'idle',
+        updateResearchError: null,
 
         categories: [],
         getCategoriesStatus: 'idle',
@@ -186,17 +183,17 @@ export const researchSlice = createSlice({
           state.getStatusesError = action.error
         },
 
-        // [getOrganizations.pending]: (state) => {
-        //     state.getOrganizationsStatus = 'loading'
-        // },
-        // [getOrganizations.fulfilled]: (state, action) => {
-        //     state.organizations = action.payload
-        //     state.getOrganizationsStatus = 'succeeded'
-        // },
-        // [getOrganizations.rejected]: (state, action) => {
-        //   state.getOrganizationsStatus = 'failed'
-        //   state.getOrganizationsError = action.error
-        // }
+        [updateResearch.pending]: (state) => {
+            state.updateResearchStatus = 'loading'
+        },
+        [updateResearch.fulfilled]: (state, action) => {
+            state.research = action.payload
+            state.updateResearchStatus = 'succeeded'
+        },
+        [updateResearch.rejected]: (state, action) => {
+          state.updateResearchStatus = 'failed'
+          state.updateResearchError = action.error
+        },
       }
 })
 

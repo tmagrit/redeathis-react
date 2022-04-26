@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { updateResearch } from '../features/researchSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 
 import TextField from '@mui/material/TextField';
@@ -24,39 +25,26 @@ const EditResearch = () => {
     let params = useParams();
 
     // REDUX SELECTORS
+    const dispatch = useDispatch();
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
 
     // EDIT RESEARCH STATES
-    const [title, setTitle] = useState(research.title);
-    const [summary, setSummary] = useState(research.summary);
-    const [link, setLink] = useState(research.link);
-    const [notes, setNotes] = useState(research.notes);
-    const [categoryId, setCategoryId] = useState(research.category_id);
-    const [statusId, setStatusId] = useState(research.status);
-    const [geolocation, setGeolocation] = useState({});
-    const [date, setDate] = useState({});
+    const [researchData, setResearchData] = useState(research);
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
 
     // CHANGE RESEARCH STATES
-    const handleChangeTitle = (event) => {
-        setTitle(event.target.value);
+    const handleChangeResearchData = (event) => {
+        setResearchData({...researchData, [event.target.name]: event.target.value});
     };
-    const handleChangeLink = (event) => {
-        setLink(event.target.value);
-    };
-    const handleChangeNotes = (event) => {
-        setNotes(event.target.value);
-    }; 
-    const handleChangeStatus = (event) => {
-        setStatusId(event.target.value);
-    };
-    const handleChangeCategory = (event) => {
-        setCategoryId(event.target.value);
-    };
+
+    // UPDATE RESEARCH
+    const handleUpdateResearch = (research) => {
+        dispatch(updateResearch(researchData))
+    }
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -70,12 +58,12 @@ const EditResearch = () => {
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             <TextField
-                                value={title}
+                                value={researchData.title}
                                 //error={emailError(email)}
-                                onChange={handleChangeTitle}
+                                onChange={(event) => handleChangeResearchData(event)}
                                 fullWidth
                                 label="Título"
-                                id="title"
+                                name="title"
                                 size="small"
                                 multiline={true}
                                 minRows={1}
@@ -87,34 +75,34 @@ const EditResearch = () => {
                             />
 
                             <TextField
-                                id="category"
+                                name="category_id"
                                 select
                                 label="Categoria"
                                 size="small"
-                                value={categoryId}
-                                onChange={handleChangeCategory}
+                                value={researchData.category_id}
+                                onChange={(event) => handleChangeResearchData(event)}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             >
                                 {categories.map((c) => (
-                                <MenuItem key={c.id} value={c.id}>
+                                <MenuItem key={c.id} value={c.id} >
                                     {c.name}
                                 </MenuItem>
                                 ))}
                             </TextField>
 
                             <TextEditor 
-                                value={summary}
-                                setValue={summary => setSummary(summary)}
+                                value={researchData.summary}
+                                setValue={summary => setResearchData({...researchData, summary})}
                                 readOnly={readOnly}
                             />
 
                             <TextField
-                                value={link}
-                                onChange={handleChangeLink}
+                                value={researchData.link}
+                                onChange={(event) => handleChangeResearchData(event)}
                                 fullWidth
                                 label="Link"
-                                id="link"
+                                name="link"
                                 size="small"
                                 type="url"
                                 sx={{ my: 1,}}
@@ -124,11 +112,11 @@ const EditResearch = () => {
                                 InputLabelProps={{ shrink: true }}
                             />
                             <TextField
-                                value={notes}
-                                onChange={handleChangeNotes}
+                                value={researchData.notes}
+                                onChange={(event) => handleChangeResearchData(event)}
                                 fullWidth
                                 label="Notas"
-                                id="notes"
+                                name="notes"
                                 size="small"
                                 multiline={true}
                                 minRows={5}
@@ -150,12 +138,12 @@ const EditResearch = () => {
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             <TextField
-                                id="status"
+                                name="status"
                                 select
                                 label="Status"
                                 size="small"
-                                value={statusId}
-                                onChange={handleChangeStatus}
+                                value={researchData.status}
+                                onChange={(event) => handleChangeResearchData(event)}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             >
@@ -169,7 +157,7 @@ const EditResearch = () => {
                                 variant="contained" 
                                 fullWidth 
                                 sx={{ my: 2,}} 
-                                onClick={ () => {} }  
+                                onClick={handleUpdateResearch}  
                             >
                                 Salvar
                             </Button>
@@ -203,9 +191,7 @@ const EditResearch = () => {
                                     </MenuItem>
                                 ))}
                             </TextField> */}
-
-
-                            
+ 
                         </Grid>
                     </Paper>
                 </Grid>
