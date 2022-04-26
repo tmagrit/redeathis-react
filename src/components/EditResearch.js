@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { updateResearch } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
+import Map from 'react-map-gl';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -172,26 +173,7 @@ const EditResearch = () => {
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             
-                            
-                            
-                            
-                            
-                            {/* <TextField
-                                id="status"
-                                select
-                                label="Status"
-                                size="small"
-                                value={statusId}
-                                onChange={handleChangeStatus}
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                            >
-                                {statuses.map((c) => (
-                                    <MenuItem key={c.id} value={c.id}>
-                                        {c.status}
-                                    </MenuItem>
-                                ))}
-                            </TextField> */}
+                           
  
                         </Grid>
                     </Paper>

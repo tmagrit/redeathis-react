@@ -20,6 +20,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 
+import MapViewport from '../components/MapViewport';
+
 const Home = () => {
 
     // REDUX SELECTORS
@@ -32,6 +34,11 @@ const Home = () => {
     const trackLocation = location.state?.from?.pathname || '/admin';
 
     // REACT STATES
+    const [viewport, setViewport] = useState({
+        latitude: -12.977749,
+        longitude: -38.501630,
+        zoom: 5
+    });
     const [anchorEl, setAnchorEl] = useState(null);
 
     // HANDLE MENU
@@ -49,7 +56,7 @@ const Home = () => {
 
     return (
         <React.Fragment>
-            <AppBar position="static" color="inherit">
+            <AppBar position="fixed" color="inherit">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Rede Residência ATHIS
@@ -137,7 +144,11 @@ const Home = () => {
             </AppBar>
 
             {/* TODO HOME COMPONENT */}
-
+            <MapViewport 
+                viewport={viewport}
+                setViewport={(view) => setViewport(view)}
+                style={{ width: '100vw', height: '100vh' }} 
+            />
         </React.Fragment>
         
     )

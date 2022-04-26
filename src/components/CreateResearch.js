@@ -181,24 +181,7 @@ const CreateResearch = () => {
                             
                             
                             
-                            
-                            
-                            {/* <TextField
-                                id="status"
-                                select
-                                label="Status"
-                                size="small"
-                                value={statusId}
-                                onChange={handleChangeStatus}
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                            >
-                                {statuses.map((c) => (
-                                    <MenuItem key={c.id} value={c.id}>
-                                        {c.status}
-                                    </MenuItem>
-                                ))}
-                            </TextField> */}
+                           
  
                         </Grid>
                     </Paper>
