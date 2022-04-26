@@ -34,7 +34,7 @@ const Title = (props) => {
       // RESEARCH / MAIN
       if(context === '') {
         if(props.position === 'left')  
-          return 'Resumo Geral'; 
+          return 'Resumo de Pesquisas'; 
         if(props.position === 'right')  
           return 'Minhas Pesquisas';
         else  

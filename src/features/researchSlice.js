@@ -90,6 +90,29 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
     };
 });
 
+export const createResearch = createAsyncThunk('research/createResearch', async (obj , { dispatch, getState }) => {
+    try { 
+        const updatedResearch = {
+            ...obj,
+          }
+        const { data, error } = await supabase
+            .from('research')
+            .insert([updatedResearch])
+
+        alert('Pesquisa creada com sucesso.');
+        if(error) {
+            throw error
+        }  
+
+        return data[0];
+    } catch (error) {
+        alert('updateResearch()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
+
 export const researchSlice = createSlice({
     name: 'research',
     initialState: {
@@ -99,6 +122,9 @@ export const researchSlice = createSlice({
 
         updateResearchStatus: 'idle',
         updateResearchError: null,
+
+        createResearchStatus: 'idle',
+        createResearchError: null,
 
         categories: [],
         getCategoriesStatus: 'idle',
@@ -193,6 +219,18 @@ export const researchSlice = createSlice({
         [updateResearch.rejected]: (state, action) => {
           state.updateResearchStatus = 'failed'
           state.updateResearchError = action.error
+        },
+
+        [createResearch.pending]: (state) => {
+            state.createResearchStatus = 'loading'
+        },
+        [createResearch.fulfilled]: (state, action) => {
+            state.research.unshift(action.payload)
+            state.createResearchStatus = 'succeeded'
+        },
+        [createResearch.rejected]: (state, action) => {
+          state.createResearchStatus = 'failed'
+          state.createResearchError = action.error
         },
       }
 })

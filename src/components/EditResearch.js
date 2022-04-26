@@ -13,11 +13,12 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
 
 import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
-import { Button } from '@mui/material';
+
 
 const EditResearch = () => {
 
@@ -42,7 +43,7 @@ const EditResearch = () => {
     };
 
     // UPDATE RESEARCH
-    const handleUpdateResearch = (research) => {
+    const handleUpdateResearch = () => {
         dispatch(updateResearch(researchData))
     }
 
