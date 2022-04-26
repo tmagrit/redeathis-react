@@ -3,11 +3,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
 import { Link, Outlet } from "react-router-dom";
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import MenuItem from '@mui/material/MenuItem';
@@ -29,56 +27,8 @@ import DefaultDialog from '../components/DefaultDialog';
 import Invite from '../components/Invite';
 import MainMenu from '../components/MainMenu';
 import ContextMenu from '../components/ContextMenu';
-
+// STYLES
 import { AppBar, Drawer, mdTheme } from '../styles/adminStyles';
-
-//const drawerWidth = 260; // TODO CREATE STYLE FILE
-
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   zIndex: theme.zIndex.drawer + 1,
-//   transition: theme.transitions.create(['width', 'margin'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     marginLeft: drawerWidth,
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     transition: theme.transitions.create(['width', 'margin'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-// }));
-
-// const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-//   ({ theme, open }) => ({
-//     '& .MuiDrawer-paper': {
-//       position: 'relative',
-//       whiteSpace: 'nowrap',
-//       width: drawerWidth,
-//       transition: theme.transitions.create('width', {
-//         easing: theme.transitions.easing.sharp,
-//         duration: theme.transitions.duration.enteringScreen,
-//       }),
-//       boxSizing: 'border-box',
-//       ...(!open && {
-//         overflowX: 'hidden',
-//         transition: theme.transitions.create('width', {
-//           easing: theme.transitions.easing.sharp,
-//           duration: theme.transitions.duration.leavingScreen,
-//         }),
-//         width: theme.spacing(7),
-//         [theme.breakpoints.up('sm')]: {
-//           width: theme.spacing(9),
-//         },
-//       }),
-//     },
-//   }),
-// );
-
-// const mdTheme = createTheme();
 
 const Admin = () => {
 
@@ -264,9 +214,8 @@ const Admin = () => {
         >
         <Toolbar />
 
-        {/* <MainDashboard />   */}
         <Outlet />
-
+        
         </Box>
       </Box>
         {/* INVITE DIALOG */}
