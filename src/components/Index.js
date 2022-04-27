@@ -57,7 +57,7 @@ const Index = () => {
                         pagination
                     />
                 ) : (
-                    <Typography component="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
+                    <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
                         Sem dados para exibir
                     </Typography>
                 ) }
@@ -81,7 +81,7 @@ const Index = () => {
                         pagination
                     />
                 ) : (
-                    <Typography component="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
+                    <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
                         Sem dados para exibir
                     </Typography>
                 ) }

@@ -62,12 +62,12 @@ const Signup = () => {
         //backgroundColor: 'primary.light',
       }}
     >  
-      <Typography component="p" variant="h4" pb={10}>
+      <Typography component="span" variant="h4" pb={10}>
         __MARCA
       </Typography>
       <Paper elevation={3} sx={{ maxWidth: 500, }} >
         <Box sx={{ p: 4, }} >
-        <Typography component="p" variant="h5" align="center" mb={4} >
+        <Typography component="span" variant="h5" align="center" mb={4} >
           Inscrição Rede Residência ATHIS
         </Typography>
         <TextField
@@ -156,12 +156,12 @@ const Signup = () => {
         </Box>
       <Divider />
       <Box sx={{ px: 4, py: 3, }} >
-      <Typography component="p" variant="p" align="center" >
+      <Typography component="span" variant="p" align="center" >
           Já é membro? <Link to="/signin" color="inherit" underline="hover" >Acesse aqui</Link>
         </Typography>
       </Box>
       </Paper>
-      <Typography component="p" variant="h4" pt={15}>
+      <Typography component="span" variant="h4" pt={15}>
         __RODAPÉ
       </Typography>
     </Box>

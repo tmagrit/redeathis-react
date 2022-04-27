@@ -138,7 +138,7 @@ const Title = (props) => {
 
 
   return (
-      <Typography component="h2" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 500, }}>
+      <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 500, }}>
         {titleGenerator(section, context)}
       </Typography>
   );
@@ -149,24 +149,3 @@ Title.propTypes = {
 };
 
 export default Title;
-
-
-
-
-// function titleGenerator(section, context) {
-        
-//   // MAIN DASHBOARD TITLES 
-//   if(section === 'research' && context === '')
-//       return 'Síntese de Pesquisa';
-//   if(section === 'research' && context === 'create')
-//       return 'Criar Pesquisa';
-  
-//   if(section === 'categories' && context === '')
-//       return 'Resumo de Categorias';
-
-//   if(section === 'members' && context === '')
-//       return 'Síntese de Colaboradores';
-  
-//   if(section === 'pages' && context === '')
-//       return 'Resumo de Páginas';
-// };

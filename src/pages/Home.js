@@ -37,7 +37,7 @@ const Home = () => {
     const [viewport, setViewport] = useState({
         latitude: -12.977749,
         longitude: -38.501630,
-        zoom: 5
+        zoom: 3
     });
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -92,9 +92,7 @@ const Home = () => {
                     >
                        {session?.session?.user?.aud === "authenticated" ? (
                            <div>
-                                <MenuItem 
-                                    component={Typography}
-                                >
+                                <MenuItem >
                                     <ListItemIcon>
                                         <AssignmentIndIcon fontSize="small" />
                                     </ListItemIcon>

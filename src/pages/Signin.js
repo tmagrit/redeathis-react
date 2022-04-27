@@ -64,12 +64,12 @@ const Signin = () => {
         //backgroundColor: 'primary.light',
       }}
     >  
-      <Typography component="p" variant="h4" pb={10}>
+      <Typography component="span" variant="h4" pb={10}>
         __MARCA
       </Typography>
       <Paper elevation={3} sx={{ maxWidth: 500, }} >
         <Box sx={{ p: 4, }} >
-        <Typography component="p" variant="h5" align="center" mb={4} >
+        <Typography component="span" variant="h5" align="center" mb={4} >
           Acesso Rede Residência ATHIS
         </Typography>
         <TextField
@@ -116,12 +116,12 @@ const Signin = () => {
         </Box>
       <Divider />
       <Box sx={{ px: 4, py: 3, }} >
-      <Typography component="p" variant="p" align="center" >
+      <Typography component="span" variant="p" align="center" >
           Esqueceu sua senha? <Link to="/resetpassword" color="inherit" underline="hover" >Clique aqui</Link>
         </Typography>
       </Box>
       </Paper>
-      <Typography component="p" variant="h4" pt={15}>
+      <Typography component="span" variant="h4" pt={15}>
         __RODAPÉ
       </Typography>
     </Box>

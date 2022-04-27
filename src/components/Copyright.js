@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 
 const Copyright = (props) => {
     return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      <Typography component="div" variant="body2" color="text.secondary" align="center" {...props}>
           {new Date().getFullYear()}{' | '}
           <a
               href='https://labhabitar.ufba.br'

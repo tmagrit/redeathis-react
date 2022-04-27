@@ -92,7 +92,7 @@ const Admin = () => {
               <MenuIcon />
             </IconButton>
             <Typography
-                component="h1"
+                component="div"
                 variant="h6"
                 color="inherit"
                 noWrap
@@ -127,9 +127,7 @@ const Admin = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-            <MenuItem 
-                component={Typography}
-            >
+            <MenuItem >
                 <ListItemIcon>
                     <AssignmentIndIcon fontSize="small" />
                 </ListItemIcon>

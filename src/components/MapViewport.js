@@ -1,5 +1,7 @@
-import Map, {Marker} from 'react-map-gl';
+import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import PropTypes from 'prop-types';
+
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -24,3 +26,10 @@ const MapViewport = ({ viewport, setViewport, style, children }) => {
 };
 
 export default MapViewport;
+
+MapViewport.propTypes = {
+    viewport: PropTypes.object.isRequired,
+    setViewport: PropTypes.func.isRequired,
+    style: PropTypes.object.isRequired,
+    children: PropTypes.node,
+};
