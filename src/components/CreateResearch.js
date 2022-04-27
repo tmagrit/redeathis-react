@@ -16,7 +16,11 @@ import Button from '@mui/material/Button';
 
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './Index';  
+import Index from './Index'; 
+
+import { Marker } from 'react-map-gl';
+import MapDialog from './MapDialog';
+import MapViewport from './MapViewport';
 
 const CreateResearch = () => {
 
@@ -30,7 +34,11 @@ const CreateResearch = () => {
         title: '',
         summary: '<p></p>',
         date: null,
-        geolocation: null,
+        geolocation: {
+            latitude: -12.977749,
+            longitude: -38.501630,
+            zoom: 15
+        },
         link: '',
         notes: '',
         category_id: null,
@@ -42,6 +50,17 @@ const CreateResearch = () => {
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
+
+    // MAP DIALOG STATES 
+    const [mapDialogOpen, setMapDialogOpen] = useState(false);
+
+    // HANDLE TOGGLE DIALOG
+    const handleMapDialogOpen = () => {
+        setMapDialogOpen(true);
+    };
+    const handleMapDialogClose = (value) => {
+        setMapDialogOpen(false);
+    };
     
     // CHANGE RESEARCH STATES
     const handleChangeResearchData = (event) => {
@@ -53,6 +72,7 @@ const CreateResearch = () => {
         dispatch(createResearch(researchData))
     }
 
+    console.log('researchData.geolocation', researchData)
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -178,11 +198,41 @@ const CreateResearch = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            
-                            
-                            
-                           
- 
+                            <div onClick={handleMapDialogOpen} >
+                                <MapViewport 
+                                    viewport={researchData.geolocation}
+                                    setViewport={() => {}}
+                                    style={{ width: '100%', height: 360 }} 
+                                    
+                                >
+                                    <Marker 
+                                        longitude={researchData.geolocation.longitude} 
+                                        latitude={researchData.geolocation.latitude} 
+                                        anchor="bottom"
+                                        color="#3FB1CE"
+                                    >
+                                    </Marker>
+                                </MapViewport> 
+                            </div>
+                            <MapDialog
+                                open={mapDialogOpen}
+                                onClose={handleMapDialogClose}
+                                children={
+                                    <MapViewport 
+                                        viewport={researchData.geolocation}
+                                        setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation.viewState })}
+                                        style={{ width: '100vw', height: '100vh' }}   
+                                    >
+                                        <Marker 
+                                            longitude={researchData.geolocation.longitude} 
+                                            latitude={researchData.geolocation.latitude} 
+                                            anchor="bottom"
+                                            color="#3FB1CE"
+                                        >
+                                        </Marker>
+                                    </MapViewport>
+                                }
+                            />
                         </Grid>
                     </Paper>
                 </Grid>
@@ -207,33 +257,3 @@ const CreateResearch = () => {
 };
 
 export default CreateResearch;
-
-
-
-
-    // // CHANGE RESEARCH STATES
-    // const handleChangeTitle = (event) => {
-    //     setTitle(event.target.value);
-    // };
-    // const handleChangeLink = (event) => {
-    //     setLink(event.target.value);
-    // };
-    // const handleChangeNotes = (event) => {
-    //     setNotes(event.target.value);
-    // }; 
-    // const handleChangeStatus = (event) => {
-    //     setStatusId(event.target.value);
-    // };
-    // const handleChangeCategory = (event) => {
-    //     setCategoryId(event.target.value);
-    // };
-
-    
-    // const [title, setTitle] = useState('');
-    // const [summary, setSummary] = useState('');
-    // const [link, setLink] = useState('');
-    // const [notes, setNotes] = useState('');
-    // const [categoryId, setCategoryId] = useState('');
-    // const [statusId, setStatusId] = useState(statuses[1].status || '');
-    // const [geolocation, setGeolocation] = useState({});
-    // const [date, setDate] = useState({});

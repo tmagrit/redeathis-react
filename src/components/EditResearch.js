@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { updateResearch } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
-import Map from 'react-map-gl';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -20,6 +19,9 @@ import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
 
+import { Marker } from 'react-map-gl';
+import MapDialog from './MapDialog';
+import MapViewport from './MapViewport';
 
 const EditResearch = () => {
 
@@ -37,6 +39,17 @@ const EditResearch = () => {
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
+
+    // MAP DIALOG STATES 
+    const [mapDialogOpen, setMapDialogOpen] = useState(false);
+
+    // HANDLE TOGGLE DIALOG
+    const handleMapDialogOpen = () => {
+        setMapDialogOpen(true);
+    };
+    const handleMapDialogClose = (value) => {
+        setMapDialogOpen(false);
+    };
 
     // CHANGE RESEARCH STATES
     const handleChangeResearchData = (event) => {
@@ -172,9 +185,41 @@ const EditResearch = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            
-                           
- 
+                        <div onClick={handleMapDialogOpen} >
+                                <MapViewport 
+                                    viewport={researchData.geolocation}
+                                    setViewport={() => {}}
+                                    style={{ width: '100%', height: 360 }} 
+                                    
+                                >
+                                    <Marker 
+                                        longitude={researchData.geolocation.longitude} 
+                                        latitude={researchData.geolocation.latitude} 
+                                        anchor="bottom"
+                                        color="#3FB1CE"
+                                    >
+                                    </Marker>
+                                </MapViewport>  
+                            </div>
+                            <MapDialog
+                                open={mapDialogOpen}
+                                onClose={handleMapDialogClose}
+                                children={
+                                    <MapViewport 
+                                        viewport={researchData.geolocation}
+                                        setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation.viewState })}
+                                        style={{ width: '100vw', height: '100vh' }}   
+                                    >
+                                        <Marker 
+                                            longitude={researchData.geolocation.longitude} 
+                                            latitude={researchData.geolocation.latitude} 
+                                            anchor="bottom"
+                                            color="#3FB1CE"
+                                        >
+                                        </Marker>
+                                    </MapViewport>
+                                }
+                            />
                         </Grid>
                     </Paper>
                 </Grid>

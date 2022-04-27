@@ -29,7 +29,7 @@ export default MapViewport;
 
 MapViewport.propTypes = {
     viewport: PropTypes.object.isRequired,
-    setViewport: PropTypes.func.isRequired,
+    setViewport: PropTypes.func,
     style: PropTypes.object.isRequired,
     children: PropTypes.node,
 };
