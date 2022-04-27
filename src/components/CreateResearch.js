@@ -76,7 +76,6 @@ const CreateResearch = () => {
     // TRACK CATEGORY CHANGES 
     useEffect(() => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
-        console.log(categoryColor)
     }, [researchData.category_id])
 
     return (
