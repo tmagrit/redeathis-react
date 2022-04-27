@@ -22,7 +22,7 @@ import { Marker } from 'react-map-gl';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
 
-const CreateResearch = () => {
+const ResearchCreate = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
@@ -259,4 +259,4 @@ const CreateResearch = () => {
     )
 };
 
-export default CreateResearch;
+export default ResearchCreate;

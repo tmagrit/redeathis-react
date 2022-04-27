@@ -10,11 +10,11 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 // COMPONENTS
 import MainDashboard from './components/MainDashboard';
-import MainResearch from './components/MainResearch';
-import CreateResearch from './components/CreateResearch';
-import EditResearch from './components/EditResearch';
-import ManageAll from './components/ManageAll';
-import MainMembers from './components/MainMembers';
+import ResearchMain from './components/ResearchMain';
+import ResearchCreate from './components/ResearchCreate';
+import ResearchEdit from './components/ResearchEdit';
+import MainIndex from './components/MainIndex';
+import MembersMain from './components/MembersMain';
 // PAGES
 import Home from './pages/Home';
 import Admin from './pages/Admin';
@@ -82,10 +82,10 @@ function App() {
                     <Route index element={<MainDashboard />} />
 
                     {/* RESEARCH ROUTE */}
-                    <Route path="research" element={<MainResearch />} />
-                    <Route path="research/all" element={<ManageAll />} />
-                    <Route path="research/create" element={<CreateResearch />} />
-                    <Route path="research/edit/:researchId" element={<EditResearch />} />
+                    <Route path="research" element={<ResearchMain />} />
+                    <Route path="research/all" element={<MainIndex />} />
+                    <Route path="research/create" element={<ResearchCreate />} />
+                    <Route path="research/edit/:researchId" element={<ResearchEdit />} />
 
 
                     <Route path="categories" element={<MainDashboard />} >
@@ -93,8 +93,8 @@ function App() {
                     </Route>
 
                     {/* MEMBERS ROUTE */}
-                    <Route path="members" element={<MainMembers />} />
-                    <Route path="members/all" element={<ManageAll />} />
+                    <Route path="members" element={<MembersMain />} />
+                    <Route path="members/all" element={<MainIndex />} />
 
 
                     <Route path="pages" element={<MainDashboard />} >

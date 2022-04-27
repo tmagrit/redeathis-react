@@ -23,7 +23,7 @@ import { Marker } from 'react-map-gl';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
 
-const EditResearch = () => {
+const ResearchEdit = () => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -249,4 +249,4 @@ const EditResearch = () => {
     )
 };
 
-export default EditResearch;
+export default ResearchEdit;

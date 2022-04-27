@@ -7,7 +7,7 @@ import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
 
-const MainResearch = () => {
+const ResearchMain = () => {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -57,7 +57,7 @@ const MainResearch = () => {
     )
 };
 
-export default MainResearch;
+export default ResearchMain;
 
 // {/* <TextField
 //                                 value={title}

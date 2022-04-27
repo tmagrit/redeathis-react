@@ -7,7 +7,7 @@ import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
 
-const MainMembers = () => {
+const MembersMain = () => {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -57,4 +57,4 @@ const MainMembers = () => {
     )
 };
 
-export default MainMembers;
+export default MembersMain;

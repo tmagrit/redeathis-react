@@ -7,7 +7,7 @@ import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';
 
-const ManageAll = () => {
+const MainIndex = () => {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -32,7 +32,7 @@ const ManageAll = () => {
     )
 };
 
-export default ManageAll;
+export default MainIndex;
 
 
 
