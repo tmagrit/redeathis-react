@@ -13,6 +13,7 @@ const MapViewport = ({ viewport, setViewport, style, children }) => {
 
     return (
         <Map
+            reuseMaps
             {...viewport}
             style={style}
             mapStyle="mapbox://styles/mapbox/dark-v10"

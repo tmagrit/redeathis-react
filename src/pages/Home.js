@@ -20,13 +20,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 
 import MapViewport from '../components/MapViewport';
+import { Marker } from 'react-map-gl';
 
 const Home = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
-    const session = useSelector(state => state.session)
-    const profile = useSelector(state => state.session.profile)
+    const session = useSelector(state => state.session);
+    const profile = useSelector(state => state.session.profile);
+    const research = useSelector(state => state.research.research);
+    const categories = useSelector(state => state.research.categories);
 
     // REACT ROUTER 
     const location = useLocation();
@@ -145,7 +148,19 @@ const Home = () => {
                 viewport={viewport}
                 setViewport={(view) => setViewport(view)}
                 style={{ width: '100vw', height: '100vh' }} 
-            />
+            >
+                {research.map(r => {
+                    return (
+                        <Marker 
+                            longitude={r.geolocation.longitude} 
+                            latitude={r.geolocation.latitude} 
+                            anchor="bottom"
+                            color={r.category.color}
+                        >
+                        </Marker>
+                    );
+                })} 
+            </MapViewport >
         </React.Fragment>
         
     )

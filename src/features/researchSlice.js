@@ -5,7 +5,14 @@ export const getResearch = createAsyncThunk('research/getResearch', async (obj ,
     try { 
         const { data, error } = await supabase
             .from('research')
-            .select('*')
+            .select(`
+                *,
+                category:category_id ( 
+                    *,
+                    id
+                )
+            `)    
+            
             .order('updated_at', { ascending: false });
 
         if (error) 
