@@ -43,7 +43,7 @@
       "not dead",
       "not ie 11",
       "not chrome < 51",
-      "not safary < 10",
+      "not safari < 10",
       "not android < 51"
     ],
     "development": [
