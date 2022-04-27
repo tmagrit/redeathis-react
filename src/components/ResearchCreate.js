@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index'; 
+import DateSetter from './DateSetter'; 
 
 import { Marker } from 'react-map-gl';
 import MapDialog from './MapDialog';
@@ -237,6 +238,16 @@ const ResearchCreate = () => {
                                 }
                             />
                         </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Title position={'rightbelow'}/> 
+                        </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            <DateSetter />
+                        </Grid>
+                        
+
                     </Paper>
                 </Grid>
 
