@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createResearch } from '../features/researchSlice';
 
@@ -47,6 +47,7 @@ const CreateResearch = () => {
 
     // EDIT RESEARCH STATES
     const [researchData, setResearchData] = useState(research);
+    const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === researchData.category_id).color || '#3FB1CE');
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -72,7 +73,11 @@ const CreateResearch = () => {
         dispatch(createResearch(researchData))
     }
 
-    console.log('researchData.geolocation', researchData)
+    // TRACK CATEGORY CHANGES 
+    useEffect(() => {
+        setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
+        console.log(categoryColor)
+    }, [researchData.category_id])
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -202,14 +207,13 @@ const CreateResearch = () => {
                                 <MapViewport 
                                     viewport={researchData.geolocation}
                                     setViewport={() => {}}
-                                    style={{ width: '100%', height: 360 }} 
-                                    
+                                    style={{ width: '100%', height: 360 }}   
                                 >
                                     <Marker 
                                         longitude={researchData.geolocation.longitude} 
                                         latitude={researchData.geolocation.latitude} 
                                         anchor="bottom"
-                                        color={categories.find(c => c.id === researchData.category_id).color || '#3FB1CE'}
+                                        color={categoryColor}
                                     >
                                     </Marker>
                                 </MapViewport> 
@@ -227,7 +231,7 @@ const CreateResearch = () => {
                                             longitude={researchData.geolocation.longitude} 
                                             latitude={researchData.geolocation.latitude} 
                                             anchor="bottom"
-                                            color={categories.find(c => c.id === researchData.category_id).color || '#3FB1CE'}
+                                            color={categoryColor}
                                         >
                                         </Marker>
                                     </MapViewport>

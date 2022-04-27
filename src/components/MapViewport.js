@@ -3,7 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import PropTypes from 'prop-types';
 
 
-const mapboxKey = process.env.REACT_APP_MAPBOX_TOKEN
+const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 const MapViewport = ({ viewport, setViewport, style, children }) => {
 
