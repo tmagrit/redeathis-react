@@ -196,7 +196,7 @@ const EditResearch = () => {
                                         longitude={researchData.geolocation.longitude} 
                                         latitude={researchData.geolocation.latitude} 
                                         anchor="bottom"
-                                        color="#3FB1CE"
+                                        color={categories.find(c => c.id === researchData.category_id).color || '#3FB1CE'}
                                     >
                                     </Marker>
                                 </MapViewport>  
@@ -214,7 +214,7 @@ const EditResearch = () => {
                                             longitude={researchData.geolocation.longitude} 
                                             latitude={researchData.geolocation.latitude} 
                                             anchor="bottom"
-                                            color="#3FB1CE"
+                                            color={categories.find(c => c.id === researchData.category_id).color || '#3FB1CE'}
                                         >
                                         </Marker>
                                     </MapViewport>

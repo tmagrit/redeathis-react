@@ -41,8 +41,8 @@ const CreateResearch = () => {
         },
         link: '',
         notes: '',
-        category_id: null,
-        status: null
+        category_id: 1,
+        status: 2
     }
 
     // EDIT RESEARCH STATES
@@ -209,7 +209,7 @@ const CreateResearch = () => {
                                         longitude={researchData.geolocation.longitude} 
                                         latitude={researchData.geolocation.latitude} 
                                         anchor="bottom"
-                                        color="#3FB1CE"
+                                        color={categories.find(c => c.id === researchData.category_id).color || '#3FB1CE'}
                                     >
                                     </Marker>
                                 </MapViewport> 
@@ -227,7 +227,7 @@ const CreateResearch = () => {
                                             longitude={researchData.geolocation.longitude} 
                                             latitude={researchData.geolocation.latitude} 
                                             anchor="bottom"
-                                            color="#3FB1CE"
+                                            color={categories.find(c => c.id === researchData.category_id).color || '#3FB1CE'}
                                         >
                                         </Marker>
                                     </MapViewport>
