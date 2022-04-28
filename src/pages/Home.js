@@ -152,6 +152,7 @@ const Home = () => {
                 {research.map(r => {
                     return (
                         <Marker 
+                            key={r.id}
                             longitude={r.geolocation.longitude} 
                             latitude={r.geolocation.latitude} 
                             anchor="bottom"

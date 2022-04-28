@@ -49,8 +49,11 @@ const Title = (props) => {
           return 'Nova Pesquisa'; 
         if(props.position === 'right')  
           return 'Publicar';
+        if(props.position === 'rightmiddle')  
+          return 'Geolocalização';  
+        else   
         if(props.position === 'rightbelow')  
-          return 'Localização e Cronologia';  
+          return 'Cronologia';  
         else  
           return 'Itens Relacionados';
       }      
@@ -60,8 +63,11 @@ const Title = (props) => {
           return 'Editar Pesquisa'; 
         if(props.position === 'right')  
           return 'Publicar';
+        if(props.position === 'rightmiddle')  
+          return 'Geolocalização';  
+        else   
         if(props.position === 'rightbelow')  
-          return 'Localização e Cronologia';  
+          return 'Cronologia';  
         else  
           return 'Itens Relacionados';  
       } 
@@ -138,7 +144,7 @@ const Title = (props) => {
 
 
   return (
-      <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 500, }}>
+      <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
         {titleGenerator(section, context)}
       </Typography>
   );

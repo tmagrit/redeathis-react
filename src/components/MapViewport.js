@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+console.log(mapboxKey)
 
 const MapViewport = ({ viewport, setViewport, style, children }) => {
 

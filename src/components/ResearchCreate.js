@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createResearch } from '../features/researchSlice';
+import { DateTime } from 'luxon';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -19,9 +20,11 @@ import Title from './Title';
 import Index from './Index'; 
 import DateSetter from './DateSetter'; 
 
-import { Marker } from 'react-map-gl';
+import Map, { Marker } from 'react-map-gl';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
+
+const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 const ResearchCreate = () => {
 
@@ -31,10 +34,15 @@ const ResearchCreate = () => {
     const statuses = useSelector(state => state.research.statuses);
 
     // START NEW RESEARCH OBJECT
+    const startDate = DateTime.fromObject({year: 2022, month: 4, day: 1}).setLocale('pt-BR');
     const research = {
         title: '',
-        summary: '<p></p>',
-        date: null,
+        summary: '',
+        date: {
+            interval: false,
+            start: startDate,
+            end: startDate
+        },
         geolocation: {
             latitude: -12.977749,
             longitude: -38.501630,
@@ -47,8 +55,8 @@ const ResearchCreate = () => {
     }
 
     // EDIT RESEARCH STATES
-    const [researchData, setResearchData] = useState(research);
-    const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === researchData.category_id).color || '#3FB1CE');
+    const [researchData, setResearchData] = useState({ ...research });
+    const [categoryColor, setCategoryColor] = useState('#3d85c6');
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -76,7 +84,7 @@ const ResearchCreate = () => {
 
     // TRACK CATEGORY CHANGES 
     useEffect(() => {
-        setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
+        setCategoryColor(categories.find(c => c.id === researchData.category_id).color || '#3d85c6');
     }, [researchData.category_id])
 
     return (
@@ -199,25 +207,26 @@ const ResearchCreate = () => {
                     </Paper>
                     <Paper sx={{ minHeight: 240, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Title position={'rightbelow'}/> 
+                            <Title position={'rightmiddle'}/> 
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <div onClick={handleMapDialogOpen} >
-                                <MapViewport 
-                                    viewport={researchData.geolocation}
-                                    setViewport={() => {}}
-                                    style={{ width: '100%', height: 360 }}   
+                            <Map 
+                                reuseMaps
+                                mapboxAccessToken={mapboxKey}
+                                { ...researchData.geolocation }
+                                onClick={handleMapDialogOpen} 
+                                mapStyle="mapbox://styles/mapbox/dark-v10"
+                                style={{ width: '100%', height: 360 }}   
+                            >
+                                <Marker 
+                                    longitude={researchData.geolocation.longitude} 
+                                    latitude={researchData.geolocation.latitude} 
+                                    anchor="bottom"
+                                    color={categoryColor}
                                 >
-                                    <Marker 
-                                        longitude={researchData.geolocation.longitude} 
-                                        latitude={researchData.geolocation.latitude} 
-                                        anchor="bottom"
-                                        color={categoryColor}
-                                    >
-                                    </Marker>
-                                </MapViewport> 
-                            </div>
+                                </Marker>
+                            </Map> 
                             <MapDialog
                                 open={mapDialogOpen}
                                 onClose={handleMapDialogClose}
@@ -244,10 +253,11 @@ const ResearchCreate = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <DateSetter />
+                            <DateSetter 
+                                setDate={(value) => setResearchData({ ...researchData, date:value })}
+                                date={{ ...researchData.date }}
+                            />
                         </Grid>
-                        
-
                     </Paper>
                 </Grid>
 

@@ -58,7 +58,7 @@ export function useTableTemplates() {
             },
             {
                 name: 'Data',
-                selector: row => row.date ,
+                selector: row => 'date' ,
                 sortable: true,
                 maxWidth: '120px',
                 grow: 1,

@@ -19,9 +19,11 @@ import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
 
-import { Marker } from 'react-map-gl';
+import Map, { Marker } from 'react-map-gl';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
+
+const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 const ResearchEdit = () => {
 
@@ -191,22 +193,22 @@ const ResearchEdit = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                        <div onClick={handleMapDialogOpen} >
-                                <MapViewport 
-                                    viewport={researchData.geolocation}
-                                    setViewport={() => {}}
-                                    style={{ width: '100%', height: 360 }} 
-                                    
+                            <Map 
+                                reuseMaps
+                                mapboxAccessToken={mapboxKey}
+                                { ...researchData.geolocation }
+                                onClick={handleMapDialogOpen} 
+                                mapStyle="mapbox://styles/mapbox/dark-v10"
+                                style={{ width: '100%', height: 360 }}   
+                            >
+                                <Marker 
+                                    longitude={researchData.geolocation.longitude} 
+                                    latitude={researchData.geolocation.latitude} 
+                                    anchor="bottom"
+                                    color={categoryColor}
                                 >
-                                    <Marker 
-                                        longitude={researchData.geolocation.longitude} 
-                                        latitude={researchData.geolocation.latitude} 
-                                        anchor="bottom"
-                                        color={categoryColor}
-                                    >
-                                    </Marker>
-                                </MapViewport>  
-                            </div>
+                                </Marker>
+                            </Map> 
                             <MapDialog
                                 open={mapDialogOpen}
                                 onClose={handleMapDialogClose}
