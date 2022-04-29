@@ -36,7 +36,7 @@ const MapViewport = (props) => {
 
     return (
         <DeckGL initialViewState={viewport} layers={layers} onViewStateChange={handleChange} controller={true}>
-            <Map reuseMaps style={style} mapStyle={mapboxStyle} mapboxAccessToken={mapboxKey} preventStyleDiffing={true} />
+            <Map reuseMaps style={style} mapStyle={mapboxStyle} mapboxAccessToken={mapboxKey} styleDiffing={true} />
         </DeckGL>
     );
 

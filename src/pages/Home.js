@@ -19,8 +19,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 
-import MapViewport from '../components/MapViewport';
-import { Marker } from 'react-map-gl';
+import Map from 'react-map-gl';
+import DeckGL from '@deck.gl/react';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import { hexToRgb } from '../components/colorConverter';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+
+const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
 const Home = () => {
 
@@ -42,6 +49,33 @@ const Home = () => {
         zoom: 3
     });
     const [anchorEl, setAnchorEl] = useState(null);
+    
+    const researchScatterplot = research.map(r => {
+        const researchdata = { ...r, coordinates: [r.geolocation.longitude,r.geolocation.latitude] }
+        return researchdata
+    });
+
+    // DECK GL LAYER
+    const layers = [
+        new ScatterplotLayer({
+            id: 'map-home-markers',
+            data: researchScatterplot,
+            pickable: false,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => d.coordinates,
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(d.category.color)
+        })
+    ];
+
+    // HANDLE MAP CHANGE
+    const handleMapChange = ({ viewport }) => {
+        setViewport(viewport);
+    };
 
     // HANDLE MENU
     const handleMenu = (event) => {
@@ -144,7 +178,25 @@ const Home = () => {
             </AppBar>
 
             {/* TODO HOME COMPONENT */}
-            <MapViewport 
+
+            <DeckGL 
+                initialViewState={viewport} 
+                layers={layers} 
+                onViewStateChange={handleMapChange} 
+                controller={true} 
+                getTooltip={({object}) => object && `${object.title}\n${object.category.name}`}
+            >
+                <Map 
+                    reuseMaps 
+                    style={{ width: '100vw', height: '100vh' }} 
+                    mapStyle={mapboxStyle} 
+                    mapboxAccessToken={mapboxKey} 
+                    styleDiffing={true} 
+                />
+            </DeckGL>
+{/* //onViewStateChange={(view) => setViewport(view)}   controller={true}   */}
+
+            {/* <MapViewport 
                 viewport={viewport}
                 setViewport={(view) => setViewport(view)}
                 style={{ width: '100vw', height: '100vh' }} 
@@ -161,7 +213,7 @@ const Home = () => {
                         </Marker>
                     );
                 })} 
-            </MapViewport >
+            </MapViewport > */}
         </React.Fragment>
         
     )

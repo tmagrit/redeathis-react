@@ -238,7 +238,7 @@ const ResearchCreate = () => {
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
                             <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
-                                <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} preventStyleDiffing={true} />
+                                <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} styleDiffing={true} />
                             </DeckGL>
                             </div>
                             <MapDialog
