@@ -1,28 +1,43 @@
 import Map from 'react-map-gl';
+import DeckGL from '@deck.gl/react';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import { hexToRgb } from './colorConverter';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import PropTypes from 'prop-types';
 
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-console.log(mapboxKey)
+const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
-const MapViewport = ({ viewport, setViewport, style, children }) => {
+const MapViewport = (props) => {
+
+    const { viewport, setViewport, style, color } = props;
+
+    // DECK GL LAYER
+    const layers = [
+        new ScatterplotLayer({
+            id: 'map-viewport-markers',
+            data: [{ coordinates: [viewport.longitude,viewport.latitude] }],
+            pickable: false,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => d.coordinates,
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(color)
+        })
+    ];    
 
     const handleChange = value => {
         setViewport(value);
     };
 
     return (
-        <Map
-            reuseMaps
-            {...viewport}
-            style={style}
-            mapStyle="mapbox://styles/mapbox/dark-v10"
-            mapboxAccessToken={mapboxKey}
-            onMove={handleChange}
-        >
-            {children}
-        </Map>
+        <DeckGL initialViewState={viewport} layers={layers} onViewStateChange={handleChange} controller={true}>
+            <Map reuseMaps style={style} mapStyle={mapboxStyle} mapboxAccessToken={mapboxKey} preventStyleDiffing={true} />
+        </DeckGL>
     );
 
 };
@@ -33,5 +48,5 @@ MapViewport.propTypes = {
     viewport: PropTypes.object.isRequired,
     setViewport: PropTypes.func,
     style: PropTypes.object.isRequired,
-    children: PropTypes.node,
+    color: PropTypes.array.isRequired,
 };

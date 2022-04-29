@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { updateResearch } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
+import { DateTime } from 'luxon';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -18,12 +19,18 @@ import Button from '@mui/material/Button';
 import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index';  
+import DateSetter from './DateSetter'; 
 
 import Map, { Marker } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
+import DeckGL from '@deck.gl/react';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import { hexToRgb } from './colorConverter';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
 const ResearchEdit = () => {
 
@@ -37,14 +44,34 @@ const ResearchEdit = () => {
     const statuses = useSelector(state => state.research.statuses);
 
     // EDIT RESEARCH STATES
-    const [researchData, setResearchData] = useState(research);
-    const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === researchData.category_id).color || '#3FB1CE');
+    const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
+    const dateTimeResearch = { ...research, date: dateTime }
+    const [researchData, setResearchData] = useState(dateTimeResearch);
+    const [categoryColor, setCategoryColor] = useState(researchData.category.color);
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
+
+        // DECK GL LAYER
+        const layers = [
+            new ScatterplotLayer({
+                id: 'markers',
+                data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
+                pickable: false,
+                //opacity: 0.8,
+                stroked: false,
+                filled: true,
+                radiusScale: 5,
+                radiusMinPixels: 5,
+                radiusMaxPixels: 10,
+                getPosition: d => d.coordinates,
+                getRadius: d => 5,
+                getFillColor: d => hexToRgb(categoryColor)
+            })
+        ];
 
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
@@ -61,7 +88,10 @@ const ResearchEdit = () => {
 
     // UPDATE RESEARCH
     const handleUpdateResearch = () => {
-        dispatch(updateResearch(researchData))
+        const { category, ...updatedresearch } = researchData;
+        const newDate = { ...updatedresearch.date, start: updatedresearch.date.start.c, end: updatedresearch.date.end.c }
+        const updatedResearch = { ...updatedresearch, date: newDate }
+        dispatch(updateResearch(updatedResearch))
     };
 
     // TRACK CATEGORY CHANGES 
@@ -189,11 +219,11 @@ const ResearchEdit = () => {
                     </Paper>
                     <Paper sx={{ minHeight: 240, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Title position={'rightbelow'}/> 
+                            <Title position={'rightmiddle'}/> 
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Map 
+                            {/* <Map 
                                 reuseMaps
                                 mapboxAccessToken={mapboxKey}
                                 { ...researchData.geolocation }
@@ -227,7 +257,44 @@ const ResearchEdit = () => {
                                         </Marker>
                                     </MapViewport>
                                 }
+                            /> */}
+
+
+
+                            <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
+                                <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
+                                    <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} preventStyleDiffing={true} />
+                                </DeckGL>
+                            </div>
+                            <MapDialog
+                                open={mapDialogOpen}
+                                onClose={handleMapDialogClose}
+                                children={
+                                    <MapViewport 
+                                        viewport={researchData.geolocation}
+                                        setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation.viewState })}
+                                        style={{ width: '100vw', height: '100vh' }}  
+                                        color={categoryColor} 
+                                    />
+                                }
                             />
+                            <Divider />
+                            <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                                <Title position={'rightbelow'}/> 
+                            </Grid>
+                            <Divider />
+                            <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                                <DateSetter 
+                                    setDate={(value) => setResearchData({ ...researchData, date:value })}
+                                    date={{ ...researchData.date }}
+                                />
+                            </Grid>
+
+
+
+
+
+
                         </Grid>
                     </Paper>
                 </Grid>

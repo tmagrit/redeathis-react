@@ -68,19 +68,17 @@ export const getStatuses = createAsyncThunk('research/getStatuses', async (obj ,
 export const updateResearch = createAsyncThunk('research/updateResearch', async (obj , { dispatch, getState }) => {
     try { 
         const { research } = getState()
-        const updatedResearch = {
-            ...obj,
-          }
+        const category = research.categories.find(c => c.id === obj.category_id)
         const { data, error } = await supabase
             .from('research')
-            .update(updatedResearch)
-            .match({ id: updatedResearch.id })
+            .update(obj)
+            .match({ id: obj.id })
             .single()
 
         
         const payload = research.research.map(r => {
-            if(r.id === updatedResearch.id)
-                return data;
+            if(r.id === obj.id)
+                return {...data, category: category};
             else 
                 return r;
         });  
@@ -99,19 +97,18 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
 
 export const createResearch = createAsyncThunk('research/createResearch', async (obj , { dispatch, getState }) => {
     try { 
-        const updatedResearch = {
-            ...obj,
-          }
+        const { research } = getState()
+        const category = research.categories.find(c => c.id === obj.category_id)
         const { data, error } = await supabase
             .from('research')
-            .insert([updatedResearch])
+            .insert([obj])
 
-        alert('Pesquisa creada com sucesso.');
+        alert('Pesquisa criada com sucesso.');
         if(error) {
             throw error
         }  
 
-        return data[0];
+        return { ...data[0], category: category };
     } catch (error) {
         alert('updateResearch()-error')
         console.log(error)

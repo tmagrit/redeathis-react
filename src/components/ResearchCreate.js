@@ -20,11 +20,16 @@ import Title from './Title';
 import Index from './Index'; 
 import DateSetter from './DateSetter'; 
 
-import Map, { Marker } from 'react-map-gl';
+import Map from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
+import DeckGL from '@deck.gl/react';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import { hexToRgb } from './colorConverter';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
 const ResearchCreate = () => {
 
@@ -34,7 +39,7 @@ const ResearchCreate = () => {
     const statuses = useSelector(state => state.research.statuses);
 
     // START NEW RESEARCH OBJECT
-    const startDate = DateTime.fromObject({year: 2022, month: 4, day: 1}).setLocale('pt-BR');
+    const startDate = DateTime.now();
     const research = {
         title: '',
         summary: '',
@@ -64,6 +69,24 @@ const ResearchCreate = () => {
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
 
+    // DECK GL LAYER
+    const layers = [
+        new ScatterplotLayer({
+            id: 'markers',
+            data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
+            pickable: false,
+            //opacity: 0.8,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => d.coordinates,
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(categoryColor)
+        })
+    ];
+
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
         setMapDialogOpen(true);
@@ -79,7 +102,9 @@ const ResearchCreate = () => {
 
     // CREATE RESEARCH
     const handleCreateResearch = () => {
-        dispatch(createResearch(researchData))
+        const newDate = { ...researchData.date, start: researchData.date.start.c, end: researchData.date.end.c }
+        const newResearchData = { ...researchData, date: newDate }
+        dispatch(createResearch(newResearchData));
     }
 
     // TRACK CATEGORY CHANGES 
@@ -211,22 +236,11 @@ const ResearchCreate = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Map 
-                                reuseMaps
-                                mapboxAccessToken={mapboxKey}
-                                { ...researchData.geolocation }
-                                onClick={handleMapDialogOpen} 
-                                mapStyle="mapbox://styles/mapbox/dark-v10"
-                                style={{ width: '100%', height: 360 }}   
-                            >
-                                <Marker 
-                                    longitude={researchData.geolocation.longitude} 
-                                    latitude={researchData.geolocation.latitude} 
-                                    anchor="bottom"
-                                    color={categoryColor}
-                                >
-                                </Marker>
-                            </Map> 
+                            <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
+                            <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
+                                <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} preventStyleDiffing={true} />
+                            </DeckGL>
+                            </div>
                             <MapDialog
                                 open={mapDialogOpen}
                                 onClose={handleMapDialogClose}
@@ -234,16 +248,9 @@ const ResearchCreate = () => {
                                     <MapViewport 
                                         viewport={researchData.geolocation}
                                         setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation.viewState })}
-                                        style={{ width: '100vw', height: '100vh' }}   
-                                    >
-                                        <Marker 
-                                            longitude={researchData.geolocation.longitude} 
-                                            latitude={researchData.geolocation.latitude} 
-                                            anchor="bottom"
-                                            color={categoryColor}
-                                        >
-                                        </Marker>
-                                    </MapViewport>
+                                        style={{ width: '100vw', height: '100vh' }}  
+                                        color={categoryColor} 
+                                    />
                                 }
                             />
                         </Grid>
