@@ -179,16 +179,40 @@ export function useTableTemplates() {
         ]
     );
 
-  
+    // COLUMNS TO AUTHORS LIST
+    const authorsColumns = (
+        [
+            {
+                name: 'Id',
+                selector: row => row.id ,
+                omit: true,
+            },
+            {
+                name: 'Nome',
+                selector: row => row.name + ' ' + row.surname ,
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Nascimento',
+                selector: row => DateTime.fromISO(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Morte',
+                selector: row => DateTime.fromISO(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+        ]
+    );
 
   
     return {
         fullProfilesColumns: fullProfilesColumns,
         fullResearchColumns: fullResearchColumns,
-        // goBack: () => navigate(-1),
-        // goForward: () => navigate(1),
-        // pathArray,
-        // location,
+        authorsColumns: authorsColumns,
     };
 };
 

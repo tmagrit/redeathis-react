@@ -60,7 +60,7 @@ const Home = () => {
         new ScatterplotLayer({
             id: 'map-home-markers',
             data: researchScatterplot,
-            pickable: false,
+            pickable: true,
             stroked: false,
             filled: true,
             radiusScale: 5,
@@ -194,26 +194,6 @@ const Home = () => {
                     styleDiffing={true} 
                 />
             </DeckGL>
-{/* //onViewStateChange={(view) => setViewport(view)}   controller={true}   */}
-
-            {/* <MapViewport 
-                viewport={viewport}
-                setViewport={(view) => setViewport(view)}
-                style={{ width: '100vw', height: '100vh' }} 
-            >
-                {research.map(r => {
-                    return (
-                        <Marker 
-                            key={r.id}
-                            longitude={r.geolocation.longitude} 
-                            latitude={r.geolocation.latitude} 
-                            anchor="bottom"
-                            color={r.category.color}
-                        >
-                        </Marker>
-                    );
-                })} 
-            </MapViewport > */}
         </React.Fragment>
         
     )

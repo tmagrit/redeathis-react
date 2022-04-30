@@ -14,11 +14,14 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
+import ShareIcon from '@mui/icons-material/Share';
 
 import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './Index'; 
 import DateSetter from './DateSetter'; 
+import FormBox from './FormBox';
 
 import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -157,10 +160,34 @@ const ResearchCreate = () => {
                                 ))}
                             </TextField>
 
-                            <TextEditor 
-                                value={researchData.summary}
-                                setValue={summary => setResearchData({...researchData, summary})}
-                                readOnly={readOnly}
+                            <FormBox 
+                                id='sources-box' 
+                                label='Autores e Proponentes' 
+                                padding={{ pl: '14px', pr: '24px', py: '8.5px', }}
+                                children={
+                                    <>
+                                    <p>Teste</p>
+                                    <p>Teste</p>
+                                    <p>Teste</p>
+                                    <p>Teste</p>
+                                    <Fab color="info" size="small" variant="circular" sx={{ position: 'absolute', bottom: 16, right: 16, }}>
+                                        <ShareIcon  />
+                                    </Fab>
+                                    </>
+                                } 
+                            />
+
+                            <FormBox 
+                                id='text-editor-box' 
+                                label='Resumo'
+                                padding={{ p: 0, }} 
+                                children={
+                                    <TextEditor 
+                                        value={researchData.summary}
+                                        setValue={summary => setResearchData({...researchData, summary})}
+                                        readOnly={readOnly}
+                                    />
+                                } 
                             />
 
                             <TextField

@@ -22,6 +22,12 @@ const TextEditor = ({ value, setValue, readOnly }) => {
                     fontFamily: 'inherit',
                     minHeight: 320,
                     h1: { fontSize: 300, }, 
+                    border: 'none',
+                    // borderRadius: 4, 
+                    // borderColor: 'rgba(0, 0, 0, 0.26)',
+                    // '&:hover': {
+                    // borderColor: 'rgba(0, 0, 0, 0.54)',
+                    // },
                 }}
             />
         </Box>
