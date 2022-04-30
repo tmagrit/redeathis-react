@@ -19,7 +19,7 @@ import ShareIcon from '@mui/icons-material/Share';
 
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './Index'; 
+import Index from './ResearchIndex'; 
 import DateSetter from './DateSetter'; 
 import FormBox from './FormBox';
 

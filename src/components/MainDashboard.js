@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './Index';
+
 
 const MainDashboard = () => {
 

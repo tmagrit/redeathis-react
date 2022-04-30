@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './Index';  
+import ResearchIndex from './ResearchIndex';  
 import DateSetter from './DateSetter'; 
 
 import Map, { Marker } from 'react-map-gl';
@@ -307,7 +307,7 @@ const ResearchEdit = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Index />
+                            <ResearchIndex />
                         </Grid>
                     </Paper>
                 </Grid>

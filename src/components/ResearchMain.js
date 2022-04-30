@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './Index';  
+import ResearchIndex from './ResearchIndex';  
 
 const ResearchMain = () => {
 
@@ -46,7 +46,7 @@ const ResearchMain = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Index />
+                            <ResearchIndex />
                         </Grid>
                     </Paper>
                 </Grid>

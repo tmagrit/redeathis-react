@@ -13,7 +13,8 @@ import MainDashboard from './components/MainDashboard';
 import ResearchMain from './components/ResearchMain';
 import ResearchCreate from './components/ResearchCreate';
 import ResearchEdit from './components/ResearchEdit';
-import MainIndex from './components/MainIndex';
+import ResearchIndex from './components/ResearchIndex';
+import MembersIndex from './components/MembersIndex';
 import MembersMain from './components/MembersMain';
 // PAGES
 import Home from './pages/Home';
@@ -83,7 +84,7 @@ function App() {
 
                     {/* RESEARCH ROUTE */}
                     <Route path="research" element={<ResearchMain />} />
-                    <Route path="research/all" element={<MainIndex />} />
+                    <Route path="research/all" element={<ResearchIndex />} />
                     <Route path="research/create" element={<ResearchCreate />} />
                     <Route path="research/edit/:researchId" element={<ResearchEdit />} />
 
@@ -94,7 +95,7 @@ function App() {
 
                     {/* MEMBERS ROUTE */}
                     <Route path="members" element={<MembersMain />} />
-                    <Route path="members/all" element={<MainIndex />} />
+                    <Route path="members/all" element={<MembersIndex />} />
 
 
                     <Route path="pages" element={<MainDashboard />} >

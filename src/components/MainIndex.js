@@ -1,11 +1,13 @@
 import * as React from 'react';
+import { Routes, Route } from "react-router-dom";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './Index';
+import ResearchIndex from './ResearchIndex';
+import MembersIndex from './MembersIndex';
 
 const MainIndex = () => {
 
@@ -21,7 +23,10 @@ const MainIndex = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Index />
+                            {/* <Routes>
+                                <Route path="admin/research/all" element={<ResearchIndex />} />
+                                <Route path="admin/members/all" element={<MembersIndex />} />
+                            </Routes> */}
                         </Grid>
                     </Paper>
                 </Grid>
@@ -29,38 +34,7 @@ const MainIndex = () => {
             </Grid>
             <Copyright sx={{ pt: 4 }} />
         </Container>
-    )
+    );
 };
 
 export default MainIndex;
-
-
-
-
-                // {/* LEFT PANEL */}
-                // <Grid item xs={12} md={8}>
-                //     <Paper sx={{ minHeight: 240, }} >
-                //         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                //             <Title position={'left'}/> 
-                //         </Grid>
-                //         <Divider />
-                //         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                //             {/* <TopLeftPanel /> */}
-                //             MAIN LEFT CONTENT
-                //         </Grid>
-                //     </Paper>
-                // </Grid>
-
-                // {/* RIGHT PANEL */}
-                // <Grid item xs={12} md={4}>
-                //     <Paper sx={{ minHeight: 240, }} >
-                //         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                //             <Title position={'right'}/> 
-                //         </Grid>
-                //         <Divider />
-                //         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                //             {/* <TopRightPanel /> */}
-                //             MAIN RIGHT CONTENT
-                //         </Grid>
-                //     </Paper>
-                // </Grid>
