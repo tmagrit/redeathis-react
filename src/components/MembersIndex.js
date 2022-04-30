@@ -40,41 +40,48 @@ const MembersIndex = () => {
                                     getProfileRolesStatus === "succeeded" && 
                                     getOrganizationsStatus === "succeeded" )
   
-    return (
-        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-    
-                {/* INDEX */}
-                <Grid item xs={12}>
-                    <Paper sx={{ minHeight: 240, }} >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
-                            <Title position={'middle'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            {/* MEMBERS SECTION TABLE  */}
-                            {createProfileTable && fullProfiles.length > 0 ? (
-                                <DataTable
-                                    columns={tableTemplates.fullProfilesColumns}
-                                    data={fullProfiles}
-                                    striped
-                                    responsive
-                                    selectableRows
-                                    pagination
-                                />
-                            ) : (
-                                <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-                                    Sem dados para exibir
-                                </Typography>
-                            ) }
-                        </Grid>
-                    </Paper>
-                </Grid>
-                
+    const index = () => {
+        return (
+            <Grid item xs={12}>
+                <Paper sx={{ minHeight: 240, }} >
+                    <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
+                        <Title position={'middle'}/> 
+                    </Grid>
+                    <Divider />
+                    <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                        {/* MEMBERS SECTION TABLE  */}
+                        {createProfileTable && fullProfiles.length > 0 ? (
+                            <DataTable
+                                columns={tableTemplates.fullProfilesColumns}
+                                data={fullProfiles}
+                                striped
+                                responsive
+                                selectableRows
+                                pagination
+                            />
+                        ) : (
+                            <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
+                                Sem dados para exibir
+                            </Typography>
+                        ) }
+                    </Grid>
+                </Paper>
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
-        </Container>
-    );        
+        );
+    };
+
+    if(context === 'all') {
+        return (
+            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+                <Grid container spacing={3}>
+                    {index()}  
+                </Grid>
+                <Copyright sx={{ pt: 4 }} />
+            </Container>
+        );
+    } else {
+        return index();
+    };
 };
 
 export default MembersIndex;

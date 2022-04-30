@@ -145,7 +145,8 @@ export function useTableTemplates() {
             },
             {
                 name: 'Situação',
-                selector: row => <Chip 
+                selector: row => row.active,
+                cell: row => <Chip 
                                     clickable 
                                     icon={row.active ? <ToggleOnIcon /> : <ToggleOffIcon />} 
                                     label={row.active ? 'Ativo' : 'Inativo'} 
@@ -154,7 +155,7 @@ export function useTableTemplates() {
                                     color={row.active ? 'success' : 'error'}
                                     onClick={() => dispatch(toggleProfileActive({ ind: row.ind, active: row.active }))}
                                 />,
-                //sortable: true,
+                sortable: true,
                 grow: 1,
             },
             {

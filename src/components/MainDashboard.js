@@ -50,7 +50,7 @@ const MainDashboard = () => {
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
 
-                            {/* <Index /> */}
+                            {/* LAST UPDATES INDEX */}
                         </Grid>
                     </Paper>
                 </Grid>
