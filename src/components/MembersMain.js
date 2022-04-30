@@ -39,17 +39,7 @@ const MembersMain = () => {
                 </Grid>
 
                 {/* INDEX */}
-                <Grid item xs={12}>
-                    <Paper sx={{ minHeight: 240, }} >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
-                            <Title position={'middle'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <MembersIndex />
-                        </Grid>
-                    </Paper>
-                </Grid>
+                <MembersIndex />
                 
             </Grid>
             <Copyright sx={{ pt: 4 }} />

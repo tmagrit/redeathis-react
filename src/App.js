@@ -8,6 +8,7 @@ import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+
 // COMPONENTS
 import MainDashboard from './components/MainDashboard';
 import ResearchMain from './components/ResearchMain';
@@ -16,11 +17,13 @@ import ResearchEdit from './components/ResearchEdit';
 import ResearchIndex from './components/ResearchIndex';
 import MembersIndex from './components/MembersIndex';
 import MembersMain from './components/MembersMain';
+
 // PAGES
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+
 // MY HISTORY HOOK
 import { useHistory } from './components/history';
 
