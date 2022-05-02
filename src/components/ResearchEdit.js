@@ -21,7 +21,7 @@ import Title from './Title';
 import ResearchIndex from './ResearchIndex';  
 import DateSetter from './DateSetter'; 
 
-import Map, { Marker } from 'react-map-gl';
+import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';

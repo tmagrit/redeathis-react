@@ -12,8 +12,9 @@ import MenuList from '@mui/material/MenuList';
 import Divider from '@mui/material/Divider';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
+import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 
-const ActionMenu = ({ section, row }) => {
+const ActionMenu = ({ section, row, mode }) => {
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
@@ -26,6 +27,45 @@ const ActionMenu = ({ section, row }) => {
     const handleClose = () => {
         setAnchorActionEl(null);
     };
+
+    const menuList = (mode) => {
+        if(mode === 'sources') {
+            return (
+                <MenuList dense>
+                    <MenuItem onClick={undefined} >
+                        <ListItemIcon>
+                            <MultipleStopIcon fontSize="small" color="success"/> 
+                        </ListItemIcon>
+                        Relacionar
+                    </MenuItem> 
+                </MenuList>
+            );
+        } else {
+            return (
+                <MenuList dense>
+                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                        <ListItemIcon>
+                            <VisibilityIcon fontSize="small" color="info"/> 
+                        </ListItemIcon>
+                        Pré Visualizar
+                    </MenuItem> 
+                    <MenuItem component={Link} to={`/admin/${section}/edit/${row.id}`} onClick={handleClose} >
+                        <ListItemIcon>
+                            <EditIcon fontSize="small"  color="warning"/> 
+                        </ListItemIcon>
+                        Editar
+                    </MenuItem> 
+                    <Divider />
+                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                        <ListItemIcon>
+                            <DeleteIcon fontSize="small" color="error"/> 
+                        </ListItemIcon>
+                        Excluir
+                    </MenuItem> 
+                </MenuList>
+            );
+        }
+    }
 
     return (
         <React.Fragment>
@@ -59,35 +99,21 @@ const ActionMenu = ({ section, row }) => {
                     'aria-labelledby': 'action-button',
                 }}
             >
-                <MenuList dense>
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
-                        <ListItemIcon>
-                            <VisibilityIcon fontSize="small" color="info"/> 
-                        </ListItemIcon>
-                        Pré Visualizar
-                    </MenuItem> 
-                    <MenuItem component={Link} to={`/admin/${section}/edit/${row.id}`} onClick={handleClose} >
-                        <ListItemIcon>
-                            <EditIcon fontSize="small"  color="warning"/> 
-                        </ListItemIcon>
-                        Editar
-                    </MenuItem> 
-                    <Divider />
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
-                        <ListItemIcon>
-                            <DeleteIcon fontSize="small" color="error"/> 
-                        </ListItemIcon>
-                        Excluir
-                    </MenuItem> 
-                </MenuList>    
+                {menuList(mode)}
             </Menu>
+
         </React.Fragment>
     );
 };
 
 export default ActionMenu;
 
+ActionMenu.defaultProps = {
+    mode: 'default',
+}
+
 ActionMenu.propTypes = {
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
 };

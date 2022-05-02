@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
 import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
-import { getResearch, getCategories, getStatuses } from './features/researchSlice';
+import { getResearch, getCategories, getStatuses, getAuthors } from './features/researchSlice';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -17,6 +17,7 @@ import ResearchEdit from './components/ResearchEdit';
 import ResearchIndex from './components/ResearchIndex';
 import MembersIndex from './components/MembersIndex';
 import MembersMain from './components/MembersMain';
+import AuthorIndex from './components/AuthorIndex';
 
 // PAGES
 import Home from './pages/Home';
@@ -58,6 +59,7 @@ function App() {
         dispatch(getResearch());
         dispatch(getCategories());
         dispatch(getStatuses());
+        dispatch(getAuthors());
     }, [])
 
     // TRACK ROUTES 
@@ -90,6 +92,7 @@ function App() {
                     <Route path="research/all" element={<ResearchIndex />} />
                     <Route path="research/create" element={<ResearchCreate />} />
                     <Route path="research/edit/:researchId" element={<ResearchEdit />} />
+                    <Route path="research/authors" element={<AuthorIndex />} />
 
 
                     <Route path="categories" element={<MainDashboard />} >

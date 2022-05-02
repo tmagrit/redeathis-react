@@ -184,9 +184,10 @@ export function useTableTemplates() {
     const authorsColumns = (
         [
             {
-                name: 'Id',
+                name: 'ID',
                 selector: row => row.id ,
-                omit: true,
+                sortable: true,
+                width: '70px',
             },
             {
                 name: 'Nome',
@@ -196,24 +197,73 @@ export function useTableTemplates() {
             },
             {
                 name: 'Nascimento',
-                selector: row => DateTime.fromISO(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
                 sortable: true,
                 grow: 2,
             },
             {
                 name: 'Morte',
-                selector: row => DateTime.fromISO(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
                 sortable: true,
                 grow: 2,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row => <ActionMenu section={'authors'} row={row} />,
+                right: true,
+                grow: 1,
             },
         ]
     );
 
+
+       // COLUMNS TO AUTHORS LIST
+       const authorsSourcesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.id ,
+                sortable: true,
+                width: '70px',
+            },
+            {
+                name: 'Nome',
+                selector: row => row.name + ' ' + row.surname ,
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Nascimento',
+                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Morte',
+                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row => <ActionMenu section={'authors'} mode='sources' row={row} />,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );
   
     return {
         fullProfilesColumns: fullProfilesColumns,
         fullResearchColumns: fullResearchColumns,
         authorsColumns: authorsColumns,
+        authorsSourcesColumns: authorsSourcesColumns,
     };
 };
 

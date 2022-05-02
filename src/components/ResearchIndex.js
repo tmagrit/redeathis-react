@@ -17,7 +17,7 @@ import { customStyles } from '../styles/tableTemplatesStyles'
 // MY HISTORY HOOK
 import { useHistory } from './history';
 
-const Index = () => {
+const ResearchIndex = () => {
 
     // TABLE TEMPLATES HOOK
     const tableTemplates = useTableTemplates(); 
@@ -95,4 +95,4 @@ const Index = () => {
     };
 };
 
-export default Index;
+export default ResearchIndex;

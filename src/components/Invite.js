@@ -78,4 +78,4 @@ const Invite = () => {
     );
 }
 
-export default Invite
+export default Invite;

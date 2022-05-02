@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import DefaultDialog from './DefaultDialog';
-import Invite from './Invite';
+//import SourceDialog from './SourceDialog';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -14,7 +14,11 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ContactsIcon from '@mui/icons-material/Contacts';
+//import ThreePIcon from '@mui/icons-material/ThreeP';
 import { useHistory } from './history';
+
+import Invite from './Invite';
 
 const ContextMenu = () => {
 
@@ -60,8 +64,29 @@ const ContextMenu = () => {
                 <ListItemIcon>
                     <AddCircleOutlineIcon />
                 </ListItemIcon>
-                <ListItemText primary="Criar Nova" />
+                <ListItemText primary="Criar Pesquisa" />
             </ListItemButton>
+
+            <ListItemButton component={Link} to="/admin/research/authors" selected={activeMenu(context,'all')} >
+                <ListItemIcon>
+                    <ContactsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Gerir Autores" />
+            </ListItemButton>
+
+            {/* <ListItemButton >
+                <ListItemIcon>
+                    <ThreePIcon />
+                </ListItemIcon>
+                <ListItemText primary="Criar Autor" onClick={handleDialogOpen}/>
+            </ListItemButton> */}
+
+            {/* CREATE AUTHOR DIALOG
+            <SourceDialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                mode={'author'}
+            /> */}
 
             <ListItemButton onClick={() => history.goBack()} >
                 <ListItemIcon>

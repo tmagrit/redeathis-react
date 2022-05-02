@@ -116,6 +116,26 @@ export const createResearch = createAsyncThunk('research/createResearch', async 
     };
 });
 
+export const getAuthors = createAsyncThunk('research/getAuthors', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('authors')
+            .select('*')    
+            
+            .order('name', { ascending: true });
+
+        if (error) 
+            throw error;
+
+        return data;
+
+    } catch (error) {
+        alert('getAuthors()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -138,9 +158,9 @@ export const researchSlice = createSlice({
         getStatusesStatus: 'idle',
         getStatusesError: null,
 
-        // organizations: [],
-        // getOrganizationsStatus: 'idle',
-        // getOrganizationsError: null,
+        authors: [],
+        getAuthorsStatus: 'idle',
+        getAuthorsError: null,
     },
     reducers: {
         // updateProfiles(state, action) {
@@ -235,6 +255,18 @@ export const researchSlice = createSlice({
         [createResearch.rejected]: (state, action) => {
           state.createResearchStatus = 'failed'
           state.createResearchError = action.error
+        },
+
+        [getAuthors.pending]: (state) => {
+            state.getAuthorsStatus = 'loading'
+        },
+        [getAuthors.fulfilled]: (state, action) => {
+            state.authors = action.payload
+            state.getAuthorsStatus = 'succeeded'
+        },
+        [getAuthors.rejected]: (state, action) => {
+          state.getAuthorsStatus = 'failed'
+          state.getAuthorsError = action.error
         },
       }
 })

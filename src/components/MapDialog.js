@@ -17,7 +17,7 @@ const MapDialog = (props) => {
         // <Dialog onClose={handleClose} open={open}>
         <Dialog onClose={handleClose} open={open} fullScreen>
           <AppBar position="sticky" color="inherit">
-            <Toolbar>
+            <Toolbar variant="dense">
               <IconButton
                 edge="start"
                 color="inherit"
