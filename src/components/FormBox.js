@@ -23,7 +23,7 @@ const FormBox = (props) => {
             sx={{
                 position: 'relative',
                 my: 1,
-                minHeight: 100,
+                minHeight: 30,
                 border: '1px solid',
                 borderRadius: 1,
                 borderColor: 'rgba(0, 0, 0, 0.26)',

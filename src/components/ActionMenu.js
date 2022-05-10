@@ -13,6 +13,7 @@ import Divider from '@mui/material/Divider';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionMenu = ({ section, row, mode }) => {
 
@@ -37,6 +38,23 @@ const ActionMenu = ({ section, row, mode }) => {
                             <MultipleStopIcon fontSize="small" color="success"/> 
                         </ListItemIcon>
                         Relacionar
+                    </MenuItem> 
+                </MenuList>
+            );
+        }if(mode === 'editsources') {
+            return (
+                <MenuList dense>
+                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                        <ListItemIcon>
+                            <VisibilityIcon fontSize="small" color="info"/> 
+                        </ListItemIcon>
+                        Pré Visualizar
+                    </MenuItem> 
+                    <MenuItem onClick={undefined} >
+                        <ListItemIcon>
+                            <ClearIcon fontSize="small" color="error"/> 
+                        </ListItemIcon>
+                        Excluir Vínculo
                     </MenuItem> 
                 </MenuList>
             );

@@ -136,6 +136,55 @@ export const getAuthors = createAsyncThunk('research/getAuthors', async (obj , {
     };
 });
 
+export const getResearchAuthors = createAsyncThunk('research/getResearchAuthors', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('research_authors')
+            .select('*')    
+            
+            .order('updated_at', { ascending: false });
+
+        if (error) 
+            throw error;
+
+        return data;
+
+    } catch (error) {
+        alert('getResearchAuthors()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
+export const getSources = createAsyncThunk('research/getSources', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('sources')
+            .select(`
+                *,
+                research_source:source_id ( 
+                    *,
+                    id
+                ),
+                research_target:target_id ( 
+                    *,
+                    id
+                )
+            `)   
+            .order('updated_at', { ascending: false });
+
+        if (error) 
+            throw error;
+
+        return data;
+
+    } catch (error) {
+        alert('getSources()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -161,6 +210,14 @@ export const researchSlice = createSlice({
         authors: [],
         getAuthorsStatus: 'idle',
         getAuthorsError: null,
+
+        researchAuthors: [],
+        getResearchAuthorsStatus: 'idle',
+        getResearchAuthorsError: null,
+
+        sources: [],
+        getSourcesStatus: 'idle',
+        getSourcesError: null,
     },
     reducers: {
         // updateProfiles(state, action) {
@@ -268,6 +325,31 @@ export const researchSlice = createSlice({
           state.getAuthorsStatus = 'failed'
           state.getAuthorsError = action.error
         },
+
+        [getResearchAuthors.pending]: (state) => {
+            state.getResearchAuthorsStatus = 'loading'
+        },
+        [getResearchAuthors.fulfilled]: (state, action) => {
+            state.researchAuthors = action.payload
+            state.getResearchAuthorsStatus = 'succeeded'
+        },
+        [getResearchAuthors.rejected]: (state, action) => {
+          state.getResearchAuthorsStatus = 'failed'
+          state.getResearchAuthorsError = action.error
+        },
+
+        [getSources.pending]: (state) => {
+            state.getSourcesStatus = 'loading'
+        },
+        [getSources.fulfilled]: (state, action) => {
+            state.sources = action.payload
+            state.getSourcesStatus = 'succeeded'
+        },
+        [getSources.rejected]: (state, action) => {
+          state.getSourcesStatus = 'failed'
+          state.getSourcesError = action.error
+        },
+
       }
 })
 

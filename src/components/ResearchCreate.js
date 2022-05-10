@@ -37,9 +37,7 @@ import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from './colorConverter';
 
-import SourceDialog from './SourceDialog';
-
-const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+//const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
 const ResearchCreate = () => {
@@ -79,8 +77,7 @@ const ResearchCreate = () => {
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
-    // SOURCE DIALOG STATES 
-    const [sourceDialogOpen, setSourceDialogOpen] = useState(false);
+    
 
     // DECK GL LAYER
     const layers = [
@@ -99,14 +96,6 @@ const ResearchCreate = () => {
             getFillColor: d => hexToRgb(categoryColor)
         })
     ];
-
-    // HANDLE TOGGLE DIALOG
-    const handleSourceDialogOpen = () => {
-        setSourceDialogOpen(true);
-    };
-    const handleSourceDialogClose = (value) => {
-        setSourceDialogOpen(false);
-    };
 
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
@@ -134,7 +123,7 @@ const ResearchCreate = () => {
     }, [researchData.category_id])
 
 
-    const sourceCards = () => {
+    const sourceCards = (research) => {
         return (
             <Card sx={{ width: '100%', mb: 1, }}>
                 <CardHeader
@@ -148,7 +137,7 @@ const ResearchCreate = () => {
                         <MoreVertIcon />
                     </IconButton>
                     }
-                    title="Kiyonori Kikutake"
+                    title={research.title}
                     subheader="1/04/1928 - 26/12/2011"
                 />
             </Card>
@@ -200,7 +189,7 @@ const ResearchCreate = () => {
                                 ))}
                             </TextField>
 
-                            <FormBox 
+                            {/* <FormBox 
                                 id='sources-box' 
                                 label='Autores e Instituições Proponentes' 
                                 padding={{ pl: '14px', pr: '14px', py: '14px', }}
@@ -229,14 +218,60 @@ const ResearchCreate = () => {
                                         </Grid>
                                     </Grid>
                                 } 
+                            /> */}
+
+                            <FormBox 
+                                id='sources-box' 
+                                label='Proponentes' 
+                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
+                                children={
+                                    <Grid container >
+                                        <Grid item xs={12} >
+                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
+    
+                                            <Fab 
+                                                color="success"
+                                                disabled
+                                                variant="extended" 
+                                                size="small" 
+                                                onClick={undefined}
+                                                
+                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
+                                            >
+                                                <MultipleStopIcon sx={{ mr: 1 }} />
+                                                Relacionar Proponente
+                                            </Fab>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                } 
                             />
 
-                            {/* CREATE AUTHOR DIALOG */}
-                            <SourceDialog
-                                open={sourceDialogOpen}
-                                onClose={handleSourceDialogClose}
-                                mode={'research'}
-                                //children={<AddAuthor />}
+                            <FormBox 
+                                id='authors-box' 
+                                label='Autores' 
+                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
+                                children={
+                                    <Grid container >
+                                        <Grid item xs={12} >
+                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
+    
+                                            <Fab 
+                                                color="success"
+                                                disabled
+                                                variant="extended" 
+                                                size="small" 
+                                                onClick={undefined}
+                                                
+                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
+                                            >
+                                                <MultipleStopIcon sx={{ mr: 1 }} />
+                                                Relacionar Autor
+                                            </Fab>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                } 
                             />
 
                             <FormBox 

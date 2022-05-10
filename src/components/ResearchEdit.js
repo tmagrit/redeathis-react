@@ -14,12 +14,21 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton'; 
+import MultipleStopIcon from '@mui/icons-material/MultipleStop';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Copyright from './Copyright';
 import Title from './Title';   
 import ResearchIndex from './ResearchIndex';  
 import DateSetter from './DateSetter'; 
+import FormBox from './FormBox';
 
 import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -29,7 +38,10 @@ import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from './colorConverter';
 
-const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+// DIALOG TO RELATE SOURCE
+import SourceDialog from './SourceDialog';
+
+//const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
 const ResearchEdit = () => {
@@ -40,6 +52,7 @@ const ResearchEdit = () => {
     // REDUX SELECTORS
     const dispatch = useDispatch();
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
+    const sources = useSelector(state => state.research.sources);
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
 
@@ -54,6 +67,8 @@ const ResearchEdit = () => {
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
+    // SOURCE DIALOG STATES 
+    const [sourceDialogOpen, setSourceDialogOpen] = useState(false);
 
         // DECK GL LAYER
         const layers = [
@@ -72,6 +87,14 @@ const ResearchEdit = () => {
                 getFillColor: d => hexToRgb(categoryColor)
             })
         ];
+
+    // HANDLE TOGGLE DIALOG
+    const handleSourceDialogOpen = () => {
+        setSourceDialogOpen(true);
+    };
+    const handleSourceDialogClose = (value) => {
+        setSourceDialogOpen(false);
+    };
 
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
@@ -98,6 +121,27 @@ const ResearchEdit = () => {
     useEffect(() => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
     }, [researchData.category_id])
+
+    const sourceCard = (research) => {
+        return (
+            <Card sx={{ width: '100%', mb: 1, }}>
+                <CardHeader
+                    avatar={
+                        <Avatar sx={{ bgcolor: categories.find(c => c.id === research.category_id ).color }} aria-label="recipe">
+                            {categories.find(c => c.id === research.category_id ).name.split(' e ').map(w => w[0]).join('')}
+                        </Avatar>
+                    }
+                    action={
+                    <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                    </IconButton>
+                    }
+                    title={research.title}
+                    subheader="research.date"
+                />
+            </Card>
+        );
+    };
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -144,11 +188,98 @@ const ResearchEdit = () => {
                                 ))}
                             </TextField>
 
-                            <TextEditor 
-                                value={researchData.summary}
-                                setValue={summary => setResearchData({...researchData, summary})}
-                                readOnly={readOnly}
+                            <FormBox 
+                                id='sources-box' 
+                                label='Proponentes' 
+                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
+                                children={
+                                    <Grid container >
+                                        <Grid item xs={12} >
+                                            {sources.map(s => {
+                                                if(s.target_id === researchData.id)
+                                                    return sourceCard(s.research_source)
+                                                else
+                                                    return null
+                                            })}
+                                        </Grid>    
+                                        <Grid item xs={12} >
+                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
+    
+                                            <Fab 
+                                                color="success"
+                                                variant="extended" 
+                                                //size="small" 
+                                                size="medium"
+                                                onClick={handleSourceDialogOpen}
+                                                
+                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
+                                            >
+                                                <MultipleStopIcon sx={{ mr: 1 }} />
+                                                Relacionar Proponente
+                                            </Fab>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                } 
                             />
+
+                            <FormBox 
+                                id='authors-box' 
+                                label='Autores' 
+                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
+                                children={
+                                    <Grid container >
+                                        <Grid item xs={12} >
+                                            {sources.map(s => {
+                                                if(s.target_id === researchData.id)
+                                                    return sourceCard(s.research_source)
+                                                else
+                                                    return null
+                                            })}
+                                        </Grid>    
+                                        <Grid item xs={12} >
+                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
+    
+                                            <Fab 
+                                                color="success"
+                                                variant="extended" 
+                                                //size="small" 
+                                                size="medium"
+                                                onClick={undefined}
+                                                
+                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
+                                            >
+                                                <MultipleStopIcon sx={{ mr: 1 }} />
+                                                Relacionar Autor
+                                            </Fab>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                } 
+                            />
+
+                            {/* CREATE SOURCE DIALOG */}
+                            <SourceDialog
+                                open={sourceDialogOpen}
+                                onClose={handleSourceDialogClose}
+                                mode={'research'}
+                                //children={<AddAuthor />}
+                            />
+
+                            <FormBox 
+                                id='text-editor-box' 
+                                label='Resumo'
+                                padding={{ p: 0, }} 
+                                children={
+                                    <TextEditor 
+                                        value={researchData.summary}
+                                        setValue={summary => setResearchData({...researchData, summary})}
+                                        readOnly={readOnly}
+                                    />
+                                } 
+                            />  
+
+                                    
 
                             <TextField
                                 value={researchData.link}
