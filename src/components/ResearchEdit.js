@@ -16,13 +16,9 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Fab from '@mui/material/Fab';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton'; 
+import Fab from '@mui/material/Fab'; 
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 
 import Copyright from './Copyright';
 import Title from './Title';   
@@ -41,6 +37,8 @@ import { hexToRgb } from './colorConverter';
 // DIALOG TO RELATE SOURCE
 import SourceDialog from './SourceDialog';
 
+import Source from './Source';
+
 //const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
@@ -53,13 +51,16 @@ const ResearchEdit = () => {
     const dispatch = useDispatch();
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const sources = useSelector(state => state.research.sources);
+    const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === research.id));
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
 
+    console.log(researchSources)
+
     // EDIT RESEARCH STATES
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
-    const dateTimeResearch = { ...research, date: dateTime }
-    const [researchData, setResearchData] = useState(dateTimeResearch);
+    const researchWithDate = { ...research, date: dateTime }
+    const [researchData, setResearchData] = useState(researchWithDate);
     const [categoryColor, setCategoryColor] = useState(researchData.category.color);
 
     // TEXT EDITOR STATES
@@ -122,26 +123,27 @@ const ResearchEdit = () => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
     }, [researchData.category_id])
 
-    const sourceCard = (research) => {
-        return (
-            <Card sx={{ width: '100%', mb: 1, }}>
-                <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: categories.find(c => c.id === research.category_id ).color }} aria-label="recipe">
-                            {categories.find(c => c.id === research.category_id ).name.split(' e ').map(w => w[0]).join('')}
-                        </Avatar>
-                    }
-                    action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                    }
-                    title={research.title}
-                    subheader="research.date"
-                />
-            </Card>
-        );
-    };
+    // const sourceCard = (research) => {
+    //     return (
+    //         <Card sx={{ width: '100%', mb: 1, }}>
+    //             <CardHeader
+    //                 avatar={
+    //                     <Avatar variant="rounded" sx={{ bgcolor: categories.find(c => c.id === research.category_id ).color }} aria-label="recipe">
+    //                         <LayersIcon />
+    //                         {/* {categories.find(c => c.id === research.category_id ).name.split(' e ').map(w => w[0]).join('')} */}
+    //                     </Avatar>
+    //                 }
+    //                 action={
+    //                 <IconButton aria-label="settings">
+    //                     <MoreVertIcon />
+    //                 </IconButton>
+    //                 }
+    //                 title={research.title}
+    //                 subheader="research.date"
+    //             />
+    //         </Card>
+    //     );
+    // };
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -156,7 +158,6 @@ const ResearchEdit = () => {
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             <TextField
                                 value={researchData.title}
-                                //error={emailError(email)}
                                 onChange={(event) => handleChangeResearchData(event)}
                                 fullWidth
                                 label="Título"
@@ -166,10 +167,12 @@ const ResearchEdit = () => {
                                 minRows={1}
                                 maxRows={2}
                                 type="text"
-                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
-                            />
+                                //error={emailError(email)}
+                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
+                            >
+                            </TextField>
 
                             <TextField
                                 name="category_id"
@@ -195,9 +198,16 @@ const ResearchEdit = () => {
                                 children={
                                     <Grid container >
                                         <Grid item xs={12} >
-                                            {sources.map(s => {
+                                            {/* {sources.map(s => {
                                                 if(s.target_id === researchData.id)
                                                     return sourceCard(s.research_source)
+                                                else
+                                                    return null
+                                            })} */}
+
+                                            {sources.map(s => {
+                                                if(s.target_id === researchData.id)
+                                                    return <Source research={s.research_source} color={categories.find(c => c.id === s.research_source.category_id ).color} />
                                                 else
                                                     return null
                                             })}
@@ -206,12 +216,10 @@ const ResearchEdit = () => {
                                             <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
     
                                             <Fab 
-                                                color="success"
+                                                //color="success"
                                                 variant="extended" 
-                                                //size="small" 
-                                                size="medium"
+                                                size="medium" 
                                                 onClick={handleSourceDialogOpen}
-                                                
                                                 //sx={{ position: 'absolute', bottom: 16, right: 16, }}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />
@@ -230,23 +238,21 @@ const ResearchEdit = () => {
                                 children={
                                     <Grid container >
                                         <Grid item xs={12} >
-                                            {sources.map(s => {
+                                            {/* {sources.map(s => {
                                                 if(s.target_id === researchData.id)
                                                     return sourceCard(s.research_source)
                                                 else
                                                     return null
-                                            })}
+                                            })} */}
                                         </Grid>    
                                         <Grid item xs={12} >
                                             <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
     
                                             <Fab 
-                                                color="success"
+                                                //color="info.main"
                                                 variant="extended" 
-                                                //size="small" 
-                                                size="medium"
+                                                size="medium" 
                                                 onClick={undefined}
-                                                
                                                 //sx={{ position: 'absolute', bottom: 16, right: 16, }}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />

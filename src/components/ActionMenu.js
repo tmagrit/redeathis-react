@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,6 +19,16 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionMenu = ({ section, row, mode }) => {
 
+    // REACT ROUTER DYNAMIC PARAMETER
+    let params = useParams();
+
+    // REDUX SELECTORS
+    const dispatch = useDispatch();
+    const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
+    const sources = useSelector(state => state.research.sources);
+    const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10)));
+    const researchSourcesIds = researchSources.map(rs => {return rs.source_id});
+
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
     const [open, setOpen] = useState(true);
@@ -28,16 +40,34 @@ const ActionMenu = ({ section, row, mode }) => {
     const handleClose = () => {
         setAnchorActionEl(null);
     };
+    const isRelatable = (row) => {
+        if(researchSourcesIds.includes(row.id))
+            return false;
+        else
+            return true;
+    };
 
     const menuList = (mode) => {
         if(mode === 'sources') {
             return (
                 <MenuList dense>
-                    <MenuItem onClick={undefined} >
+                    <MenuItem component={Link} to="#" onClick={handleClose} >
                         <ListItemIcon>
-                            <MultipleStopIcon fontSize="small" color="success"/> 
+                            <VisibilityIcon fontSize="small" color="info"/> 
+                        </ListItemIcon>
+                        Ver
+                    </MenuItem> 
+                    <MenuItem onClick={undefined} disabled={!isRelatable(row)}>
+                        <ListItemIcon>
+                            <MultipleStopIcon fontSize="small" color="success" /> 
                         </ListItemIcon>
                         Relacionar
+                    </MenuItem> 
+                    <MenuItem onClick={undefined}  disabled={isRelatable(row)}>
+                        <ListItemIcon>
+                            <ClearIcon fontSize="small" color="error"/> 
+                        </ListItemIcon>
+                        Desassociar
                     </MenuItem> 
                 </MenuList>
             );

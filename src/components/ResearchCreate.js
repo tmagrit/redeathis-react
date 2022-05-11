@@ -123,26 +123,26 @@ const ResearchCreate = () => {
     }, [researchData.category_id])
 
 
-    const sourceCards = (research) => {
-        return (
-            <Card sx={{ width: '100%', mb: 1, }}>
-                <CardHeader
-                    avatar={
-                    <Avatar  aria-label="recipe">
-                        A
-                    </Avatar>
-                    }
-                    action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                    }
-                    title={research.title}
-                    subheader="1/04/1928 - 26/12/2011"
-                />
-            </Card>
-        );
-    };
+    // const sourceCards = (research) => {
+    //     return (
+    //         <Card sx={{ width: '100%', mb: 1, }}>
+    //             <CardHeader
+    //                 avatar={
+    //                 <Avatar  aria-label="recipe">
+    //                     A
+    //                 </Avatar>
+    //                 }
+    //                 action={
+    //                 <IconButton aria-label="settings">
+    //                     <MoreVertIcon />
+    //                 </IconButton>
+    //                 }
+    //                 title={research.title}
+    //                 subheader="1/04/1928 - 26/12/2011"
+    //             />
+    //         </Card>
+    //     );
+    // };
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

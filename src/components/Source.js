@@ -3,31 +3,38 @@ import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton'; 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import LayersIcon from '@mui/icons-material/Layers';
 
 import ActionMenu from './ActionMenu';
 
 
 const Source = (props) => {
 
-    const { author } = props;
+    const { research, color } = props;
+
+    // ACTION MENU STATES
+    const [anchorActionEl, setAnchorActionEl] = useState(null);
+    const [open, setOpen] = useState(true);
+
+    // HANDLE ACTION MENU
+    const handleMenu = (event) => {
+        setAnchorActionEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorActionEl(null);
+    };
 
     return (
         <Card sx={{ width: '100%', mb: 1, }}>
             <CardHeader
                 avatar={
-                <Avatar  aria-label="recipe">
-                    A
-                </Avatar>
+                    <Avatar variant="rounded" sx={{ bgcolor: color }} >
+                        <LayersIcon />
+                    </Avatar>
                 }
-                action={
-                <IconButton aria-label="settings">
-                    <MoreVertIcon mode={'editsources'} onClick={undefined} />
-                </IconButton>
-                }
-                title={author.name}
-                subheader="birth - death"
+                action={ <ActionMenu section={'research'} mode='sources' row={research} /> }
+                title={research.title}
+                subheader="<research.date>"
             />
         </Card>
     );

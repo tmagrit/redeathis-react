@@ -2,9 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useParams } from "react-router-dom";
 import { useTableTemplates } from './tableTemplates';
-import { DateTime } from 'luxon';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
@@ -27,15 +25,11 @@ import { customStyles } from '../styles/tableTemplatesStyles'
 // MY HISTORY HOOK
 import { useHistory } from './history';
 
-//import AuthorAdd from './AuthorAdd';
-import Source from './Source';
+import AuthorAdd from './AuthorAdd';
 
-const SourceDialog = (props) => {
+const AuthorDialog = (props) => {
 
-    const { onClose, open } = props;
-
-    // REACT ROUTER DYNAMIC PARAMETER
-    let params = useParams();
+    const { onClose, open, mode } = props;
 
     // TABLE TEMPLATES HOOK
     const tableTemplates = useTableTemplates(); 
@@ -46,26 +40,52 @@ const SourceDialog = (props) => {
     const context = history?.pathArray[3] || ''
 
     // REDUX SELECTORS
-    const sources = useSelector(state => state.research.sources);
-    const researchList = useSelector(state => state.research.research);
-    const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
-    const categories = useSelector(state => state.research.categories);
     // AUTHORS
     const authors = useSelector(state => state.research.authors);
-    const getSourcesStatus = useSelector(state => state.research.getSourcesStatus);
+    const getAuthorsStatus = useSelector(state => state.research.getAuthorsStatus);
 
-    // EDIT RESEARCH STATES
-    const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
-    const researchWithDate = { ...research, date: dateTime }
-    const [researchData, setResearchData] = useState(researchWithDate);
-
-    const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
+    const createAuthorsTable = Boolean( getAuthorsStatus === "succeeded"  ) 
   
+    const [modeValue, setModeValue] = useState(mode);
     
     const handleClose = () => {
       onClose();
     };
- 
+  
+
+    const authorSource = () => {
+        return (
+            <React.Fragment>
+                <DialogTitle >
+                    Cadastrar Novo Autor
+                </DialogTitle>
+                <DialogContent dividers>
+                    <AuthorAdd />
+                </DialogContent>
+                <DialogTitle >
+                    Relacionar Autores
+                </DialogTitle>
+                <DialogContent dividers>
+                    {/* AUTHORS TABLE  */}
+                    {createAuthorsTable && authors.length > 0 ? (
+                        <DataTable
+                            columns={tableTemplates.authorsSourcesColumns}
+                            data={authors}
+                            customStyles={customStyles}
+                            striped
+                            dense
+                            responsive
+                            pagination
+                        />
+                    ) : (
+                        <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
+                            Sem autores para exibir
+                        </Typography>
+                    ) }
+                </DialogContent>
+            </React.Fragment>
+        );
+    };    
 
     return (
         <Dialog 
@@ -85,57 +105,22 @@ const SourceDialog = (props) => {
                         <CloseIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1 }} />
-
-                    BUSCA
-                   
+                    <Button color={modeValue === 'author' ? "primary" : "inherit"} onClick={() => setModeValue('author')}>Autores</Button>
+                    <Button color={modeValue === 'research' ? "primary" : "inherit"} onClick={() => setModeValue('research')}>Instituições</Button>
+                    
                 </Toolbar>
             </AppBar>
 
-            <DialogTitle >
-                Proponentes
-            </DialogTitle>
-            <DialogContent dividers>
-                
-                
+            {modeValue === 'author' ? authorSource() : 'tabelaInstituicoes' }
 
-            {sources.map(s => {
-                if(s.target_id === researchData.id)
-                    return <Source research={s.research_source} color={categories.find(c => c.id === s.research_source.category_id ).color} />
-                else
-                    return null
-            })}
-
-
-
-            </DialogContent>
-            <DialogTitle >
-                Incluir Proponente
-            </DialogTitle>
-            <DialogContent dividers>
-                {/* SOURCES TABLE  */}
-                {createSourcesTable && authors.length > 0 ? (
-                    <DataTable
-                        columns={tableTemplates.researchSourcesColumns}
-                        data={researchList}
-                        customStyles={customStyles}
-                        striped
-                        dense
-                        responsive
-                        pagination
-                    />
-                ) : (
-                    <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-                        Sem autores para exibir
-                    </Typography>
-                ) }
-            </DialogContent>
         </Dialog>
     );
 }
 
-export default SourceDialog;
+export default AuthorDialog;
   
-SourceDialog.propTypes = {
+AuthorDialog.propTypes = {
+    mode: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
 };
