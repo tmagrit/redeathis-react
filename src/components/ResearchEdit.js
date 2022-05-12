@@ -131,7 +131,6 @@ const ResearchEdit = () => {
     const handleUpdateResearchSources = (sources) => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
         setResearchSources(updatedResearchSources);
-        console.log(sources)
     };
 
 
@@ -189,18 +188,21 @@ const ResearchEdit = () => {
                                     <Grid container >
                                         <Grid item xs={12} >
                                             {researchSources?.map(rs => {
-                                                return <Source key={rs.id} source={rs} action={() => handleUpdateResearchSources(sources)} color={categories.find(c => c.id === rs.research_source.category_id ).color} />
+                                                return  <Source 
+                                                            key={rs.id} 
+                                                            source={rs} 
+                                                            sourceAction={() => handleUpdateResearchSources(sources)} 
+                                                            color={categories.find(c => c.id === rs.research_source.category_id ).color} 
+                                                        />
                                             })}
                                         </Grid>    
                                         <Grid item xs={12} >
                                             <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
     
                                             <Fab 
-                                                //color="success"
                                                 variant="extended" 
                                                 size="medium" 
                                                 onClick={handleSourceDialogOpen}
-                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />
                                                 Relacionar Proponente
@@ -232,7 +234,7 @@ const ResearchEdit = () => {
                                                 //color="info.main"
                                                 variant="extended" 
                                                 size="medium" 
-                                                onClick={() => handleUpdateResearchSources(sources)}
+                                                onClick={undefined}
                                                 //sx={{ position: 'absolute', bottom: 16, right: 16, }}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />
@@ -249,7 +251,6 @@ const ResearchEdit = () => {
                                 open={sourceDialogOpen}
                                 onClose={handleSourceDialogClose}
                                 mode={'research'}
-                                //children={<AddAuthor />}
                             />
 
                             <FormBox 

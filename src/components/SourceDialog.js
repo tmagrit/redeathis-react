@@ -3,15 +3,10 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
-import { useTableTemplates } from './tableTemplates';
 import { DateTime } from 'luxon';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -27,8 +22,8 @@ import { customStyles } from '../styles/tableTemplatesStyles'
 // MY HISTORY HOOK
 import { useHistory } from './history';
 
-//import AuthorAdd from './AuthorAdd';
 import Source from './Source';
+import ActionRelateMenu from './ActionRelateMenu';
 
 const SourceDialog = (props) => {
 
@@ -37,19 +32,15 @@ const SourceDialog = (props) => {
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
-    // TABLE TEMPLATES HOOK
-    const tableTemplates = useTableTemplates(); 
-
     // MY HISTORY HOOK
     const history = useHistory();
-    const section = history?.pathArray[2] || ''
-    const context = history?.pathArray[3] || ''
 
     // REDUX SELECTORS
     const sources = useSelector(state => state.research.sources);
     const researchList = useSelector(state => state.research.research);
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const categories = useSelector(state => state.research.categories);
+    const statuses = useSelector(state => state.research.statuses);
     // AUTHORS
     const authors = useSelector(state => state.research.authors);
     const getSourcesStatus = useSelector(state => state.research.getSourcesStatus);
@@ -58,33 +49,116 @@ const SourceDialog = (props) => {
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
     const [researchData, setResearchData] = useState(researchWithDate);
-    const [sourcesArray, setSourcesArray] = useState([]);
-
-    const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
-  
-    
-    const sourcesData = (researchdata, sources, categories) => {
-        let sourcesdata = sources.map(s => {
-            if(s.target_id === researchdata.id)
-                return <Source key={s.id} source={s} research={s.research_source} color={categories.find(c => c.id === s.research_source.category_id ).color} />
-            else
-                return null;
-        });
-
-        return sourcesdata.slice();
-    };
+    const [researchSources, setResearchSources] = useState([]);
 
     // TRACK SOURCE CHANGES 
     useEffect(() => {
-        let newSourcesArray = sourcesData(researchData, sources, categories);
-        console.log('newSourcesArray-SourceDialog',newSourcesArray);
-        setSourcesArray([...newSourcesArray]);
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources([...updatedResearchSources]);
     }, [sources]);
+
+    const handleUpdateResearchSources = (sources) => {
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources(updatedResearchSources);
+    };
+
+    const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
 
     const handleClose = () => {
       onClose();
     };
- 
+
+    // COLUMNS TO SOURCES LIST
+    const researchSourcesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.id ,
+                sortable: true,
+                width: '70px',
+            },
+            {
+                name: 'Título',
+                selector: row => row.title,
+                cell: row => <span style={{ wordBreak: "break-word" }}>{row.title}</span>, 
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Resumo',
+                selector: row => row.summary,
+                sortable: true,
+                omit: true,
+            },
+            {
+                name: 'Data',
+                selector: row => 'date' ,
+                sortable: true,
+                maxWidth: '120px',
+                grow: 1,
+            },
+            {
+                name: 'Categoria',
+                selector: row => row.category_id,
+                cell: row => <Chip 
+                                    label={categories.find(c => c.id === row.category_id).name} 
+                                    size="small" 
+                                    variant="outlined" 
+                                />,
+                sortable: true,
+                maxWidth: '200px',
+                grow: 1,
+            },
+            {
+                name: 'Status',
+                selector: row => row.status,
+                cell: row => <Chip 
+                                    label={statuses.find(s => s.id === row.status).status} 
+                                    size="small" 
+                                    variant="outlined" 
+                                    color={statusColor(row.status)}
+                                />,
+                sortable: true,
+                maxWidth: '140px',
+                grow: 1,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row => <ActionRelateMenu section={'research'} sourceAction={() => handleUpdateResearchSources(sources)} row={row} source={researchSources.find(rs => rs.source_id === row.id)} />,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );
+    // CONDITIONAL ROW STYLING
+    const conditionalRowStyles = [
+        {
+            //when: row => researchSources.includes(row.id),
+            when: row => researchSources.map(rs => {return rs.source_id}).includes(row.id),
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.3)',
+                //color: 'white',
+                '&:hover': {
+                    cursor: 'pointer',
+                },
+            },
+        },
+    ];
+
+    console.log(researchSources.map(rs => {return rs.source_id}))
+
+    // STATUS TABLE COLORS
+    function statusColor(id) {
+        if(id === 1)
+            return 'success';
+        if(id === 2)
+            return 'primary'
+        if(id === 3)
+            return 'warning'
+        if(id === 4)
+            return 'error'    
+    }
 
     return (
         <Dialog 
@@ -114,7 +188,9 @@ const SourceDialog = (props) => {
                 Proponentes
             </DialogTitle>
             <DialogContent dividers>
-                {sourcesArray}
+                {researchSources?.map(rs => {
+                    return <Source key={rs.id} source={rs} sourceAction={() => handleUpdateResearchSources(sources)} color={categories.find(c => c.id === rs.research_source.category_id ).color} />
+                })}
             </DialogContent>
             <DialogTitle >
                 Incluir Proponente
@@ -123,11 +199,12 @@ const SourceDialog = (props) => {
                 {/* SOURCES TABLE  */}
                 {createSourcesTable && authors.length > 0 ? (
                     <DataTable
-                        columns={tableTemplates.researchSourcesColumns}
+                        //columns={tableTemplates.researchSourcesColumns} 
+                        columns={researchSourcesColumns}
                         data={researchList}
                         customStyles={customStyles}
                         striped
-                        //dense
+                        conditionalRowStyles={conditionalRowStyles}
                         responsive
                         pagination
                     />
@@ -148,63 +225,3 @@ SourceDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const authorSource = () => {
-//     return (
-//         <Container maxWidth="xl" >
-//             <Grid container spacing={2} >
-//                 <Grid item xs={12} >
-//                     <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
-//                         Relacionar Autores
-//                     </Typography>
-//                 </Grid>
-//                 <Divider />
-//                 <Grid item xs={12} >
-//                     {/* AUTHORS TABLE  */}
-//                     {createAuthorsTable && authors.length > 0 ? (
-//                         <DataTable
-//                             columns={tableTemplates.authorsColumns}
-//                             data={authors}
-//                             customStyles={customStyles}
-//                             striped
-//                             responsive
-//                             pagination
-//                         />
-//                     ) : (
-//                         <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-//                             Sem autores para exibir
-//                         </Typography>
-//                     ) }
-//                 </Grid>
-//                 <Grid item xs={12} >
-//                     <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
-//                         Cadastrar Autor
-//                     </Typography>
-//                 </Grid>
-//                 <Divider />
-//                 <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-//                     <AuthorAdd />
-//                 </Grid>
-//             </Grid>
-//         </Container>
-//     );
-// };    

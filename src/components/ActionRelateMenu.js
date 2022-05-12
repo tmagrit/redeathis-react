@@ -5,20 +5,17 @@ import { removeSource } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuList from '@mui/material/MenuList';
-import Divider from '@mui/material/Divider';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DeleteIcon from '@mui/icons-material/Delete';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const ActionRelateMenu = ({ section, row, source, action }) => {
+const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -50,7 +47,7 @@ const ActionRelateMenu = ({ section, row, source, action }) => {
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = (row) => {
         dispatch(removeSource(source));
-        action();
+        sourceAction();
         handleClose();
     };
 
@@ -121,5 +118,5 @@ ActionRelateMenu.defaultProps = {
 ActionRelateMenu.propTypes = {
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    action: PropTypes.func,
+    sourceAction: PropTypes.func,
 };
