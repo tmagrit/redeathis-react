@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -58,10 +58,29 @@ const SourceDialog = (props) => {
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
     const [researchData, setResearchData] = useState(researchWithDate);
+    const [sourcesArray, setSourcesArray] = useState([]);
 
     const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
   
     
+    const sourcesData = (researchdata, sources, categories) => {
+        let sourcesdata = sources.map(s => {
+            if(s.target_id === researchdata.id)
+                return <Source key={s.id} source={s} research={s.research_source} color={categories.find(c => c.id === s.research_source.category_id ).color} />
+            else
+                return null;
+        });
+
+        return sourcesdata.slice();
+    };
+
+    // TRACK SOURCE CHANGES 
+    useEffect(() => {
+        let newSourcesArray = sourcesData(researchData, sources, categories);
+        console.log('newSourcesArray-SourceDialog',newSourcesArray);
+        setSourcesArray([...newSourcesArray]);
+    }, [sources]);
+
     const handleClose = () => {
       onClose();
     };
@@ -95,18 +114,7 @@ const SourceDialog = (props) => {
                 Proponentes
             </DialogTitle>
             <DialogContent dividers>
-                
-                
-
-            {sources.map(s => {
-                if(s.target_id === researchData.id)
-                    return <Source research={s.research_source} color={categories.find(c => c.id === s.research_source.category_id ).color} />
-                else
-                    return null
-            })}
-
-
-
+                {sourcesArray}
             </DialogContent>
             <DialogTitle >
                 Incluir Proponente
@@ -119,7 +127,7 @@ const SourceDialog = (props) => {
                         data={researchList}
                         customStyles={customStyles}
                         striped
-                        dense
+                        //dense
                         responsive
                         pagination
                     />

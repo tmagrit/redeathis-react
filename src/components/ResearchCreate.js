@@ -122,28 +122,6 @@ const ResearchCreate = () => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color || '#3d85c6');
     }, [researchData.category_id])
 
-
-    // const sourceCards = (research) => {
-    //     return (
-    //         <Card sx={{ width: '100%', mb: 1, }}>
-    //             <CardHeader
-    //                 avatar={
-    //                 <Avatar  aria-label="recipe">
-    //                     A
-    //                 </Avatar>
-    //                 }
-    //                 action={
-    //                 <IconButton aria-label="settings">
-    //                     <MoreVertIcon />
-    //                 </IconButton>
-    //                 }
-    //                 title={research.title}
-    //                 subheader="1/04/1928 - 26/12/2011"
-    //             />
-    //         </Card>
-    //     );
-    // };
-
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
@@ -188,37 +166,6 @@ const ResearchCreate = () => {
                                 </MenuItem>
                                 ))}
                             </TextField>
-
-                            {/* <FormBox 
-                                id='sources-box' 
-                                label='Autores e Instituições Proponentes' 
-                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
-                                children={
-                                    <Grid container >
-                                        <Grid item xs={12} >
-                                            {sourceCards()}
-                                            {sourceCards()}
-                                        </Grid>    
-                                        <Grid item xs={12} >
-                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
-    
-                                            <Fab 
-                                                color="success"
-                                                variant="extended" 
-                                                //size="small" 
-                                                size="medium"
-                                                onClick={handleSourceDialogOpen}
-                                                
-                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
-                                            >
-                                                <MultipleStopIcon sx={{ mr: 1 }} />
-                                                Relacionar
-                                            </Fab>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                } 
-                            /> */}
 
                             <FormBox 
                                 id='sources-box' 

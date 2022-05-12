@@ -18,7 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const ActionMenu = ({ section, row, mode, source }) => {
+const ActionRelateMenu = ({ section, row, source }) => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -54,74 +54,6 @@ const ActionMenu = ({ section, row, mode, source }) => {
         handleClose();
     };
 
-    const menuList = (mode) => {
-        if(mode === 'sources') {
-            return (
-                <MenuList dense>
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
-                        <ListItemIcon>
-                            <VisibilityIcon fontSize="small" color="info"/> 
-                        </ListItemIcon>
-                        Ver
-                    </MenuItem> 
-                    <MenuItem onClick={undefined} disabled={!isRelatable(row)}>
-                        <ListItemIcon>
-                            <MultipleStopIcon fontSize="small" color="success" /> 
-                        </ListItemIcon>
-                        Relacionar
-                    </MenuItem> 
-                    <MenuItem onClick={() => handleUnrelate(row)}  disabled={isRelatable(row)}>
-                        <ListItemIcon>
-                            <ClearIcon fontSize="small" color="error"/> 
-                        </ListItemIcon>
-                        Desassociar
-                    </MenuItem> 
-                </MenuList>
-            );
-        }if(mode === 'editsources') {
-            return (
-                <MenuList dense>
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
-                        <ListItemIcon>
-                            <VisibilityIcon fontSize="small" color="info"/> 
-                        </ListItemIcon>
-                        Pré Visualizar
-                    </MenuItem> 
-                    <MenuItem onClick={undefined} >
-                        <ListItemIcon>
-                            <ClearIcon fontSize="small" color="error"/> 
-                        </ListItemIcon>
-                        Excluir Vínculo
-                    </MenuItem> 
-                </MenuList>
-            );
-        } else {
-            return (
-                <MenuList dense>
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
-                        <ListItemIcon>
-                            <VisibilityIcon fontSize="small" color="info"/> 
-                        </ListItemIcon>
-                        Pré Visualizar
-                    </MenuItem> 
-                    <MenuItem component={Link} to={`/admin/${section}/edit/${row.id}`} onClick={handleClose} >
-                        <ListItemIcon>
-                            <EditIcon fontSize="small"  color="warning"/> 
-                        </ListItemIcon>
-                        Editar
-                    </MenuItem> 
-                    <Divider />
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
-                        <ListItemIcon>
-                            <DeleteIcon fontSize="small" color="error"/> 
-                        </ListItemIcon>
-                        Excluir
-                    </MenuItem> 
-                </MenuList>
-            );
-        }
-    }
-
     return (
         <React.Fragment>
             <IconButton 
@@ -154,21 +86,39 @@ const ActionMenu = ({ section, row, mode, source }) => {
                     'aria-labelledby': 'action-button',
                 }}
             >
-                {menuList(mode)}
+                <MenuList dense>
+                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                        <ListItemIcon>
+                            <VisibilityIcon fontSize="small" color="info"/> 
+                        </ListItemIcon>
+                        Ver
+                    </MenuItem> 
+                    <MenuItem onClick={undefined} disabled={!isRelatable(row)}>
+                        <ListItemIcon>
+                            <MultipleStopIcon fontSize="small" color="success" /> 
+                        </ListItemIcon>
+                        Relacionar
+                    </MenuItem> 
+                    <MenuItem onClick={() => handleUnrelate(row)}  disabled={isRelatable(row)}>
+                        <ListItemIcon>
+                            <ClearIcon fontSize="small" color="error"/> 
+                        </ListItemIcon>
+                        Desassociar
+                    </MenuItem> 
+                </MenuList>
             </Menu>
 
         </React.Fragment>
     );
 };
 
-export default ActionMenu;
+export default ActionRelateMenu;
 
-ActionMenu.defaultProps = {
-    mode: 'default',
+ActionRelateMenu.defaultProps = {
+    section: 'research',
 }
 
-ActionMenu.propTypes = {
+ActionRelateMenu.propTypes = {
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    mode: PropTypes.string.isRequired,
 };

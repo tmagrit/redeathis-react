@@ -51,17 +51,16 @@ const ResearchEdit = () => {
     const dispatch = useDispatch();
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const sources = useSelector(state => state.research.sources);
-    const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === research.id));
+    //const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === research.id));
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
-
-    console.log(researchSources)
 
     // EDIT RESEARCH STATES
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
     const [researchData, setResearchData] = useState(researchWithDate);
     const [categoryColor, setCategoryColor] = useState(researchData.category.color);
+    const [researchSources, setResearchSources] = useState([]);
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -121,29 +120,20 @@ const ResearchEdit = () => {
     // TRACK CATEGORY CHANGES 
     useEffect(() => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
-    }, [researchData.category_id])
+    }, [researchData.category_id]);
 
-    // const sourceCard = (research) => {
-    //     return (
-    //         <Card sx={{ width: '100%', mb: 1, }}>
-    //             <CardHeader
-    //                 avatar={
-    //                     <Avatar variant="rounded" sx={{ bgcolor: categories.find(c => c.id === research.category_id ).color }} aria-label="recipe">
-    //                         <LayersIcon />
-    //                         {/* {categories.find(c => c.id === research.category_id ).name.split(' e ').map(w => w[0]).join('')} */}
-    //                     </Avatar>
-    //                 }
-    //                 action={
-    //                 <IconButton aria-label="settings">
-    //                     <MoreVertIcon />
-    //                 </IconButton>
-    //                 }
-    //                 title={research.title}
-    //                 subheader="research.date"
-    //             />
-    //         </Card>
-    //     );
-    // };
+    // TRACK SOURCE CHANGES 
+    useEffect(() => {
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources([...updatedResearchSources]);
+    }, [sources]);
+
+    const handleUpdateResearchSources = (sources) => {
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources(updatedResearchSources);
+        console.log(sources)
+    };
+
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -198,18 +188,8 @@ const ResearchEdit = () => {
                                 children={
                                     <Grid container >
                                         <Grid item xs={12} >
-                                            {/* {sources.map(s => {
-                                                if(s.target_id === researchData.id)
-                                                    return sourceCard(s.research_source)
-                                                else
-                                                    return null
-                                            })} */}
-
-                                            {sources.map(s => {
-                                                if(s.target_id === researchData.id)
-                                                    return <Source research={s.research_source} color={categories.find(c => c.id === s.research_source.category_id ).color} />
-                                                else
-                                                    return null
+                                            {researchSources?.map(rs => {
+                                                return <Source key={rs.id} source={rs} color={categories.find(c => c.id === rs.research_source.category_id ).color} />
                                             })}
                                         </Grid>    
                                         <Grid item xs={12} >
@@ -252,7 +232,7 @@ const ResearchEdit = () => {
                                                 //color="info.main"
                                                 variant="extended" 
                                                 size="medium" 
-                                                onClick={undefined}
+                                                onClick={() => handleUpdateResearchSources(sources)}
                                                 //sx={{ position: 'absolute', bottom: 16, right: 16, }}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />

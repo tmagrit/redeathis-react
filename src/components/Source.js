@@ -5,12 +5,12 @@ import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import LayersIcon from '@mui/icons-material/Layers';
 
-import ActionMenu from './ActionMenu';
+import ActionRelateMenu from './ActionRelateMenu';
 
 
 const Source = (props) => {
 
-    const { research, color } = props;
+    const { source, color } = props;
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
@@ -32,8 +32,8 @@ const Source = (props) => {
                         <LayersIcon />
                     </Avatar>
                 }
-                action={ <ActionMenu section={'research'} mode='sources' row={research} /> }
-                title={research.title}
+                action={ <ActionRelateMenu section={'research'} row={source.research_source} source={source} /> }
+                title={source.research_source.title}
                 subheader="<research.date>"
             />
         </Card>

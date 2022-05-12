@@ -13,7 +13,7 @@ import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { Typography } from '@mui/material';
 
 import ActionMenu from './ActionMenu';
-import RelateToggler from './RelateToggler';
+import ActionRelateMenu from './ActionRelateMenu';
 
 export function useTableTemplates() {
 
@@ -31,7 +31,7 @@ export function useTableTemplates() {
             return 'warning'
         if(id === 4)
             return 'error'    
-    }    
+    }
 
     // COLUMNS TO RESEARCH LIST
     const fullResearchColumns = (
@@ -321,8 +321,7 @@ export function useTableTemplates() {
             {
                 name: 'Ações',
                 maxWidth: '100px',
-                cell: row => <ActionMenu section={'research'} mode='sources' row={row} />,
-                //cell: row => <RelateToggler mode='sources' row={row} />,
+                cell: row => <ActionRelateMenu section={'research'} row={row} />,
                 right: true,
                 grow: 1,
             },

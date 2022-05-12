@@ -220,38 +220,11 @@ export const researchSlice = createSlice({
         getSourcesError: null,
     },
     reducers: {
-        // updateProfiles(state, action) {
-        //     state.profiles = action.payload
-        // },
-        // toggleProfileActive: {
-        //     reducer(state, action) {
-        //         const newstate = state.profiles.map(p => {
-        //             if(p.ind !== action.payload.ind) 
-        //                 return p
-        //             else {
-        //                 const updatedProfile = {
-        //                     ...p,
-        //                     active: !action.payload.active,
-        //                 }
-        //                 console.log('action.payload', action.payload)
-        //                 console.log('updatedProfile', updatedProfile)
-        //                 return updatedProfile   
-        //             } 
-        //         }) 
-        //         return {
-        //             ...state,
-        //             profiles: newstate,
-        //         }  
-        //     },
-        //     prepare({ ind, active }) {
-        //         return {
-        //             payload: {
-        //                 ind,
-        //                 active
-        //             }
-        //         }
-        //     }
-        // },
+        removeSource(state, action) { 
+            const newSources = state.sources.filter(s => s.id !== action.payload.id);
+            state.sources = newSources;
+        }
+        
     },
     extraReducers: {
         [getResearch.pending]: (state) => {
@@ -375,7 +348,7 @@ export const researchSlice = createSlice({
 // }
 
 export const { 
-    // updateProfiles,
+    removeSource,
     // toggleProfileActive,
 } = researchSlice.actions
 
