@@ -146,8 +146,6 @@ const SourceDialog = (props) => {
         },
     ];
 
-    console.log(researchSources.map(rs => {return rs.source_id}))
-
     // STATUS TABLE COLORS
     function statusColor(id) {
         if(id === 1)
@@ -187,9 +185,14 @@ const SourceDialog = (props) => {
             <DialogTitle >
                 Proponentes
             </DialogTitle>
-            <DialogContent dividers>
-                {researchSources?.map(rs => {
-                    return <Source key={rs.id} source={rs} sourceAction={() => handleUpdateResearchSources(sources)} color={categories.find(c => c.id === rs.research_source.category_id ).color} />
+            <DialogContent dividers sx={{ minHeight: 200, }}>
+                {researchSources?.map((rs, index) => {
+                    return  <Source 
+                                key={rs.id}
+                                source={rs} 
+                                sourceAction={() => handleUpdateResearchSources(sources)} 
+                                color={categories.find(c => c.id === rs.research_source.category_id ).color} 
+                            />
                 })}
             </DialogContent>
             <DialogTitle >
