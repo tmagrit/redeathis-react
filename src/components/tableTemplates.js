@@ -15,7 +15,9 @@ import { Typography } from '@mui/material';
 import ActionMenu from './ActionMenu';
 import ActionRelateMenu from './ActionRelateMenu';
 
-export function useTableTemplates() {
+export function useTableTemplates(props) {
+
+    //const { action } = props
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
@@ -259,7 +261,6 @@ export function useTableTemplates() {
             },
         ]
     );
-
 
     // COLUMNS TO SOURCES LIST
     const researchSourcesColumns = (

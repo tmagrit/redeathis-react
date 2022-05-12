@@ -10,7 +10,7 @@ import ActionRelateMenu from './ActionRelateMenu';
 
 const Source = (props) => {
 
-    const { source, color } = props;
+    const { source, color, action } = props;
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
@@ -32,7 +32,7 @@ const Source = (props) => {
                         <LayersIcon />
                     </Avatar>
                 }
-                action={ <ActionRelateMenu section={'research'} row={source.research_source} source={source} /> }
+                action={ <ActionRelateMenu section={'research'} action={action} row={source.research_source} source={source} /> }
                 title={source.research_source.title}
                 subheader="<research.date>"
             />

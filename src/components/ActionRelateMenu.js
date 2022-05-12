@@ -18,7 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const ActionRelateMenu = ({ section, row, source }) => {
+const ActionRelateMenu = ({ section, row, source, action }) => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -50,7 +50,7 @@ const ActionRelateMenu = ({ section, row, source }) => {
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = (row) => {
         dispatch(removeSource(source));
-
+        action();
         handleClose();
     };
 
@@ -99,7 +99,7 @@ const ActionRelateMenu = ({ section, row, source }) => {
                         </ListItemIcon>
                         Relacionar
                     </MenuItem> 
-                    <MenuItem onClick={() => handleUnrelate(row)}  disabled={isRelatable(row)}>
+                    <MenuItem onClick={() => handleUnrelate(row)} disabled={isRelatable(row)}>
                         <ListItemIcon>
                             <ClearIcon fontSize="small" color="error"/> 
                         </ListItemIcon>
@@ -121,4 +121,5 @@ ActionRelateMenu.defaultProps = {
 ActionRelateMenu.propTypes = {
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
+    action: PropTypes.func,
 };

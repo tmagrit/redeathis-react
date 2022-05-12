@@ -189,7 +189,7 @@ const ResearchEdit = () => {
                                     <Grid container >
                                         <Grid item xs={12} >
                                             {researchSources?.map(rs => {
-                                                return <Source key={rs.id} source={rs} color={categories.find(c => c.id === rs.research_source.category_id ).color} />
+                                                return <Source key={rs.id} source={rs} action={() => handleUpdateResearchSources(sources)} color={categories.find(c => c.id === rs.research_source.category_id ).color} />
                                             })}
                                         </Grid>    
                                         <Grid item xs={12} >
