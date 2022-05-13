@@ -12,6 +12,7 @@ export function useHistory() {
     return {
       push: navigate,
       go: navigate,
+      refresh: () => navigate(0),
       goBack: () => navigate(-1),
       goForward: () => navigate(1),
       pathArray,

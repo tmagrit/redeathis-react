@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useSyncExternalStore, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeSource } from '../features/researchSlice';
+import { addSource, deleteSource, removeSource } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
@@ -22,8 +22,8 @@ const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const sources = useSelector(state => state.research.sources);
+    //const addSourceStatus = useSelector(state => state.research.addSourceStatus); 
     const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) ));
     const researchSourcesIds = researchSources.map(rs => {return rs.source_id});
 
@@ -44,12 +44,29 @@ const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
         else
             return true;
     };
+    // HANDLE RELATE SOURCE
+    const handleRelate = (row) => {
+        dispatch(addSource({ source_id: row.id, target_id: parseInt(params.researchId, 10) }));
+        handleClose();
+        sourceAction();
+    };
+
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = (row) => {
         dispatch(removeSource(source));
+        dispatch(deleteSource(source));
         sourceAction();
         handleClose();
     };
+
+    const updatedSources = useSyncExternalStore(
+        () => {
+            return () => {
+                sourceAction();
+            };
+        },
+        () => sources
+    );
 
     return (
         <React.Fragment>
@@ -90,7 +107,7 @@ const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
                         </ListItemIcon>
                         Ver
                     </MenuItem> 
-                    <MenuItem onClick={undefined} disabled={!isRelatable(row)}>
+                    <MenuItem onClick={() => handleRelate(row)} disabled={!isRelatable(row)}>
                         <ListItemIcon>
                             <MultipleStopIcon fontSize="small" color="success" /> 
                         </ListItemIcon>

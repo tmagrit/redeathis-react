@@ -185,6 +185,48 @@ export const getSources = createAsyncThunk('research/getSources', async (obj , {
     };
 });
 
+export const addSource = createAsyncThunk('research/addSource', async (obj , { dispatch, getState }) => {
+    try {     
+        const { data, error } = await supabase
+            .from('sources')
+            .upsert({ source_id: obj.source_id, target_id: obj.target_id }, { ignoreDuplicates: true })
+            .single()
+
+        if (error) 
+            throw error;
+        const { research } = getState();
+        const newData = {
+            ...data,
+            research_source: research.research.find(r => r.id === data.source_id),
+            research_target: research.research.find(r => r.id === data.target_id),
+        }     
+        
+        return newData;
+
+    } catch (error) {
+        alert('addSource()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
+export const deleteSource = createAsyncThunk('research/deleteSource', async (obj , { dispatch, getState }) => {
+    try {     
+        const { data, error } = await supabase
+            .from('sources')
+            .delete()
+            .match({ id: obj.id })
+
+        if (error) 
+            throw error;
+
+    } catch (error) {
+        alert('deleteSource()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -218,12 +260,22 @@ export const researchSlice = createSlice({
         sources: [],
         getSourcesStatus: 'idle',
         getSourcesError: null,
+
+        addSourceStatus: 'idle',
+        addSourceError: null,
+
+        deleteSourceStatus: 'idle',
+        deleteSourceError: null,
     },
     reducers: {
         removeSource(state, action) { 
             const newSources = state.sources.filter(s => s.id !== action.payload.id);
             state.sources = newSources;
-        }
+        } // ,
+        // addSource(state, action) { 
+        //     const newSources = state.sources.push(action.payload);
+        //     state.sources = newSources;
+        // },
         
     },
     extraReducers: {
@@ -321,6 +373,30 @@ export const researchSlice = createSlice({
         [getSources.rejected]: (state, action) => {
           state.getSourcesStatus = 'failed'
           state.getSourcesError = action.error
+        },
+
+        [addSource.pending]: (state) => {
+            state.addSourceStatus = 'loading'
+        },
+        [addSource.fulfilled]: (state, action) => {
+            state.sources.unshift(action.payload)
+            state.addSourceStatus = 'succeeded'
+        },
+        [addSource.rejected]: (state, action) => {
+          state.addSourceStatus = 'failed'
+          state.addSourceError = action.error
+        },
+
+        [deleteSource.pending]: (state) => {
+            state.deleteSourceStatus = 'loading'
+        },
+        [deleteSource.fulfilled]: (state, action) => {
+            //state.sources.unshift(action.payload)
+            state.deleteSourceStatus = 'succeeded'
+        },
+        [deleteSource.rejected]: (state, action) => {
+          state.deleteSourceStatus = 'failed'
+          state.deleteSourceError = action.error
         },
 
       }
