@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -19,11 +19,8 @@ import Box from '@mui/material/Box';
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../styles/tableTemplatesStyles'
 
-// MY HISTORY HOOK
-import { useHistory } from './history';
-
 import Source from './Source';
-import ActionRelateMenu from './ActionRelateMenu';
+import ActionSourceMenu from './ActionSourceMenu';
 
 const SourceDialog = (props) => {
 
@@ -32,11 +29,9 @@ const SourceDialog = (props) => {
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
-    // MY HISTORY HOOK
-    const history = useHistory();
-
     // REDUX SELECTORS
     const sources = useSelector(state => state.research.sources);
+    const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const researchList = useSelector(state => state.research.research);
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const categories = useSelector(state => state.research.categories);
@@ -51,21 +46,21 @@ const SourceDialog = (props) => {
     const [researchData, setResearchData] = useState(researchWithDate);
     const [researchSources, setResearchSources] = useState([]);
 
-    // TRACK SOURCE CHANGES 
-    useEffect(() => {
-        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        setResearchSources([...updatedResearchSources]);
-    }, [sources]);
-
-    const handleUpdateResearchSources = (sources) => {
-        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        setResearchSources(updatedResearchSources);
-    };
-
     const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
 
     const handleClose = () => {
       onClose();
+    };
+
+    // TRACK SOURCE CHANGES 
+    useEffect(() => {
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources([...updatedResearchSources]);
+    }, [sources, addSourceStatus]);
+
+    const handleUpdateResearchSources = (sources) => {
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources(updatedResearchSources);
     };
 
     // COLUMNS TO SOURCES LIST
@@ -125,7 +120,12 @@ const SourceDialog = (props) => {
             {
                 name: 'Ações',
                 maxWidth: '100px',
-                cell: row => <ActionRelateMenu section={'research'} sourceAction={() => handleUpdateResearchSources(sources)} row={row} source={researchSources.find(rs => rs.source_id === row.id)} />,
+                cell: row =>    <ActionSourceMenu 
+                                    section={'research'} 
+                                    sourceAction={() => handleUpdateResearchSources(sources)} 
+                                    row={row} 
+                                    source={researchSources.find(rs => rs.source_id === row.id)} 
+                                />,
                 right: true,
                 grow: 1,
             },
@@ -134,14 +134,9 @@ const SourceDialog = (props) => {
     // CONDITIONAL ROW STYLING
     const conditionalRowStyles = [
         {
-            //when: row => researchSources.includes(row.id),
             when: row => researchSources.map(rs => {return rs.source_id}).includes(row.id),
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.3)',
-                //color: 'white',
-                '&:hover': {
-                    cursor: 'pointer',
-                },
             },
         },
     ];
@@ -186,7 +181,7 @@ const SourceDialog = (props) => {
                 Proponentes
             </DialogTitle>
             <DialogContent dividers sx={{ minHeight: 200, }}>
-                {researchSources?.map((rs, index) => {
+                {researchSources.map(rs => {
                     return  <Source 
                                 key={rs.id}
                                 source={rs} 
@@ -200,9 +195,8 @@ const SourceDialog = (props) => {
             </DialogTitle>
             <DialogContent dividers>
                 {/* SOURCES TABLE  */}
-                {createSourcesTable && authors.length > 0 ? (
+                {createSourcesTable && researchList.length > 0 ? (
                     <DataTable
-                        //columns={tableTemplates.researchSourcesColumns} 
                         columns={researchSourcesColumns}
                         data={researchList}
                         customStyles={customStyles}
@@ -213,7 +207,7 @@ const SourceDialog = (props) => {
                     />
                 ) : (
                     <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-                        Sem autores para exibir
+                        Sem proponentes para exibir
                     </Typography>
                 ) }
             </DialogContent>

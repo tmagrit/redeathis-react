@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import { updateResearch } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -34,12 +34,12 @@ import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from './colorConverter';
 
-// DIALOG TO RELATE SOURCE
+// DIALOG TO RELATE SOURCE AND AUTHOR
 import SourceDialog from './SourceDialog';
-
+import AuthorDialog from './AuthorDialog';
 import Source from './Source';
+import Author from './Author';
 
-//const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
 
 const ResearchEdit = () => {
@@ -51,9 +51,12 @@ const ResearchEdit = () => {
     const dispatch = useDispatch();
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const sources = useSelector(state => state.research.sources);
-    //const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === research.id));
+    const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
+
+    const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
+    const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
 
     // EDIT RESEARCH STATES
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
@@ -61,6 +64,7 @@ const ResearchEdit = () => {
     const [researchData, setResearchData] = useState(researchWithDate);
     const [categoryColor, setCategoryColor] = useState(researchData.category.color);
     const [researchSources, setResearchSources] = useState([]);
+    const [researchAuthors, setResearchAuthors] = useState([]);
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -69,38 +73,47 @@ const ResearchEdit = () => {
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
     // SOURCE DIALOG STATES 
     const [sourceDialogOpen, setSourceDialogOpen] = useState(false);
+    const [authorDialogOpen, setAuthorDialogOpen] = useState(false);
 
-        // DECK GL LAYER
-        const layers = [
-            new ScatterplotLayer({
-                id: 'markers',
-                data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
-                pickable: false,
-                //opacity: 0.8,
-                stroked: false,
-                filled: true,
-                radiusScale: 5,
-                radiusMinPixels: 5,
-                radiusMaxPixels: 10,
-                getPosition: d => d.coordinates,
-                getRadius: d => 5,
-                getFillColor: d => hexToRgb(categoryColor)
-            })
-        ];
+    // DECK GL LAYER
+    const layers = [
+        new ScatterplotLayer({
+            id: 'markers',
+            data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
+            pickable: false,
+            //opacity: 0.8,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => d.coordinates,
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(categoryColor)
+        })
+    ];
 
-    // HANDLE TOGGLE DIALOG
+    // HANDLE TOGGLE DIALOGS
+    // SOURCES
     const handleSourceDialogOpen = () => {
         setSourceDialogOpen(true);
     };
-    const handleSourceDialogClose = (value) => {
+    const handleSourceDialogClose = () => {
         setSourceDialogOpen(false);
     };
+    // AUTHORS
+    const handleAuthorDialogOpen = () => {
+        setAuthorDialogOpen(true);
+    };
+    const handleAuthorDialogClose = () => {
+        setAuthorDialogOpen(false);
+    };
 
-    // HANDLE TOGGLE DIALOG
+    // HANDLE TOGGLE MAP DIALOG
     const handleMapDialogOpen = () => {
         setMapDialogOpen(true);
     };
-    const handleMapDialogClose = (value) => {
+    const handleMapDialogClose = () => {
         setMapDialogOpen(false);
     };
 
@@ -122,16 +135,31 @@ const ResearchEdit = () => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
     }, [researchData.category_id]);
 
+
+
     // TRACK SOURCE CHANGES 
     useEffect(() => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
         setResearchSources([...updatedResearchSources]);
-    }, [sources]);
+    }, [sources, addSourceStatus]);
 
     const handleUpdateResearchSources = (sources) => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
         setResearchSources(updatedResearchSources);
     };
+
+     // TRACK RESEARCH AUTHORS CHANGES 
+     useEffect(() => {
+        const updatedResearchAuthors = allResearchAuthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
+        setResearchAuthors([...updatedResearchAuthors]);
+    }, [allResearchAuthors, addResearchAuthorStatus]);
+
+    const handleUpdateResearchAuthors = (allresearchauthors) => {
+        const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
+        setResearchAuthors(updatedResearchAuthors);
+    };
+
+
 
 
     return (
@@ -187,7 +215,7 @@ const ResearchEdit = () => {
                                 children={
                                     <Grid container >
                                         <Grid item xs={12} >
-                                            {researchSources?.map(rs => {
+                                            {researchSources.map(rs => {
                                                 return  <Source 
                                                             key={rs.id} 
                                                             source={rs} 
@@ -220,22 +248,21 @@ const ResearchEdit = () => {
                                 children={
                                     <Grid container >
                                         <Grid item xs={12} >
-                                            {/* {sources.map(s => {
-                                                if(s.target_id === researchData.id)
-                                                    return sourceCard(s.research_source)
-                                                else
-                                                    return null
-                                            })} */}
+                                            {researchAuthors.map(ra => {
+                                                return  <Author 
+                                                            key={ra.id} 
+                                                            researchAuthor={ra} 
+                                                            authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)}  
+                                                        />
+                                            })}
                                         </Grid>    
                                         <Grid item xs={12} >
                                             <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
     
                                             <Fab 
-                                                //color="info.main"
                                                 variant="extended" 
                                                 size="medium" 
-                                                onClick={undefined}
-                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
+                                                onClick={handleAuthorDialogOpen}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />
                                                 Relacionar Autor
@@ -250,6 +277,13 @@ const ResearchEdit = () => {
                             <SourceDialog
                                 open={sourceDialogOpen}
                                 onClose={handleSourceDialogClose}
+                                mode={'research'}
+                            />
+
+                            {/* CREATE AUTHOR DIALOG */}
+                            <AuthorDialog
+                                open={authorDialogOpen}
+                                onClose={handleAuthorDialogClose}
                                 mode={'research'}
                             />
 
@@ -341,43 +375,6 @@ const ResearchEdit = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            {/* <Map 
-                                reuseMaps
-                                mapboxAccessToken={mapboxKey}
-                                { ...researchData.geolocation }
-                                onClick={handleMapDialogOpen} 
-                                mapStyle="mapbox://styles/mapbox/dark-v10"
-                                style={{ width: '100%', height: 360 }}   
-                            >
-                                <Marker 
-                                    longitude={researchData.geolocation.longitude} 
-                                    latitude={researchData.geolocation.latitude} 
-                                    anchor="bottom"
-                                    color={categoryColor}
-                                >
-                                </Marker>
-                            </Map> 
-                            <MapDialog
-                                open={mapDialogOpen}
-                                onClose={handleMapDialogClose}
-                                children={
-                                    <MapViewport 
-                                        viewport={researchData.geolocation}
-                                        setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation.viewState })}
-                                        style={{ width: '100vw', height: '100vh' }}   
-                                    >
-                                        <Marker 
-                                            longitude={researchData.geolocation.longitude} 
-                                            latitude={researchData.geolocation.latitude} 
-                                            anchor="bottom"
-                                            color={categoryColor}
-                                        >
-                                        </Marker>
-                                    </MapViewport>
-                                }
-                            /> */}
-
-
 
                             <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
                                 <DeckGL  initialViewState={researchData.geolocation} layers={layers} >

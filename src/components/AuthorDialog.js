@@ -1,15 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useTableTemplates } from './tableTemplates';
-import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
+import { useParams } from "react-router-dom";
+import { DateTime } from 'luxon';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,70 +18,96 @@ import Box from '@mui/material/Box';
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../styles/tableTemplatesStyles'
 
-// MY HISTORY HOOK
-import { useHistory } from './history';
-
-import AuthorAdd from './AuthorAdd';
+import Author from './Author';
+import ActionAuthorMenu from './ActionAuthorMenu';
 
 const AuthorDialog = (props) => {
 
-    const { onClose, open, mode } = props;
+    const { onClose, open } = props;
 
-    // TABLE TEMPLATES HOOK
-    const tableTemplates = useTableTemplates(); 
-
-    // MY HISTORY HOOK
-    const history = useHistory();
-    const section = history?.pathArray[2] || ''
-    const context = history?.pathArray[3] || ''
+    // REACT ROUTER DYNAMIC PARAMETER
+    let params = useParams();
 
     // REDUX SELECTORS
-    // AUTHORS
+    const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
+    const getResearchAuthorsStatus = useSelector(state => state.research.getResearchAuthorsStatus);
+    const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
     const authors = useSelector(state => state.research.authors);
-    const getAuthorsStatus = useSelector(state => state.research.getAuthorsStatus);
+       
+    // RESEARCH AUTHORS STATES
+    const [researchAuthors, setResearchAuthors] = useState([]);
 
-    const createAuthorsTable = Boolean( getAuthorsStatus === "succeeded"  ) 
-  
-    const [modeValue, setModeValue] = useState(mode);
-    
+    // TRACK RESEARCH AUTHORS CHANGES 
+    useEffect(() => {
+        const updatedResearchAuthors = allResearchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
+        setResearchAuthors([...updatedResearchAuthors]);
+    }, [allResearchAuthors, addResearchAuthorStatus]);
+
+    const handleUpdateResearchAuthors = (allresearchauthors) => {
+        const updatedResearchAuthors = allresearchauthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
+        setResearchAuthors(updatedResearchAuthors);
+    };
+
+    const createAuthorTable = Boolean( getResearchAuthorsStatus === "succeeded"  ) 
+
     const handleClose = () => {
       onClose();
     };
-  
 
-    const authorSource = () => {
-        return (
-            <React.Fragment>
-                <DialogTitle >
-                    Cadastrar Novo Autor
-                </DialogTitle>
-                <DialogContent dividers>
-                    <AuthorAdd />
-                </DialogContent>
-                <DialogTitle >
-                    Relacionar Autores
-                </DialogTitle>
-                <DialogContent dividers>
-                    {/* AUTHORS TABLE  */}
-                    {createAuthorsTable && authors.length > 0 ? (
-                        <DataTable
-                            columns={tableTemplates.authorsSourcesColumns}
-                            data={authors}
-                            customStyles={customStyles}
-                            striped
-                            dense
-                            responsive
-                            pagination
-                        />
-                    ) : (
-                        <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-                            Sem autores para exibir
-                        </Typography>
-                    ) }
-                </DialogContent>
-            </React.Fragment>
-        );
-    };    
+
+    // COLUMNS TO AUTHORS LIST
+    const authorsSourcesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.id ,
+                sortable: true,
+                width: '70px',
+            },
+            {
+                name: 'Nome',
+                selector: row => row.name + ' ' + row.surname ,
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Nascimento',
+                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Morte',
+                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row =>    <ActionAuthorMenu 
+                                    section={'research'} 
+                                    authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)} 
+                                    row={row} 
+                                    researchAuthor={researchAuthors.find(ra => ra.author_id === row.id)} 
+                                />,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );
+
+    // CONDITIONAL ROW STYLING
+    const conditionalRowStyles = [
+        {
+            when: row => researchAuthors.map(ra => {return ra.author_id}).includes(row.id),
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.3)',
+            },
+        },
+    ];
 
     return (
         <Dialog 
@@ -105,14 +127,45 @@ const AuthorDialog = (props) => {
                         <CloseIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1 }} />
-                    <Button color={modeValue === 'author' ? "primary" : "inherit"} onClick={() => setModeValue('author')}>Autores</Button>
-                    <Button color={modeValue === 'research' ? "primary" : "inherit"} onClick={() => setModeValue('research')}>Instituições</Button>
-                    
+
+                    BUSCA
+                   
                 </Toolbar>
             </AppBar>
 
-            {modeValue === 'author' ? authorSource() : 'tabelaInstituicoes' }
-
+            <DialogTitle >
+                Autores
+            </DialogTitle>
+            <DialogContent dividers sx={{ minHeight: 200, }}>
+                {researchAuthors?.map(ra => {
+                    return  <Author 
+                                key={ra.id}
+                                researchAuthor={ra} 
+                                authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)} 
+                            />
+                })}
+            </DialogContent>
+            <DialogTitle >
+                Incluir Proponente
+            </DialogTitle>
+            <DialogContent dividers>
+                {/* SOURCES TABLE  */}
+                {createAuthorTable && authors.length > 0 ? (
+                    <DataTable
+                        columns={authorsSourcesColumns}
+                        data={authors}
+                        customStyles={customStyles}
+                        striped
+                        conditionalRowStyles={conditionalRowStyles}
+                        responsive
+                        pagination
+                    />
+                ) : (
+                    <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
+                        Sem autores para exibir
+                    </Typography>
+                ) }
+            </DialogContent>
         </Dialog>
     );
 }
@@ -120,68 +173,19 @@ const AuthorDialog = (props) => {
 export default AuthorDialog;
   
 AuthorDialog.propTypes = {
-    mode: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
 };
 
 
+// // MY HISTORY HOOK
+// import { useHistory } from './history';
 
 
+    // const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
+    // const researchWithDate = { ...research, date: dateTime }
+    // const [researchData, setResearchData] = useState(researchWithDate);
+    // const [researchSources, setResearchSources] = useState([]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const authorSource = () => {
-//     return (
-//         <Container maxWidth="xl" >
-//             <Grid container spacing={2} >
-//                 <Grid item xs={12} >
-//                     <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
-//                         Relacionar Autores
-//                     </Typography>
-//                 </Grid>
-//                 <Divider />
-//                 <Grid item xs={12} >
-//                     {/* AUTHORS TABLE  */}
-//                     {createAuthorsTable && authors.length > 0 ? (
-//                         <DataTable
-//                             columns={tableTemplates.authorsColumns}
-//                             data={authors}
-//                             customStyles={customStyles}
-//                             striped
-//                             responsive
-//                             pagination
-//                         />
-//                     ) : (
-//                         <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-//                             Sem autores para exibir
-//                         </Typography>
-//                     ) }
-//                 </Grid>
-//                 <Grid item xs={12} >
-//                     <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
-//                         Cadastrar Autor
-//                     </Typography>
-//                 </Grid>
-//                 <Divider />
-//                 <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-//                     <AuthorAdd />
-//                 </Grid>
-//             </Grid>
-//         </Container>
-//     );
-// };    
+     // // MY HISTORY HOOK
+    // const history = useHistory();

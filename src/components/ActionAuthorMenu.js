@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useSyncExternalStore, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addSource, deleteSource, removeSource } from '../features/researchSlice';
+import { addResearchAuthor, deleteResearchAuthor, removeAuthor } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
@@ -15,17 +15,19 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
+const ActionAuthorMenu = (props) => {
+
+    const { section, researchAuthor, authorAction, row } = props;
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const sources = useSelector(state => state.research.sources);
-    //const addSourceStatus = useSelector(state => state.research.addSourceStatus); 
-    const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) ));
-    const researchSourcesIds = researchSources.map(rs => {return rs.source_id});
+    const allResearchAuthors = useSelector(state => state.research.researchAuthors);
+    const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
+    const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
+    const researchAuthorsIds = researchAuthors.map(ra => {return ra.author_id});
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
@@ -38,35 +40,36 @@ const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
     const handleClose = () => {
         setAnchorActionEl(null);
     };
+
+    // HANDLE RELATE ACTIONS ENABLING
     const isRelatable = (row) => {
-        if(researchSourcesIds.includes(row.id))
+        // console.log('row', row);
+        // console.log('researchAuthorsIds', researchAuthorsIds);
+        if(researchAuthorsIds.includes(row.id))
             return false;
         else
             return true;
     };
+
     // HANDLE RELATE SOURCE
     const handleRelate = (row) => {
-        dispatch(addSource({ source_id: row.id, target_id: parseInt(params.researchId, 10) }));
+        dispatch(addResearchAuthor({ author_id: row.id, research_id: parseInt(params.researchId, 10) }));
         handleClose();
-        sourceAction();
+        authorAction();
     };
 
     // HANDLE UNRELATE SOURCE
-    const handleUnrelate = (row) => {
-        dispatch(removeSource(source));
-        dispatch(deleteSource(source));
-        sourceAction();
+    const handleUnrelate = () => {
+        dispatch(removeAuthor(researchAuthor));
+        dispatch(deleteResearchAuthor(researchAuthor));
+        authorAction();
         handleClose();
     };
 
-    const updatedSources = useSyncExternalStore(
-        () => {
-            return () => {
-                sourceAction();
-            };
-        },
-        () => sources
-    );
+    // TRACK SOURCE CHANGES 
+    useEffect(() => {
+        authorAction();
+    }, [allResearchAuthors, addResearchAuthorStatus]);
 
     return (
         <React.Fragment>
@@ -101,7 +104,7 @@ const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
                 }}
             >
                 <MenuList dense>
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                    <MenuItem component={Link} to={`/admin/${section}/view/${params.researchId}`} onClick={handleClose} >
                         <ListItemIcon>
                             <VisibilityIcon fontSize="small" color="info"/> 
                         </ListItemIcon>
@@ -126,14 +129,15 @@ const ActionRelateMenu = ({ section, row, source, sourceAction }) => {
     );
 };
 
-export default ActionRelateMenu;
+export default ActionAuthorMenu;
 
-ActionRelateMenu.defaultProps = {
+ActionAuthorMenu.defaultProps = {
     section: 'research',
 }
 
-ActionRelateMenu.propTypes = {
+ActionAuthorMenu.propTypes = {
+    researchAuthor: PropTypes.object.isRequired,
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    sourceAction: PropTypes.func,
+    authorAction: PropTypes.func.isRequired,
 };

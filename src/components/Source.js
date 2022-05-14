@@ -1,27 +1,15 @@
 import * as React from 'react';
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import LayersIcon from '@mui/icons-material/Layers';
 
-import ActionRelateMenu from './ActionRelateMenu';
+import ActionSourceMenu from './ActionSourceMenu';
 
 const Source = (props) => {
 
     const { source, color, sourceAction } = props;
-
-    // ACTION MENU STATES
-    const [anchorActionEl, setAnchorActionEl] = useState(null);
-    const [open, setOpen] = useState(true);
-
-    // HANDLE ACTION MENU
-    const handleMenu = (event) => {
-        setAnchorActionEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorActionEl(null);
-    };
 
     return (
         <Card sx={{ width: '100%', mb: 1, }}>
@@ -31,7 +19,14 @@ const Source = (props) => {
                         <LayersIcon />
                     </Avatar>
                 }
-                action={ <ActionRelateMenu section={'research'} sourceAction={sourceAction} row={source.research_source} source={source} /> }
+                action={ 
+                    <ActionSourceMenu 
+                        section={'research'} 
+                        sourceAction={sourceAction} 
+                        source={source} 
+                        row={source.research_source} 
+                    /> 
+                }
                 title={source.research_source.title}
                 subheader="<research.date>"
             />
@@ -40,3 +35,13 @@ const Source = (props) => {
 };
 
 export default Source;
+
+Source.defaultProps = {
+    section: 'research',
+}
+
+Source.propTypes = {
+    source: PropTypes.object.isRequired,
+    color: PropTypes.string.isRequired,
+    sourceAction: PropTypes.func.isRequired,
+};

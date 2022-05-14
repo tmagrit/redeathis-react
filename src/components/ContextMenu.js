@@ -67,7 +67,7 @@ const ContextMenu = () => {
                 <ListItemText primary="Criar Pesquisa" />
             </ListItemButton>
 
-            <ListItemButton component={Link} to="/admin/research/authors" selected={activeMenu(context,'all')} >
+            <ListItemButton component={Link} to="/admin/research/authors" selected={activeMenu(context,'authors')} >
                 <ListItemIcon>
                     <ContactsIcon />
                 </ListItemIcon>

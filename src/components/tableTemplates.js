@@ -1,19 +1,13 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from "react-router-dom";
 import { toggleProfileActive } from '../features/membersSlice';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import IconButton from '@mui/material/IconButton';
 import Chip from '@mui/material/Chip';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
-import { Typography } from '@mui/material';
 
 import ActionMenu from './ActionMenu';
-import ActionRelateMenu from './ActionRelateMenu';
+
 
 export function useTableTemplates(props) {
 
@@ -222,120 +216,10 @@ export function useTableTemplates(props) {
         ]
     );
 
-
-    // // COLUMNS TO AUTHORS LIST
-    // const authorsSourcesColumns = (
-    //     [
-    //         {
-    //             name: 'ID',
-    //             selector: row => row.id ,
-    //             sortable: true,
-    //             width: '70px',
-    //         },
-    //         {
-    //             name: 'Nome',
-    //             selector: row => row.name + ' ' + row.surname ,
-    //             sortable: true,
-    //             grow: 3,
-    //         },
-    //         {
-    //             name: 'Nascimento',
-    //             selector: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-    //             cell: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-    //             sortable: true,
-    //             grow: 2,
-    //         },
-    //         {
-    //             name: 'Morte',
-    //             selector: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-    //             cell: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-    //             sortable: true,
-    //             grow: 2,
-    //         },
-    //         {
-    //             name: 'Ações',
-    //             maxWidth: '100px',
-    //             cell: row => <ActionMenu section={'authors'} mode='sources' row={row} />,
-    //             right: true,
-    //             grow: 1,
-    //         },
-    //     ]
-    // );
-
-    // // COLUMNS TO SOURCES LIST
-    // const researchSourcesColumns = (
-    //     [
-    //         {
-    //             name: 'ID',
-    //             selector: row => row.id ,
-    //             sortable: true,
-    //             width: '70px',
-    //         },
-    //         {
-    //             name: 'Título',
-    //             //selector: row => row.title ,
-    //             selector: row => row.title,
-    //             cell: row => <span style={{ wordBreak: "break-word" }}>{row.title}</span>, 
-    //             sortable: true,
-    //             //maxWidth: '220px',
-    //             grow: 3,
-    //         },
-    //         {
-    //             name: 'Resumo',
-    //             // selector: row => row.summary,
-    //             selector: row => row.summary,
-    //             sortable: true,
-    //             omit: true,
-    //         },
-    //         {
-    //             name: 'Data',
-    //             selector: row => 'date' ,
-    //             sortable: true,
-    //             maxWidth: '120px',
-    //             grow: 1,
-    //         },
-    //         {
-    //             name: 'Categoria',
-    //             selector: row => row.category_id,
-    //             cell: row => <Chip 
-    //                                 label={categories.find(c => c.id === row.category_id).name} 
-    //                                 size="small" 
-    //                                 variant="outlined" 
-    //                             />,
-    //             sortable: true,
-    //             maxWidth: '200px',
-    //             grow: 1,
-    //         },
-    //         {
-    //             name: 'Status',
-    //             selector: row => row.status,
-    //             cell: row => <Chip 
-    //                                 label={statuses.find(s => s.id === row.status).status} 
-    //                                 size="small" 
-    //                                 variant="outlined" 
-    //                                 color={statusColor(row.status)}
-    //                             />,
-    //             sortable: true,
-    //             maxWidth: '140px',
-    //             grow: 1,
-    //         },
-    //         {
-    //             name: 'Ações',
-    //             maxWidth: '100px',
-    //             cell: row => <ActionRelateMenu section={'research'} row={row} />,
-    //             right: true,
-    //             grow: 1,
-    //         },
-    //     ]
-    // );
-
-  
     return {
         fullProfilesColumns: fullProfilesColumns,
         fullResearchColumns: fullResearchColumns,
         authorsColumns: authorsColumns,
-        //authorsSourcesColumns: authorsSourcesColumns,
-        //researchSourcesColumns: researchSourcesColumns,
     };
 };
 
