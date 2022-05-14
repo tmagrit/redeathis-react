@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useState, useEffect, useSyncExternalStore } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
-import { DateTime } from 'luxon';
+//import { DateTime } from 'luxon';
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
@@ -31,19 +31,14 @@ const SourceDialog = (props) => {
 
     // REDUX SELECTORS
     const sources = useSelector(state => state.research.sources);
+    const getSourcesStatus = useSelector(state => state.research.getSourcesStatus);
     const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const researchList = useSelector(state => state.research.research);
-    const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
+    //const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
-    // AUTHORS
-    const authors = useSelector(state => state.research.authors);
-    const getSourcesStatus = useSelector(state => state.research.getSourcesStatus);
 
-    // EDIT RESEARCH STATES
-    const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
-    const researchWithDate = { ...research, date: dateTime }
-    const [researchData, setResearchData] = useState(researchWithDate);
+    // STATE
     const [researchSources, setResearchSources] = useState([]);
 
     const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
@@ -56,7 +51,7 @@ const SourceDialog = (props) => {
     useEffect(() => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
         setResearchSources([...updatedResearchSources]);
-    }, [sources, addSourceStatus]);
+    }, [sources, addSourceStatus, params.researchId]);
 
     const handleUpdateResearchSources = (sources) => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
@@ -222,3 +217,11 @@ SourceDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
+    // AUTHORS
+    //const authors = useSelector(state => state.research.authors);
+    
+
+    // EDIT RESEARCH STATES
+    // const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
+    // const researchWithDate = { ...research, date: dateTime }
+    // const [researchData, setResearchData] = useState(researchWithDate);

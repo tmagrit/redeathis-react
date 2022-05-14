@@ -41,7 +41,7 @@ const AuthorDialog = (props) => {
     useEffect(() => {
         const updatedResearchAuthors = allResearchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
         setResearchAuthors([...updatedResearchAuthors]);
-    }, [allResearchAuthors, addResearchAuthorStatus]);
+    }, [allResearchAuthors, addResearchAuthorStatus, params.researchId]);
 
     const handleUpdateResearchAuthors = (allresearchauthors) => {
         const updatedResearchAuthors = allresearchauthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );

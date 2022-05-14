@@ -16,12 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton'; 
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Copyright from './Copyright';
 import Title from './Title';   
@@ -120,7 +115,7 @@ const ResearchCreate = () => {
     // TRACK CATEGORY CHANGES 
     useEffect(() => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color || '#3d85c6');
-    }, [researchData.category_id])
+    }, [researchData.category_id, categories])
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

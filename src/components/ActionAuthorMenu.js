@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useSyncExternalStore, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addResearchAuthor, deleteResearchAuthor, removeAuthor } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
@@ -31,7 +31,7 @@ const ActionAuthorMenu = (props) => {
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
-    const [open, setOpen] = useState(true);
+    //const [open, setOpen] = useState(true);
 
     // HANDLE ACTION MENU
     const handleMenu = (event) => {
@@ -43,8 +43,6 @@ const ActionAuthorMenu = (props) => {
 
     // HANDLE RELATE ACTIONS ENABLING
     const isRelatable = (row) => {
-        // console.log('row', row);
-        // console.log('researchAuthorsIds', researchAuthorsIds);
         if(researchAuthorsIds.includes(row.id))
             return false;
         else
@@ -69,18 +67,18 @@ const ActionAuthorMenu = (props) => {
     // TRACK SOURCE CHANGES 
     useEffect(() => {
         authorAction();
-    }, [allResearchAuthors, addResearchAuthorStatus]);
+    }, [allResearchAuthors, addResearchAuthorStatus, authorAction]);
 
     return (
         <React.Fragment>
             <IconButton 
                 id="action-button" 
-                aria-label="ações" 
                 size="small" 
                 onClick={handleMenu} 
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
+                // aria-label="ações" 
+                // aria-controls={open ? 'basic-menu' : undefined}
+                // aria-haspopup="true"
+                // aria-expanded={open ? 'true' : undefined}
             >
                 <MoreVertIcon fontSize="small" />
             </IconButton>

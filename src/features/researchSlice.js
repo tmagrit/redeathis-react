@@ -222,7 +222,7 @@ export const addSource = createAsyncThunk('research/addSource', async (obj , { d
 
 export const deleteSource = createAsyncThunk('research/deleteSource', async (obj , { dispatch, getState }) => {
     try {     
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('sources')
             .delete()
             .match({ id: obj.id })
@@ -264,7 +264,7 @@ export const addResearchAuthor = createAsyncThunk('research/addResearchAuthor', 
 
 export const deleteResearchAuthor = createAsyncThunk('research/deleteResearchAuthor', async (obj , { dispatch, getState }) => {
     try {     
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('research_authors')
             .delete()
             .match({ id: obj.id })

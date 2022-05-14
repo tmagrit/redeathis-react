@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useSyncExternalStore } from 'react';
+import { useState, useEffect } from 'react';
 import { updateResearch } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -133,7 +133,7 @@ const ResearchEdit = () => {
     // TRACK CATEGORY CHANGES 
     useEffect(() => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
-    }, [researchData.category_id]);
+    }, [researchData.category_id, categories]);
 
 
 
@@ -141,7 +141,7 @@ const ResearchEdit = () => {
     useEffect(() => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
         setResearchSources([...updatedResearchSources]);
-    }, [sources, addSourceStatus]);
+    }, [sources, addSourceStatus, params.researchId]);
 
     const handleUpdateResearchSources = (sources) => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
@@ -152,7 +152,7 @@ const ResearchEdit = () => {
      useEffect(() => {
         const updatedResearchAuthors = allResearchAuthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
         setResearchAuthors([...updatedResearchAuthors]);
-    }, [allResearchAuthors, addResearchAuthorStatus]);
+    }, [allResearchAuthors, addResearchAuthorStatus, params.researchId]);
 
     const handleUpdateResearchAuthors = (allresearchauthors) => {
         const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
