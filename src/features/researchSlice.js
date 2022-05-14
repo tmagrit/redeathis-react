@@ -279,6 +279,31 @@ export const deleteResearchAuthor = createAsyncThunk('research/deleteResearchAut
     };
 });
 
+export const createAuthor = createAsyncThunk('research/createAuthor', async (obj , { dispatch, getState }) => {
+    try {     
+        const { data, error } = await supabase
+            .from('authors')
+            .upsert(obj, { ignoreDuplicates: true })
+            .single()
+
+        if (error) 
+            throw error;
+        // const { research } = getState();
+        // const newData = {
+        //     ...data,
+        //     research_source: research.research.find(r => r.id === data.source_id),
+        //     research_target: research.research.find(r => r.id === data.target_id),
+        // }     
+        
+        return data;
+
+    } catch (error) {
+        alert('addSource()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -305,6 +330,9 @@ export const researchSlice = createSlice({
         getAuthorsStatus: 'idle',
         getAuthorsError: null,
 
+        createAuthorsStatus: 'idle',
+        createAuthorsError: null,
+
         researchAuthors: [],
         getResearchAuthorsStatus: 'idle',
         getResearchAuthorsError: null,
@@ -327,9 +355,13 @@ export const researchSlice = createSlice({
             const newSources = state.sources.filter(s => s.id !== action.payload.id);
             state.sources = newSources;
         },
-        removeAuthor(state, action) { 
+        removeResearchAuthor(state, action) { 
             const newResearchAuthors = state.researchAuthors.filter(ra => ra.id !== action.payload.id);
             state.researchAuthors = newResearchAuthors;
+        },
+        removeAuthor(state, action) { 
+            const newAuthors = state.authors.filter(a => a.id !== action.payload.id);
+            state.researchAuthors = newAuthors;
         }
         
     },
@@ -476,6 +508,18 @@ export const researchSlice = createSlice({
           state.deleteResearchAuthorError = action.error
         },
 
+        [createAuthor.pending]: (state) => {
+            state.createAuthorStatus = 'loading'
+        },
+        [createAuthor.fulfilled]: (state, action) => {
+            state.authors.unshift(action.payload)
+            state.createAuthorStatus = 'succeeded'
+        },
+        [createAuthor.rejected]: (state, action) => {
+          state.createAuthorStatus = 'failed'
+          state.createAuthorError = action.error
+        },
+
       }
 })
 
@@ -502,7 +546,7 @@ export const researchSlice = createSlice({
 
 export const { 
     removeSource,
-    removeAuthor,
+    removeResearchAuthor,
 } = researchSlice.actions
 
 export default researchSlice.reducer

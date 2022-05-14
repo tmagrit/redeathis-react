@@ -6,7 +6,7 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-//import { invite } from '../features/sessionSlice';
+import { createAuthor } from '../features/researchSlice';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -30,8 +30,9 @@ const AuthorAdd = () => {
     };
 
         
-    const handleAddAuthor = (authordata) => {
-        //dispatch(createAuthor(authordata));
+    const handleCreateAuthor = (authordata) => {
+        dispatch(createAuthor(authordata));
+        console.log('handleCreateAuthor', initialAuthor)
         setAuthorData(initialAuthor);
     };
 
@@ -141,7 +142,7 @@ const AuthorAdd = () => {
                             fullWidth 
                             onClick={e => {
                                 e.preventDefault();
-                                handleAddAuthor(authorData);
+                                handleCreateAuthor(authorData);
                             }}
                         >
                             Cadastrar Autor

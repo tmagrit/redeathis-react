@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addResearchAuthor, deleteResearchAuthor, removeAuthor } from '../features/researchSlice';
+import { addResearchAuthor, deleteResearchAuthor, removeResearchAuthor } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
@@ -58,7 +58,7 @@ const ActionAuthorMenu = (props) => {
 
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = () => {
-        dispatch(removeAuthor(researchAuthor));
+        dispatch(removeResearchAuthor(researchAuthor));
         dispatch(deleteResearchAuthor(researchAuthor));
         authorAction();
         handleClose();
