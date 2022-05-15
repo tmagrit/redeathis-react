@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeAuthor, deleteAuthor } from '../features/researchSlice';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,10 +15,18 @@ import Divider from '@mui/material/Divider';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ActionMenu = ({ section, row }) => {
+import AuthorEdit from './AuthorEdit';
+
+const ActionMenu = (props) => {
+
+    const { section, row } = props;
+
+    // REDUX SELECTORS
+    const dispatch = useDispatch();
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
+    const [authorEditDialogOpen, setAuthorEditDialogOpen] = useState(false);
     const [open, setOpen] = useState(true);
 
     // HANDLE ACTION MENU
@@ -24,6 +34,26 @@ const ActionMenu = ({ section, row }) => {
         setAnchorActionEl(event.currentTarget);
     };
     const handleClose = () => {
+        setAnchorActionEl(null);
+    };
+
+    // HANDLE AUTHOR EDIT
+    const handleAuthorEditClose = () => {
+        setAuthorEditDialogOpen(false);
+    };
+
+    const handleEdit = (row) => {
+        if(section === 'authors') {
+            setAuthorEditDialogOpen(true);
+            //dispatch(deleteAuthor(row));
+        }
+        setAnchorActionEl(null);
+    };
+
+    const handleDelete = (row) => {
+        if(section === 'authors') {
+            dispatch(deleteAuthor(row));
+        }
         setAnchorActionEl(null);
     };
 
@@ -60,20 +90,29 @@ const ActionMenu = ({ section, row }) => {
                 }}
             >
                 <MenuList dense>
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                    <MenuItem component={Link} to={`/admin/${section}/view/${row.id}`} onClick={handleClose} >
                         <ListItemIcon>
                             <VisibilityIcon fontSize="small" color="info"/> 
                         </ListItemIcon>
                         Pré Visualizar
                     </MenuItem> 
-                    <MenuItem component={Link} to={`/admin/${section}/edit/${row.id}`} onClick={handleClose} >
-                        <ListItemIcon>
-                            <EditIcon fontSize="small"  color="warning"/> 
-                        </ListItemIcon>
-                        Editar
-                    </MenuItem> 
+                    {section === 'authors' ? (
+                        <MenuItem onClick={handleEdit} >
+                            <ListItemIcon>
+                                <EditIcon fontSize="small"  color="warning"/> 
+                            </ListItemIcon>
+                            Editar
+                        </MenuItem> 
+                    ) : (
+                        <MenuItem component={Link} to={`/admin/${section}/edit/${row.id}`} onClick={handleEdit} >
+                            <ListItemIcon>
+                                <EditIcon fontSize="small"  color="warning"/> 
+                            </ListItemIcon>
+                            Editar
+                        </MenuItem> 
+                    )}
                     <Divider />
-                    <MenuItem component={Link} to="#" onClick={handleClose} >
+                    <MenuItem component={Link} to="#" onClick={() => handleDelete(row)} >
                         <ListItemIcon>
                             <DeleteIcon fontSize="small" color="error"/> 
                         </ListItemIcon>
@@ -82,6 +121,13 @@ const ActionMenu = ({ section, row }) => {
                 </MenuList>
             </Menu>
 
+            {/* CREATE SOURCE DIALOG */}
+            <AuthorEdit
+                open={authorEditDialogOpen}
+                onClose={handleAuthorEditClose}
+                row={row}
+            />
+
         </React.Fragment>
     );
 };
@@ -89,7 +135,7 @@ const ActionMenu = ({ section, row }) => {
 export default ActionMenu;
 
 ActionMenu.defaultProps = {
-    mode: 'default',
+    section: 'research',
 }
 
 ActionMenu.propTypes = {

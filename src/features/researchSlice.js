@@ -304,6 +304,25 @@ export const createAuthor = createAsyncThunk('research/createAuthor', async (obj
     };
 });
 
+export const deleteAuthor = createAsyncThunk('research/deleteAuthor', async (obj , { dispatch, getState }) => {
+    try {     
+        const { error } = await supabase
+            .from('authors')
+            .delete()
+            .match({ id: obj.id })
+
+        if (error) 
+            throw error;
+          
+        dispatch(removeAuthor(obj)); 
+        
+    } catch (error) {
+        alert('deleteResearchAuthor()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -333,6 +352,9 @@ export const researchSlice = createSlice({
         createAuthorsStatus: 'idle',
         createAuthorsError: null,
 
+        deleteAuthorsStatus: 'idle',
+        deleteAuthorsError: null,
+
         researchAuthors: [],
         getResearchAuthorsStatus: 'idle',
         getResearchAuthorsError: null,
@@ -361,7 +383,7 @@ export const researchSlice = createSlice({
         },
         removeAuthor(state, action) { 
             const newAuthors = state.authors.filter(a => a.id !== action.payload.id);
-            state.researchAuthors = newAuthors;
+            state.authors = newAuthors;
         }
         
     },
@@ -520,10 +542,21 @@ export const researchSlice = createSlice({
           state.createAuthorError = action.error
         },
 
+        [deleteAuthor.pending]: (state) => {
+            state.deleteAuthorsStatus = 'loading'
+        },
+        [deleteAuthor.fulfilled]: (state, action) => {
+            state.deleteAuthorsStatus = 'succeeded'
+        },
+        [deleteAuthor.rejected]: (state, action) => {
+          state.deleteAuthorsStatus = 'failed'
+          state.deleteAuthorsError = action.error
+        },
+
       }
 })
 
-// // SELECTOR OF COMPLETE PROFILE
+// // SELECTOR OF COMPLETE PROFILE 
 // export const selectFullProfiles  = state => {
 //     if (    state.research.getMembersStatus === 'succeeded' && 
 //             state.research.getRolesStatus === 'succeeded' &&
@@ -547,6 +580,7 @@ export const researchSlice = createSlice({
 export const { 
     removeSource,
     removeResearchAuthor,
+    removeAuthor,
 } = researchSlice.actions
 
 export default researchSlice.reducer

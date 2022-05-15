@@ -7,6 +7,7 @@ import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 
 import ActionMenu from './ActionMenu';
+import { Typography } from '@mui/material';
 
 
 export function useTableTemplates(props) {
@@ -194,15 +195,15 @@ export function useTableTemplates(props) {
             },
             {
                 name: 'Nascimento',
-                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
+                cell: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
                 sortable: true,
                 grow: 2,
             },
             {
                 name: 'Morte',
-                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
+                cell: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
                 sortable: true,
                 grow: 2,
             },

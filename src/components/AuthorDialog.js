@@ -72,15 +72,15 @@ const AuthorDialog = (props) => {
             },
             {
                 name: 'Nascimento',
-                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
+                cell: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
                 sortable: true,
                 grow: 2,
             },
             {
                 name: 'Morte',
-                selector: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
-                cell: row => row.birth == null ? '-' : DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
+                cell: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
                 sortable: true,
                 grow: 2,
             },
@@ -176,16 +176,3 @@ AuthorDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
 };
-
-
-// // MY HISTORY HOOK
-// import { useHistory } from './history';
-
-
-    // const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
-    // const researchWithDate = { ...research, date: dateTime }
-    // const [researchData, setResearchData] = useState(researchWithDate);
-    // const [researchSources, setResearchSources] = useState([]);
-
-     // // MY HISTORY HOOK
-    // const history = useHistory();
