@@ -23,12 +23,13 @@ const AuthorAdd = () => {
     const dispatch = useDispatch()
 
     // STATES
-    const initialAuthor = { name: '', surname: '', link: null, birth: null, death: null, has_birth: false, has_death: false }
+    const initialAuthor = { name: '', surname: '', link: '', birth: null, death: null, has_birth: false, has_death: false }
     const [authorData, setAuthorData] = useState(initialAuthor);
 
     // CHANGE AUTHOR STATES
     const handleChangeAuthorData = (event) => {
         setAuthorData({...authorData, [event.target.id]: event.target.value});
+        console.log({...authorData, [event.target.id]: event.target.value})
     };
 
     // CHANGE AUTHOR DATE STATES
@@ -41,8 +42,9 @@ const AuthorAdd = () => {
         setAuthorData({ ...authorData, [event.target.name]: event.target.checked });
     };
         
-    const handleCreateAuthor = (authordata) => {
-        dispatch(createAuthor(authordata));
+    const handleCreateAuthor = () => {
+        const newAuthor = {...authorData, birth: authorData.birth.c, death: authorData.death.c, }
+        dispatch(createAuthor(newAuthor));
         setAuthorData(initialAuthor);
     };
 
@@ -166,9 +168,6 @@ const AuthorAdd = () => {
                         </Grid>  
                     </Grid> 
                     <Grid item md={4} xs={12}>   
-
-
-
                         <Grid container>
                             <Grid item xs={10}>
                                 {authorData.has_death ? (
@@ -205,23 +204,13 @@ const AuthorAdd = () => {
                                 />
                             </Grid>
                         </Grid>
-
-
-
-
-
-
-
                     </Grid>    
                     <Grid item md={4} xs={12}>
                         <Button 
                             variant="contained" 
                             disabled={!validateString(authorData.name) || authorData.name.length === 0}
                             fullWidth 
-                            onClick={e => {
-                                e.preventDefault();
-                                handleCreateAuthor(authorData);
-                            }}
+                            onClick={handleCreateAuthor}
                         >
                             Cadastrar Autor
                         </Button> 

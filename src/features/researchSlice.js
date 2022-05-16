@@ -288,12 +288,6 @@ export const createAuthor = createAsyncThunk('research/createAuthor', async (obj
 
         if (error) 
             throw error;
-        // const { research } = getState();
-        // const newData = {
-        //     ...data,
-        //     research_source: research.research.find(r => r.id === data.source_id),
-        //     research_target: research.research.find(r => r.id === data.target_id),
-        // }     
         
         return data;
 
@@ -315,7 +309,7 @@ export const deleteAuthor = createAsyncThunk('research/deleteAuthor', async (obj
             throw error;
           
         dispatch(removeAuthor(obj)); 
-        
+
     } catch (error) {
         alert('deleteResearchAuthor()-error')
         console.log(error)
@@ -323,6 +317,30 @@ export const deleteAuthor = createAsyncThunk('research/deleteAuthor', async (obj
     };
 });
 
+export const updateAuthor = createAsyncThunk('research/updateAuthor', async (obj , { dispatch, getState }) => {
+    try {  
+        console.log('thunk', obj);
+        const { data, error } = await supabase
+            .from('authors')
+            .update(obj)
+            .match({ id: obj.id })
+            .single()
+
+        if (error) 
+            throw error; 
+
+        const { research } = getState();
+        const authors = research.authors.filter(a => a.id !== obj.id);
+        const newData = [data, ...authors]    
+        
+        return newData;
+
+    } catch (error) {
+        alert('upsertAuthor()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
 
 export const researchSlice = createSlice({
     name: 'research',
@@ -351,6 +369,9 @@ export const researchSlice = createSlice({
 
         createAuthorsStatus: 'idle',
         createAuthorsError: null,
+
+        upsertAuthorsStatus: 'idle',
+        upsertAuthorsError: null,
 
         deleteAuthorsStatus: 'idle',
         deleteAuthorsError: null,
@@ -553,6 +574,17 @@ export const researchSlice = createSlice({
           state.deleteAuthorsError = action.error
         },
 
+        [updateAuthor.pending]: (state) => {
+            state.updateAuthorsStatus = 'loading'
+        },
+        [updateAuthor.fulfilled]: (state, action) => {
+            state.authors = action.payload
+            state.updateAuthorsStatus = 'succeeded'
+        },
+        [updateAuthor.rejected]: (state, action) => {
+          state.updateAuthorsStatus = 'failed'
+          state.updateAuthorsError = action.error
+        },
       }
 })
 
