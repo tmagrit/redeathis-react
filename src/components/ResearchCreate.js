@@ -31,6 +31,7 @@ import MapViewport from './MapViewport';
 import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from './colorConverter';
+import { Typography } from '@mui/material';
 
 //const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
@@ -169,20 +170,22 @@ const ResearchCreate = () => {
                                 children={
                                     <Grid container >
                                         <Grid item xs={12} >
+                                            <Typography sx={{ color: 'text.disabled', fontStyle: 'italic', }}>Teste</Typography>
                                             <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
-    
-                                            <Fab 
-                                                color="success"
-                                                disabled
-                                                variant="extended" 
-                                                size="small" 
-                                                onClick={undefined}
                                                 
-                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
-                                            >
-                                                <MultipleStopIcon sx={{ mr: 1 }} />
-                                                Relacionar Proponente
-                                            </Fab>
+    
+                                                <Fab 
+                                                    color="success"
+                                                    disabled
+                                                    variant="extended" 
+                                                    size="small" 
+                                                    onClick={undefined}
+                                                    
+                                                    //sx={{ position: 'absolute', bottom: 16, right: 16, }}
+                                                >
+                                                    <MultipleStopIcon sx={{ mr: 1 }} />
+                                                    Relacionar Proponente
+                                                </Fab>
                                             </Box>
                                         </Grid>
                                     </Grid>
