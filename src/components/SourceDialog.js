@@ -14,6 +14,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
@@ -165,10 +168,17 @@ const SourceDialog = (props) => {
                     >
                         <CloseIcon />
                     </IconButton>
-                    <Box sx={{ flexGrow: 1 }} />
-
-                    BUSCA
-                   
+                    <Box sx={{ flexGrow: 1, }} />
+                    <TextField
+                        placeholder="Buscar Pesquisa"
+                        id="input-source-search"
+                        size="small"
+                        type="text"
+                        sx={{ my: 1,}}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                        }}
+                    />
                 </Toolbar>
             </AppBar>
 
