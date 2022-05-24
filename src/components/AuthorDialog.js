@@ -146,7 +146,7 @@ const AuthorDialog = (props) => {
                 })}
             </DialogContent>
             <DialogTitle >
-                Incluir Proponente
+                Incluir Autor
             </DialogTitle>
             <DialogContent dividers>
                 {/* SOURCES TABLE  */}

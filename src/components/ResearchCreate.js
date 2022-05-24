@@ -165,7 +165,7 @@ const ResearchCreate = () => {
 
                             <FormBox 
                                 id='sources-box' 
-                                label='Proponentes' 
+                                label='Pesquisas Relacionadas' 
                                 padding={{ pl: '14px', pr: '14px', py: '14px', }}
                                 children={
                                     <Grid container >
@@ -184,7 +184,7 @@ const ResearchCreate = () => {
                                                     //sx={{ position: 'absolute', bottom: 16, right: 16, }}
                                                 >
                                                     <MultipleStopIcon sx={{ mr: 1 }} />
-                                                    Relacionar Proponente
+                                                    Relacionar Pesquisa
                                                 </Fab>
                                             </Box>
                                         </Grid>

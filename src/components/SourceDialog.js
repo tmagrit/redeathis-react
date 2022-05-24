@@ -173,7 +173,7 @@ const SourceDialog = (props) => {
             </AppBar>
 
             <DialogTitle >
-                Proponentes
+                Pesquisas Relacionadas
             </DialogTitle>
             <DialogContent dividers sx={{ minHeight: 200, }}>
                 {researchSources.map(rs => {
@@ -186,7 +186,7 @@ const SourceDialog = (props) => {
                 })}
             </DialogContent>
             <DialogTitle >
-                Incluir Proponente
+                Incluir Pesquisa
             </DialogTitle>
             <DialogContent dividers>
                 {/* SOURCES TABLE  */}
@@ -202,7 +202,7 @@ const SourceDialog = (props) => {
                     />
                 ) : (
                     <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
-                        Sem proponentes para exibir
+                        Sem pesquisas para exibir
                     </Typography>
                 ) }
             </DialogContent>

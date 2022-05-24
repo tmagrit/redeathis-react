@@ -210,7 +210,7 @@ const ResearchEdit = () => {
 
                             <FormBox 
                                 id='sources-box' 
-                                label='Proponentes' 
+                                label='Pesquisas Relacionadas' 
                                 padding={{ pl: '14px', pr: '14px', py: '14px', }}
                                 children={
                                     <Grid container >
@@ -233,7 +233,7 @@ const ResearchEdit = () => {
                                                 onClick={handleSourceDialogOpen}
                                             >
                                                 <MultipleStopIcon sx={{ mr: 1 }} />
-                                                Relacionar Proponente
+                                                Relacionar Pesquisa
                                             </Fab>
                                             </Box>
                                         </Grid>

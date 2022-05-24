@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
-import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
@@ -31,23 +31,15 @@ const MapDialog = (props) => {
               >
                 <CloseIcon />
               </IconButton>
-              <Box sx={{ flexGrow: 1, }} >
-
-              </Box>
+              <Box sx={{ flexGrow: 1, }} />
               <TextField
-                //value={email}
-                //error={emailError(email)}
-                //onChange={e => setEmail(e.target.value)}
-                //fullWidth
-                //label="Localidade"
                 placeholder="Localidade"
                 id="input-search"
                 size="small"
                 type="text"
-                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
-                //sx={{ my: 1,}}
+                sx={{ my: 1,}}
                 InputProps={{
-                  startAdornment: <InputAdornment position="start"><LocationSearchingIcon /></InputAdornment>,
+                  startAdornment: <InputAdornment position="start"><TravelExploreIcon /></InputAdornment>,
                 }}
               />
             </Toolbar>
