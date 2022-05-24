@@ -136,9 +136,11 @@ const AuthorAdd = () => {
                                 {authorData.has_birth ? (
                                     <DesktopDatePicker
                                         maxDate={authorData.death}
+                                        openTo="year"
+                                        views={['year', 'month']}
                                         label="Nascimento"
                                         clearable
-                                        inputFormat="dd/MM/yyyy"
+                                        //inputFormat="dd/MM/yyyy"
                                         value={authorData.birth}
                                         onChange={value => handleChangeAuthorDate(value, 'birth')}
                                         renderInput={(params) => <TextField size="small" id="birth" fullWidth InputLabelProps={{ shrink: true }} {...params} />}
@@ -173,10 +175,12 @@ const AuthorAdd = () => {
                                 {authorData.has_death ? (
                                     <DesktopDatePicker
                                         minDate={authorData.birth}
+                                        openTo="year"
+                                        views={['year', 'month']}
                                         label="Morte"
                                         clearable
                                         disableFuture
-                                        inputFormat="dd/MM/yyyy"
+                                        //inputFormat="dd/MM/yyyy"
                                         value={authorData.death} 
                                         onChange={value => handleChangeAuthorDate(value, 'death')}
                                         renderInput={(params) => <TextField size="small" id="death" fullWidth InputLabelProps={{ shrink: true }} {...params} />}

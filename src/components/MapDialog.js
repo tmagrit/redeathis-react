@@ -33,7 +33,7 @@ const MapDialog = (props) => {
               </IconButton>
               <Box sx={{ flexGrow: 1, }} />
               <TextField
-                placeholder="Localidade"
+                placeholder="Buscar Localidade"
                 id="input-search"
                 size="small"
                 type="text"
