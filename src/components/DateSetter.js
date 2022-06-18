@@ -33,7 +33,7 @@ const DateSetter = (props) => {
                 <DesktopDatePicker
                     maxDate={dateValue.end}
                     openTo="year"
-                    views={['year', 'month']}
+                    views={['year']}
                     label="Início"
                     //inputFormat="dd/MM/yyyy"
                     value={dateValue.start}
@@ -43,7 +43,7 @@ const DateSetter = (props) => {
                 <DesktopDatePicker
                     minDate={dateValue.start}
                     openTo="year"
-                    views={['year', 'month']}
+                    views={['year']}
                     label="Fim"
                     disabled={!dateValue.interval}
                     //inputFormat="dd/MM/yyyy"

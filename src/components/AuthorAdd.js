@@ -137,7 +137,7 @@ const AuthorAdd = () => {
                                     <DesktopDatePicker
                                         maxDate={authorData.death}
                                         openTo="year"
-                                        views={['year', 'month']}
+                                        views={['year']}
                                         label="Nascimento"
                                         clearable
                                         //inputFormat="dd/MM/yyyy"
@@ -176,7 +176,7 @@ const AuthorAdd = () => {
                                     <DesktopDatePicker
                                         minDate={authorData.birth}
                                         openTo="year"
-                                        views={['year', 'month']}
+                                        views={['year']}
                                         label="Morte"
                                         clearable
                                         disableFuture
