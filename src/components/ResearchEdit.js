@@ -28,6 +28,7 @@ import FormBox from './FormBox';
 
 import Map from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
 import DeckGL from '@deck.gl/react';
@@ -40,7 +41,7 @@ import AuthorDialog from './AuthorDialog';
 import Source from './Source';
 import Author from './Author';
 
-const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
+const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const ResearchEdit = () => {
 
@@ -158,9 +159,6 @@ const ResearchEdit = () => {
         const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
         setResearchAuthors(updatedResearchAuthors);
     };
-
-
-
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

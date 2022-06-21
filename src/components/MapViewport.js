@@ -3,11 +3,12 @@ import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from './colorConverter';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 import PropTypes from 'prop-types';
 
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
+const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const MapViewport = (props) => {
 

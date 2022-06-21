@@ -25,6 +25,9 @@ import DateSetter from './DateSetter';
 import FormBox from './FormBox';
 
 import Map from 'react-map-gl';
+
+
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
@@ -33,8 +36,8 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from './colorConverter';
 import { Typography } from '@mui/material';
 
-//const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
+const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const ResearchCreate = () => {
 
@@ -306,9 +309,9 @@ const ResearchCreate = () => {
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
-                            <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
-                                <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} styleDiffing={true} />
-                            </DeckGL>
+                                <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
+                                    <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} styleDiffing={true} />
+                                </DeckGL>
                             </div>
                             <MapDialog
                                 open={mapDialogOpen}

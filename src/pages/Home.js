@@ -25,9 +25,10 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from '../components/colorConverter';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-const mapboxStyle = "mapbox://styles/mapbox/dark-v10"
+const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
+
+//"mapbox://styles/mapbox/dark-v9"
 
 const Home = () => {
 
@@ -194,6 +195,7 @@ const Home = () => {
                     styleDiffing={true} 
                 />
             </DeckGL>
+
         </React.Fragment>
         
     )
