@@ -24,16 +24,15 @@ import Index from './ResearchIndex';
 import DateSetter from './DateSetter'; 
 import FormBox from './FormBox';
 
-import Map from 'react-map-gl';
-
-
-
+import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import MapDialog from './MapDialog';
+//import DeckGL from '@deck.gl/react';
+//import { ScatterplotLayer } from '@deck.gl/layers';
+//import { hexToRgb } from './colorConverter';
+
 import MapViewport from './MapViewport';
-import DeckGL from '@deck.gl/react';
-import { ScatterplotLayer } from '@deck.gl/layers';
-import { hexToRgb } from './colorConverter';
+import MapDialog from './MapDialog';
+
 import { Typography } from '@mui/material';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -71,6 +70,8 @@ const ResearchCreate = () => {
     const [researchData, setResearchData] = useState({ ...research });
     const [categoryColor, setCategoryColor] = useState('#3d85c6');
 
+    console.log(researchData.geolocation);
+
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
 
@@ -78,23 +79,23 @@ const ResearchCreate = () => {
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
     
 
-    // DECK GL LAYER
-    const layers = [
-        new ScatterplotLayer({
-            id: 'markers',
-            data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
-            pickable: false,
-            //opacity: 0.8,
-            stroked: false,
-            filled: true,
-            radiusScale: 5,
-            radiusMinPixels: 5,
-            radiusMaxPixels: 10,
-            getPosition: d => d.coordinates,
-            getRadius: d => 5,
-            getFillColor: d => hexToRgb(categoryColor)
-        })
-    ];
+    // // DECK GL LAYER
+    // const layers = [
+    //     new ScatterplotLayer({
+    //         id: 'markers',
+    //         data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
+    //         pickable: false,
+    //         //opacity: 0.8,
+    //         stroked: false,
+    //         filled: true,
+    //         radiusScale: 5,
+    //         radiusMinPixels: 5,
+    //         radiusMaxPixels: 10,
+    //         getPosition: d => d.coordinates,
+    //         getRadius: d => 5,
+    //         getFillColor: d => hexToRgb(categoryColor)
+    //     })
+    // ];
 
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
@@ -309,9 +310,18 @@ const ResearchCreate = () => {
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
-                                <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
+                                {/* <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
                                     <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} styleDiffing={true} />
-                                </DeckGL>
+                                </DeckGL> */}
+
+                                <Map
+                                    {...researchData.geolocation}
+                                    interactive={false}
+                                    mapStyle={mapboxStyle}
+                                    mapboxAccessToken={mapboxKey}
+                                > 
+                                    <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={categoryColor} />
+                                </Map> 
                             </div>
                             <MapDialog
                                 open={mapDialogOpen}
@@ -319,7 +329,7 @@ const ResearchCreate = () => {
                                 children={
                                     <MapViewport 
                                         viewport={researchData.geolocation}
-                                        setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation.viewState })}
+                                        setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation })}
                                         style={{ width: '100vw', height: '100vh' }}  
                                         color={categoryColor} 
                                     />
