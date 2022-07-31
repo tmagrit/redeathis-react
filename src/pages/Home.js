@@ -204,14 +204,89 @@ const Home = () => {
                 </Toolbar>
             </AppBar>
 
-            {/* TODO HOME COMPONENT */}
-
-            {/* <div onMouseMove={handleMouseMove}> */}
-            <div onMouseMove={null}>    
             <DeckGL 
-                viewState={viewport} 
+                initialViewState={viewport}
                 layers={layers} 
-                onViewStateChange={e => setViewport(e.viewState)}
+                controller={true} 
+                getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
+            >
+                <Map 
+                    reuseMaps 
+                    style={{ width: '100vw', height: '100vh' }} 
+                    mapStyle={mapboxStyle} 
+                    mapboxAccessToken={mapboxKey} 
+                    styleDiffing={true} 
+                />
+                {hoverInfo.object && (  
+                    <Paper 
+                        sx={{
+                            position: 'absolute',
+                            left: hoverInfo.x, 
+                            top: hoverInfo.y, 
+                            zIndex: 110, 
+                            padding: 1, 
+                            margin: 1,
+                            maxWidth: '40vw',
+                            pointerEvents: 'none',
+                        }}
+                        elevation={4}
+                    >
+                      <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
+                    </Paper>
+                )}
+                {clickInfo.object && (  
+                    <Paper 
+                        sx={{
+                            position: 'absolute', 
+                            zIndex: 100, 
+                            padding: 2, 
+                            margin: 2,
+                            maxWidth: '40vw',
+                            minHeight: '10vw',
+                            pointerEvents: 'none',
+                            top: 70,
+                            right: 0
+                            //left: hoverInfo.x,
+                            //top: hoverInfo.y
+                            // ...(coordsRatio.x < 0.5 && {
+                            //     left: hoverInfo.x, 
+                            // }),
+                            // ...(coordsRatio.x >= 0.5 && {
+                            //     right: hoverInfo.x, 
+                            // }),
+                            // ...(coordsRatio.y < 0.5 && {
+                            //     top: hoverInfo.y, 
+                            // }),
+                            // ...(coordsRatio.y >= 0.5 && {
+                            //     bottom: hoverInfo.y,  
+                            // })
+                        }}
+                        elevation={3}
+                    >
+                      <Typography variant="subtitle1" display="block" gutterBottom>{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
+                      <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
+                    </Paper>
+                )}
+                
+            </DeckGL>
+        </React.Fragment>
+        
+    )
+
+}
+
+export default Home
+
+
+
+
+
+
+{/* <DeckGL 
+                initialViewState={viewport}
+                //viewState={viewport} 
+                layers={layers} 
+                //onViewStateChange={e => setViewport(e.viewState)}
                 //onViewStateChange={handleMapChange} 
                 controller={true} 
                 getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
@@ -275,16 +350,13 @@ const Home = () => {
                     mapboxAccessToken={mapboxKey} 
                     styleDiffing={true} 
                 />
-            </DeckGL>
-            </div>
+            </DeckGL> */}
 
-        </React.Fragment>
-        
-    )
 
-}
 
-export default Home
+
+
+
 
 //"mapbox://styles/mapbox/dark-v9"
 
