@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
 import { Link, useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import { Divider } from '@mui/material';
@@ -27,8 +28,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
-
-//"mapbox://styles/mapbox/dark-v9"
 
 const Home = () => {
 
@@ -49,8 +48,20 @@ const Home = () => {
         longitude: -38.501630,
         zoom: 3
     });
-    const [anchorEl, setAnchorEl] = useState(null);
-    
+    const [clickInfo, setClickInfo] = useState({ object: false }); 
+    const [hoverInfo, setHoverInfo] = useState({ object: false }); 
+    const [anchorEl, setAnchorEl] = useState(null); 
+
+    // REMOVE HTML TAGS FROM SUMMARY
+    function removeTags(str) {
+        if ((str===null) || (str===''))
+        return false;
+        else
+        str = str.toString();
+        return str.replace( /(<([^>]+)>)/ig, '');
+    };
+
+    // SET SCATTERPLOT COORDINATES
     const researchScatterplot = research.map(r => {
         const researchdata = { ...r, coordinates: [r.geolocation.longitude,r.geolocation.latitude] }
         return researchdata
@@ -69,14 +80,16 @@ const Home = () => {
             radiusMaxPixels: 10,
             getPosition: d => d.coordinates,
             getRadius: d => 5,
-            getFillColor: d => hexToRgb(d.category.color)
+            getFillColor: d => hexToRgb(d.category.color),
+            onClick: info => setClickInfo(info),
+            onHover: info => setHoverInfo(info)
         })
     ];
 
-    // HANDLE MAP CHANGE
-    const handleMapChange = ({ viewport }) => {
-        setViewport(viewport);
-    };
+    // // HANDLE MAP CHANGE
+    // const handleMapChange = ({ viewport }) => {
+    //     setViewport(viewport);
+    // };
 
     // HANDLE MENU
     const handleMenu = (event) => {
@@ -90,6 +103,19 @@ const Home = () => {
     const handleLogout = (event) => {
         dispatch(logout());
     };
+
+    useEffect(() => {
+        const listener = e => {
+          if (e.key === "Escape") {
+            setClickInfo({ object: false });
+          }
+        };
+        window.addEventListener("keydown", listener);
+    
+        return () => {
+          window.removeEventListener("keydown", listener);
+        };
+      }, []);
 
     return (
         <React.Fragment>
@@ -180,13 +206,68 @@ const Home = () => {
 
             {/* TODO HOME COMPONENT */}
 
+            {/* <div onMouseMove={handleMouseMove}> */}
+            <div onMouseMove={null}>    
             <DeckGL 
-                initialViewState={viewport} 
+                viewState={viewport} 
                 layers={layers} 
-                onViewStateChange={handleMapChange} 
+                onViewStateChange={e => setViewport(e.viewState)}
+                //onViewStateChange={handleMapChange} 
                 controller={true} 
-                getTooltip={({object}) => object && `${object.title}\n${object.category.name}`}
+                getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
+                //getTooltip={({object}) => object && `${object.title.split(" ").splice(0,6).join(" ")}\n${object.category.name}`}
+
             >
+                {hoverInfo.object && (  
+                    <Paper 
+                        sx={{
+                            position: 'absolute',
+                            left: hoverInfo.x, 
+                            top: hoverInfo.y, 
+                            zIndex: 110, 
+                            padding: 1, 
+                            margin: 1,
+                            maxWidth: '40vw',
+                            pointerEvents: 'none',
+                        }}
+                        elevation={4}
+                    >
+                      <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
+                    </Paper>
+                )}
+                {clickInfo.object && (  
+                    <Paper 
+                        sx={{
+                            position: 'absolute', 
+                            zIndex: 100, 
+                            padding: 2, 
+                            margin: 2,
+                            maxWidth: '40vw',
+                            minHeight: '10vw',
+                            pointerEvents: 'none',
+                            top: 70,
+                            right: 0
+                            //left: hoverInfo.x,
+                            //top: hoverInfo.y
+                            // ...(coordsRatio.x < 0.5 && {
+                            //     left: hoverInfo.x, 
+                            // }),
+                            // ...(coordsRatio.x >= 0.5 && {
+                            //     right: hoverInfo.x, 
+                            // }),
+                            // ...(coordsRatio.y < 0.5 && {
+                            //     top: hoverInfo.y, 
+                            // }),
+                            // ...(coordsRatio.y >= 0.5 && {
+                            //     bottom: hoverInfo.y,  
+                            // })
+                        }}
+                        elevation={3}
+                    >
+                      <Typography variant="subtitle1" display="block" gutterBottom>{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
+                      <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
+                    </Paper>
+                )}
                 <Map 
                     reuseMaps 
                     style={{ width: '100vw', height: '100vh' }} 
@@ -195,6 +276,7 @@ const Home = () => {
                     styleDiffing={true} 
                 />
             </DeckGL>
+            </div>
 
         </React.Fragment>
         
@@ -203,3 +285,63 @@ const Home = () => {
 }
 
 export default Home
+
+//"mapbox://styles/mapbox/dark-v9"
+
+    // const [globalCoords, setGlobalCoords] = useState({x: 0, y: 0}); //console.log('globalCoords', globalCoords);
+    // const [coordsRatio, setCoordsRatio] = useState({x: 0, y: 0}); //console.log('coordsRatio', coordsRatio);
+
+    // // TRACK MOUSE POINTER POSITION
+    // useEffect(() => {
+    //     // GLOBAL MOUSE COORDINATES
+    //     const handleWindowMouseMove = event => {
+    //       setGlobalCoords({
+    //         x: event.screenX,
+    //         y: event.screenY,
+    //       });
+    //     };
+    //     window.addEventListener('mousemove', handleWindowMouseMove);
+    
+    //     return () => {
+    //       window.removeEventListener('mousemove', handleWindowMouseMove);
+    //     };
+    // }, []);
+
+    // // TRACK MOUSE COORDINATES RELATIVE TO ELEMENT
+    // const handleMouseMove = event => {
+    //     setCoordsRatio({
+    //       x: (event.clientX - event.target.offsetLeft)/event.target.offsetWidth,
+    //       y: (event.clientY - event.target.offsetTop)/event.target.offsetHeight,
+    //     });
+    // };
+
+
+    // // POPOVER HANDLING
+    // const [anchorPopoverEl, setAnchorPopoverEl] = useState(null);
+    // const handlePopoverClick = (event) => {
+    //     setAnchorPopoverEl(event.currentTarget);
+    // };
+    // const handlePopoverClose = () => {
+    //     setAnchorPopoverEl(null);
+    // };
+    // const open = Boolean(anchorPopoverEl);
+    // const id = open ? 'simple-popover' : undefined;
+
+
+                    // <Popover 
+                    //     id={hoverInfo.object.id}
+                    //     open={open}
+                    //     anchorEl={anchorPopoverEl}
+                    //     onClose={handlePopoverClose}
+                    //     anchorOrigin={{
+                    //         vertical: 'center',
+                    //         horizontal: 'center',
+                    //     }}
+                    //     transformOrigin={{
+                    //         vertical: 'top',
+                    //         horizontal: 'left',
+                    //     }}
+                    // >
+                    //     <Typography variant="subtitle1" display="block" gutterBottom>{ hoverInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
+                    //     <Typography variant="caption" display="block" gutterBottom>{ removeTags(hoverInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
+                    // </Popover>
