@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
 import { Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -19,17 +21,28 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
+import Stack from '@mui/material/Stack';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import CloseIcon from '@mui/icons-material/Close';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
-import Map from 'react-map-gl';
+import Map, { Popup } from 'react-map-gl';
 import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from '../components/colorConverter';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const Home = () => {
+
+    // REACT ROUTER
+    const location = useLocation();
+    const trackLocation = location.state?.from?.pathname || '/admin';
 
     // REDUX SELECTORS
     const dispatch = useDispatch()
@@ -37,10 +50,6 @@ const Home = () => {
     const profile = useSelector(state => state.session.profile);
     const research = useSelector(state => state.research.research);
     const categories = useSelector(state => state.research.categories);
-
-    // REACT ROUTER 
-    const location = useLocation();
-    const trackLocation = location.state?.from?.pathname || '/admin';
 
     // REACT STATES
     const [viewport, setViewport] = useState({
@@ -58,7 +67,7 @@ const Home = () => {
         return false;
         else
         str = str.toString();
-        return str.replace( /(<([^>]+)>)/ig, '');
+        return str.replace( /(<([^>]+)>)/ig, '').replace(/&nbsp;/g, '');
     };
 
     // SET SCATTERPLOT COORDINATES
@@ -104,6 +113,11 @@ const Home = () => {
         dispatch(logout());
     };
 
+    // HANDLE CLOSE CLICKINFO
+    const handleCloseClickInfo = (event) => {
+        setClickInfo({ object: false });
+    };
+
     useEffect(() => {
         const listener = e => {
           if (e.key === "Escape") {
@@ -119,6 +133,9 @@ const Home = () => {
 
     return (
         <React.Fragment>
+
+
+
             <AppBar position="fixed" color="inherit">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -208,8 +225,9 @@ const Home = () => {
                 initialViewState={viewport}
                 layers={layers} 
                 controller={true} 
-                getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
+               //getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
             >
+                
                 <Map 
                     reuseMaps 
                     style={{ width: '100vw', height: '100vh' }} 
@@ -217,6 +235,50 @@ const Home = () => {
                     mapboxAccessToken={mapboxKey} 
                     styleDiffing={true} 
                 />
+
+                {clickInfo.object && (  
+                    <ClickAwayListener onClickAway={handleCloseClickInfo}>
+                        <Paper 
+                            sx={{
+                                position: 'absolute', 
+                                zIndex: 100, 
+                                padding: 2, 
+                                margin: 2,
+                                maxWidth: '40vw',
+                                minHeight: '10vw',
+                                //pointerEvents: 'none',
+                                top: 70,
+                                right: 0
+                            }}
+                            elevation={3}
+                        >
+                            <Stack
+                                direction="row"
+                                justifyContent="flex-end"
+                                alignItems="center"
+                                spacing={0}
+                            >
+                                <IconButton aria-label="fechar" size="small" onClick={handleCloseClickInfo} >
+                                    <CloseIcon />
+                                </IconButton>
+                                <IconButton aria-label="expandir" size="small" disabled>
+                                    <FullscreenIcon />
+                                </IconButton>
+                                <IconButton aria-label="recolher" size="small" disabled>
+                                    <FullscreenExitIcon />
+                                </IconButton>
+                                <IconButton aria-label="leia mais" size="small" component={Link}to={`/view/research/${clickInfo.object.id}`}>
+                                    <ReadMoreIcon />
+                                </IconButton>
+
+                            </Stack>
+
+                            <Typography variant="subtitle1" display="block" gutterBottom>{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
+                            <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
+                        </Paper>
+                    </ClickAwayListener>
+                )}
+                
                 {hoverInfo.object && (  
                     <Paper 
                         sx={{
@@ -234,41 +296,9 @@ const Home = () => {
                       <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
                     </Paper>
                 )}
-                {clickInfo.object && (  
-                    <Paper 
-                        sx={{
-                            position: 'absolute', 
-                            zIndex: 100, 
-                            padding: 2, 
-                            margin: 2,
-                            maxWidth: '40vw',
-                            minHeight: '10vw',
-                            pointerEvents: 'none',
-                            top: 70,
-                            right: 0
-                            //left: hoverInfo.x,
-                            //top: hoverInfo.y
-                            // ...(coordsRatio.x < 0.5 && {
-                            //     left: hoverInfo.x, 
-                            // }),
-                            // ...(coordsRatio.x >= 0.5 && {
-                            //     right: hoverInfo.x, 
-                            // }),
-                            // ...(coordsRatio.y < 0.5 && {
-                            //     top: hoverInfo.y, 
-                            // }),
-                            // ...(coordsRatio.y >= 0.5 && {
-                            //     bottom: hoverInfo.y,  
-                            // })
-                        }}
-                        elevation={3}
-                    >
-                      <Typography variant="subtitle1" display="block" gutterBottom>{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
-                      <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
-                    </Paper>
-                )}
-                
             </DeckGL>
+
+            
         </React.Fragment>
         
     )
@@ -276,144 +306,3 @@ const Home = () => {
 }
 
 export default Home
-
-
-
-
-
-
-{/* <DeckGL 
-                initialViewState={viewport}
-                //viewState={viewport} 
-                layers={layers} 
-                //onViewStateChange={e => setViewport(e.viewState)}
-                //onViewStateChange={handleMapChange} 
-                controller={true} 
-                getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
-                //getTooltip={({object}) => object && `${object.title.split(" ").splice(0,6).join(" ")}\n${object.category.name}`}
-
-            >
-                {hoverInfo.object && (  
-                    <Paper 
-                        sx={{
-                            position: 'absolute',
-                            left: hoverInfo.x, 
-                            top: hoverInfo.y, 
-                            zIndex: 110, 
-                            padding: 1, 
-                            margin: 1,
-                            maxWidth: '40vw',
-                            pointerEvents: 'none',
-                        }}
-                        elevation={4}
-                    >
-                      <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
-                    </Paper>
-                )}
-                {clickInfo.object && (  
-                    <Paper 
-                        sx={{
-                            position: 'absolute', 
-                            zIndex: 100, 
-                            padding: 2, 
-                            margin: 2,
-                            maxWidth: '40vw',
-                            minHeight: '10vw',
-                            pointerEvents: 'none',
-                            top: 70,
-                            right: 0
-                            //left: hoverInfo.x,
-                            //top: hoverInfo.y
-                            // ...(coordsRatio.x < 0.5 && {
-                            //     left: hoverInfo.x, 
-                            // }),
-                            // ...(coordsRatio.x >= 0.5 && {
-                            //     right: hoverInfo.x, 
-                            // }),
-                            // ...(coordsRatio.y < 0.5 && {
-                            //     top: hoverInfo.y, 
-                            // }),
-                            // ...(coordsRatio.y >= 0.5 && {
-                            //     bottom: hoverInfo.y,  
-                            // })
-                        }}
-                        elevation={3}
-                    >
-                      <Typography variant="subtitle1" display="block" gutterBottom>{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
-                      <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
-                    </Paper>
-                )}
-                <Map 
-                    reuseMaps 
-                    style={{ width: '100vw', height: '100vh' }} 
-                    mapStyle={mapboxStyle} 
-                    mapboxAccessToken={mapboxKey} 
-                    styleDiffing={true} 
-                />
-            </DeckGL> */}
-
-
-
-
-
-
-
-//"mapbox://styles/mapbox/dark-v9"
-
-    // const [globalCoords, setGlobalCoords] = useState({x: 0, y: 0}); //console.log('globalCoords', globalCoords);
-    // const [coordsRatio, setCoordsRatio] = useState({x: 0, y: 0}); //console.log('coordsRatio', coordsRatio);
-
-    // // TRACK MOUSE POINTER POSITION
-    // useEffect(() => {
-    //     // GLOBAL MOUSE COORDINATES
-    //     const handleWindowMouseMove = event => {
-    //       setGlobalCoords({
-    //         x: event.screenX,
-    //         y: event.screenY,
-    //       });
-    //     };
-    //     window.addEventListener('mousemove', handleWindowMouseMove);
-    
-    //     return () => {
-    //       window.removeEventListener('mousemove', handleWindowMouseMove);
-    //     };
-    // }, []);
-
-    // // TRACK MOUSE COORDINATES RELATIVE TO ELEMENT
-    // const handleMouseMove = event => {
-    //     setCoordsRatio({
-    //       x: (event.clientX - event.target.offsetLeft)/event.target.offsetWidth,
-    //       y: (event.clientY - event.target.offsetTop)/event.target.offsetHeight,
-    //     });
-    // };
-
-
-    // // POPOVER HANDLING
-    // const [anchorPopoverEl, setAnchorPopoverEl] = useState(null);
-    // const handlePopoverClick = (event) => {
-    //     setAnchorPopoverEl(event.currentTarget);
-    // };
-    // const handlePopoverClose = () => {
-    //     setAnchorPopoverEl(null);
-    // };
-    // const open = Boolean(anchorPopoverEl);
-    // const id = open ? 'simple-popover' : undefined;
-
-
-                    // <Popover 
-                    //     id={hoverInfo.object.id}
-                    //     open={open}
-                    //     anchorEl={anchorPopoverEl}
-                    //     onClose={handlePopoverClose}
-                    //     anchorOrigin={{
-                    //         vertical: 'center',
-                    //         horizontal: 'center',
-                    //     }}
-                    //     transformOrigin={{
-                    //         vertical: 'top',
-                    //         horizontal: 'left',
-                    //     }}
-                    // >
-                    //     <Typography variant="subtitle1" display="block" gutterBottom>{ hoverInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
-                    //     <Typography variant="caption" display="block" gutterBottom>{ removeTags(hoverInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
-                    // </Popover>
