@@ -21,6 +21,7 @@ import AuthorIndex from './components/AuthorIndex';
 
 // PAGES
 import Home from './pages/Home';
+import ViewResearch from './pages/ViewResearch';
 import Admin from './pages/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
@@ -75,6 +76,7 @@ function App() {
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="home" element={<Home />} />
+                <Route path="view/research/:researchId" element={<ViewResearch />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />
                 {/* PRIVATE ROUTE */}
