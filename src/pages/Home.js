@@ -1,33 +1,18 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/sessionSlice';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import { Divider } from '@mui/material';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LoginIcon from '@mui/icons-material/Login';
 import Stack from '@mui/material/Stack';
+import Chip from '@mui/material/Chip';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import CloseIcon from '@mui/icons-material/Close';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-
-import Map, { Popup } from 'react-map-gl';
+import PublicMenuBar from '../components/PublicMenuBar';
+import Map from 'react-map-gl';
 import DeckGL from '@deck.gl/react';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { hexToRgb } from '../components/colorConverter';
@@ -40,16 +25,10 @@ const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const Home = () => {
 
-    // REACT ROUTER
-    const location = useLocation();
-    const trackLocation = location.state?.from?.pathname || '/admin';
-
     // REDUX SELECTORS
-    const dispatch = useDispatch()
-    const session = useSelector(state => state.session);
-    const profile = useSelector(state => state.session.profile);
     const research = useSelector(state => state.research.research);
     const categories = useSelector(state => state.research.categories);
+
 
     // REACT STATES
     const [viewport, setViewport] = useState({
@@ -95,22 +74,9 @@ const Home = () => {
         })
     ];
 
-    // // HANDLE MAP CHANGE
-    // const handleMapChange = ({ viewport }) => {
-    //     setViewport(viewport);
-    // };
-
-    // HANDLE MENU
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    // HANDLE LOGOUT
-    const handleLogout = (event) => {
-        dispatch(logout());
+    // HANDLE MAP CHANGE
+    const handleMapChange = ({ viewport }) => {
+        setViewport(viewport);
     };
 
     // HANDLE CLOSE CLICKINFO
@@ -133,10 +99,146 @@ const Home = () => {
 
     return (
         <React.Fragment>
+            <PublicMenuBar />
+            <DeckGL 
+                initialViewState={viewport}
+                onViewStateChange={handleMapChange}
+                layers={layers} 
+                controller={true} 
+               //getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
+            >
+                
+                <Map 
+                    reuseMaps 
+                    style={{ width: '100vw', height: '100vh' }} 
+                    mapStyle={mapboxStyle} 
+                    mapboxAccessToken={mapboxKey} 
+                    styleDiffing={true} 
+                />
+
+                {clickInfo.object && (  
+                    <ClickAwayListener onClickAway={handleCloseClickInfo}>
+                        <Paper 
+                            sx={{
+                                position: 'absolute', 
+                                zIndex: 100, 
+                                padding: 2, 
+                                margin: 2,
+                                maxWidth: '40vw',
+                                minHeight: '10vw',
+                                //pointerEvents: 'none',
+                                top: 70,
+                                right: 0
+                            }}
+                            elevation={3}
+                        >
+                            <Stack
+                                direction="row"
+                                justifyContent="flex-end"
+                                alignItems="center"
+                                spacing={0}
+                                sx={{ mb:1, }}
+                            >
+                                <IconButton aria-label="fechar" size="small" onClick={handleCloseClickInfo} >
+                                    <CloseIcon />
+                                </IconButton>
+                                <IconButton aria-label="expandir" size="small" disabled>
+                                    <FullscreenIcon />
+                                </IconButton>
+                                <IconButton aria-label="recolher" size="small" disabled>
+                                    <FullscreenExitIcon />
+                                </IconButton>
+                                <IconButton aria-label="leia mais" size="small" component={Link}to={`/view/research/${clickInfo.object.id}`}>
+                                    <ReadMoreIcon />
+                                </IconButton>
+
+                            </Stack>
+
+                            <Typography variant="subtitle1" display="block">{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
+                            <Stack direction="row" sx={{ mt:1, mb:3, }}>
+                                <Chip clickable label={categories.find(c => c.id === clickInfo.object.category_id).name} size="small" />
+                            </Stack>
+                            <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
+                        </Paper>
+                    </ClickAwayListener>
+                )}
+                
+                {hoverInfo.object && (  
+                    <Paper 
+                        sx={{
+                            position: 'absolute',
+                            left: hoverInfo.x, 
+                            top: hoverInfo.y, 
+                            zIndex: 110, 
+                            padding: 1, 
+                            margin: 1,
+                            maxWidth: '40vw',
+                            pointerEvents: 'none',
+                        }}
+                        elevation={4}
+                    >
+                      <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
+                    </Paper>
+                )}
+            </DeckGL>
+
+            
+        </React.Fragment>
+        
+    );
+
+}
+
+export default Home;
 
 
 
-            <AppBar position="fixed" color="inherit">
+
+
+// import { logout } from '../features/sessionSlice';
+// import { useParams } from "react-router-dom";
+// import AppBar from '@mui/material/AppBar';
+// import Toolbar from '@mui/material/Toolbar';
+// import Button from '@mui/material/Button';
+// import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+// import MenuItem from '@mui/material/MenuItem';
+// import Box from '@mui/material/Box';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import Menu from '@mui/material/Menu';
+// import { Divider } from '@mui/material';
+// import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+// import LogoutIcon from '@mui/icons-material/Logout';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import LoginIcon from '@mui/icons-material/Login';
+
+    // // REACT ROUTER
+    // const location = useLocation();
+    // const trackLocation = location.state?.from?.pathname || '/admin';
+
+    // const dispatch = useDispatch()
+    // const session = useSelector(state => state.session);
+    // const profile = useSelector(state => state.session.profile);
+        // const categories = useSelector(state => state.research.categories);
+
+
+
+
+
+    // // HANDLE MENU
+    // const handleMenu = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
+    // // HANDLE LOGOUT
+    // const handleLogout = (event) => {
+    //     dispatch(logout());
+    // };
+
+
+            {/* <AppBar position="fixed" color="inherit">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Rede Residência ATHIS
@@ -219,90 +321,4 @@ const Home = () => {
                         ) : null }
                     </Menu>
                 </Toolbar>
-            </AppBar>
-
-            <DeckGL 
-                initialViewState={viewport}
-                layers={layers} 
-                controller={true} 
-               //getCursor={({isDragging}) => isDragging ? 'grabbing' : 'pointer' }
-            >
-                
-                <Map 
-                    reuseMaps 
-                    style={{ width: '100vw', height: '100vh' }} 
-                    mapStyle={mapboxStyle} 
-                    mapboxAccessToken={mapboxKey} 
-                    styleDiffing={true} 
-                />
-
-                {clickInfo.object && (  
-                    <ClickAwayListener onClickAway={handleCloseClickInfo}>
-                        <Paper 
-                            sx={{
-                                position: 'absolute', 
-                                zIndex: 100, 
-                                padding: 2, 
-                                margin: 2,
-                                maxWidth: '40vw',
-                                minHeight: '10vw',
-                                //pointerEvents: 'none',
-                                top: 70,
-                                right: 0
-                            }}
-                            elevation={3}
-                        >
-                            <Stack
-                                direction="row"
-                                justifyContent="flex-end"
-                                alignItems="center"
-                                spacing={0}
-                            >
-                                <IconButton aria-label="fechar" size="small" onClick={handleCloseClickInfo} >
-                                    <CloseIcon />
-                                </IconButton>
-                                <IconButton aria-label="expandir" size="small" disabled>
-                                    <FullscreenIcon />
-                                </IconButton>
-                                <IconButton aria-label="recolher" size="small" disabled>
-                                    <FullscreenExitIcon />
-                                </IconButton>
-                                <IconButton aria-label="leia mais" size="small" component={Link}to={`/view/research/${clickInfo.object.id}`}>
-                                    <ReadMoreIcon />
-                                </IconButton>
-
-                            </Stack>
-
-                            <Typography variant="subtitle1" display="block" gutterBottom>{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
-                            <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
-                        </Paper>
-                    </ClickAwayListener>
-                )}
-                
-                {hoverInfo.object && (  
-                    <Paper 
-                        sx={{
-                            position: 'absolute',
-                            left: hoverInfo.x, 
-                            top: hoverInfo.y, 
-                            zIndex: 110, 
-                            padding: 1, 
-                            margin: 1,
-                            maxWidth: '40vw',
-                            pointerEvents: 'none',
-                        }}
-                        elevation={4}
-                    >
-                      <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
-                    </Paper>
-                )}
-            </DeckGL>
-
-            
-        </React.Fragment>
-        
-    )
-
-}
-
-export default Home
+            </AppBar> */}
