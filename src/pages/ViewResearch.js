@@ -10,7 +10,13 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 
+import Map, { Marker } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 import PublicMenuBar from '../components/PublicMenuBar';
+
+const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const ViewResearch = () => {
 
@@ -26,7 +32,7 @@ const ViewResearch = () => {
     const researchWithDate = { ...research, date: dateTime }
     const [researchData, setResearchData] = useState(researchWithDate);
     const categories = useSelector(state => state.research.categories);
-    const [categoryColor, setCategoryColor] = useState(researchData.category.color);
+    const [geolocation, setGeolocation] = useState({...researchData.geolocation, zoom: 4});
 
     return (
         <React.Fragment>
@@ -60,9 +66,18 @@ const ViewResearch = () => {
                 <Grid item xs={12} md={4}>
 
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            
+                            <div  style={{ width: '100%', height: 360, position: 'relative' }} >
+                                <Map
+                                    {...geolocation}
+                                    interactive={false}
+                                    mapStyle={mapboxStyle}
+                                    mapboxAccessToken={mapboxKey}
+                                > 
+                                    <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={researchData.category.color} />
+                                </Map>
+                            </div>
                         </Grid>
-                        <Divider />
+
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                             
                         </Grid>
