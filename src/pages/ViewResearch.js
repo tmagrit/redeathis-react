@@ -50,8 +50,8 @@ const ViewResearch = () => {
                                 return  <Typography variant="button" display="block" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                             })
                         )}
-                        <Stack direction="row" sx={{ my:1, }}>
-                            <Chip clickable label={categories.find(c => c.id === researchData.category_id).name} size="small" />
+                        <Stack direction="row" spacing={1} sx={{ my:1, }}>
+                            <Chip clickable label={categories.find(c => c.id === researchData.category_id).name} size="small"/>
                         </Stack>
                         
                     </Grid>
