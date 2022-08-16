@@ -70,32 +70,12 @@ const ResearchCreate = () => {
     const [researchData, setResearchData] = useState({ ...research });
     const [categoryColor, setCategoryColor] = useState('#3d85c6');
 
-    console.log(researchData.geolocation);
-
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
     
-
-    // // DECK GL LAYER
-    // const layers = [
-    //     new ScatterplotLayer({
-    //         id: 'markers',
-    //         data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
-    //         pickable: false,
-    //         //opacity: 0.8,
-    //         stroked: false,
-    //         filled: true,
-    //         radiusScale: 5,
-    //         radiusMinPixels: 5,
-    //         radiusMaxPixels: 10,
-    //         getPosition: d => d.coordinates,
-    //         getRadius: d => 5,
-    //         getFillColor: d => hexToRgb(categoryColor)
-    //     })
-    // ];
 
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
@@ -221,6 +201,21 @@ const ResearchCreate = () => {
                                         </Grid>
                                     </Grid>
                                 } 
+                            />
+
+                            <TextField
+                                value={researchData.excerpt}
+                                onChange={(event) => handleChangeResearchData(event)}
+                                fullWidth
+                                label="Excerto"
+                                name="excerpt"
+                                size="small"
+                                multiline={true}
+                                minRows={3}
+                                maxRows={5}
+                                type="text"
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
                             />
 
                             <FormBox 

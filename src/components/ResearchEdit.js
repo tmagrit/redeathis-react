@@ -67,8 +67,6 @@ const ResearchEdit = () => {
     const [researchSources, setResearchSources] = useState([]);
     const [researchAuthors, setResearchAuthors] = useState([]);
 
-    console.log(researchData.geolocation);
-
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
 
@@ -77,24 +75,6 @@ const ResearchEdit = () => {
     // SOURCE DIALOG STATES 
     const [sourceDialogOpen, setSourceDialogOpen] = useState(false);
     const [authorDialogOpen, setAuthorDialogOpen] = useState(false);
-
-    // // DECK GL LAYER
-    // const layers = [
-    //     new ScatterplotLayer({
-    //         id: 'markers',
-    //         data: [{ coordinates: [researchData.geolocation.longitude,researchData.geolocation.latitude] }],
-    //         pickable: false,
-    //         //opacity: 0.8,
-    //         stroked: false,
-    //         filled: true,
-    //         radiusScale: 5,
-    //         radiusMinPixels: 5,
-    //         radiusMaxPixels: 10,
-    //         getPosition: d => d.coordinates,
-    //         getRadius: d => 5,
-    //         getFillColor: d => hexToRgb(categoryColor)
-    //     })
-    // ];
 
     // HANDLE TOGGLE DIALOGS
     // SOURCES
@@ -137,7 +117,6 @@ const ResearchEdit = () => {
     useEffect(() => {
         setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
     }, [researchData.category_id, categories]);
-
 
 
     // TRACK SOURCE CHANGES 
@@ -287,6 +266,21 @@ const ResearchEdit = () => {
                                 mode={'research'}
                             />
 
+                            <TextField
+                                value={researchData.excerpt}
+                                onChange={(event) => handleChangeResearchData(event)}
+                                fullWidth
+                                label="Excerto"
+                                name="excerpt"
+                                size="small"
+                                multiline={true}
+                                minRows={3}
+                                maxRows={5}
+                                type="text"
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
+                            />
+
                             <FormBox 
                                 id='text-editor-box' 
                                 label='Resumo'
@@ -298,9 +292,7 @@ const ResearchEdit = () => {
                                         readOnly={readOnly}
                                     />
                                 } 
-                            />  
-
-                                    
+                            />        
 
                             <TextField
                                 value={researchData.link}
