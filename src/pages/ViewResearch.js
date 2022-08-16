@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { DateTime } from 'luxon';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
@@ -44,12 +44,23 @@ const ViewResearch = () => {
                 <Grid item xs={12} md={8}>
 
                     <Grid item xs={12} sx={{ pt: 2, display: 'flex', flexDirection: 'column', }}>
-                        <Typography variant="h5" display="block" > {researchData.title} </Typography> 
-                        {researchAuthors.length > 0 && ( 
-                            researchAuthors.map(ra => {
-                                return  <Typography variant="button" display="block" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
-                            })
-                        )}
+                        <Box>
+                            <Typography variant="h5" component="span" > {researchData.title} </Typography> 
+                            <Typography variant="h5" component="span" sx={{ color: 'text.secondary' }}> 
+                                {researchData.date.interval ? 
+                                    (` [${researchData.date.start.year}-${researchData.date.end.year}]`) 
+                                    : 
+                                    (` [${researchData.date.start.year}]`) 
+                                } 
+                            </Typography>
+                        </Box>
+                        <Box>
+                            {researchAuthors.length > 0 && ( 
+                                researchAuthors.map(ra => {
+                                    return  <Typography variant="button" component="span" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                })
+                            )}
+                        </Box>
                         <Stack direction="row" spacing={1} sx={{ my:1, }}>
                             <Chip clickable label={categories.find(c => c.id === researchData.category_id).name} size="small"/>
                         </Stack>

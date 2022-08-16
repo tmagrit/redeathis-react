@@ -369,10 +369,6 @@ const ResearchEdit = () => {
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
 
                             <div  style={{ width: '100%', height: 360, position: 'relative' }} onClick={handleMapDialogOpen}  >
-                                {/* <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
-                                    <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} preventStyleDiffing={true} />
-                                </DeckGL> */}
-
                                 <Map
                                     {...researchData.geolocation}
                                     interactive={false}
@@ -381,7 +377,6 @@ const ResearchEdit = () => {
                                 > 
                                     <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={categoryColor} />
                                 </Map>
-
                             </div>
                             <MapDialog
                                 open={mapDialogOpen}
@@ -406,11 +401,6 @@ const ResearchEdit = () => {
                                     date={{ ...researchData.date }}
                                 />
                             </Grid>
-
-
-
-
-
 
                         </Grid>
                     </Paper>

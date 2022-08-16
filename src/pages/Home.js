@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -25,11 +27,6 @@ const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const Home = () => {
 
-    // REDUX SELECTORS
-    const research = useSelector(state => state.research.research);
-    const categories = useSelector(state => state.research.categories);
-
-
     // REACT STATES
     const [viewport, setViewport] = useState({
         latitude: -12.977749,
@@ -40,14 +37,22 @@ const Home = () => {
     const [hoverInfo, setHoverInfo] = useState({ object: false }); 
     const [anchorEl, setAnchorEl] = useState(null); 
 
-    // REMOVE HTML TAGS FROM SUMMARY
-    function removeTags(str) {
-        if ((str===null) || (str===''))
-        return false;
-        else
-        str = str.toString();
-        return str.replace( /(<([^>]+)>)/ig, '').replace(/&nbsp;/g, '');
-    };
+    // REDUX SELECTORS
+    const research = useSelector(state => state.research.research);
+    const categories = useSelector(state => state.research.categories);
+    const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));
+
+
+    
+
+    // // REMOVE HTML TAGS FROM SUMMARY
+    // function removeTags(str) {
+    //     if ((str===null) || (str===''))
+    //     return false;
+    //     else
+    //     str = str.toString();
+    //     return str.replace( /(<([^>]+)>)/ig, '').replace(/&nbsp;/g, '');
+    // };
 
     // SET SCATTERPLOT COORDINATES
     const researchScatterplot = research.map(r => {
@@ -97,6 +102,8 @@ const Home = () => {
         };
       }, []);
 
+
+      console.log(clickInfo.object)
     return (
         <React.Fragment>
             <PublicMenuBar />
@@ -125,6 +132,7 @@ const Home = () => {
                                 padding: 2, 
                                 margin: 2,
                                 maxWidth: '40vw',
+                                minWidth: '30vw',
                                 minHeight: '10vw',
                                 //pointerEvents: 'none',
                                 top: 70,
@@ -132,6 +140,35 @@ const Home = () => {
                             }}
                             elevation={3}
                         >
+                            <Box sx={{ my:0, py: 0, }}>    
+                                <Typography variant="subtitle1" component="span">{ clickInfo.object.title }</Typography>
+                                <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary' }}> 
+                                    {clickInfo.object.date.interval ? 
+                                        (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
+                                        : 
+                                        (` [${clickInfo.object.date.start.year}]`) 
+                                    } 
+                                </Typography>
+                            </Box>
+                            <Box sx={{ my:0, py: 0, }}>
+                                {researchAuthors.length > 0 && ( 
+                                    researchAuthors.map(ra => {
+                                        return  <Typography variant="caption" component="span" sx={{ color: 'text.secondary', my:0, py: 0, }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                    })
+                                )}
+                            </Box>
+                            <Stack 
+                                direction="row" 
+                                alignItems="center"
+                                spacing={1}
+                                divider={<Divider orientation="vertical" flexItem />} 
+                                sx={{ mt:0, mb:1, }}
+                            >
+                                
+                                {/* <Chip clickable label={categories.find(c => c.id === clickInfo.object.category_id).name} size="small" /> */}
+                                <Typography variant="caption" > {categories.find(c => c.id === clickInfo.object.category_id).name} </Typography>
+                            </Stack>
+                            <Typography variant="caption" display="block" gutterBottom>{ clickInfo.object.excerpt } </Typography> 
                             <Stack
                                 direction="row"
                                 justifyContent="flex-end"
@@ -152,13 +189,7 @@ const Home = () => {
                                     <ReadMoreIcon />
                                 </IconButton>
 
-                            </Stack>
-
-                            <Typography variant="subtitle1" display="block">{ clickInfo.object.title.split(" ").splice(0,20).join(" ") }</Typography>
-                            <Stack direction="row" sx={{ mt:1, mb:3, }}>
-                                <Chip clickable label={categories.find(c => c.id === clickInfo.object.category_id).name} size="small" />
-                            </Stack>
-                            <Typography variant="caption" display="block" gutterBottom>{ removeTags(clickInfo.object.summary).split(" ").splice(0,144).join(" ") }</Typography>
+                            </Stack> 
                         </Paper>
                     </ClickAwayListener>
                 )}
@@ -190,135 +221,3 @@ const Home = () => {
 }
 
 export default Home;
-
-
-
-
-
-// import { logout } from '../features/sessionSlice';
-// import { useParams } from "react-router-dom";
-// import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
-// import Button from '@mui/material/Button';
-// import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-// import MenuItem from '@mui/material/MenuItem';
-// import Box from '@mui/material/Box';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import Menu from '@mui/material/Menu';
-// import { Divider } from '@mui/material';
-// import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-// import LogoutIcon from '@mui/icons-material/Logout';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import LoginIcon from '@mui/icons-material/Login';
-
-    // // REACT ROUTER
-    // const location = useLocation();
-    // const trackLocation = location.state?.from?.pathname || '/admin';
-
-    // const dispatch = useDispatch()
-    // const session = useSelector(state => state.session);
-    // const profile = useSelector(state => state.session.profile);
-        // const categories = useSelector(state => state.research.categories);
-
-
-
-
-
-    // // HANDLE MENU
-    // const handleMenu = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
-    // // HANDLE LOGOUT
-    // const handleLogout = (event) => {
-    //     dispatch(logout());
-    // };
-
-
-            {/* <AppBar position="fixed" color="inherit">
-                <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Rede Residência ATHIS
-                    </Typography>
-                    <Button color="inherit" component={Link} to="/" >História</Button>
-                    <Button color="inherit" component={Link} to="/" >Proposta</Button>
-                    <Button color="inherit" component={Link} to="/" >Quem Somos</Button>
-                    <Button color="inherit" component={Link} to="/" >Colabore</Button>
-                    <IconButton
-                        onClick={handleMenu}
-                        size="large"
-                        edge="end"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ ml: 1, }}
-                    >
-                        <AdminPanelSettingsIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                       {session?.session?.user?.aud === "authenticated" ? (
-                           <div>
-                                <MenuItem >
-                                    <ListItemIcon>
-                                        <AssignmentIndIcon fontSize="small" />
-                                    </ListItemIcon>
-                                    <Box sx={{ my: 1, mr: 1 }}>Acessando como</Box><Box sx={{ fontWeight: 'bold', my: 1 }}>{`${profile?.name}`}</Box>
-                                </MenuItem> 
-                                <Divider />
-                            </div>
-                        ) : null }
-                        
-                        <MenuItem 
-                            component={Link}
-                            to="/admin"
-                            onClick={handleClose}  
-                        >
-                            <ListItemIcon>
-                                <LoginIcon fontSize="small" />
-                            </ListItemIcon>
-                            Acessar Painel Administrativo
-                        </MenuItem>
-                        {session?.session?.user?.aud === "authenticated" ? (
-                            <div>
-                                <MenuItem 
-                                    component={Link}
-                                    to="/" // TODO ACCOUNT COMPONENT
-                                    onClick={handleClose}  
-                                >
-                                    <ListItemIcon>
-                                        <AccountCircleIcon fontSize="small" />
-                                    </ListItemIcon>
-                                    Minha Conta
-                                </MenuItem>
-                                <Divider />
-                                <MenuItem 
-                                    component={Link}
-                                    to="/" // TODO ACCOUNT COMPONENT
-                                    onClick={() => { handleLogout(); handleClose();}}  
-                                >
-                                    <ListItemIcon>
-                                        <LogoutIcon fontSize="small" />
-                                    </ListItemIcon>
-                                    Sair
-                                </MenuItem>
-                            </div>
-                        ) : null }
-                    </Menu>
-                </Toolbar>
-            </AppBar> */}
