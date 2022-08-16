@@ -4,16 +4,9 @@ import { useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
-import LinkIcon from '@mui/icons-material/Link';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import CloseIcon from '@mui/icons-material/Close';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import PublicMenuBar from '../components/PublicMenuBar';
 import Map from 'react-map-gl';
 import DeckGL from '@deck.gl/react';
@@ -142,8 +135,8 @@ const Home = () => {
                             elevation={3}
                         >
                             <Box sx={{ my:0, py: 0, }}>    
-                                <Typography variant="subtitle1" component="span" sx={{ my:0, py: 0, }}>{ clickInfo.object.title }</Typography>
-                                <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary', my:0, py: 0, }}> 
+                                <Typography variant="subtitle1" component="span" >{ clickInfo.object.title }</Typography>
+                                <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary',}}> 
                                     {clickInfo.object.date.start && 
                                         (clickInfo.object.date.interval ? 
                                             (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
@@ -225,3 +218,11 @@ const Home = () => {
 }
 
 export default Home;
+
+// import IconButton from '@mui/material/IconButton';
+// import ReadMoreIcon from '@mui/icons-material/ReadMore';
+// import LinkIcon from '@mui/icons-material/Link';
+// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+// import CloseIcon from '@mui/icons-material/Close';
+// import FullscreenIcon from '@mui/icons-material/Fullscreen';
+// import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';

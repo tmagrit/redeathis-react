@@ -47,9 +47,14 @@ const PublicMenuBar = () => {
     return (
         <AppBar position="fixed" color="inherit">
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Box component="div" sx={{ flexGrow: 1 }}>
+                <Typography variant="caption" display="block" sx={{ position: 'relative', top: 4 }}>
+                    Acervo de referências em construção
+                </Typography>
+                <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -4, textDecoration: 'none', color: 'inherit', }} >
                     Rede Residência ATHIS
                 </Typography>
+                </Box>
                 <Button color="inherit" component={Link} to="/" >História</Button>
                 <Button color="inherit" component={Link} to="/" >Proposta</Button>
                 <Button color="inherit" component={Link} to="/" >Quem Somos</Button>
