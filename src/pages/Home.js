@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import LinkIcon from '@mui/icons-material/Link';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import CloseIcon from '@mui/icons-material/Close';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
@@ -129,8 +130,8 @@ const Home = () => {
                             sx={{
                                 position: 'absolute', 
                                 zIndex: 100, 
-                                padding: 2, 
-                                margin: 2,
+                                padding: 2.4, 
+                                margin: 2.4,
                                 maxWidth: '40vw',
                                 minWidth: '30vw',
                                 minHeight: '10vw',
@@ -141,8 +142,8 @@ const Home = () => {
                             elevation={3}
                         >
                             <Box sx={{ my:0, py: 0, }}>    
-                                <Typography variant="subtitle1" component="span">{ clickInfo.object.title }</Typography>
-                                <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary' }}> 
+                                <Typography variant="subtitle1" component="span" sx={{ my:0, py: 0, }}>{ clickInfo.object.title }</Typography>
+                                <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary', my:0, py: 0, }}> 
                                     {clickInfo.object.date.start && 
                                         (clickInfo.object.date.interval ? 
                                             (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
@@ -163,13 +164,15 @@ const Home = () => {
                                 direction="row" 
                                 alignItems="center"
                                 spacing={0.7}
-                                sx={{ mt:0, mb:1, }}
+                                sx={{ mt:1, mb:1, }}
                             >
                                 <Avatar sx={{ width: 10, height: 10, bgcolor: `${clickInfo.object.category.color}` }}> </Avatar>
                                 <Typography variant="caption" > {categories.find(c => c.id === clickInfo.object.category_id).name} </Typography>
                             </Stack>
                             <Typography variant="caption" component="span" > {clickInfo.object.excerpt} </Typography> 
-                            <Typography variant="caption" sx={{ textDecoration: 'none', }} component={Link} to={`/view/research/${clickInfo.object.id}`} > Saiba mais <LinkIcon sx={{ fontSize: 'inherit', }}/> </Typography>     
+                            <Typography variant="caption" sx={{ textDecoration: 'none', }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
+                                 Saiba mais... {/* <KeyboardDoubleArrowRightIcon sx={{ fontSize: 'inherit', }}/>  */}
+                            </Typography>     
                             {/* <Stack
                                 direction="row"
                                 justifyContent="flex-end"
