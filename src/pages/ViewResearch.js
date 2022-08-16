@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -57,18 +57,24 @@ const ViewResearch = () => {
                         <Box>
                             {researchAuthors.length > 0 && ( 
                                 researchAuthors.map(ra => {
-                                    return  <Typography variant="button" component="span" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                    return  <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                                 })
                             )}
                         </Box>
-                        <Stack direction="row" spacing={1} sx={{ my:1, }}>
-                            <Chip clickable label={categories.find(c => c.id === researchData.category_id).name} size="small"/>
+                        <Stack 
+                            direction="row" 
+                            alignItems="center"
+                            spacing={1} 
+                            sx={{ mb:1, }}
+                        >
+                            <Avatar sx={{ width: 14, height: 14, bgcolor: `${researchData.category.color}` }}> </Avatar>
+                            <Typography variant="subtitle1" >{categories.find(c => c.id === researchData.category_id).name}</Typography>
                         </Stack>
                         
                     </Grid>
 
                     <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
-                        <Typography variant="caption" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
+                        <Typography variant="body2" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
                     </Grid>
 
                 </Grid>

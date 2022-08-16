@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import LinkIcon from '@mui/icons-material/Link';
 import CloseIcon from '@mui/icons-material/Close';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
@@ -143,10 +143,12 @@ const Home = () => {
                             <Box sx={{ my:0, py: 0, }}>    
                                 <Typography variant="subtitle1" component="span">{ clickInfo.object.title }</Typography>
                                 <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary' }}> 
-                                    {clickInfo.object.date.interval ? 
-                                        (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
-                                        : 
-                                        (` [${clickInfo.object.date.start.year}]`) 
+                                    {clickInfo.object.date.start && 
+                                        (clickInfo.object.date.interval ? 
+                                            (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
+                                            : 
+                                            (` [${clickInfo.object.date.start.year}]`) 
+                                        )
                                     } 
                                 </Typography>
                             </Box>
@@ -160,16 +162,15 @@ const Home = () => {
                             <Stack 
                                 direction="row" 
                                 alignItems="center"
-                                spacing={1}
-                                divider={<Divider orientation="vertical" flexItem />} 
+                                spacing={0.7}
                                 sx={{ mt:0, mb:1, }}
                             >
-                                
-                                {/* <Chip clickable label={categories.find(c => c.id === clickInfo.object.category_id).name} size="small" /> */}
+                                <Avatar sx={{ width: 10, height: 10, bgcolor: `${clickInfo.object.category.color}` }}> </Avatar>
                                 <Typography variant="caption" > {categories.find(c => c.id === clickInfo.object.category_id).name} </Typography>
                             </Stack>
-                            <Typography variant="caption" display="block" gutterBottom>{ clickInfo.object.excerpt } </Typography> 
-                            <Stack
+                            <Typography variant="caption" component="span" > {clickInfo.object.excerpt} </Typography> 
+                            <Typography variant="caption" sx={{ textDecoration: 'none', }} component={Link} to={`/view/research/${clickInfo.object.id}`} > Saiba mais <LinkIcon sx={{ fontSize: 'inherit', }}/> </Typography>     
+                            {/* <Stack
                                 direction="row"
                                 justifyContent="flex-end"
                                 alignItems="center"
@@ -185,11 +186,11 @@ const Home = () => {
                                 <IconButton aria-label="recolher" size="small" disabled>
                                     <FullscreenExitIcon />
                                 </IconButton>
-                                <IconButton aria-label="leia mais" size="small" component={Link}to={`/view/research/${clickInfo.object.id}`}>
+                                <IconButton aria-label="leia mais" size="small" component={Link} to={`/view/research/${clickInfo.object.id}`}>
                                     <ReadMoreIcon />
                                 </IconButton>
 
-                            </Stack> 
+                            </Stack>  */}
                         </Paper>
                     </ClickAwayListener>
                 )}
