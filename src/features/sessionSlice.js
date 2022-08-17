@@ -186,6 +186,7 @@ export const sessionSlice = createSlice({
         logoutStatus: 'idle',
         logoutError: null,
 
+        viewport: { latitude: -12.977749, longitude: -38.501630, zoom: 3 },
         section: '',
         context: ''
 
@@ -202,6 +203,9 @@ export const sessionSlice = createSlice({
         },
         updateProfileContext(state, action) {
             state.context = action.payload
+        },
+        updateViewport(state, action) {
+            state.viewport = action.payload
         },
     },
     extraReducers: {
@@ -301,6 +305,7 @@ export const {
     updateEvent,
     updateProfileSection,
     updateProfileContext,
+    updateViewport,
 } = sessionSlice.actions
 
 export default sessionSlice.reducer

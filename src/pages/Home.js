@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateViewport } from '../features/sessionSlice';
 import { Link, useLocation } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -21,32 +22,20 @@ const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const Home = () => {
 
+    // REDUX SELECTORS
+    const dispatch = useDispatch();
+    const research = useSelector(state => state.research.research);
+    const sessionViewport = useSelector(state => state.session.viewport);
+    const categories = useSelector(state => state.research.categories);
+
     // REACT STATES
-    const [viewport, setViewport] = useState({
-        latitude: -12.977749,
-        longitude: -38.501630,
-        zoom: 3
-    });
+    const [viewport, setViewport] = useState(sessionViewport);
     const [clickInfo, setClickInfo] = useState({ object: false }); 
     const [hoverInfo, setHoverInfo] = useState({ object: false }); 
     const [anchorEl, setAnchorEl] = useState(null); 
 
     // REDUX SELECTORS
-    const research = useSelector(state => state.research.research);
-    const categories = useSelector(state => state.research.categories);
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));
-
-
-    
-
-    // // REMOVE HTML TAGS FROM SUMMARY
-    // function removeTags(str) {
-    //     if ((str===null) || (str===''))
-    //     return false;
-    //     else
-    //     str = str.toString();
-    //     return str.replace( /(<([^>]+)>)/ig, '').replace(/&nbsp;/g, '');
-    // };
 
     // SET SCATTERPLOT COORDINATES
     const researchScatterplot = research.map(r => {
@@ -74,8 +63,9 @@ const Home = () => {
     ];
 
     // HANDLE MAP CHANGE
-    const handleMapChange = ({ viewport }) => {
-        setViewport(viewport);
+    const handleMapChange = (viewport) => {
+        dispatch(updateViewport(viewport.viewState));
+        setViewport(viewport.viewState);
     };
 
     // HANDLE CLOSE CLICKINFO
@@ -94,10 +84,8 @@ const Home = () => {
         return () => {
           window.removeEventListener("keydown", listener);
         };
-      }, []);
+    }, []);
 
-
-      console.log(clickInfo.object)
     return (
         <React.Fragment>
             <PublicMenuBar />
