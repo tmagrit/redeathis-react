@@ -15,6 +15,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 import PublicMenuBar from '../components/PublicMenuBar';
 
+import { categoryTitle } from '../components/categoryTitle';
+
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -39,78 +41,73 @@ const ViewResearch = () => {
             <PublicMenuBar />
             <Container maxWidth="xl" sx={{ mt: 4, mb: 4, pt: 6, }} >
 
-            <Grid container spacing={3}>
-                {/* LEFT PANEL */}
-                <Grid item xs={12} md={8}>
+                <Grid container spacing={3}>
+                    {/* LEFT PANEL */}
+                    <Grid item xs={12} md={8}>
 
-                    <Grid item xs={12} sx={{ pt: 2, display: 'flex', flexDirection: 'column', }}>
-                        <Box>
-                            <Typography variant="h5" component="span" > {researchData.title} </Typography> 
-                            <Typography variant="h5" component="span" sx={{ color: 'text.secondary' }}> 
-                                {researchData.date.interval ? 
-                                    (` [${researchData.date.start.year}-${researchData.date.end.year}]`) 
-                                    : 
-                                    (` [${researchData.date.start.year}]`) 
-                                } 
-                            </Typography>
-                        </Box>
-                        <Box>
-                            {researchAuthors.length > 0 && ( 
-                                researchAuthors.map(ra => {
-                                    return  <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
-                                })
-                            )}
-                        </Box>
-                        <Stack 
-                            direction="row" 
-                            alignItems="center"
-                            spacing={1} 
-                            sx={{ mb:1, }}
-                        >
-                            <Avatar sx={{ width: 14, height: 14, bgcolor: `${researchData.category.color}` }}> </Avatar>
-                            <Typography variant="subtitle1" >{categories.find(c => c.id === researchData.category_id).name}</Typography>
-                        </Stack>
-                        
-                    </Grid>
-
-                    <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
-                        <Typography variant="body2" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
-                    </Grid>
-
-                </Grid>
-
-                {/* RIGHT PANEL */}
-                <Grid item xs={12} md={4}>
-
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            <div  style={{ width: '100%', height: 360, position: 'relative' }} >
-                                <Map
-                                    {...geolocation}
-                                    interactive={false}
-                                    mapStyle={mapboxStyle}
-                                    mapboxAccessToken={mapboxKey}
-                                > 
-                                    <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={researchData.category.color} />
-                                </Map>
-                            </div>
-                        </Grid>
-
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                        <Grid item xs={12} sx={{ pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Box>
+                                <Typography variant="h5" component="span" > {researchData.title} </Typography> 
+                                <Typography variant="h5" component="span" sx={{ color: 'text.secondary' }}> 
+                                    {researchData.date.interval ? 
+                                        (` [${researchData.date.start.year}-${researchData.date.end.year}]`) 
+                                        : 
+                                        (` [${researchData.date.start.year}]`) 
+                                    } 
+                                </Typography>
+                            </Box>
+                            <Box>
+                                {researchAuthors.length > 0 && ( 
+                                    researchAuthors.map(ra => {
+                                        return  <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                    })
+                                )}
+                            </Box>
+                            <Stack 
+                                direction="row" 
+                                alignItems="center"
+                                spacing={1} 
+                                sx={{ mb:1, }}
+                            >
+                                <Avatar sx={{ width: 14, height: 14, bgcolor: `${researchData.category.color}` }}> </Avatar>
+                                <Typography variant="subtitle1" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
+                                {/* <Typography variant="subtitle1" >{categories.find(c => c.id === researchData.category_id).name}</Typography> */}
+                            </Stack>
                             
                         </Grid>
 
+                        <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
+                            <Typography variant="h6"> Resumo </Typography>
+                            <Typography variant="body1" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
+                        </Grid>
+
+                    </Grid>
+
+                    {/* RIGHT PANEL */}
+                    <Grid item xs={12} md={4}>
+
+                            <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                                <div  style={{ width: '100%', height: 360, position: 'relative' }} >
+                                    <Map
+                                        {...geolocation}
+                                        interactive={false}
+                                        mapStyle={mapboxStyle}
+                                        mapboxAccessToken={mapboxKey}
+                                    > 
+                                        <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={researchData.category.color} />
+                                    </Map>
+                                </div>
+                            </Grid>
+
+                            <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                                
+                            </Grid>
+
+                    </Grid>
+
+                    
                 </Grid>
 
-
-                
-            </Grid>
-
-
-
-
-
-                
-                
                 
             </Container>
         </React.Fragment>

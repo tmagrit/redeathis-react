@@ -17,6 +17,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
+import { categoryTitle } from '../components/categoryTitle';
+
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -148,7 +150,8 @@ const Home = () => {
                                 sx={{ mt:1, mb:1, }}
                             >
                                 <Avatar sx={{ width: 10, height: 10, bgcolor: `${clickInfo.object.category.color}` }}> </Avatar>
-                                <Typography variant="caption" > {categories.find(c => c.id === clickInfo.object.category_id).name} </Typography>
+                                <Typography variant="caption" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
+                                {/* <Typography variant="caption" > {categories.find(c => c.id === clickInfo.object.category_id).name} </Typography> */}
                             </Stack>
                             <Typography variant="caption" component="span" > {clickInfo.object.excerpt} </Typography> 
                             <Typography variant="caption" sx={{ textDecoration: 'none', }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
@@ -206,11 +209,3 @@ const Home = () => {
 }
 
 export default Home;
-
-// import IconButton from '@mui/material/IconButton';
-// import ReadMoreIcon from '@mui/icons-material/ReadMore';
-// import LinkIcon from '@mui/icons-material/Link';
-// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-// import CloseIcon from '@mui/icons-material/Close';
-// import FullscreenIcon from '@mui/icons-material/Fullscreen';
-// import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
