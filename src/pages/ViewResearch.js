@@ -47,8 +47,8 @@ const ViewResearch = () => {
 
                         <Grid item xs={12} sx={{ pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Box>
-                                <Typography variant="h5" component="span" > {researchData.title} </Typography> 
-                                <Typography variant="h5" component="span" sx={{ color: 'text.secondary' }}> 
+                                <Typography variant="h5" component="h1" nowrap sx={{ display: 'inline', }}> {researchData.title} </Typography> 
+                                <Typography variant="h5" component="h1" nowrap sx={{ color: 'text.secondary', display: 'inline', }}> 
                                     {researchData.date.interval ? 
                                         (` [${researchData.date.start.year}-${researchData.date.end.year}]`) 
                                         : 
@@ -59,7 +59,7 @@ const ViewResearch = () => {
                             <Box>
                                 {researchAuthors.length > 0 && ( 
                                     researchAuthors.map(ra => {
-                                        return  <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary' }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                        return  <Typography variant="subtitle1" component="h2" nowrap sx={{ color: 'text.secondary', display: 'inline', }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                                     })
                                 )}
                             </Box>
@@ -67,18 +67,18 @@ const ViewResearch = () => {
                                 direction="row" 
                                 alignItems="center"
                                 spacing={1} 
-                                sx={{ mb:1, }}
+                                sx={{ my:2, }}
                             >
                                 <Avatar sx={{ width: 14, height: 14, bgcolor: `${researchData.category.color}` }}> </Avatar>
-                                <Typography variant="subtitle1" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
+                                <Typography variant="subtitle1" component="h3" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
                                 {/* <Typography variant="subtitle1" >{categories.find(c => c.id === researchData.category_id).name}</Typography> */}
                             </Stack>
                             
                         </Grid>
 
                         <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
-                            <Typography variant="h6"> Resumo </Typography>
-                            <Typography variant="body1" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
+                            <Typography variant="h6" component="h4" > Resumo </Typography>
+                            <Typography variant="body1" component="div" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
                         </Grid>
 
                     </Grid>

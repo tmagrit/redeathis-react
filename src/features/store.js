@@ -4,12 +4,14 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import sessionReducer from './sessionSlice';
 import membersReducer from './membersSlice';
 import researchReducer from './researchSlice';
+import pagesReducer from './pagesSlice';
 
 export const store = configureStore({
     reducer: {
       session: sessionReducer,
       members: membersReducer,
       research: researchReducer,
+      pages: pagesReducer,
     },
   })
 

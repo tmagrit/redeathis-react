@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
 import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
 import { getResearch, getCategories, getStatuses, getAuthors, getResearchAuthors, getSources } from './features/researchSlice';
+import { getPages } from './features/pagesSlice';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -53,6 +54,7 @@ function App() {
 
     // GET MEMBERS AND RESEARCH STATES
     useEffect(() => {
+        dispatch(getPages());
         dispatch(getMembers());
         dispatch(getProfileRoles());
         dispatch(getRoles());
