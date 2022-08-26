@@ -28,7 +28,7 @@ const PublicMenuBar = () => {
     const dispatch = useDispatch()
     const session = useSelector(state => state.session);
     const profile = useSelector(state => state.session.profile);
-    const pages = useSelector(state => state.pages.pages);
+    const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // // REACT STATES
     const [anchorEl, setAnchorEl] = useState(null); 

@@ -145,7 +145,14 @@ const Title = (props) => {
       }
       // PAGES / ALL
       if(context === 'all') 
-        return 'Índice de Páginas Institucionais';     
+        return 'Índice de Páginas Institucionais';    
+      // PAGES / CREATE  
+      if(context === 'create') {
+        if(props.position === 'left')  
+          return 'Nova Página'; 
+        if(props.position === 'right')  
+          return 'Publicar';
+      }               
       // PAGES / EDIT 
       if(context === 'edit') {
         if(props.position === 'left')  

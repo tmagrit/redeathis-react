@@ -21,6 +21,7 @@ import MembersMain from './components/MembersMain';
 import AuthorIndex from './components/AuthorIndex';
 import PagesIndex from './components/PagesIndex';
 import PagesMain from './components/PagesMain';
+import PagesCreate from './components/PagesCreate';
 
 // PAGES
 import Home from './pages/Home';
@@ -119,6 +120,7 @@ function App() {
                     {/* PAGES ROUTE */}
                     <Route path="pages" element={<PagesMain />} />
                     <Route path="pages/all" element={<PagesIndex />} />    
+                    <Route path="pages/create" element={<PagesCreate />} />
                         
                 </Route>    
             </Routes>

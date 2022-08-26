@@ -20,6 +20,28 @@ export const getPages = createAsyncThunk('pages/getPages', async (obj , { dispat
     };
 });
 
+export const createPage = createAsyncThunk('pages/createPage', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('pages')
+            .insert([obj])
+            .single()
+
+        alert('Pagina criada com sucesso.');
+
+        if(error) {
+            throw error
+        }  
+
+        return data;
+
+    } catch (error) {
+        alert('createPage()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 // export const getCategories = createAsyncThunk('research/getCategories', async (obj , { dispatch, getState }) => {
 //     try { 
 //         const { data, error } = await supabase
@@ -81,27 +103,6 @@ export const getPages = createAsyncThunk('pages/getPages', async (obj , { dispat
 //         }  
 
 //         return payload;
-//     } catch (error) {
-//         alert('updateResearch()-error')
-//         console.log(error)
-//         alert(error.message)
-//     };
-// });
-
-// export const createResearch = createAsyncThunk('research/createResearch', async (obj , { dispatch, getState }) => {
-//     try { 
-//         const { research } = getState()
-//         const category = research.categories.find(c => c.id === obj.category_id)
-//         const { data, error } = await supabase
-//             .from('research')
-//             .insert([obj])
-
-//         alert('Pesquisa criada com sucesso.');
-//         if(error) {
-//             throw error
-//         }  
-
-//         return { ...data[0], category: category };
 //     } catch (error) {
 //         alert('updateResearch()-error')
 //         console.log(error)
@@ -342,11 +343,11 @@ export const researchSlice = createSlice({
         getPagesStatus: 'idle',
         getPagesError: null,
 
+        createPageStatus: 'idle',
+        createPageError: null,
+
         // updateResearchStatus: 'idle',
         // updateResearchError: null,
-
-        // createResearchStatus: 'idle',
-        // createResearchError: null,
 
         // categories: [],
         // getCategoriesStatus: 'idle',
@@ -414,6 +415,18 @@ export const researchSlice = createSlice({
           state.getPagesError = action.error
         },
 
+        [createPage.pending]: (state) => {
+            state.createPageStatus = 'loading'
+        },
+        [createPage.fulfilled]: (state, action) => {
+            state.pages.shift(action.payload)
+            state.createPageStatus = 'succeeded'
+        },
+        [createPage.rejected]: (state, action) => {
+          state.createPageStatus = 'failed'
+          state.createPageError = action.error
+        },
+
         // [getCategories.pending]: (state) => {
         //     state.getCategoriesStatus = 'loading'
         // },
@@ -448,18 +461,6 @@ export const researchSlice = createSlice({
         // [updateResearch.rejected]: (state, action) => {
         //   state.updateResearchStatus = 'failed'
         //   state.updateResearchError = action.error
-        // },
-
-        // [createResearch.pending]: (state) => {
-        //     state.createResearchStatus = 'loading'
-        // },
-        // [createResearch.fulfilled]: (state, action) => {
-        //     state.research.unshift(action.payload)
-        //     state.createResearchStatus = 'succeeded'
-        // },
-        // [createResearch.rejected]: (state, action) => {
-        //   state.createResearchStatus = 'failed'
-        //   state.createResearchError = action.error
         // },
 
         // [getAuthors.pending]: (state) => {
