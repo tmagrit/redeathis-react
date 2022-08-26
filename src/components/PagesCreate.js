@@ -71,7 +71,8 @@ const PagesCreate = () => {
                                 minRows={1}
                                 maxRows={2}
                                 type="text"
-                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
+                                //error={true}
+                                helperText="Título principal da página"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
@@ -84,14 +85,15 @@ const PagesCreate = () => {
                                 name="slug"
                                 size="small"
                                 type="text"
-                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
+                                //error={true}
+                                helperText="Termo do menu de navegação principal, que dá acesso à página"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
 
                             <FormBox 
                                 id='text-editor-box' 
-                                label='Conteúdo'
+                                label='Corpo do Texto'
                                 padding={{ p: 0, }} 
                                 children={
                                     <TextEditor 
@@ -145,7 +147,7 @@ const PagesCreate = () => {
             </Grid>
 
             <Copyright sx={{ pt: 4 }} />
-            
+
         </Container>
     )
 };

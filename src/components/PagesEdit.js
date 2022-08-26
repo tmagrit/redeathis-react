@@ -75,8 +75,8 @@ const PagesEdit = () => {
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
-                                //error={emailError(email)}
-                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
+                                //error={true}
+                                helperText="Título principal da página"
                             />
 
                             <TextField
@@ -89,8 +89,8 @@ const PagesEdit = () => {
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
-                                //error={emailError(email)}
-                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
+                                //error={true}
+                                helperText="Termo do menu de navegação principal, que dá acesso à página"
                             />
 
                             <FormBox 
