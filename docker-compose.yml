@@ -1,1 +1,10 @@
 version: "3.8"
+services:
+  production:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:80"
+    env_file: 
+      - ./.env

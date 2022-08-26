@@ -19,6 +19,8 @@ import ResearchIndex from './components/ResearchIndex';
 import MembersIndex from './components/MembersIndex';
 import MembersMain from './components/MembersMain';
 import AuthorIndex from './components/AuthorIndex';
+import PagesIndex from './components/PagesIndex';
+import PagesMain from './components/PagesMain';
 
 // PAGES
 import Home from './pages/Home';
@@ -26,6 +28,7 @@ import ViewResearch from './pages/ViewResearch';
 import Admin from './pages/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import Institutional from './pages/Institutional';
 
 // MY HISTORY HOOK
 import { useHistory } from './components/history';
@@ -36,6 +39,7 @@ function App() {
     // REDUX SELECTORS
     const dispatch = useDispatch();
     const session = useSelector(state => state.session);
+    const pages = useSelector(state => state.pages.pages);
 
     // MY HISTORY HOOK
     const history = useHistory();
@@ -81,6 +85,10 @@ function App() {
                 <Route path="view/research/:researchId" element={<ViewResearch />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />
+
+                {/* INSTITUTIONAL ROUTES */}
+                <Route path="institutional/:pageSlug" element={<Institutional />} />
+
                 {/* PRIVATE ROUTE */}
                 <Route 
                     path="admin/*" 
@@ -101,18 +109,17 @@ function App() {
                     <Route path="research/authors" element={<AuthorIndex />} />
 
 
-                    <Route path="categories" element={<MainDashboard />} >
+                    <Route path="categories" element={<MainDashboard />} />
                         
-                    </Route>
 
                     {/* MEMBERS ROUTE */}
                     <Route path="members" element={<MembersMain />} />
                     <Route path="members/all" element={<MembersIndex />} />
 
-
-                    <Route path="pages" element={<MainDashboard />} >
+                    {/* PAGES ROUTE */}
+                    <Route path="pages" element={<PagesMain />} />
+                    <Route path="pages/all" element={<PagesIndex />} />    
                         
-                    </Route>
                 </Route>    
             </Routes>
 

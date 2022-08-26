@@ -19,6 +19,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 
+import { slugger } from './slugger';
+
 
 const PublicMenuBar = () => {
 
@@ -26,6 +28,7 @@ const PublicMenuBar = () => {
     const dispatch = useDispatch()
     const session = useSelector(state => state.session);
     const profile = useSelector(state => state.session.profile);
+    const pages = useSelector(state => state.pages.pages);
 
     // // REACT STATES
     const [anchorEl, setAnchorEl] = useState(null); 
@@ -55,10 +58,16 @@ const PublicMenuBar = () => {
                     Rede Residência ATHIS
                 </Typography>
                 </Box>
-                <Button color="inherit" component={Link} to="/" >História</Button>
+                {pages.map(pa => {
+                    return (
+                        // <Button color="inherit" component={Link} to="institutional" > {`${pa.slug}`} </Button>
+                        <Button color="inherit" component={Link} to={`/institutional/${slugger(pa.slug)}`} > {`${pa.slug}`} </Button>
+                        )
+                })}
+                {/* <Button color="inherit" component={Link} to="/" >História</Button>
                 <Button color="inherit" component={Link} to="/" >Proposta</Button>
                 <Button color="inherit" component={Link} to="/" >Quem Somos</Button>
-                <Button color="inherit" component={Link} to="/" >Colabore</Button>
+                <Button color="inherit" component={Link} to="/" >Colabore</Button> */}
                 <IconButton
                     onClick={handleMenu}
                     size="large"

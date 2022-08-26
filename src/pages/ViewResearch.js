@@ -78,7 +78,7 @@ const ViewResearch = () => {
 
                         <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
                             <Typography variant="h6" component="h4" > Resumo </Typography>
-                            <Typography variant="body1" component="div" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} />; </Typography>
+                            <Typography variant="body1" component="div" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} /> </Typography>
                         </Grid>
 
                     </Grid>

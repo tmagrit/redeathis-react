@@ -132,15 +132,42 @@ const Title = (props) => {
       } 
     }
 
-    if(section === 'categories' && context === '')
-      return 'Minhas Categorias';
+    // PAGES
+    if(section === 'pages') {
+      // PAGES / MAIN
+      if(context === '') {
+        if(props.position === 'left')  
+          return 'Resumo de Páginas Institucionais'; 
+        if(props.position === 'right')  
+          return 'Definir';
+        else  
+          return 'Índice de Páginas';
+      }
+      // PAGES / ALL
+      if(context === 'all') 
+        return 'Índice de Páginas Institucionais';     
+      // PAGES / EDIT 
+      if(context === 'edit') {
+        if(props.position === 'left')  
+          return 'Editar Página Institucional'; 
+        if(props.position === 'right')  
+          return 'Atualizar';
+        else  
+          return 'Definir';  
+      } 
+    }  
 
-    if(section === 'members' && context === '')
-      return 'Minha Conta';
+    // // CATEGORIES 
+    // if(section === 'categories' && context === '')
+    //   return 'Minhas Categorias';
 
-    if(section === 'pages' && context === '')
-      return 'Minhas Páginas';
+    // if(section === 'members' && context === '')
+    //   return 'Minha Conta';
+
+    // if(section === 'pages' && context === '')
+    //   return 'Minhas Páginas';
   };
+
 
 
   return (

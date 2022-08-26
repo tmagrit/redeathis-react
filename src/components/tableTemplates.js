@@ -217,10 +217,62 @@ export function useTableTemplates(props) {
         ]
     );
 
+    // COLUMNS TO PAGES LIST
+    const pagesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.id ,
+                sortable: true,
+                omit: true,
+                width: '70px',
+            },
+            {
+                name: 'Menu',
+                selector: row => row.slug ,
+                sortable: true,
+                grow: 1,
+            },
+            {
+                name: 'Título',
+                selector: row => row.title ,
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Atualização',
+                selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                sortable: true,
+                grow: 2,
+            },
+            {
+                name: 'Status',
+                selector: row => row.status,
+                cell: row => <Chip 
+                                    label={statuses.find(s => s.id === row.status).status} 
+                                    size="small" 
+                                    variant="outlined" 
+                                    color={statusColor(row.status)}
+                                />,
+                sortable: true,
+                maxWidth: '140px',
+                grow: 1,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row => <ActionMenu section={'pages'} row={row} />,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );   
+
     return {
         fullProfilesColumns: fullProfilesColumns,
         fullResearchColumns: fullResearchColumns,
         authorsColumns: authorsColumns,
+        pagesColumns: pagesColumns,
     };
 };
 
