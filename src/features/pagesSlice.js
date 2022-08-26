@@ -42,6 +42,37 @@ export const createPage = createAsyncThunk('pages/createPage', async (obj , { di
     };
 });
 
+export const updatePage = createAsyncThunk('pages/updatePage', async (obj , { dispatch, getState }) => {
+    try { 
+        const { pages } = getState()
+        const { data, error } = await supabase
+            .from('pages')
+            .update(obj)
+            .match({ id: obj.id })
+            .single()
+        
+        const payload = pages.pages.map(p => {
+            if(p.id === obj.id)
+                return data;
+            else 
+                return p;
+        });  
+
+        alert('Página atualizada com sucesso.');
+        
+        if(error) {
+            throw error
+        }  
+
+        return payload;
+
+    } catch (error) {
+        alert('updatePage()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 // export const getCategories = createAsyncThunk('research/getCategories', async (obj , { dispatch, getState }) => {
 //     try { 
 //         const { data, error } = await supabase
@@ -77,36 +108,6 @@ export const createPage = createAsyncThunk('pages/createPage', async (obj , { di
 //         alert('getStatus()-error');
 //         console.log(error);
 //         alert(error.message);
-//     };
-// });
-
-// export const updateResearch = createAsyncThunk('research/updateResearch', async (obj , { dispatch, getState }) => {
-//     try { 
-//         const { research } = getState()
-//         const category = research.categories.find(c => c.id === obj.category_id)
-//         const { data, error } = await supabase
-//             .from('research')
-//             .update(obj)
-//             .match({ id: obj.id })
-//             .single()
-
-        
-//         const payload = research.research.map(r => {
-//             if(r.id === obj.id)
-//                 return {...data, category: category};
-//             else 
-//                 return r;
-//         });  
-//         alert('Pesquisa atualizada com sucesso.');
-//         if(error) {
-//             throw error
-//         }  
-
-//         return payload;
-//     } catch (error) {
-//         alert('updateResearch()-error')
-//         console.log(error)
-//         alert(error.message)
 //     };
 // });
 
@@ -346,8 +347,8 @@ export const researchSlice = createSlice({
         createPageStatus: 'idle',
         createPageError: null,
 
-        // updateResearchStatus: 'idle',
-        // updateResearchError: null,
+        updatePageStatus: 'idle',
+        updatePageError: null,
 
         // categories: [],
         // getCategoriesStatus: 'idle',
@@ -427,6 +428,18 @@ export const researchSlice = createSlice({
           state.createPageError = action.error
         },
 
+        [updatePage.pending]: (state) => {
+            state.updatePageStatus = 'loading'
+        },
+        [updatePage.fulfilled]: (state, action) => {
+            state.pages = action.payload
+            state.updatePageStatus = 'succeeded'
+        },
+        [updatePage.rejected]: (state, action) => {
+          state.updatePageStatus = 'failed'
+          state.updatePageError = action.error
+        },
+
         // [getCategories.pending]: (state) => {
         //     state.getCategoriesStatus = 'loading'
         // },
@@ -449,18 +462,6 @@ export const researchSlice = createSlice({
         // [getStatuses.rejected]: (state, action) => {
         //   state.getStatusesStatus = 'failed'
         //   state.getStatusesError = action.error
-        // },
-
-        // [updateResearch.pending]: (state) => {
-        //     state.updateResearchStatus = 'loading'
-        // },
-        // [updateResearch.fulfilled]: (state, action) => {
-        //     state.research = action.payload
-        //     state.updateResearchStatus = 'succeeded'
-        // },
-        // [updateResearch.rejected]: (state, action) => {
-        //   state.updateResearchStatus = 'failed'
-        //   state.updateResearchError = action.error
         // },
 
         // [getAuthors.pending]: (state) => {
@@ -604,9 +605,7 @@ export const researchSlice = createSlice({
 // }
 
 export const { 
-    removeSource,
-    removeResearchAuthor,
-    removeAuthor,
+
 } = researchSlice.actions
 
 export default researchSlice.reducer

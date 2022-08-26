@@ -22,6 +22,7 @@ import AuthorIndex from './components/AuthorIndex';
 import PagesIndex from './components/PagesIndex';
 import PagesMain from './components/PagesMain';
 import PagesCreate from './components/PagesCreate';
+import PagesEdit from './components/PagesEdit';
 
 // PAGES
 import Home from './pages/Home';
@@ -121,6 +122,7 @@ function App() {
                     <Route path="pages" element={<PagesMain />} />
                     <Route path="pages/all" element={<PagesIndex />} />    
                     <Route path="pages/create" element={<PagesCreate />} />
+                    <Route path="pages/edit/:pageId" element={<PagesEdit />} />
                         
                 </Route>    
             </Routes>
