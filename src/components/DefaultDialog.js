@@ -10,12 +10,7 @@ const DefaultDialog = (props) => {
       onClose();
     };
   
-    // const handleListItemClick = (value) => {
-    //   onClose(value);
-    // };
-  
     return (
-        // <Dialog onClose={handleClose} open={open}>
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>{title}</DialogTitle>
             {children}

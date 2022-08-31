@@ -102,7 +102,7 @@ const ContextMenu = () => {
         return (
             <div>
 
-                <ListItemButton component={Link} to="/admin/categories/all" selected={activeMenu(context,'all')} >
+                {/* <ListItemButton component={Link} to="/admin/categories/all" selected={activeMenu(context,'all')} >
                     <ListItemIcon>
                         <ViewListIcon />
                     </ListItemIcon>
@@ -128,7 +128,7 @@ const ContextMenu = () => {
                         <BookmarkAddIcon />
                     </ListItemIcon>
                     <ListItemText primary="Criar Novo Marcador" />
-                </ListItemButton>     
+                </ListItemButton>      */}
 
                 <ListItemButton onClick={() => history.goBack()} >
                     <ListItemIcon>

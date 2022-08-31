@@ -31,7 +31,13 @@ export const getCategories = createAsyncThunk('research/getCategories', async (o
     try { 
         const { data, error } = await supabase
             .from('categories')
-            .select('*')
+            .select(`
+                *,
+                classes ( 
+                    *,
+                    id
+                )
+            `)
             .order('updated_at', { ascending: false });
 
         if (error) 
@@ -342,10 +348,66 @@ export const updateAuthor = createAsyncThunk('research/updateAuthor', async (obj
     };
 });
 
+export const addClass = createAsyncThunk('research/addClass', async (obj , { dispatch, getState }) => {
+    try {     
+        const { data, error } = await supabase
+            .from('classes')
+            .upsert({ category_id: obj.category_id, name: obj.name, description: obj.description }, { ignoreDuplicates: true })
+            .single();
+  
+        if (error) 
+            throw error;
+
+        const { research } = getState();
+
+        const updatedCategoryClasses = research.categories.map(c => {
+            if(c.id === obj.category_id) {
+                let newClasses = [...c.classes, data]
+                return {...c, classes: newClasses};
+            }
+            else 
+                return c;
+        }); 
+        
+        return updatedCategoryClasses;
+
+    } catch (error) {
+        alert('addClass()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
+export const getTags = createAsyncThunk('research/getTags', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('tags')
+            .select('*')   
+            .order('updated_at', { ascending: false });
+
+        if (error) 
+            throw error;
+
+        return data;
+
+    } catch (error) {
+        alert('getClasses()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 export const researchSlice = createSlice({
     name: 'research',
     initialState: {
         research: [],
+        categories: [],
+        statuses: [],
+        authors: [],
+        researchAuthors: [],
+        sources: [],
+        tags: [],
+                
         getResearchStatus: 'idle',
         getResearchError: null,
 
@@ -355,15 +417,12 @@ export const researchSlice = createSlice({
         createResearchStatus: 'idle',
         createResearchError: null,
 
-        categories: [],
         getCategoriesStatus: 'idle',
         getCategoriesError: null,
 
-        statuses: [],
         getStatusesStatus: 'idle',
         getStatusesError: null,
-
-        authors: [],
+        
         getAuthorsStatus: 'idle',
         getAuthorsError: null,
 
@@ -376,11 +435,9 @@ export const researchSlice = createSlice({
         deleteAuthorsStatus: 'idle',
         deleteAuthorsError: null,
 
-        researchAuthors: [],
         getResearchAuthorsStatus: 'idle',
         getResearchAuthorsError: null,
 
-        sources: [],
         getSourcesStatus: 'idle',
         getSourcesError: null,
 
@@ -392,6 +449,12 @@ export const researchSlice = createSlice({
 
         deleteResearchAuthorStatus: 'idle',
         deleteResearchAuthorError: null,
+
+        addClassStatus: 'idle',
+        addClassError: null,
+
+        getClassesStatus: 'idle',
+        addClassesError: null,
     },
     reducers: {
         removeSource(state, action) { 
@@ -584,6 +647,30 @@ export const researchSlice = createSlice({
         [updateAuthor.rejected]: (state, action) => {
           state.updateAuthorsStatus = 'failed'
           state.updateAuthorsError = action.error
+        },
+
+        [addClass.pending]: (state) => {
+            state.addClassStatus = 'loading'
+        },
+        [addClass.fulfilled]: (state, action) => {
+            state.categories = action.payload
+            state.addClassStatus = 'succeeded'
+        },
+        [addClass.rejected]: (state, action) => {
+          state.addClassStatus = 'failed'
+          state.addClassError = action.error
+        },
+
+        [getTags.pending]: (state) => {
+            state.getTagsStatus = 'loading'
+        },
+        [getTags.fulfilled]: (state, action) => {
+            state.tags = action.payload
+            state.getTagsStatus = 'succeeded'
+        },
+        [getTags.rejected]: (state, action) => {
+          state.getTagsStatus = 'failed'
+          state.getTagsError = action.error
         },
       }
 })
