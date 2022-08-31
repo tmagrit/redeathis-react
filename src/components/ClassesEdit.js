@@ -9,15 +9,13 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
+
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'; 
-import EditIcon from '@mui/icons-material/Edit'; 
+
 
 
 const ClassesEdit = ( props ) => {
@@ -32,11 +30,11 @@ const ClassesEdit = ( props ) => {
     const [classDescription, setClassDescription] = useState('');
 
         
-    const handleSignin = () => {
+    const handleAddClass = () => {
         const newClass = {
             category_id: categoryId,
             name: className,
-            description: classDescription
+            //description: classDescription
         }
         dispatch(addClass(newClass));
         setClassName('');
@@ -82,15 +80,13 @@ const ClassesEdit = ( props ) => {
                             </ListItemAvatar>
                                 <ListItemText
                                     primary={cc.name}
-                                    secondary={cc.description ? cc.description : null}
+                                    secondary="Marcadores [3]"
+                                    //secondary={cc.description ? cc.description : null}
                                 />
                             </ListItem>
                         )
                     )}
                 </List>
-
-
-
 
 
                 <TextField
@@ -108,7 +104,7 @@ const ClassesEdit = ( props ) => {
                     //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
                     sx={{ mt: 3, mb: 1,}}
                 />
-                <TextField
+                {/* <TextField
                     value={classDescription}
                     //error={emailError(email)}
                     onChange={e => setClassDescription(e.target.value)}
@@ -122,7 +118,7 @@ const ClassesEdit = ( props ) => {
                     }}
                     //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
                     sx={{ mb: 2,}}
-                />
+                /> */}
                 <Button 
                     variant="contained" 
                     disabled={!validateName(className) || className.length === 0}
@@ -130,10 +126,10 @@ const ClassesEdit = ( props ) => {
                     endIcon={<BookmarkAddIcon />}
                     onClick={e => {
                         e.preventDefault();
-                        handleSignin();
+                        handleAddClass();
                     }}
                 >
-                    Adicionar Nova Classe
+                    Incluir nova Classe
                 </Button>
             </Box>
         </React.Fragment>
@@ -148,4 +144,4 @@ ClassesEdit.defaultProps = {
 
 ClassesEdit.propTypes = {
     categoryId: PropTypes.number.isRequired,
-  };
+};

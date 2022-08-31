@@ -14,6 +14,9 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BookmarksIcon from '@mui/icons-material/Bookmarks'; 
 import EditIcon from '@mui/icons-material/Edit';  
+import DeleteIcon from '@mui/icons-material/Delete'; 
+import LabelIcon from '@mui/icons-material/Label';
+
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
@@ -22,6 +25,9 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
@@ -30,6 +36,7 @@ import Title from './Title';
 
 import DefaultDialog from './DefaultDialog';
 import ClassesEdit from './ClassesEdit';
+import TagsEdit from './TagsEdit';
 
 import { categoryTitle } from './categoryTitle';
 
@@ -37,12 +44,18 @@ const CategoriesMain = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const categories = useSelector(state => state.research.categories);   
+    const categories = useSelector(state => state.research.categories);  
+    const classes  = useSelector(state => state.research.classes);   
     const tags = useSelector(state => state.research.tags);   
     
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [dialogClassOpen, setDialogClassOpen] = useState(false);
+    const [selectedCategoryClass, setSelectedCategoryClass] = useState(''); 
+    const [selectedClass, setSelectedClass] = useState(''); 
+
+    
 
     // HANDLE TOGGLE DIALOG
     const handleDialogOpen = () => {
@@ -51,11 +64,24 @@ const CategoriesMain = () => {
     const handleDialogClose = (value) => {
         setDialogOpen(false);
     };    
+    const handleDialogClassOpen = () => {
+        setDialogClassOpen(true);
+    };
+    const handleDialogClassClose = (value) => {
+        setDialogClassOpen(false);
+    };    
 
     // HANDLE CLASS EDIT
     const handleClassEdit = (categoryid) => {
         setSelectedCategory(categoryid);
         handleDialogOpen(true);
+    };
+    // HANDLE TAG EDIT
+    const handleTagEdit = (classid) => {
+        const categoryClassId = classes.find(c => c.id === classid).category_id;
+        setSelectedCategoryClass(categoryClassId);
+        setSelectedClass(classid);
+        handleDialogClassOpen(true);
     };
 
     return (
@@ -80,24 +106,40 @@ const CategoriesMain = () => {
                                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                         {c.classes && c.classes.map(cc => (
                                             <Grid item xs={4}>
-                                                <Stack 
+                                                <List >
+                                                    <ListItem key={cc.id} disablePadding >
+                                                        <ListItemButton role={undefined} onClick={() => handleTagEdit(cc.id)} >
+                                                            <ListItemIcon>
+                                                                <BookmarkIcon fontSize="inherit"/>
+                                                            </ListItemIcon>
+                                                            <ListItemText primary={cc.name}/>
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                </List>
+                                                {/* <Stack 
                                                     direction="row" 
                                                     alignItems="center"
                                                     spacing={0.7}
                                                     sx={{ mt:1, mb:1, }}
                                                 >
+                                                    <BookmarkIcon fontSize="inherit" />
                                                     <Typography variant="body1" sx={{ display: 'inline', fontWeight: 'bold', flexGrow: 1, }}>{cc.name}</Typography>
-                                                    <IconButton aria-label="edit" size="small">
+                                                    <IconButton aria-label="edit" size="small" onClick={() => handleTagEdit(cc.id)} >
                                                         <EditIcon fontSize="inherit" />
                                                     </IconButton>
-                                                </Stack>
+                                                </Stack> */}
                                                 <Divider />
                                                 <List dense >
                                                     {tags && tags.filter(t => t.class_id === cc.id).map(ct => (
                                                         <ListItem key={ct.id}>
-                                                            <ListItemText primary={ct.name} />
+                                                            <ListItemButton role={undefined} onClick={() => handleTagEdit(cc.id)} dense>
+                                                                <ListItemIcon>
+                                                                    <LabelIcon fontSize="inherit" />
+                                                                </ListItemIcon>
+                                                                <ListItemText primary={ct.name} />
+                                                            </ListItemButton>
                                                         </ListItem>
-
+                                                        
                                                     ))}    
                                                 </List>
                                             </Grid>
@@ -113,31 +155,11 @@ const CategoriesMain = () => {
                                             Incluir Classes em {c.name}
                                         </Button>
                                     </Stack>
-
                                 </Box>
-
-                                {/* <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                </Typography> */}
-
                             </AccordionDetails>
                         </Accordion>
                     ))}
                 </Grid>
-
-                {/* RIGHT PANEL 
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ minHeight: 240, }} >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Title position={'right'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            
-                        </Grid>
-                    </Paper>
-                </Grid> */}
                 
             </Grid>
 
@@ -145,9 +167,16 @@ const CategoriesMain = () => {
             <DefaultDialog
                 open={dialogOpen}
                 onClose={handleDialogClose}
-                title={`Criar Classes em ${selectedCategory && categories.find(c => c.id === selectedCategory).name}`}
-                //title="TEMP"
+                title={`Incluir classes em [${selectedCategory && categories.find(c => c.id === selectedCategory).name}]`}
                 children={<ClassesEdit categoryId={selectedCategory} />}
+            />
+
+            {/* MANAGE TAG DIALOG */}
+            <DefaultDialog
+                open={dialogClassOpen}
+                onClose={handleDialogClassClose}
+                title={`Organizar classe [${selectedClass && classes.find(c => c.id === selectedClass).name}] em [${selectedCategoryClass && categories.find(c => c.id === selectedCategoryClass).name}]`}
+                children={<TagsEdit classId={selectedClass} />}
             />
 
             <Copyright sx={{ pt: 4 }} />

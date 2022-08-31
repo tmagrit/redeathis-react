@@ -352,7 +352,7 @@ export const addClass = createAsyncThunk('research/addClass', async (obj , { dis
     try {     
         const { data, error } = await supabase
             .from('classes')
-            .upsert({ category_id: obj.category_id, name: obj.name, description: obj.description }, { ignoreDuplicates: true })
+            .upsert({ category_id: obj.category_id, name: obj.name }, { ignoreDuplicates: true })
             .single();
   
         if (error) 
@@ -378,12 +378,12 @@ export const addClass = createAsyncThunk('research/addClass', async (obj , { dis
     };
 });
 
-export const getTags = createAsyncThunk('research/getTags', async (obj , { dispatch, getState }) => {
+export const getClasses = createAsyncThunk('research/getClasses', async (obj , { dispatch, getState }) => {
     try { 
         const { data, error } = await supabase
-            .from('tags')
+            .from('classes')
             .select('*')   
-            .order('updated_at', { ascending: false });
+            .order('name', { ascending: true });
 
         if (error) 
             throw error;
@@ -392,6 +392,25 @@ export const getTags = createAsyncThunk('research/getTags', async (obj , { dispa
 
     } catch (error) {
         alert('getClasses()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
+export const getTags = createAsyncThunk('research/getTags', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('tags')
+            .select('*')   
+            .order('name', { ascending: true });
+
+        if (error) 
+            throw error;
+
+        return data;
+
+    } catch (error) {
+        alert('getTags()-error')
         console.log(error)
         alert(error.message)
     };
@@ -406,6 +425,7 @@ export const researchSlice = createSlice({
         authors: [],
         researchAuthors: [],
         sources: [],
+        classes: [],
         tags: [],
                 
         getResearchStatus: 'idle',
@@ -454,7 +474,10 @@ export const researchSlice = createSlice({
         addClassError: null,
 
         getClassesStatus: 'idle',
-        addClassesError: null,
+        getClassesError: null,
+
+        getTagsStatus: 'idle',
+        getTagsError: null,
     },
     reducers: {
         removeSource(state, action) { 
@@ -659,6 +682,18 @@ export const researchSlice = createSlice({
         [addClass.rejected]: (state, action) => {
           state.addClassStatus = 'failed'
           state.addClassError = action.error
+        },
+
+        [getClasses.pending]: (state) => {
+            state.getClassesStatus = 'loading'
+        },
+        [getClasses.fulfilled]: (state, action) => {
+            state.classes = action.payload
+            state.getClassesStatus = 'succeeded'
+        },
+        [getClasses.rejected]: (state, action) => {
+          state.getClassesStatus = 'failed'
+          state.getClassesError = action.error
         },
 
         [getTags.pending]: (state) => {
