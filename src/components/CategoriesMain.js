@@ -55,7 +55,13 @@ const CategoriesMain = () => {
     const [selectedCategoryClass, setSelectedCategoryClass] = useState(''); 
     const [selectedClass, setSelectedClass] = useState(''); 
 
-    
+    // HANDLE CLEAN TYPES
+    const handleCleanTypes = () => {
+        handleDialogOpen(false);
+        handleDialogClassOpen(false);
+        setSelectedClass('');
+        setSelectedCategoryClass('');
+    };
 
     // HANDLE TOGGLE DIALOG
     const handleDialogOpen = () => {
@@ -104,37 +110,31 @@ const CategoriesMain = () => {
                             <AccordionDetails>
                                 <Box sx={{ flexGrow: 1 }}>
                                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                        {c.classes && c.classes.map(cc => (
-                                            <Grid item xs={4}>
+                                        {classes && classes.filter(cl => cl.category_id === c.id).map(cc => ( 
+                                            <Grid item xs={4}> 
                                                 <List >
                                                     <ListItem key={cc.id} disablePadding >
                                                         <ListItemButton role={undefined} onClick={() => handleTagEdit(cc.id)} >
+
                                                             <ListItemIcon>
-                                                                <BookmarkIcon fontSize="inherit"/>
+                                                                <Avatar sx={{ bgcolor: `${c.color}`, width: 30, height: 30,  }} >
+                                                                    <BookmarkIcon fontSize="inherit"/>
+                                                                </Avatar>
+                                                                
                                                             </ListItemIcon>
                                                             <ListItemText primary={cc.name}/>
                                                         </ListItemButton>
                                                     </ListItem>
                                                 </List>
-                                                {/* <Stack 
-                                                    direction="row" 
-                                                    alignItems="center"
-                                                    spacing={0.7}
-                                                    sx={{ mt:1, mb:1, }}
-                                                >
-                                                    <BookmarkIcon fontSize="inherit" />
-                                                    <Typography variant="body1" sx={{ display: 'inline', fontWeight: 'bold', flexGrow: 1, }}>{cc.name}</Typography>
-                                                    <IconButton aria-label="edit" size="small" onClick={() => handleTagEdit(cc.id)} >
-                                                        <EditIcon fontSize="inherit" />
-                                                    </IconButton>
-                                                </Stack> */}
                                                 <Divider />
                                                 <List dense >
                                                     {tags && tags.filter(t => t.class_id === cc.id).map(ct => (
                                                         <ListItem key={ct.id}>
                                                             <ListItemButton role={undefined} onClick={() => handleTagEdit(cc.id)} dense>
                                                                 <ListItemIcon>
-                                                                    <LabelIcon fontSize="inherit" />
+                                                                    <Avatar sx={{ bgcolor: `${c.color}`, width: 27, height: 27,  }} >
+                                                                        <LabelIcon fontSize="inherit" />
+                                                                    </Avatar>
                                                                 </ListItemIcon>
                                                                 <ListItemText primary={ct.name} />
                                                             </ListItemButton>
@@ -176,7 +176,7 @@ const CategoriesMain = () => {
                 open={dialogClassOpen}
                 onClose={handleDialogClassClose}
                 title={`Organizar classe [${selectedClass && classes.find(c => c.id === selectedClass).name}] em [${selectedCategoryClass && categories.find(c => c.id === selectedCategoryClass).name}]`}
-                children={<TagsEdit classId={selectedClass} />}
+                children={<TagsEdit classId={selectedClass} cleanTypes={handleCleanTypes} />}
             />
 
             <Copyright sx={{ pt: 4 }} />

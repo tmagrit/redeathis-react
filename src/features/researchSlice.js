@@ -358,18 +358,18 @@ export const addClass = createAsyncThunk('research/addClass', async (obj , { dis
         if (error) 
             throw error;
 
-        const { research } = getState();
+        //const { research } = getState();
 
-        const updatedCategoryClasses = research.categories.map(c => {
-            if(c.id === obj.category_id) {
-                let newClasses = [...c.classes, data]
-                return {...c, classes: newClasses};
-            }
-            else 
-                return c;
-        }); 
+        // const updatedCategoryClasses = research.categories.map(c => {
+        //     if(c.id === obj.category_id) {
+        //         let newClasses = [...c.classes, data] //TODO DESMEMBRAR CLASSES 
+        //         return {...c, classes: newClasses};
+        //     }
+        //     else 
+        //         return c;
+        // }); 
         
-        return updatedCategoryClasses;
+        return data;
 
     } catch (error) {
         alert('addClass()-error')
@@ -397,6 +397,25 @@ export const getClasses = createAsyncThunk('research/getClasses', async (obj , {
     };
 });
 
+export const deleteClass = createAsyncThunk('research/deleteClass', async (obj , { dispatch, getState }) => {
+    try {     
+        const { error } = await supabase
+            .from('classes')
+            .delete()
+            .match({ id: obj.id })
+
+        if (error) 
+            throw error;
+          
+        dispatch(removeClass(obj)); 
+
+    } catch (error) {
+        alert('deleteClass()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 export const getTags = createAsyncThunk('research/getTags', async (obj , { dispatch, getState }) => {
     try { 
         const { data, error } = await supabase
@@ -411,6 +430,25 @@ export const getTags = createAsyncThunk('research/getTags', async (obj , { dispa
 
     } catch (error) {
         alert('getTags()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
+export const addTag = createAsyncThunk('research/addTag', async (obj , { dispatch, getState }) => {
+    try {     
+        const { data, error } = await supabase
+            .from('tags')
+            .upsert({ class_id: obj.class_id, name: obj.name }, { ignoreDuplicates: true })
+            .single();
+  
+        if (error) 
+            throw error;
+        
+        return data;
+
+    } catch (error) {
+        alert('addTag()-error')
         console.log(error)
         alert(error.message)
     };
@@ -476,10 +514,48 @@ export const researchSlice = createSlice({
         getClassesStatus: 'idle',
         getClassesError: null,
 
+        deleteClassStatus: 'idle',
+        deleteClassError: null,
+
         getTagsStatus: 'idle',
         getTagsError: null,
+
+        addTagStatus: 'idle',
+        addTagError: null,
     },
     reducers: {
+        updateTagsNames: {
+            reducer(state, action) {
+                const newstate = state.tags.map(t => {
+                    if(t.id !== action.payload.id) 
+                        return t
+                    else {
+                        const neworg = {
+                            ...t, 
+                            name: action.payload.name
+                        }
+                        return neworg   
+                    } 
+                }) 
+                return {
+                    ...state,
+                    tags: newstate,
+                }  
+            },
+            prepare({id, name}) {
+                return {
+                    payload: {
+                        id,
+                        name
+                    }
+                }
+            }
+        },
+
+        removeClass(state, action) { 
+            const newClasses = state.classes.filter(c => c.id !== action.payload.id);
+            state.classes = newClasses;
+        },
         removeSource(state, action) { 
             const newSources = state.sources.filter(s => s.id !== action.payload.id);
             state.sources = newSources;
@@ -676,7 +752,7 @@ export const researchSlice = createSlice({
             state.addClassStatus = 'loading'
         },
         [addClass.fulfilled]: (state, action) => {
-            state.categories = action.payload
+            state.classes.unshift(action.payload)
             state.addClassStatus = 'succeeded'
         },
         [addClass.rejected]: (state, action) => {
@@ -696,6 +772,17 @@ export const researchSlice = createSlice({
           state.getClassesError = action.error
         },
 
+        [deleteClass.pending]: (state) => {
+            state.deleteClassStatus = 'loading'
+        },
+        [deleteClass.fulfilled]: (state, action) => {
+            state.deleteClassStatus = 'succeeded'
+        },
+        [deleteClass.rejected]: (state, action) => {
+          state.deleteClassStatus = 'failed'
+          state.deleteClassError = action.error
+        },
+
         [getTags.pending]: (state) => {
             state.getTagsStatus = 'loading'
         },
@@ -706,6 +793,18 @@ export const researchSlice = createSlice({
         [getTags.rejected]: (state, action) => {
           state.getTagsStatus = 'failed'
           state.getTagsError = action.error
+        },
+
+        [addTag.pending]: (state) => {
+            state.addTagStatus = 'loading'
+        },
+        [addTag.fulfilled]: (state, action) => {
+            state.tags.unshift(action.payload)
+            state.addTagStatus = 'succeeded'
+        },
+        [addTag.rejected]: (state, action) => {
+          state.addTagStatus = 'failed'
+          state.addTagError = action.error
         },
       }
 })
@@ -732,9 +831,11 @@ export const researchSlice = createSlice({
 // }
 
 export const { 
+    updateTagsNames,
     removeSource,
     removeResearchAuthor,
     removeAuthor,
+    removeClass,
 } = researchSlice.actions
 
 export default researchSlice.reducer
