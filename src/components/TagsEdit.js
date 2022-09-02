@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteClass, addTag, updateTagsNames } from '../features/researchSlice';
+import { deleteClass, addTag, updateClassName, updateTagsNames, updateClass, updateClassTags } from '../features/researchSlice';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -10,18 +10,7 @@ import Stack from '@mui/material/Stack';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-
-
-
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'; 
 import LabelOffIcon from '@mui/icons-material/LabelOff'; 
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove'; 
 import LabelIcon from '@mui/icons-material/Label';
@@ -40,34 +29,30 @@ const TagsEdit = ( props ) => {
     const dummyTagObj = { class_id: classId, name: '', };
 
     const [newTagData, setNewTagData] = useState({...dummyTagObj});
-    const [classObjData, setClassObjData] = useState({...classObj});  //console.log('classObjData',classObjData);
+    const [classObjData, setClassObjData] = useState({...classObj});  console.log('classObjData',classObjData);
     const [tagsArrayData, setTagsArrayData] = useState([...tags]); //console.log('tagsArrayData',tagsArrayData);
 
     // HANDLE EDIT CLASSES AND TAGS ???    
-    const handleEditClass = () => {
-        // const newClass = {
-        //     category_id: classId,
-        //     name: className,
-        //     description: classDescription
-        // }
-        // dispatch(addClass(newClass));
-        // setClassName('');
-        // setClassDescription('');
+    const handleSaveClass = () => {
+        dispatch(updateClass(classId));
+        dispatch(updateClassTags(classId));
     };
 
     // HANDLE ADD TAG
     const handleAddTag = () => {
-        const newTag = {
+        const updatedClass = {
             class_id: classId,
             name: newTagData.name
         }
-        dispatch(addTag(newTag));
+        dispatch(addTag(updatedClass));
         setNewTagData(dummyTagObj);
     };
 
     // CHANGE CLASS OBJECT STATE
     const handleChangeClassObj = (event) => {
-        setClassObjData({...classObjData, [event.target.name]: event.target.value});
+        let newClass = {...classObjData, [event.target.name]: event.target.value}
+        setClassObjData(newClass);
+        dispatch(updateClassName(newClass));
     };
 
     // CHANGE TAGS OBJECTS STATE
@@ -99,6 +84,12 @@ const TagsEdit = ( props ) => {
         else
         return false
     }
+
+    // RE-RENDER COMPONENT ON TAG ARRAY CHANGES
+    useEffect(() => {
+        setTagsArrayData([...tags]);
+    }, [tags])
+
 
     return (
         <React.Fragment>
@@ -193,7 +184,7 @@ const TagsEdit = ( props ) => {
                         endIcon={<BookmarkAddedIcon />}
                         onClick={e => {
                             e.preventDefault();
-                            handleEditClass();
+                            handleSaveClass();
                         }}
                         sx={{ mt: 1, }}
                     >

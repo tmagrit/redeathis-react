@@ -397,6 +397,51 @@ export const getClasses = createAsyncThunk('research/getClasses', async (obj , {
     };
 });
 
+export const updateClass = createAsyncThunk('research/updateClass', async (obj , { dispatch, getState }) => {
+    try {  
+        const { research } = getState();
+        const updatedClass = research.classes.find(rc => rc.id === obj);
+
+        const { error } = await supabase
+            .from('classes')
+            .update(updatedClass, {
+                returning: 'minimal'
+            })
+            .match({ id: obj });
+        alert('updateClass()-Success');
+
+        if (error) 
+            throw error; 
+
+    } catch (error) {
+        alert('updateClass()-Error');
+        console.log(error);
+        alert(error.message);
+    };
+});
+
+export const updateClassTags = createAsyncThunk('research/updateClassTags', async (obj , { dispatch, getState }) => {
+    try {  
+        const { research } = getState();
+        const updatedClassTags = research.tags.filter(rt => rt.class_id === obj);
+
+        const { error } = await supabase
+            .from('tags')
+            .upsert(updatedClassTags, {
+                returning: 'minimal'
+            });
+        alert('updateClass()-Success');
+
+        if (error) 
+            throw error; 
+
+    } catch (error) {
+        alert('updateClass()-Error');
+        console.log(error);
+        alert(error.message);
+    };
+});
+
 export const deleteClass = createAsyncThunk('research/deleteClass', async (obj , { dispatch, getState }) => {
     try {     
         const { error } = await supabase
@@ -421,7 +466,7 @@ export const getTags = createAsyncThunk('research/getTags', async (obj , { dispa
         const { data, error } = await supabase
             .from('tags')
             .select('*')   
-            .order('name', { ascending: true });
+            .order('name', { ascending: false });
 
         if (error) 
             throw error;
@@ -514,27 +559,60 @@ export const researchSlice = createSlice({
         getClassesStatus: 'idle',
         getClassesError: null,
 
+        updateClassStatus: 'idle',
+        updateClassError: null,
+
         deleteClassStatus: 'idle',
         deleteClassError: null,
 
         getTagsStatus: 'idle',
         getTagsError: null,
 
+        updateClassTagsStatus: 'idle',
+        updateClassTagsError: null,
+
         addTagStatus: 'idle',
         addTagError: null,
     },
     reducers: {
+        updateClassName: {
+            reducer(state, action) {
+                const newstate = state.classes.map(c => {
+                    if(c.id !== action.payload.id) 
+                        return c;
+                    else {
+                        const newclass = {
+                            ...c, 
+                            name: action.payload.name
+                        }
+                        return newclass;   
+                    } 
+                }) 
+                return {
+                    ...state,
+                    classes: newstate,
+                }  
+            },
+            prepare({id, name}) {
+                return {
+                    payload: {
+                        id,
+                        name
+                    }
+                }
+            }
+        },
         updateTagsNames: {
             reducer(state, action) {
                 const newstate = state.tags.map(t => {
                     if(t.id !== action.payload.id) 
-                        return t
+                        return t;
                     else {
-                        const neworg = {
+                        const newtag = {
                             ...t, 
                             name: action.payload.name
                         }
-                        return neworg   
+                        return newtag;   
                     } 
                 }) 
                 return {
@@ -772,6 +850,28 @@ export const researchSlice = createSlice({
           state.getClassesError = action.error
         },
 
+        [updateClass.pending]: (state) => {
+            state.updateClassStatus = 'loading'
+        },
+        [updateClass.fulfilled]: (state, action) => {
+            state.updateClassStatus = 'succeeded'
+        },
+        [updateClass.rejected]: (state, action) => {
+          state.updateClassStatus = 'failed'
+          state.updateClassError = action.error
+        },
+
+        [updateClassTags.pending]: (state) => {
+            state.updateClassTagsStatus = 'loading'
+        },
+        [updateClassTags.fulfilled]: (state, action) => {
+            state.updateClassTagsStatus = 'succeeded'
+        },
+        [updateClassTags.rejected]: (state, action) => {
+          state.updateClassTagsStatus = 'failed'
+          state.updateClassTagsError = action.error
+        },
+
         [deleteClass.pending]: (state) => {
             state.deleteClassStatus = 'loading'
         },
@@ -831,6 +931,7 @@ export const researchSlice = createSlice({
 // }
 
 export const { 
+    updateClassName,
     updateTagsNames,
     removeSource,
     removeResearchAuthor,
