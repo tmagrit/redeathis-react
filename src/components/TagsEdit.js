@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteClass, addTag, updateClassName, updateTagsNames, updateClass, updateClassTags } from '../features/researchSlice';
+import { deleteClass, addTag, updateClassName, updateTagsNames, updateClass, updateClassTags, deleteTag } from '../features/researchSlice';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -75,7 +75,14 @@ const TagsEdit = ( props ) => {
     const handleDeleteClass = (classobj) => {
         dispatch(deleteClass(classobj));
         setClassObjData({...dummyClassObj});
-    }
+    };
+
+    // HANDLE DELETE TAG
+    const handleDeleteTag = (tagobj) => {
+        dispatch(deleteTag(tagobj));
+        //const updatedTags = .filter(t => t.id !== action.payload.id);
+        //setTagsArrayData({...dummyClassObj});
+    };
 
     // VALIDATE FIELDS
     const validateName = (str) => {
@@ -136,7 +143,7 @@ const TagsEdit = ( props ) => {
                                 type="text"
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start"><LabelIcon /></InputAdornment>,
-                                    endAdornment: <InputAdornment position="end"><IconButton><LabelOffIcon color="error"/></IconButton></InputAdornment>,
+                                    endAdornment: <InputAdornment position="end"><IconButton onClick={() => handleDeleteTag(ct)} ><LabelOffIcon color="error"/></IconButton></InputAdornment>,
                                 }}
                                 InputLabelProps={{
                                     shrink: true,

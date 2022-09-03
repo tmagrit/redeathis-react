@@ -499,6 +499,26 @@ export const addTag = createAsyncThunk('research/addTag', async (obj , { dispatc
     };
 });
 
+export const deleteTag = createAsyncThunk('research/deleteTag', async (obj , { dispatch, getState }) => {
+    try {     
+        const { error } = await supabase
+            .from('tags')
+            .delete()
+            .match({ id: obj.id })
+
+        if (error) 
+            throw error;
+          
+        dispatch(removeTag(obj)); 
+        alert('deleteTag()-success - Tag removida com sucesso');
+
+    } catch (error) {
+        alert('deleteTag()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 export const researchSlice = createSlice({
     name: 'research',
     initialState: {
@@ -573,6 +593,10 @@ export const researchSlice = createSlice({
 
         addTagStatus: 'idle',
         addTagError: null,
+
+        deleteTagStatus: 'idle',
+        deleteTagError: null,
+
     },
     reducers: {
         updateClassName: {
@@ -630,10 +654,6 @@ export const researchSlice = createSlice({
             }
         },
 
-        removeClass(state, action) { 
-            const newClasses = state.classes.filter(c => c.id !== action.payload.id);
-            state.classes = newClasses;
-        },
         removeSource(state, action) { 
             const newSources = state.sources.filter(s => s.id !== action.payload.id);
             state.sources = newSources;
@@ -645,6 +665,14 @@ export const researchSlice = createSlice({
         removeAuthor(state, action) { 
             const newAuthors = state.authors.filter(a => a.id !== action.payload.id);
             state.authors = newAuthors;
+        },
+        removeClass(state, action) { 
+            const newClasses = state.classes.filter(c => c.id !== action.payload.id);
+            state.classes = newClasses;
+        },
+        removeTag(state, action) { 
+            const newTags = state.tags.filter(t => t.id !== action.payload.id);
+            state.tags = newTags;
         }
         
     },
@@ -906,6 +934,17 @@ export const researchSlice = createSlice({
           state.addTagStatus = 'failed'
           state.addTagError = action.error
         },
+
+        [deleteTag.pending]: (state) => {
+            state.deleteTagStatus = 'loading'
+        },
+        [deleteTag.fulfilled]: (state, action) => {
+            state.deleteTagStatus = 'succeeded'
+        },
+        [deleteTag.rejected]: (state, action) => {
+          state.deleteTagStatus = 'failed'
+          state.deleteTagError = action.error
+        },
       }
 })
 
@@ -937,6 +976,7 @@ export const {
     removeResearchAuthor,
     removeAuthor,
     removeClass,
+    removeTag,
 } = researchSlice.actions
 
 export default researchSlice.reducer
