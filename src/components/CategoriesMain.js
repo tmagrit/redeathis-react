@@ -38,9 +38,9 @@ const CategoriesMain = () => {
     const tags = useSelector(state => state.research.tags);   
     
     // DIALOG STATES 
-    const [dialogOpen, setDialogOpen] = useState(false); console.log('dialogOpen', dialogOpen);
+    const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [dialogClassOpen, setDialogClassOpen] = useState(false); console.log('dialogClassOpen', dialogClassOpen);
+    const [dialogClassOpen, setDialogClassOpen] = useState(false);
     const [selectedCategoryClass, setSelectedCategoryClass] = useState(null); 
     const [selectedClass, setSelectedClass] = useState(null); 
 
@@ -79,7 +79,6 @@ const CategoriesMain = () => {
         setSelectedCategory(null);
         setSelectedClass(null); //console.log('setSelectedClass', selectedClass);
         setSelectedCategoryClass(null); //console.log('setSelectedCategoryClass', selectedCategoryClass);
-        alert('handleCleanTypes triggered');
     };
 
     return (
@@ -94,9 +93,10 @@ const CategoriesMain = () => {
                                 aria-controls={c.name}
                                 id={c.id}
                             >
-                                <Stack direction="row"  alignItems="center" spacing={1.5} >
+                                <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
                                     <Avatar sx={{ width: 15, height: 15, bgcolor: `${c.color}` }}> </Avatar>
-                                    <Typography > {categoryTitle(c.name)} </Typography>
+                                    <Typography sx={{ width: '33%', flexSrink: 1 }} > {categoryTitle(c.name)} </Typography>
+                                    <Typography color="text.secondary" variant="body2" sx={{ flexShrink: 1, }} > {`Classes [${classes.filter(cc => cc.category_id === c.id).length}]`} </Typography>
                                 </Stack>
                             </AccordionSummary>
                             <AccordionDetails>

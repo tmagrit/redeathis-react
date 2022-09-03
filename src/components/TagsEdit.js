@@ -26,7 +26,6 @@ const TagsEdit = ( props ) => {
     const tags = useSelector(state => state.research.tags); 
 
     const classTagsLength = tags.filter(t => t.class_id === classId).length; //console.log(tags.filter(t => t.class_id === classId)); 
-    const dummyClassObj = { category_id: null, name: '', };
     const dummyTagObj = { class_id: classId, name: '', };
 
     const [newTagData, setNewTagData] = useState({...dummyTagObj});

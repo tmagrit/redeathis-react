@@ -36,8 +36,9 @@ const ClassesEdit = ( props ) => {
         const newClass = {
             category_id: categoryId,
             name: newClassName
-        }
+        };
         dispatch(addClass(newClass));
+        setNewClassName('');
     }
 
     // VALIDATE FIELDS
