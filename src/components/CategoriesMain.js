@@ -1,9 +1,6 @@
 import * as React from 'react';
-
-import { useState, useEffect } from 'react';
-import { updateResearch } from '../features/researchSlice';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,26 +10,18 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BookmarksIcon from '@mui/icons-material/Bookmarks'; 
-import EditIcon from '@mui/icons-material/Edit';  
-import DeleteIcon from '@mui/icons-material/Delete'; 
 import LabelIcon from '@mui/icons-material/Label';
-
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-
-import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Copyright from './Copyright';
-import Title from './Title';   
 
 import DefaultDialog from './DefaultDialog';
 import ClassesEdit from './ClassesEdit';
@@ -43,37 +32,29 @@ import { categoryTitle } from './categoryTitle';
 const CategoriesMain = () => {
 
     // REDUX SELECTORS
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const categories = useSelector(state => state.research.categories);  
     const classes  = useSelector(state => state.research.classes);   
     const tags = useSelector(state => state.research.tags);   
     
     // DIALOG STATES 
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [dialogClassOpen, setDialogClassOpen] = useState(false);
-    const [selectedCategoryClass, setSelectedCategoryClass] = useState(''); 
-    const [selectedClass, setSelectedClass] = useState(''); 
-
-    // HANDLE CLEAN TYPES
-    const handleCleanTypes = () => {
-        handleDialogOpen(false);
-        handleDialogClassOpen(false);
-        setSelectedClass('');
-        setSelectedCategoryClass('');
-    };
+    const [dialogOpen, setDialogOpen] = useState(false); console.log('dialogOpen', dialogOpen);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [dialogClassOpen, setDialogClassOpen] = useState(false); console.log('dialogClassOpen', dialogClassOpen);
+    const [selectedCategoryClass, setSelectedCategoryClass] = useState(null); 
+    const [selectedClass, setSelectedClass] = useState(null); 
 
     // HANDLE TOGGLE DIALOG
     const handleDialogOpen = () => {
         setDialogOpen(true);
     };
-    const handleDialogClose = (value) => {
+    const handleDialogClose = () => {
         setDialogOpen(false);
     };    
     const handleDialogClassOpen = () => {
         setDialogClassOpen(true);
     };
-    const handleDialogClassClose = (value) => {
+    const handleDialogClassClose = () => {
         setDialogClassOpen(false);
     };    
 
@@ -88,6 +69,17 @@ const CategoriesMain = () => {
         setSelectedCategoryClass(categoryClassId);
         setSelectedClass(classid);
         handleDialogClassOpen(true);
+    };
+
+
+    // HANDLE CLEAN TYPES
+    const handleCleanTypes = () => {
+        setDialogOpen(false);
+        setDialogClassOpen(false);
+        setSelectedCategory(null);
+        setSelectedClass(null); //console.log('setSelectedClass', selectedClass);
+        setSelectedCategoryClass(null); //console.log('setSelectedCategoryClass', selectedCategoryClass);
+        alert('handleCleanTypes triggered');
     };
 
     return (
@@ -168,7 +160,7 @@ const CategoriesMain = () => {
                 open={dialogOpen}
                 onClose={handleDialogClose}
                 title={`Incluir classes em [${selectedCategory && categories.find(c => c.id === selectedCategory).name}]`}
-                children={<ClassesEdit categoryId={selectedCategory} />}
+                children={<ClassesEdit categoryId={selectedCategory} cleanTypes={handleCleanTypes} />}
             />
 
             {/* MANAGE TAG DIALOG */}
