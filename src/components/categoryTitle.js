@@ -22,14 +22,14 @@ export function categoryTitle(categoryname) {
     return (
             <React.Fragment>
               <Box sx={{ fontWeight: 'bold', display: 'inline', }}>Instituições </Box> 
-              <Box sx={{ display: 'inline', }}>e Entidades</Box>
+              <Box sx={{ display: 'inline', }}>e Coletivos</Box>
             </React.Fragment>
           ); 
-  if (categoryname === 'Entidades')
+  if (categoryname === 'Coletivos')
       return (
             <React.Fragment>
               <Box sx={{ display: 'inline', }}>Instituições e </Box>
-              <Box sx={{ fontWeight: 'bold', display: 'inline', }}>Entidades</Box> 
+              <Box sx={{ fontWeight: 'bold', display: 'inline', }}>Coletivos</Box> 
             </React.Fragment>
           );
   if(categoryname === 'Publicações') 
@@ -62,6 +62,6 @@ export function categoryTitle(categoryname) {
         );
 
           else
-    return 'coiso'
+    return null;
 
 };
