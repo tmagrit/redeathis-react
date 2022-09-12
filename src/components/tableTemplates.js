@@ -2,6 +2,9 @@ import * as React from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleProfileActive } from '../features/membersSlice';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
@@ -28,7 +31,18 @@ export function useTableTemplates(props) {
             return 'warning'
         if(id === 4)
             return 'error'    
-    }
+    };
+
+    function statusColorName(id) {
+        if(id === 1)
+            return 'success.main';
+        if(id === 2)
+            return 'text.disabled';
+        if(id === 3)
+            return 'warning.main'
+        else
+            return 'error.main';  
+    };
 
     // COLUMNS TO RESEARCH LIST
     const fullResearchColumns = (
@@ -64,28 +78,49 @@ export function useTableTemplates(props) {
             {
                 name: 'Categoria',
                 selector: row => row.category_id,
-                cell: row => <Chip 
-                                    label={categories.find(c => c.id === row.category_id).name} 
-                                    size="small" 
-                                    variant="outlined" 
-                                />,
+                cell: row => <Stack direction="row"  alignItems="center" spacing={0.7}  >
+                                <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === row.category_id).color}` }}> </Avatar>
+                                <Typography variant="caption" > {categories.find(c => c.id === row.category_id).name} </Typography>
+                            </Stack>,
                 sortable: true,
                 maxWidth: '200px',
                 grow: 1,
             },
+            // {
+            //     name: 'Categoria',
+            //     selector: row => row.category_id,
+            //     cell: row => <Chip 
+            //                         label={categories.find(c => c.id === row.category_id).name} 
+            //                         size="small" 
+            //                         variant="outlined" 
+            //                     />,
+            //     sortable: true,
+            //     maxWidth: '200px',
+            //     grow: 1,
+            // },
             {
                 name: 'Status',
                 selector: row => row.status,
-                cell: row => <Chip 
-                                    label={statuses.find(s => s.id === row.status).status} 
-                                    size="small" 
-                                    variant="outlined" 
-                                    color={statusColor(row.status)}
-                                />,
+                cell: row => <Box sx={{ color: statusColorName(row.status) }} >
+                                    {statuses.find(s => s.id === row.status).status} 
+                                </Box>,
                 sortable: true,
                 maxWidth: '140px',
-                grow: 1,
+                grow: 2,
             },
+            // {
+            //     name: 'Status',
+            //     selector: row => row.status,
+            //     cell: row => <Chip 
+            //                         label={statuses.find(s => s.id === row.status).status} 
+            //                         size="small" 
+            //                         variant="outlined" 
+            //                         color={statusColor(row.status)}
+            //                     />,
+            //     sortable: true,
+            //     maxWidth: '140px',
+            //     grow: 1,
+            // },
             {
                 name: 'Atualização',
                 selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
