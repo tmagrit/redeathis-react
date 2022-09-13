@@ -101,7 +101,7 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
     };
 });
 
-export const createResearch = createAsyncThunk('research/createResearch', async (obj , { dispatch, getState }) => {
+export const createResearch = createAsyncThunk('research/createResearch', async ({ obj , navigate } , { dispatch, getState }) => {
     try { 
         const { research } = getState()
         const category = research.categories.find(c => c.id === obj.category_id)
@@ -115,19 +115,23 @@ export const createResearch = createAsyncThunk('research/createResearch', async 
                 researchId: data.id,
                 researchTagsData: obj.researchTagsData,
             };
+            var dataId = data.id;
+            alert('Pesquisa criada com sucesso.');
             dispatch(insertResearchTags(newResearchTags));
         };    
-        alert('Pesquisa criada com sucesso.');
 
         if(error) {
             throw error
-        }  
-
+        };
+        
         return { ...data, category: category };
     } catch (error) {
         alert('createResearch()-error')
         console.log(error)
         alert(error.message)
+    } finally {
+        const location = `/admin/research/edit/${dataId}`
+        navigate(location);
     };
 });
 

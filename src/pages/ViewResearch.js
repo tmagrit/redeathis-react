@@ -34,6 +34,7 @@ const ViewResearch = () => {
     const researchWithDate = { ...research, date: dateTime }
     const [researchData, setResearchData] = useState(researchWithDate);
     const categories = useSelector(state => state.research.categories);
+    const categoryColor = categories.find(c => c.id === researchData.category_id).color
     const [geolocation, setGeolocation] = useState({...researchData.geolocation, zoom: 4});
 
     return (
@@ -69,7 +70,7 @@ const ViewResearch = () => {
                                 spacing={1} 
                                 sx={{ my:2, }}
                             >
-                                <Avatar sx={{ width: 14, height: 14, bgcolor: `${researchData.category.color}` }}> </Avatar>
+                                <Avatar sx={{ width: 14, height: 14, bgcolor: `${categoryColor}` }}> </Avatar>
                                 <Typography variant="subtitle1" component="h3" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
                                 {/* <Typography variant="subtitle1" >{categories.find(c => c.id === researchData.category_id).name}</Typography> */}
                             </Stack>
@@ -77,8 +78,18 @@ const ViewResearch = () => {
                         </Grid>
 
                         <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
-                            <Typography variant="h6" component="h4" > Resumo </Typography>
-                            <Typography variant="body1" component="div" display="block" > <span dangerouslySetInnerHTML={{ __html: researchData.summary }} /> </Typography>
+                            {/* <Typography variant="body1" component="body1" nowrap sx={{ display: 'inline', }}>
+                                <span>Resumo: </span> 
+                                <span dangerouslySetInnerHTML={{ __html: researchData.summary }} /> 
+                            </Typography> */}
+
+
+                            <Box>
+                                <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
+                                <Typography variant="body1" component="body1" nowrap sx={{ display: 'inline', }}> 
+                                    {researchData.summary} 
+                                </Typography>
+                            </Box>
                         </Grid>
 
                     </Grid>
@@ -94,7 +105,7 @@ const ViewResearch = () => {
                                         mapStyle={mapboxStyle}
                                         mapboxAccessToken={mapboxKey}
                                     > 
-                                        <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={researchData.category.color} />
+                                        <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={categoryColor} />
                                     </Map>
                                 </div>
                             </Grid>

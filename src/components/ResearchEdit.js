@@ -90,7 +90,7 @@ const ResearchEdit = () => {
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
     const [researchData, setResearchData] = useState(researchWithDate);
-    const [categoryColor, setCategoryColor] = useState(researchData.category.color);
+    const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === researchData.category_id).color);
     const [researchSources, setResearchSources] = useState([]);
     const [researchAuthors, setResearchAuthors] = useState([]);
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
@@ -321,13 +321,13 @@ const ResearchEdit = () => {
                                 size="small"
                                 multiline={true}
                                 //minRows={3}
-                                rows={5}
+                                rows={4}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
 
-                            <FormBox 
+                            {/* <FormBox 
                                 id='text-editor-box' 
                                 label='Resumo'
                                 padding={{ p: 0, }} 
@@ -338,7 +338,30 @@ const ResearchEdit = () => {
                                         readOnly={readOnly}
                                     />
                                 } 
-                            />        
+                            />         */}
+
+
+
+
+<TextField
+    value={researchData.summary}
+    onChange={(event) => handleChangeResearchData(event)}
+    fullWidth
+    label="Resumo"
+    name="summary"
+    size="small"
+    type="text"
+    multiline={true}
+    rows={12}
+    sx={{ my: 1,}}
+    InputLabelProps={{ shrink: true }}
+/>
+
+
+
+
+
+
 
                             <TextField
                                 value={researchData.link}
@@ -363,7 +386,7 @@ const ResearchEdit = () => {
                                 size="small"
                                 multiline={true}
                                 //minRows={5}
-                                rows={10}
+                                rows={4}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}

@@ -58,7 +58,7 @@ const Home = () => {
             radiusMaxPixels: 10,
             getPosition: d => d.coordinates,
             getRadius: d => 5,
-            getFillColor: d => hexToRgb(d.category.color),
+            getFillColor: d => hexToRgb(categories.find(c => c.id === d.category_id).color),
             onClick: info => setClickInfo(info),
             onHover: info => setHoverInfo(info)
         })
@@ -149,7 +149,7 @@ const Home = () => {
                                 spacing={0.7}
                                 sx={{ mt:1, mb:1, }}
                             >
-                                <Avatar sx={{ width: 10, height: 10, bgcolor: `${clickInfo.object.category.color}` }}> </Avatar>
+                                <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
                                 <Typography variant="caption" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                                 {/* <Typography variant="caption" > {categories.find(c => c.id === clickInfo.object.category_id).name} </Typography> */}
                             </Stack>

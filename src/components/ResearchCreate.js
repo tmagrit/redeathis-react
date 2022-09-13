@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createResearch } from '../features/researchSlice';
 import { DateTime } from 'luxon';
 
+import { useNavigate } from 'react-router-dom';
+
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import LinkIcon from '@mui/icons-material/Link';
@@ -54,6 +56,9 @@ const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const ResearchCreate = () => {
 
+    // REDIRECT
+    const navigate = useNavigate();
+
     // REDUX SELECTORS
     const dispatch = useDispatch();
     const statuses = useSelector(state => state.research.statuses);
@@ -84,7 +89,7 @@ const ResearchCreate = () => {
 
     // EDIT RESEARCH STATES
     const [researchData, setResearchData] = useState({ ...research });
-    const [categoryColor, setCategoryColor] = useState('#3d85c6');
+    const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === 1).color);
     const [checked, setChecked] = useState([]); 
 
     // TEXT EDITOR STATES
@@ -115,7 +120,10 @@ const ResearchCreate = () => {
             researchData: newResearchData,
             researchTagsData: checked,
         };
-        dispatch(createResearch(dataWithTags));
+        dispatch(createResearch({ 
+            obj: dataWithTags,
+            navigate: navigate,
+        }));
     };
 
     // HANDLE SELECTED CATEGORIES
@@ -157,8 +165,8 @@ const ResearchCreate = () => {
                                 name="title"
                                 size="small"
                                 multiline={true}
-                                minRows={1}
-                                maxRows={2}
+                                rows={2}
+                                //maxRows={2}
                                 type="text"
                                 //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
                                 sx={{ my: 1,}}
@@ -182,7 +190,7 @@ const ResearchCreate = () => {
                                 ))}
                             </TextField>
 
-                            <FormBox 
+                            {/* <FormBox 
                                 id='sources-box' 
                                 label='Pesquisas Relacionadas' 
                                 padding={{ pl: '14px', pr: '14px', py: '14px', }}
@@ -236,7 +244,7 @@ const ResearchCreate = () => {
                                         </Grid>
                                     </Grid>
                                 } 
-                            />
+                            /> */}
 
                             <TextField
                                 value={researchData.excerpt}
@@ -246,14 +254,14 @@ const ResearchCreate = () => {
                                 name="excerpt"
                                 size="small"
                                 multiline={true}
-                                minRows={3}
-                                maxRows={5}
+                                rows={4}
+                                //maxRows={5}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
 
-                            <FormBox 
+                            {/* <FormBox 
                                 id='text-editor-box' 
                                 label='Resumo'
                                 padding={{ p: 0, }} 
@@ -264,7 +272,26 @@ const ResearchCreate = () => {
                                         readOnly={readOnly}
                                     />
                                 } 
-                            />
+                            /> */}
+
+
+
+<TextField
+    value={researchData.summary}
+    onChange={(event) => handleChangeResearchData(event)}
+    fullWidth
+    label="Resumo"
+    name="summary"
+    size="small"
+    type="text"
+    multiline={true}
+    rows={12}
+    sx={{ my: 1,}}
+    InputLabelProps={{ shrink: true }}
+/>
+
+
+
 
                             <TextField
                                 value={researchData.link}
@@ -288,8 +315,8 @@ const ResearchCreate = () => {
                                 name="notes"
                                 size="small"
                                 multiline={true}
-                                minRows={5}
-                                maxRows={10}
+                                rows={4}
+                                //maxRows={10}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
