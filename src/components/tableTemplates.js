@@ -8,9 +8,12 @@ import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import Typography from '@mui/material/Typography';
 
 import ActionMenu from './ActionMenu';
-import { Typography } from '@mui/material';
+import { truncate } from './truncate';
+
+
 
 
 export function useTableTemplates(props) {
@@ -56,7 +59,7 @@ export function useTableTemplates(props) {
                 name: 'Título',
                 //selector: row => row.title ,
                 selector: row => row.title,
-                cell: row => <span style={{ wordBreak: "break-word" }}>{row.title}</span>, 
+                cell: row => <span style={{ wordBreak: "break-word" }}>{truncate(row.title, 5)}</span>, 
                 sortable: true,
                 //maxWidth: '220px',
                 grow: 3,
@@ -69,8 +72,9 @@ export function useTableTemplates(props) {
                 omit: true,
             },
             {
-                name: 'Data',
-                selector: row => 'date' ,
+                name: 'Cronologia',
+                selector: row => row.date.start.year,
+                cell: row => row.date.interval ? `${row.date.start.year}-${row.date.end.year}` : row.date.start.year,
                 sortable: true,
                 maxWidth: '120px',
                 grow: 1,
@@ -283,16 +287,26 @@ export function useTableTemplates(props) {
             {
                 name: 'Status',
                 selector: row => row.status,
-                cell: row => <Chip 
-                                    label={statuses.find(s => s.id === row.status).status} 
-                                    size="small" 
-                                    variant="outlined" 
-                                    color={statusColor(row.status)}
-                                />,
+                cell: row => <Box sx={{ color: statusColorName(row.status) }} >
+                                    {statuses.find(s => s.id === row.status).status} 
+                                </Box>,
                 sortable: true,
                 maxWidth: '140px',
-                grow: 1,
+                grow: 2,
             },
+            // {
+            //     name: 'Status',
+            //     selector: row => row.status,
+            //     cell: row => <Chip 
+            //                         label={statuses.find(s => s.id === row.status).status} 
+            //                         size="small" 
+            //                         variant="outlined" 
+            //                         color={statusColor(row.status)}
+            //                     />,
+            //     sortable: true,
+            //     maxWidth: '140px',
+            //     grow: 1,
+            // },
             {
                 name: 'Ações',
                 maxWidth: '100px',
