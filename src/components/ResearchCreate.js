@@ -18,6 +18,22 @@ import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import Checkbox from '@mui/material/Checkbox';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LabelIcon from '@mui/icons-material/Label';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 import Copyright from './Copyright';
 import Title from './Title';   
 import Index from './ResearchIndex'; 
@@ -33,8 +49,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import MapViewport from './MapViewport';
 import MapDialog from './MapDialog';
 
-import { Typography } from '@mui/material';
-
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -42,8 +56,10 @@ const ResearchCreate = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
+    const categories = useSelector(state => state.research.categories);
+    const classes = useSelector(state => state.research.classes);
+    const tags = useSelector(state => state.research.tags); 
 
     // START NEW RESEARCH OBJECT
     const startDate = DateTime.now();
@@ -69,6 +85,7 @@ const ResearchCreate = () => {
     // EDIT RESEARCH STATES
     const [researchData, setResearchData] = useState({ ...research });
     const [categoryColor, setCategoryColor] = useState('#3d85c6');
+    const [checked, setChecked] = useState([]); 
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -94,8 +111,26 @@ const ResearchCreate = () => {
     const handleCreateResearch = () => {
         const newDate = { ...researchData.date, start: researchData.date.start.c, end: researchData.date.end.c }
         const newResearchData = { ...researchData, date: newDate }
-        dispatch(createResearch(newResearchData));
-    }
+        const dataWithTags = {
+            researchData: newResearchData,
+            researchTagsData: checked,
+        };
+        dispatch(createResearch(dataWithTags));
+    };
+
+    // HANDLE SELECTED CATEGORIES
+    const handleToggle = (obj) => () => {
+        const currentIndex = checked.indexOf(obj);
+        const newChecked = [...checked];
+    
+        if (currentIndex === -1) {
+            newChecked.push(obj);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+    
+        setChecked(newChecked);
+    };    
 
     // TRACK CATEGORY CHANGES 
     useEffect(() => {
@@ -298,7 +333,7 @@ const ResearchCreate = () => {
                             
                         </Grid>
                     </Paper>
-                    <Paper sx={{ minHeight: 240, }} >
+                    <Paper sx={{ minHeight: 240, mb:3, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'rightmiddle'}/> 
                         </Grid>
@@ -343,6 +378,55 @@ const ResearchCreate = () => {
                             />
                         </Grid>
                     </Paper>
+
+                    {classes && classes.filter(c => c.category_id === researchData.category_id).map(sc => (
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls={sc.name}
+                                id={sc.id}
+                            >
+                                <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
+                                    <Avatar sx={{ width: 27, height: 27,  bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
+                                        <BookmarkIcon fontSize="inherit" />
+                                    </Avatar>
+                                    <Typography  component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}> 
+                                        {sc.name} 
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <Divider />
+                            <AccordionDetails>
+
+                                <List dense >
+                                    {tags && tags.filter(t => t.class_id === sc.id).map(ct => (
+                                        <ListItem 
+                                            key={ct.id}
+                                            secondaryAction={
+                                                <Checkbox
+                                                  edge="end"
+                                                  onChange={handleToggle(ct)}
+                                                  checked={checked.indexOf(ct) !== -1}
+                                                  inputProps={{ 'aria-labelledby': ct.id }}
+                                                />
+                                              }
+                                              disablePadding
+                                            >
+                                            <ListItemButton role={undefined} dense> 
+                                                <ListItemIcon>
+                                                    <Avatar sx={{ width: 27, height: 27, bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
+                                                        <LabelIcon fontSize="inherit" />
+                                                    </Avatar>
+                                                </ListItemIcon>
+                                                <ListItemText primary={ct.name} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    ))}    
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                    ))}
+
                 </Grid>
 
                 {/* INDEX */}

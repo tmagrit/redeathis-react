@@ -107,16 +107,25 @@ export const createResearch = createAsyncThunk('research/createResearch', async 
         const category = research.categories.find(c => c.id === obj.category_id)
         const { data, error } = await supabase
             .from('research')
-            .insert([obj])
+            .insert([obj.researchData])
+            .single();
 
+        if(data) {
+            const newResearchTags = {
+                researchId: data.id,
+                researchTagsData: obj.researchTagsData,
+            };
+            dispatch(insertResearchTags(newResearchTags));
+        };    
         alert('Pesquisa criada com sucesso.');
+
         if(error) {
             throw error
         }  
 
-        return { ...data[0], category: category };
+        return { ...data, category: category };
     } catch (error) {
-        alert('updateResearch()-error')
+        alert('createResearch()-error')
         console.log(error)
         alert(error.message)
     };
@@ -519,6 +528,77 @@ export const deleteTag = createAsyncThunk('research/deleteTag', async (obj , { d
     };
 });
 
+export const getResearchTags = createAsyncThunk('content/getResearchTags', async (obj , { dispatch, getState }) => {
+    try { 
+        const { data, error } = await supabase
+            .from('research_tags')
+            .select('*')
+            .order('id', { ascending: true }); 
+
+        if (error) 
+            throw error;
+
+        return data;
+
+    } catch (error) {
+        alert('getResearchTags()-error');
+        console.log(error);
+        alert(error.message);
+    };
+});
+
+export const refreshResearchTags = createAsyncThunk('content/refreshResearchTags', async (obj , { dispatch, getState }) => {
+    try { 
+        const { research } = getState();    
+
+        const { error } = await supabase
+            .from('research_tags')
+            .delete()
+            .match({ research_id: obj.researchId })
+        
+        if(error) {
+            throw error
+        }  
+
+        const payload = research.research_tags.filter(rt => rt.research_id !== obj.researchId);  
+
+        return payload;
+
+    } catch (error) {
+        alert('refreshResearchTags()-error')
+        console.log(error)
+        alert(error.message)
+    } finally {
+        dispatch(insertResearchTags(obj));
+    };
+});
+
+export const insertResearchTags = createAsyncThunk('content/insertResearchTags', async (obj , { dispatch, getState }) => {
+    try { 
+        const { research } = getState();
+        const newResearchTags = obj.researchTagsData.map(rtd => {
+            return { research_id: obj.researchId, tag_id: rtd.id }
+        });
+
+        const { data, error } = await supabase
+            .from('research_tags')
+            .insert(newResearchTags)
+        
+        const payload = [...research.research_tags, ...data];  
+        
+        if(error) {
+            throw error
+        }  
+
+        return payload;
+
+    } catch (error) {
+        alert('insertResearchTags()-error')
+        console.log(error)
+        alert(error.message)
+    };
+});
+
 export const researchSlice = createSlice({
     name: 'research',
     initialState: {
@@ -530,6 +610,7 @@ export const researchSlice = createSlice({
         sources: [],
         classes: [],
         tags: [],
+        research_tags: [],
                 
         getResearchStatus: 'idle',
         getResearchError: null,
@@ -596,6 +677,15 @@ export const researchSlice = createSlice({
 
         deleteTagStatus: 'idle',
         deleteTagError: null,
+
+        getResearchTagsStatus: 'idle',
+        getResearchTagsError: null,
+
+        refreshResearchTagsStatus: 'idle',
+        refreshResearchTagsError: null,
+
+        insertResearchTagsStatus: 'idle',
+        insertResearchTagsError: null,
 
     },
     reducers: {
@@ -945,6 +1035,43 @@ export const researchSlice = createSlice({
           state.deleteTagStatus = 'failed'
           state.deleteTagError = action.error
         },
+
+        [getResearchTags.pending]: (state) => {
+            state.getResearchTagsStatus = 'loading'
+        },
+        [getResearchTags.fulfilled]: (state, action) => {
+            state.research_tags = action.payload
+            state.getResearchTagsStatus = 'succeeded'
+        },
+        [getResearchTags.rejected]: (state, action) => {
+          state.getResearchTagsStatus = 'failed'
+          state.getResearchTagsError = action.error
+        },
+
+        [refreshResearchTags.pending]: (state) => {
+            state.refreshResearchTagsStatus = 'loading'
+        },
+        [refreshResearchTags.fulfilled]: (state, action) => {
+            state.research_tags = action.payload
+            state.refreshResearchTagsStatus = 'succeeded'
+        },
+        [refreshResearchTags.rejected]: (state, action) => {
+          state.refreshResearchTagsStatus = 'failed'
+          state.refreshResearchTagsError = action.error
+        },
+
+        [insertResearchTags.pending]: (state) => {
+            state.insertResearchTagsStatus = 'loading'
+        },
+        [insertResearchTags.fulfilled]: (state, action) => {
+            state.research_tags = action.payload
+            state.insertResearchTagsStatus = 'succeeded'
+        },
+        [insertResearchTags.rejected]: (state, action) => {
+          state.insertResearchTagsStatus = 'failed'
+          state.insertResearchTagsError = action.error
+        },
+
       }
 })
 

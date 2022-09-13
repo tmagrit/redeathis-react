@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
 import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
-import { getResearch, getCategories, getStatuses, getAuthors, getResearchAuthors, getSources, getClasses, getTags } from './features/researchSlice';
+import { getResearch, getCategories, getStatuses, getAuthors, getResearchAuthors, getSources, getClasses, getTags, getResearchTags } from './features/researchSlice';
 import { getPages } from './features/pagesSlice';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
@@ -74,6 +74,7 @@ function App() {
         dispatch(getSources());
         dispatch(getClasses());
         dispatch(getTags());
+        dispatch(getResearchTags());
     }, [])
 
     // TRACK ROUTES 

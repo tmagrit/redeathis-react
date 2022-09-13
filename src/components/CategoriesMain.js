@@ -94,7 +94,7 @@ const CategoriesMain = () => {
                                 id={c.id}
                             >
                                 <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
-                                    <Avatar sx={{ width: 15, height: 15, bgcolor: `${c.color}` }}> </Avatar>
+                                    <Avatar sx={{ width: 15, height: 15, bgcolor: `${c.color}`, }}> </Avatar>
                                     <Typography sx={{ width: '33%', flexSrink: 1 }} > {categoryTitle(c.name)} </Typography>
                                     <Typography color="text.secondary" variant="body2" sx={{ flexShrink: 1, }} > {`Classes [${classes.filter(cc => cc.category_id === c.id).length}]`} </Typography>
                                 </Stack>

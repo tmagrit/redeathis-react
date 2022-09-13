@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { updateResearch } from '../features/researchSlice';
+import { updateResearch, refreshResearchTags } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { DateTime } from 'luxon';
@@ -18,6 +18,26 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab'; 
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
+
+
+
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import Checkbox from '@mui/material/Checkbox';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LabelIcon from '@mui/icons-material/Label';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
+
 
 import Copyright from './Copyright';
 import Title from './Title';   
@@ -53,11 +73,18 @@ const ResearchEdit = () => {
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const sources = useSelector(state => state.research.sources);
     const addSourceStatus = useSelector(state => state.research.addSourceStatus);
-    const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
-
+    const categories = useSelector(state => state.research.categories);
+    const classes = useSelector(state => state.research.classes);
+    const tags = useSelector(state => state.research.tags); 
     const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
     const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
+    
+    // FILTER TAGS RELATED
+    const researchTagsIds = useSelector(state => state.research.research_tags)
+        .filter(rt => rt.research_id === parseInt(params.researchId, 10) )
+        .map(t => {if(t.tag_id) return t.tag_id} ); //console.log('researchTagsIds',researchTagsIds);
+    const researchTags = tags.filter(rt => researchTagsIds.includes(rt.id));  //console.log('researchTags',researchTags);
 
     // EDIT RESEARCH STATES
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
@@ -66,6 +93,7 @@ const ResearchEdit = () => {
     const [categoryColor, setCategoryColor] = useState(researchData.category.color);
     const [researchSources, setResearchSources] = useState([]);
     const [researchAuthors, setResearchAuthors] = useState([]);
+    const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
@@ -109,8 +137,26 @@ const ResearchEdit = () => {
     const handleUpdateResearch = () => {
         const { category, ...updatedresearch } = researchData;
         const newDate = { ...updatedresearch.date, start: updatedresearch.date.start.c, end: updatedresearch.date.end.c }
-        const updatedResearch = { ...updatedresearch, date: newDate }
-        dispatch(updateResearch(updatedResearch))
+        const updatedResearch = { ...updatedresearch, date: newDate };
+        dispatch(updateResearch(updatedResearch));
+        dispatch(refreshResearchTags({ 
+            researchId: parseInt(params.researchId, 10),
+            researchTagsData: checked,
+        }));
+    };
+
+    // HANDLE SELECTED CATEGORIES
+    const handleToggle = (obj) => () => {
+        const currentIndex = checked.indexOf(obj);
+        const newChecked = [...checked];
+    
+        if (currentIndex === -1) {
+            newChecked.push(obj);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+    
+        setChecked(newChecked);
     };
 
     // TRACK CATEGORY CHANGES 
@@ -160,8 +206,8 @@ const ResearchEdit = () => {
                                 name="title"
                                 size="small"
                                 multiline={true}
-                                minRows={1}
-                                maxRows={2}
+                                //minRows={1}
+                                rows={2}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -274,8 +320,8 @@ const ResearchEdit = () => {
                                 name="excerpt"
                                 size="small"
                                 multiline={true}
-                                minRows={3}
-                                maxRows={5}
+                                //minRows={3}
+                                rows={5}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -316,8 +362,8 @@ const ResearchEdit = () => {
                                 name="notes"
                                 size="small"
                                 multiline={true}
-                                minRows={5}
-                                maxRows={10}
+                                //minRows={5}
+                                rows={10}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -361,7 +407,7 @@ const ResearchEdit = () => {
                             
                         </Grid>
                     </Paper>
-                    <Paper sx={{ minHeight: 240, }} >
+                    <Paper sx={{ minHeight: 240, mb: 3, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'rightmiddle'}/> 
                         </Grid>
@@ -404,6 +450,55 @@ const ResearchEdit = () => {
 
                         </Grid>
                     </Paper>
+
+                    {classes && classes.filter(c => c.category_id === researchData.category_id).map(sc => (
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls={sc.name}
+                                id={sc.id}
+                            >
+                                <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
+                                    <Avatar sx={{ width: 27, height: 27,  bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
+                                        <BookmarkIcon fontSize="inherit" />
+                                    </Avatar>
+                                    <Typography  component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}> 
+                                        {sc.name} 
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <Divider />
+                            <AccordionDetails>
+
+                                <List dense >
+                                    {tags && tags.filter(t => t.class_id === sc.id).map(ct => (
+                                        <ListItem 
+                                            key={ct.id}
+                                            secondaryAction={
+                                                <Checkbox
+                                                  edge="end"
+                                                  onChange={handleToggle(ct)}
+                                                  checked={checked.indexOf(ct) !== -1}
+                                                  inputProps={{ 'aria-labelledby': ct.id }}
+                                                />
+                                              }
+                                              disablePadding
+                                            >
+                                            <ListItemButton role={undefined} dense> 
+                                                <ListItemIcon>
+                                                    <Avatar sx={{ width: 27, height: 27, bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
+                                                        <LabelIcon fontSize="inherit" />
+                                                    </Avatar>
+                                                </ListItemIcon>
+                                                <ListItemText primary={ct.name} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    ))}    
+                                </List>
+                            </AccordionDetails>
+                        </Accordion>
+                    ))}
+
                 </Grid>
 
                 {/* INDEX */}
