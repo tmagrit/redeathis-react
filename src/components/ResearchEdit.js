@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import LinkIcon from '@mui/icons-material/Link';
-import TextEditor from './TextEditor';
+//import TextEditor from './TextEditor';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -81,8 +81,8 @@ const ResearchEdit = () => {
     const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
     
     // FILTER TAGS RELATED
-    const researchTagsIds = useSelector(state => state.research.research_tags)
-        .filter(rt => rt.research_id === parseInt(params.researchId, 10) )
+    const allResearchTags = useSelector(state => state.research.research_tags);
+    const researchTagsIds = allResearchTags.filter(rt => rt.research_id === parseInt(params.researchId, 10) )
         .map(t => {if(t.tag_id) return t.tag_id} ); //console.log('researchTagsIds',researchTagsIds);
     const researchTags = tags.filter(rt => researchTagsIds.includes(rt.id));  //console.log('researchTags',researchTags);
 
@@ -145,6 +145,11 @@ const ResearchEdit = () => {
         }));
     };
 
+    // // TRACK RESEARCH TAGS CHANGES 
+    // useEffect(() => {
+    //     setChecked([...researchTags]);
+    // }, [allResearchTags, researchTags]);
+
     // HANDLE SELECTED CATEGORIES
     const handleToggle = (obj) => () => {
         const currentIndex = checked.indexOf(obj);
@@ -157,7 +162,7 @@ const ResearchEdit = () => {
         }
     
         setChecked(newChecked);
-    };
+    }; 
 
     // TRACK CATEGORY CHANGES 
     useEffect(() => {

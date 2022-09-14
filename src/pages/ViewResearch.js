@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
 
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -28,14 +29,22 @@ const ViewResearch = () => {
     // REDUX SELECTORS
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
-
-    // // REACT STATES
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
-    const [researchData, setResearchData] = useState(researchWithDate);
     const categories = useSelector(state => state.research.categories);
-    const categoryColor = categories.find(c => c.id === researchData.category_id).color
+    const classes = useSelector(state => state.research.classes);
+    const tags = useSelector(state => state.research.tags);
+    const researchTags = useSelector(state => state.research.research_tags).filter(rt => rt.research_id === parseInt(params.researchId, 10) ); //console.log('researchTags',researchTags);
+    const researchTagsIds = researchTags.map(t => {if(t.tag_id) return t.tag_id} ); //console.log('researchTagsIds',researchTagsIds);
+    const researchTagsData = tags.filter(rtd => researchTagsIds.includes(rtd.id)); //console.log('researchTagsData',researchTagsData);
+    const researchClassesIds = researchTagsData.map(rtd => {if(rtd.class_id) return rtd.class_id} ); //console.log('researchClassesIds',researchClassesIds);
+    const researchClassesData = classes.filter(cl => researchClassesIds.includes(cl.id)); //console.log('researchClassesData',researchClassesData);
+
+    // REACT STATES
+    const [researchData, setResearchData] = useState(researchWithDate);
     const [geolocation, setGeolocation] = useState({...researchData.geolocation, zoom: 4});
+
+    const categoryColor = categories.find(c => c.id === researchData.category_id).color;
 
     return (
         <React.Fragment>
@@ -82,11 +91,43 @@ const ViewResearch = () => {
                                 <span>Resumo: </span> 
                                 <span dangerouslySetInnerHTML={{ __html: researchData.summary }} /> 
                             </Typography> */}
+                            
+                            {/* {researchTags && researchTags.map(rt => {
+                                const tagData = tags.find(t => t.id === rt.tag_id);
+                                const classData = classes.find(cl => cl.id === tagData.class_id);
+                                return (
+                                    <Box sx={{ mb: 1, }}>
+                                        <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>
+                                            {`${classData.name}: `} 
+                                        </Typography> 
+                                        <Typography variant="body1" component="span" nowrap sx={{ display: 'inline', }}> 
+                                            {tagData.name}
+                                        </Typography>
+                                    </Box>
+                                )
+                            })} */}
 
-
-                            <Box>
+                            {researchTags && researchClassesData.map(rcd => {
+                                return (
+                                    <Box sx={{ mb: 1, }}>
+                                        <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', mr: 1.5, }}>
+                                            {`${rcd.name}:`} 
+                                        </Typography> 
+                                        {researchTagsData.filter(t => t.class_id === rcd.id).map(rtd => {
+                                            return (
+                                                <Chip label={rtd.name} variant="outlined" size="small" onClick={() => console.log('clicked')} sx={{ mr: 1, }} />
+                                                // <Typography variant="body1" component="span" nowrap sx={{ display: 'inline', }}> 
+                                                //     {`${rtd.name}; `} 
+                                                // </Typography>
+                                            )
+                                        })}
+                                    </Box>
+                                )
+                            })}
+                            
+                            <Box sx={{ mt: 1.5, }}>
                                 <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
-                                <Typography variant="body1" component="body1" nowrap sx={{ display: 'inline', }}> 
+                                <Typography variant="body1" component="span" nowrap sx={{ display: 'inline', }}> 
                                     {researchData.summary} 
                                 </Typography>
                             </Box>

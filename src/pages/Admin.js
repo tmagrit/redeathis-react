@@ -95,7 +95,7 @@ const Admin = () => {
                 component="div"
                 variant="h6"
                 color="inherit"
-                noWrap
+                nowrap
                 sx={{ flexGrow: 1 }}
             >
                 <Link 
