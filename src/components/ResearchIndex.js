@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Copyright from './Copyright';
 import Title from './Title'; 
+import FilteredDataTable from './FilteredDataTable';
 
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
@@ -61,15 +62,16 @@ const ResearchIndex = () => {
                     <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                         {/* MEMBERS SECTION TABLE  */}
                         {createResearchTable && fullResearch.length > 0 ? (
-                            <DataTable
-                                columns={tableTemplates.fullResearchColumns}
-                                data={fullResearch}
-                                customStyles={customStyles}
-                                striped
-                                responsive
-                                selectableRows
-                                pagination
-                            />
+                            <FilteredDataTable data={fullResearch} columns={tableTemplates.fullResearchColumns}/>
+                            // <DataTable
+                            //     columns={tableTemplates.fullResearchColumns}
+                            //     data={fullResearch}
+                            //     customStyles={customStyles}
+                            //     striped
+                            //     responsive
+                            //     selectableRows
+                            //     pagination
+                            // />
                         ) : (
                             <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
                                 Sem dados para exibir

@@ -13,9 +13,6 @@ import Typography from '@mui/material/Typography';
 import ActionMenu from './ActionMenu';
 import { truncate } from './truncate';
 
-
-
-
 export function useTableTemplates(props) {
 
     //const { action } = props
@@ -81,7 +78,8 @@ export function useTableTemplates(props) {
             },
             {
                 name: 'Categoria',
-                selector: row => row.category_id,
+                //selector: row => row.category_id, categories.find(c => c.id === row.category_id).name
+                selector: row => categories.find(c => c.id === row.category_id).name, 
                 cell: row => <Stack direction="row"  alignItems="center" spacing={0.7}  >
                                 <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === row.category_id).color}` }}> </Avatar>
                                 <Typography variant="caption" > {categories.find(c => c.id === row.category_id).name} </Typography>
@@ -90,21 +88,9 @@ export function useTableTemplates(props) {
                 maxWidth: '200px',
                 grow: 1,
             },
-            // {
-            //     name: 'Categoria',
-            //     selector: row => row.category_id,
-            //     cell: row => <Chip 
-            //                         label={categories.find(c => c.id === row.category_id).name} 
-            //                         size="small" 
-            //                         variant="outlined" 
-            //                     />,
-            //     sortable: true,
-            //     maxWidth: '200px',
-            //     grow: 1,
-            // },
             {
                 name: 'Status',
-                selector: row => row.status,
+                selector: row => statuses.find(s => s.id === row.status).status,
                 cell: row => <Box sx={{ color: statusColorName(row.status) }} >
                                     {statuses.find(s => s.id === row.status).status} 
                                 </Box>,
@@ -112,19 +98,6 @@ export function useTableTemplates(props) {
                 maxWidth: '140px',
                 grow: 2,
             },
-            // {
-            //     name: 'Status',
-            //     selector: row => row.status,
-            //     cell: row => <Chip 
-            //                         label={statuses.find(s => s.id === row.status).status} 
-            //                         size="small" 
-            //                         variant="outlined" 
-            //                         color={statusColor(row.status)}
-            //                     />,
-            //     sortable: true,
-            //     maxWidth: '140px',
-            //     grow: 1,
-            // },
             {
                 name: 'Atualização',
                 selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),

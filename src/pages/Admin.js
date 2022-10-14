@@ -73,7 +73,13 @@ const Admin = () => {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" color="inherit" open={open}>
+        <AppBar 
+          position="absolute" 
+          color="inherit" 
+          open={open}  
+          elevation={0} 
+          sx={{ borderBottom: 1, borderColor: mdTheme.palette.divider, }}
+        >
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
