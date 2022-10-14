@@ -15,7 +15,7 @@ import { customStyles } from '../styles/tableTemplatesStyles'
 
 const FilteredDataTable = ( props ) => {
 
-    const { columns, data } = props;     
+    const { title, columns, data } = props;     
 
     // TABLE TEMPLATES HOOK
     //const tableTemplates = useTableTemplates(); 
@@ -51,7 +51,7 @@ const FilteredDataTable = ( props ) => {
 
     return (
         <DataTable
-        //title="Índice de Pesquisa"
+            title={title}
             columns={columns}
             data={filteredItems}
             customStyles={customStyles}
@@ -70,6 +70,7 @@ const FilteredDataTable = ( props ) => {
 export default FilteredDataTable;
 
 FilteredDataTable.propTypes = {
+    title: PropTypes.node.isRequired,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
 };
