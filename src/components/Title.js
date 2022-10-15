@@ -71,6 +71,10 @@ const Title = (props) => {
         else  
           return 'Itens Relacionados';  
       } 
+      // RESEARCH / AUTHORS 
+      if(context === 'authors') {
+        return 'Índice de Autores';
+      } 
     }
       
     // CATEGORIES 

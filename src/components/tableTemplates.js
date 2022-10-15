@@ -155,28 +155,32 @@ export function useTableTemplates(props) {
             },
             {
                 name: 'Situação',
-                selector: row => row.active,
-                cell: row => <Chip 
-                                    clickable 
-                                    icon={row.active ? <ToggleOnIcon /> : <ToggleOffIcon />} 
-                                    label={row.active ? 'Ativo' : 'Inativo'} 
-                                    size="small" 
-                                    variant="outlined" 
-                                    color={row.active ? 'success' : 'error'}
-                                    onClick={() => dispatch(toggleProfileActive({ ind: row.ind, active: row.active }))}
-                                />,
+                selector: row => row.active ? 'Ativo' : 'Inativo',
+
+                cell: row => <Box sx={{ color: row.active ? 'success.main' : 'error.main' }} >
+                                    {row.active ? 'Ativo' : 'Inativo'}  
+                                </Box>,
+                // cell: row => <Chip 
+                //                     clickable 
+                //                     icon={row.active ? <ToggleOnIcon /> : <ToggleOffIcon />} 
+                //                     label={row.active ? 'Ativo' : 'Inativo'} 
+                //                     size="small" 
+                //                     variant="outlined" 
+                //                     color={row.active ? 'success' : 'error'}
+                //                     onClick={() => dispatch(toggleProfileActive({ ind: row.ind, active: row.active }))}
+                //                 />,
                 sortable: true,
                 grow: 1,
             },
             {
                 name: 'Atualização',
-                selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy').toString(),
                 sortable: true,
                 grow: 2,
             },
             {
                 name: 'Ingresso',
-                selector: row => DateTime.fromISO(row.created_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+                selector: row => DateTime.fromISO(row.created_at).setLocale('pt-br').toFormat('dd/MM/yyyy').toString(),
                 sortable: true,
                 grow: 1,
             },
@@ -207,8 +211,8 @@ export function useTableTemplates(props) {
             },
             {
                 name: 'Nascimento',
-                selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
-                cell: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
+                selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy').toString() : 'sem registro',
+                cell: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy').toString() : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
                 sortable: true,
                 grow: 2,
             },

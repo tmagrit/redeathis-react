@@ -57,7 +57,7 @@ const FilteredDataTable = ( props ) => {
             customStyles={customStyles}
             striped
             responsive
-            selectableRows
+            //selectableRows
             pagination
             paginationResetDefaultPage={resetPaginationToggle} 
 			subHeader
