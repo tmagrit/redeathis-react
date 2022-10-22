@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleProfileActive } from '../features/membersSlice';
+//import { toggleProfileActive } from '../features/membersSlice';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import Chip from '@mui/material/Chip';
-import ToggleOffIcon from '@mui/icons-material/ToggleOff';
-import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+//import Chip from '@mui/material/Chip';
+//import ToggleOffIcon from '@mui/icons-material/ToggleOff';
+//import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import Typography from '@mui/material/Typography';
 
 import ActionMenu from './ActionMenu';

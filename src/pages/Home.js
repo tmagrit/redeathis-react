@@ -103,6 +103,7 @@ const Home = () => {
                     reuseMaps 
                     style={{ width: '100vw', height: '100vh' }} 
                     mapStyle={mapboxStyle} 
+                    projection="mercator"
                     mapboxAccessToken={mapboxKey} 
                     styleDiffing={true} 
                 />
