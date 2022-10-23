@@ -5,14 +5,9 @@ import { useTableTemplates } from './tableTemplates';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-// import Divider from '@mui/material/Divider';
 import Copyright from './Copyright';
 import Title from './Title'; 
 import FilteredDataTable from './FilteredDataTable';
-
-// REACT DATA TABLE COMPONENT
-// import DataTable from 'react-data-table-component';
-// import { customStyles } from '../styles/tableTemplatesStyles'
 
 // MY HISTORY HOOK
 import { useHistory } from './history';
@@ -55,18 +50,27 @@ const ResearchIndex = () => {
         );
     }; 
 
-    if(context === 'all') {
-        return (
-            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-                <Grid container spacing={3}>
-                    {index()}  
-                </Grid>
-                <Copyright sx={{ pt: 4 }} />
-            </Container>
-        );
-    } else {
-        return index();
-    };
+    return (
+        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={3}>
+                {index()}  
+            </Grid>
+            <Copyright sx={{ pt: 4 }} />
+        </Container>
+    );
+
+    // if(context === 'all') {
+    //     return (
+    //         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+    //             <Grid container spacing={3}>
+    //                 {index()}  
+    //             </Grid>
+    //             <Copyright sx={{ pt: 4 }} />
+    //         </Container>
+    //     );
+    // } else {
+    //     return index();
+    // };
 };
 
 export default ResearchIndex;

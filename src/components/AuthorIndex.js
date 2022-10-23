@@ -89,10 +89,10 @@ const AuthorIndex = () => {
                 <Paper >
                     <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
                         <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
-                            Cadastrar Autor
+                            Novo Autor
                         </Typography>
                     </Grid>
-                    <Divider />
+                    {/* <Divider /> */}
                     <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                         <AuthorAdd />
                     </Grid>

@@ -1,24 +1,53 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link } from "react-router-dom";
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+// import ViewListIcon from '@mui/icons-material/ViewList';
+import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
+// import BookmarksIcon from '@mui/icons-material/Bookmarks';
+// import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ContactsIcon from '@mui/icons-material/Contacts';
+
 import { useHistory } from './history';
+
+import DefaultDialog from './DefaultDialog';
+import Invite from './Invite';
 
 const MainMenu = () => {
 
     // MY HISTORY HOOK
     const history = useHistory();
     const section = history?.pathArray[2] || ''
+    const context = history?.pathArray[3] || ''
 
     // TRACK ROUTES 
     useEffect(() => {
     }, [history.location]);
+
+    // DIALOG STATES 
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    // HANDLE TOGGLE DIALOG
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
+    const handleDialogClose = (value) => {
+        setDialogOpen(false);
+    };
 
     function activeMenu(section, link) {
         if(section === link)
@@ -28,35 +57,168 @@ const MainMenu = () => {
     };
 
     return (
-        <div>
-            <ListItemButton component={Link} to="/admin/research" selected={activeMenu(history?.pathArray[2],'research')} >
-                <ListItemIcon>
-                    <LayersIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pesquisa" />
-            </ListItemButton>
+        <Fragment>
+            <List 
+                component="nav"
+                aria-labelledby="acervo"
+                subheader={
+                    <ListSubheader component="div" id="acervo">
+                        ACERVO
+                    </ListSubheader>
+                }
+            >
+                {/* REFERÊNCIAS  */}
+                <ListItemButton component={Link} to="/admin/research" selected={activeMenu(history?.pathArray[2],'research')} >
+                    <ListItemIcon>
+                        <LayersIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Referências" />
+                </ListItemButton>
 
-            <ListItemButton component={Link} to="/admin/categories" selected={activeMenu(section,'categories')} >
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Categorias" />
-            </ListItemButton>
+                <Collapse in={section === 'research'} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
+                        {/* <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                                <ViewListIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Referências" />
+                        </ListItemButton> */}
 
-            <ListItemButton component={Link} to="/admin/members" selected={activeMenu(section,'members')} >
-                <ListItemIcon>
-                    <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Colaboradores" />
-            </ListItemButton>
+                        <ListItemButton component={Link} to="/admin/research/create" selected={activeMenu(context,'create')} sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                                <AddCircleOutlineIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Nova Referência" />
+                        </ListItemButton>
 
-            <ListItemButton component={Link} to="/admin/pages" selected={activeMenu(section,'pages')} >
-                <ListItemIcon>
-                    <ArticleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Páginas" />
-            </ListItemButton>
-        </div>
+                    </List>
+                </Collapse>
+
+
+                <ListItemButton component={Link} to="/admin/authors" selected={activeMenu(section,'authors')}>
+                    <ListItemIcon>
+                        <ContactsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Autores" />
+                </ListItemButton>  
+
+                <ListItemButton component={Link} to="/admin/categories" selected={activeMenu(section,'categories')} >
+                    <ListItemIcon>
+                        <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Categorias" />
+                </ListItemButton>
+                </List>
+
+                <Divider sx={{ my: 1 }} />
+
+                {/* INSTITUCIONAL  */}
+                <List 
+                    component="nav"
+                    aria-labelledby="institucional"
+                    subheader={
+                        <ListSubheader component="div" id="institucional">
+                            INSTITUCIONAL
+                        </ListSubheader>
+                    }
+                >
+                    <ListItemButton component={Link} to="/admin/members" selected={activeMenu(section,'members')} >
+                        <ListItemIcon>
+                            <PeopleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Colaboradores" />
+                    </ListItemButton>
+
+                    <Collapse in={section === 'members'} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
+
+                            {/* <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                    <ViewListIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Colaboradores" />
+                            </ListItemButton> */}
+
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                    <PersonAddIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Novo Colaborador" onClick={handleDialogOpen}/>
+                            </ListItemButton>
+
+                            {/* INVITE MEMBER DIALOG */}
+                            <DefaultDialog
+                                open={dialogOpen}
+                                onClose={handleDialogClose}
+                                title={'Convidar Colaborador'}
+                                children={<Invite/>}
+                            />
+
+                        </List>
+                    </Collapse>
+
+                    <ListItemButton component={Link} to="/admin/groups" selected={activeMenu(section,'groups')} >
+                        <ListItemIcon>
+                            <GroupWorkIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Grupos" />
+                    </ListItemButton>
+
+                    <Collapse in={section === 'groups'} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
+
+                            <ListItemButton component={Link} to="/admin/groups/create" selected={activeMenu(context,'create')} sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                    <EditLocationAltIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Novo Grupo" />
+                            </ListItemButton>
+
+                            {/* NEW GROUP DIALOG 
+                            <DefaultDialog
+                                open={dialogOpen}
+                                onClose={handleDialogClose}
+                                title={'Convidar Colaborador'}
+                                children={<Invite/>}
+                            /> */}
+
+                        </List>
+                    </Collapse>
+
+                    <ListItemButton component={Link} to="/admin/pages" selected={activeMenu(section,'pages')} >
+                        <ListItemIcon>
+                            <ArticleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Seções" />
+                    </ListItemButton>
+
+                    <Collapse in={section === 'pages'} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
+
+                            <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                    <AddCircleOutlineIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Nova Seção" />
+                            </ListItemButton>   
+
+                        </List>
+                    </Collapse>
+                </List>
+
+                <Divider sx={{ my: 1 }} />
+
+                {/* NAVIGATION  */}
+                <ListItemButton onClick={() => history.goBack()} >
+                    <ListItemIcon>
+                        <ArrowBackIcon />  
+                    </ListItemIcon>
+                    <ListItemText primary="Voltar" />
+                </ListItemButton>
+
+            </Fragment>
+
+
     )
 };
 

@@ -11,7 +11,7 @@ import List from '@mui/material/List';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Typography from '@mui/material/Typography';
-import { Divider } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -26,7 +26,7 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import DefaultDialog from '../components/DefaultDialog';
 import Invite from '../components/Invite';
 import MainMenu from '../components/MainMenu';
-import ContextMenu from '../components/ContextMenu';
+//import ContextMenu from '../components/ContextMenu';
 // STYLES
 import { AppBar, Drawer, mdTheme } from '../styles/adminStyles';
 
@@ -200,8 +200,8 @@ const Admin = () => {
           <Divider />
           <List component="nav">
             <MainMenu />
-            <Divider sx={{ my: 1 }} />
-            <ContextMenu />
+            {/* <Divider sx={{ my: 1 }} />
+            <ContextMenu /> */}
           </List>
         </Drawer>
         <Box

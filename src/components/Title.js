@@ -31,100 +31,60 @@ const Title = (props) => {
 
     // RESEARCH 
     if(section === 'research') {
+
       // RESEARCH / MAIN
-      if(context === '') {
-        if(props.position === 'left')  
-          return 'Resumo de Pesquisas'; 
-        if(props.position === 'right')  
-          return 'Minhas Pesquisas';
-        else  
-          return 'Índice de Pesquisas';
-      }
-      // RESEARCH / ALL
-      if(context === 'all') 
-        return 'Índice de Pesquisas';  
+      if(context === '') 
+        return 'Índice de Referências';  
+
       // RESEARCH / CREATE  
       if(context === 'create') {
         if(props.position === 'left')  
-          return 'Nova Pesquisa'; 
+          return 'Nova Referência'; 
         if(props.position === 'right')  
-          return 'Publicar';
+          return 'Status';
         if(props.position === 'rightmiddle')  
           return 'Geolocalização';  
         else   
         if(props.position === 'rightbelow')  
-          return 'Cronologia';  
+          return 'Ano';  
         else  
-          return 'Itens Relacionados';
-      }      
+          return 'Referências Relacionadas';
+      }
+
       // RESEARCH / EDIT 
       if(context === 'edit') {
         if(props.position === 'left')  
-          return 'Editar Pesquisa'; 
+          return 'Editar Referência'; 
         if(props.position === 'right')  
-          return 'Publicar';
+          return 'Status';
         if(props.position === 'rightmiddle')  
           return 'Geolocalização';  
         else   
         if(props.position === 'rightbelow')  
-          return 'Cronologia';  
+          return 'Ano';  
         else  
-          return 'Itens Relacionados';  
+          return 'Referências Relacionadas';  
       } 
+
       // RESEARCH / AUTHORS 
       if(context === 'authors') {
         return 'Índice de Autores';
       } 
-    }
+    };
       
-    // CATEGORIES 
-    if(section === 'categories') {
-      // CATEGORIES / MAIN
-      if(context === '') {
-        if(props.position === 'left')  
-          return 'Resumo de Categorias'; 
-        if(props.position === 'right')  
-          return '???';
-        else  
-          return 'Índice de Categorias';
-      }
-      // CATEGORIES / ALL
-      if(context === 'all') 
-        return 'Índice de Categorias';  
-      // CATEGORIES / CREATE  
-      if(context === 'create') {
-        if(props.position === 'left')  
-          return 'Nova Categoria'; 
-        if(props.position === 'right')  
-          return 'Publicar';
-        else  
-          return 'Itens Relacionados';
-      }      
-      // RESEARCH / EDIT 
-      if(context === 'edit') {
-        if(props.position === 'left')  
-          return 'Editar Categoria'; 
-        if(props.position === 'right')  
-          return 'Publicar';
-        else  
-          return 'Itens Relacionados';  
-      } 
+    // AUTHORS 
+    if(section === 'authors') {
+      return 'Índice de Autores';
     }
+
 
     // MEMBERS 
     if(section === 'members') {
-      // MEMBERS / MAIN
-      if(context === '') {
-        if(props.position === 'left')  
-          return 'Resumo de Colaboradores'; 
-        if(props.position === 'right')  
-          return 'Minha Conta???';
-        else  
-          return 'Índice de Colaboradores';
-      }
+
       // MEMBERS / ALL
-      if(context === 'all') 
+      if(context === '') 
         return 'Índice de Colaboradores';     
+
       // MEMBERS / EDIT 
       if(context === 'edit') {
         if(props.position === 'left')  
@@ -138,45 +98,30 @@ const Title = (props) => {
 
     // PAGES
     if(section === 'pages') {
+
       // PAGES / MAIN
-      if(context === '') {
-        if(props.position === 'left')  
-          return 'Resumo de Páginas Institucionais'; 
-        if(props.position === 'right')  
-          return 'Definir';
-        else  
-          return 'Índice de Páginas';
-      }
-      // PAGES / ALL
-      if(context === 'all') 
-        return 'Índice de Páginas Institucionais';    
+      if(context === '') 
+        return 'Índice de Seções';    
+
       // PAGES / CREATE  
       if(context === 'create') {
         if(props.position === 'left')  
-          return 'Nova Página'; 
+          return 'Nova Seção'; 
         if(props.position === 'right')  
-          return 'Publicar';
+          return 'Status';
       }               
+
       // PAGES / EDIT 
       if(context === 'edit') {
         if(props.position === 'left')  
-          return 'Editar Página Institucional'; 
+          return 'Editar Seção'; 
         if(props.position === 'right')  
-          return 'Atualizar';
+          return 'Status';
         else  
           return 'Definir';  
       } 
     }  
 
-    // // CATEGORIES 
-    // if(section === 'categories' && context === '')
-    //   return 'Minhas Categorias';
-
-    // if(section === 'members' && context === '')
-    //   return 'Minha Conta';
-
-    // if(section === 'pages' && context === '')
-    //   return 'Minhas Páginas';
   };
 
 

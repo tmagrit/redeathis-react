@@ -12,16 +12,16 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 // COMPONENTS
 import MainDashboard from './components/MainDashboard';
-import ResearchMain from './components/ResearchMain';
+//import ResearchMain from './components/ResearchMain';
 import ResearchCreate from './components/ResearchCreate';
 import ResearchEdit from './components/ResearchEdit';
 import ResearchIndex from './components/ResearchIndex';
 import CategoriesMain from './components/CategoriesMain';
 import MembersIndex from './components/MembersIndex';
-import MembersMain from './components/MembersMain';
+//import MembersMain from './components/MembersMain';
 import AuthorIndex from './components/AuthorIndex';
 import PagesIndex from './components/PagesIndex';
-import PagesMain from './components/PagesMain';
+//import PagesMain from './components/PagesMain';
 import PagesCreate from './components/PagesCreate';
 import PagesEdit from './components/PagesEdit';
 
@@ -108,23 +108,23 @@ function App() {
                     <Route index element={<MainDashboard />} />
 
                     {/* RESEARCH ROUTE */}
-                    <Route path="research" element={<ResearchMain />} />
-                    <Route path="research/all" element={<ResearchIndex />} />
+                    <Route path="research" element={<ResearchIndex />} />
+                    {/* <Route path="research/all" element={<ResearchIndex />} /> */}
                     <Route path="research/create" element={<ResearchCreate />} />
                     <Route path="research/edit/:researchId" element={<ResearchEdit />} />
-                    <Route path="research/authors" element={<AuthorIndex />} />
+                    <Route path="authors" element={<AuthorIndex />} />
 
 
                     <Route path="categories" element={<CategoriesMain />} />
                         
 
                     {/* MEMBERS ROUTE */}
-                    <Route path="members" element={<MembersMain />} />
-                    <Route path="members/all" element={<MembersIndex />} />
+                    <Route path="members" element={<MembersIndex />} />
+                    {/* <Route path="members/all" element={<MembersIndex />} /> */}
 
                     {/* PAGES ROUTE */}
-                    <Route path="pages" element={<PagesMain />} />
-                    <Route path="pages/all" element={<PagesIndex />} />    
+                    <Route path="pages" element={<PagesIndex />} />
+                    {/* <Route path="pages/all" element={<PagesIndex />} />     */}
                     <Route path="pages/create" element={<PagesCreate />} />
                     <Route path="pages/edit/:pageId" element={<PagesEdit />} />
                         

@@ -79,7 +79,7 @@ const AuthorAdd = () => {
                 }}
             >
                 <Grid container spacing={2}>
-                    <Grid item md={4} xs={12}>
+                    <Grid item md={6} xs={12}>
                         <TextField
                             value={authorData.name}
                             error={nameError(authorData.name)}
@@ -95,7 +95,7 @@ const AuthorAdd = () => {
                             //sx={{ mb: 2,}}
                         />
                     </Grid>
-                    <Grid item md={4} xs={12}>
+                    <Grid item md={6} xs={12}>
                         <TextField
                             value={authorData.surname}
                             error={nameError(authorData.surname)}
@@ -111,7 +111,7 @@ const AuthorAdd = () => {
                             //sx={{ mb: 2,}}
                         /> 
                     </Grid>
-                    <Grid item md={4} xs={12}>
+                    {/* <Grid item md={4} xs={12}>
                         <TextField
                             value={authorData.link}
                             //error={nameError(authorData.surname)}
@@ -129,8 +129,8 @@ const AuthorAdd = () => {
                                 startAdornment: <InputAdornment position="start"><LinkIcon /></InputAdornment>,
                             }}
                         />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
+                    </Grid> */}
+                    {/* <Grid item md={4} xs={12}>
                         <Grid container >
                             <Grid item xs={10} >
                                 {authorData.has_birth ? (
@@ -208,7 +208,27 @@ const AuthorAdd = () => {
                                 />
                             </Grid>
                         </Grid>
-                    </Grid>    
+                    </Grid>     */}
+
+                    <Grid item md={8} xs={12}>
+                        <TextField
+                            value={authorData.link}
+                            //error={nameError(authorData.surname)}
+                            onChange={e => handleChangeAuthorData(e)}
+                            fullWidth
+                            shrink
+                            label="Link"
+                            id="link"
+                            size="small"
+                            type="text"
+                            //helperText={nameError(authorData.surname) ? "Ao menos dois caracteres válidos" : null}
+                            //sx={{ mb: 2,}}
+                            InputLabelProps={{ shrink: true }} 
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start"><LinkIcon /></InputAdornment>,
+                            }}
+                        />
+                    </Grid>
                     <Grid item md={4} xs={12}>
                         <Button 
                             variant="contained" 
@@ -216,7 +236,7 @@ const AuthorAdd = () => {
                             fullWidth 
                             onClick={handleCreateAuthor}
                         >
-                            Cadastrar Autor
+                            Novo Autor
                         </Button> 
                     </Grid>   
                 </Grid>
