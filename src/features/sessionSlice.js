@@ -188,7 +188,8 @@ export const sessionSlice = createSlice({
 
         viewport: { latitude: -12.977749, longitude: -38.501630, zoom: 3 },
         section: '',
-        context: ''
+        context: '',
+        drawerState: true
 
     },
     reducers: {
@@ -206,6 +207,9 @@ export const sessionSlice = createSlice({
         },
         updateViewport(state, action) {
             state.viewport = action.payload
+        },
+        updateDrawerState(state, action) {
+            state.drawerState = action.payload
         },
     },
     extraReducers: {
@@ -306,6 +310,7 @@ export const {
     updateProfileSection,
     updateProfileContext,
     updateViewport,
+    updateDrawerState,
 } = sessionSlice.actions
 
 export default sessionSlice.reducer

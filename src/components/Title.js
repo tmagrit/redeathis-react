@@ -75,8 +75,7 @@ const Title = (props) => {
     // AUTHORS 
     if(section === 'authors') {
       return 'Índice de Autores';
-    }
-
+    };
 
     // MEMBERS 
     if(section === 'members') {
@@ -123,8 +122,6 @@ const Title = (props) => {
     }  
 
   };
-
-
 
   return (
       <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>

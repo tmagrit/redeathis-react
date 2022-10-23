@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
@@ -8,6 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
@@ -28,6 +30,9 @@ import DefaultDialog from './DefaultDialog';
 import Invite from './Invite';
 
 const MainMenu = () => {
+
+    // REDUX SELECTORS
+    const drawerState = useSelector(state => state.session.drawerState);
 
     // MY HISTORY HOOK
     const history = useHistory();
@@ -63,7 +68,9 @@ const MainMenu = () => {
                 aria-labelledby="acervo"
                 subheader={
                     <ListSubheader component="div" id="acervo">
-                        ACERVO
+                        <Box color={drawerState ? 'inherit' : 'background.paper'} >
+                            ACERVO
+                        </Box>
                     </ListSubheader>
                 }
             >
@@ -77,14 +84,14 @@ const MainMenu = () => {
 
                 <Collapse in={section === 'research'} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
-                        {/* <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} sx={{ pl: 4 }}>
+                        {/* <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} sx={{ pl: drawerState ? 4 : 3 }}>
                             <ListItemIcon>
                                 <ViewListIcon />
                             </ListItemIcon>
                             <ListItemText primary="Referências" />
                         </ListItemButton> */}
 
-                        <ListItemButton component={Link} to="/admin/research/create" selected={activeMenu(context,'create')} sx={{ pl: 4 }}>
+                        <ListItemButton component={Link} to="/admin/research/create" selected={activeMenu(context,'create')} sx={{ pl: drawerState ? 4 : 3 }}>
                             <ListItemIcon>
                                 <AddCircleOutlineIcon />
                             </ListItemIcon>
@@ -118,7 +125,9 @@ const MainMenu = () => {
                     aria-labelledby="institucional"
                     subheader={
                         <ListSubheader component="div" id="institucional">
-                            INSTITUCIONAL
+                            <Box color={drawerState ? 'inherit' : 'background.paper'} >
+                                INSTITUCIONAL
+                            </Box>
                         </ListSubheader>
                     }
                 >
@@ -132,14 +141,14 @@ const MainMenu = () => {
                     <Collapse in={section === 'members'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
-                            {/* <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} sx={{ pl: 4 }}>
+                            {/* <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} sx={{ pl: drawerState ? 4 : 3 }}>
                                 <ListItemIcon>
                                     <ViewListIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Colaboradores" />
                             </ListItemButton> */}
 
-                            <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemButton sx={{ pl: drawerState ? 4 : 3 }}>
                                 <ListItemIcon>
                                     <PersonAddIcon />
                                 </ListItemIcon>
@@ -167,7 +176,7 @@ const MainMenu = () => {
                     <Collapse in={section === 'groups'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
-                            <ListItemButton component={Link} to="/admin/groups/create" selected={activeMenu(context,'create')} sx={{ pl: 4 }}>
+                            <ListItemButton component={Link} to="/admin/groups/create" selected={activeMenu(context,'create')} sx={{ pl: drawerState ? 4 : 3 }}>
                                 <ListItemIcon>
                                     <EditLocationAltIcon />
                                 </ListItemIcon>
@@ -195,7 +204,7 @@ const MainMenu = () => {
                     <Collapse in={section === 'pages'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
-                            <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} sx={{ pl: 4 }}>
+                            <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} sx={{ pl: drawerState ? 4 : 3 }}>
                                 <ListItemIcon>
                                     <AddCircleOutlineIcon />
                                 </ListItemIcon>

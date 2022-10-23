@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/sessionSlice';
+import { logout, updateDrawerState } from '../features/sessionSlice';
 import { Link, Outlet } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -26,26 +26,29 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import DefaultDialog from '../components/DefaultDialog';
 import Invite from '../components/Invite';
 import MainMenu from '../components/MainMenu';
-//import ContextMenu from '../components/ContextMenu';
+
 // STYLES
 import { AppBar, Drawer, mdTheme } from '../styles/adminStyles';
 
 const Admin = () => {
 
     // REDUX SELECTORS
-    const dispatch = useDispatch()
-    const profile = useSelector(state => state.session.profile)
+    const dispatch = useDispatch();
+    const profile = useSelector(state => state.session.profile);
+    const drawerState = useSelector(state => state.session.drawerState);
 
     // MENU STATES
     const [anchorEl, setAnchorEl] = useState(null);
-    const [open, setOpen] = useState(true);
     
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
     
     // HANDLE TOGGLE MENU 
     const toggleDrawer = () => {
-      setOpen(!open);
+      if(drawerState) 
+        dispatch(updateDrawerState(false));
+      else
+        dispatch(updateDrawerState(true));  
     };
     
     // HANDLE MENU
@@ -76,7 +79,7 @@ const Admin = () => {
         <AppBar 
           position="absolute" 
           color="inherit" 
-          open={open}  
+          open={drawerState}  
           elevation={0} 
           sx={{ borderBottom: 1, borderColor: mdTheme.palette.divider, }}
         >
@@ -92,7 +95,7 @@ const Admin = () => {
               onClick={toggleDrawer}
               sx={{
                 marginRight: '36px',
-                ...(open && { display: 'none' }),
+                ...(drawerState && { display: 'none' }),
               }}
             >
               <MenuIcon />
@@ -184,7 +187,7 @@ const Admin = () => {
             </Menu>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={drawerState}>
           <Toolbar
             sx={{
               display: 'flex',
