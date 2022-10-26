@@ -13,9 +13,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+import Stack from '@mui/material/Stack';
+// import SearchIcon from '@mui/icons-material/Search';
+// import TextField from '@mui/material/TextField';
+// import InputAdornment from '@mui/material/InputAdornment';
 
 
 // REACT DATA TABLE COMPONENT
@@ -24,10 +25,16 @@ import { customStyles } from '../styles/tableTemplatesStyles'
 
 import Author from './Author';
 import ActionAuthorMenu from './ActionAuthorMenu';
+import FilteredDataTable from './FilteredDataTable';
+import { useTableTemplates } from './tableTemplates';
+import Title from './Title'; 
 
 const AuthorDialog = (props) => {
 
     const { onClose, open } = props;
+
+    // TABLE TEMPLATES HOOK
+    const tableTemplates = useTableTemplates();     
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -58,51 +65,6 @@ const AuthorDialog = (props) => {
       onClose();
     };
 
-
-    // COLUMNS TO AUTHORS LIST
-    const authorsSourcesColumns = (
-        [
-            {
-                name: 'ID',
-                selector: row => row.id ,
-                sortable: true,
-                width: '70px',
-            },
-            {
-                name: 'Nome',
-                selector: row => row.name + ' ' + row.surname ,
-                sortable: true,
-                grow: 3,
-            },
-            {
-                name: 'Nascimento',
-                selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
-                cell: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
-                sortable: true,
-                grow: 2,
-            },
-            {
-                name: 'Morte',
-                selector: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
-                cell: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
-                sortable: true,
-                grow: 2,
-            },
-            {
-                name: 'Ações',
-                maxWidth: '100px',
-                cell: row =>    <ActionAuthorMenu 
-                                    section={'research'} 
-                                    authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)} 
-                                    row={row} 
-                                    researchAuthor={researchAuthors.find(ra => ra.author_id === row.id)} 
-                                />,
-                right: true,
-                grow: 1,
-            },
-        ]
-    );
-
     // CONDITIONAL ROW STYLING
     const conditionalRowStyles = [
         {
@@ -120,7 +82,7 @@ const AuthorDialog = (props) => {
             fullWidth={true}
             maxWidth='lg'
         >
-            <AppBar position="static" color="inherit">
+            <AppBar position="static" color="inherit" elevation={0}>
                 <Toolbar  variant="dense" >
                     <IconButton
                         edge="start"
@@ -131,45 +93,31 @@ const AuthorDialog = (props) => {
                         <CloseIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 1, }} />
-                    <TextField
-                        placeholder="Buscar Autor"
-                        id="input-author-search"
-                        size="small"
-                        type="text"
-                        sx={{ my: 1,}}
-                        InputProps={{
-                            startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
-                        }}
-                    />
                 </Toolbar>
             </AppBar>
 
-            <DialogTitle >
-                Autores
-            </DialogTitle>
-            <DialogContent dividers sx={{ minHeight: 200, }}>
-                {researchAuthors?.map(ra => {
-                    return  <Author 
+            <DialogContent dividers sx={{ minHeight: 70, }}>
+                <Stack direction="row" spacing={1}>
+                    {researchAuthors?.map(ra => {
+                        return (
+                            <Author 
                                 key={ra.id}
                                 researchAuthor={ra} 
                                 authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)} 
                             />
-                })}
+                        )    
+                    })}
+                </Stack>       
             </DialogContent>
-            <DialogTitle >
-                Incluir Autor
-            </DialogTitle>
-            <DialogContent dividers>
+            
+            <DialogContent >
                 {/* SOURCES TABLE  */}
                 {createAuthorTable && authors.length > 0 ? (
-                    <DataTable
-                        columns={authorsSourcesColumns}
-                        data={authors}
-                        customStyles={customStyles}
-                        striped
+                    <FilteredDataTable 
+                        data={authors} 
+                        columns={tableTemplates.authorsSourcesColumns}
+                        //title={<Title position={'middle'}/>}
                         conditionalRowStyles={conditionalRowStyles}
-                        responsive
-                        pagination
                     />
                 ) : (
                     <Typography component="div" variant="body1" color="inherit" sx={{ fontStyle: 'italic', textAlign: 'center', pt: 4, }}>
@@ -187,3 +135,89 @@ AuthorDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
 };
+
+
+
+
+
+    // // COLUMNS TO AUTHORS LIST
+    // const authorsSourcesColumns = (
+    //     [
+    //         {
+    //             name: 'ID',
+    //             selector: row => row.id ,
+    //             sortable: true,
+    //             width: '70px',
+    //         },
+    //         {
+    //             name: 'Nome',
+    //             selector: row => row.name + ' ' + row.surname ,
+    //             sortable: true,
+    //             grow: 3,
+    //         },
+    //         // {
+    //         //     name: 'Nascimento',
+    //         //     selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
+    //         //     cell: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
+    //         //     sortable: true,
+    //         //     grow: 2,
+    //         // },
+    //         // {
+    //         //     name: 'Morte',
+    //         //     selector: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : 'sem registro',
+    //         //     cell: row => row.has_death ? DateTime.fromObject(row.death).setLocale('pt-br').toFormat('dd/MM/yyyy') : <Typography variant="caption" sx={{ fontStyle: 'italic', }} >sem registro</Typography>,
+    //         //     sortable: true,
+    //         //     grow: 2,
+    //         // },
+    //         {
+    //             name: 'Atualização',
+    //             selector: row => row.updated_at,
+    //             cell: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('yyyy-MM-dd'),
+    //             sortable: true,
+    //             right: true,
+    //             grow: 2,
+    //         },            
+    //         {
+    //             name: 'Ações',
+    //             maxWidth: '100px',
+    //             cell: row =>    <ActionAuthorMenu 
+    //                                 section={'research'} 
+    //                                 authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)} 
+    //                                 row={row} 
+    //                                 researchAuthor={researchAuthors.find(ra => ra.author_id === row.id)} 
+    //                             />,
+    //             right: true,
+    //             grow: 1,
+    //         },
+    //     ]
+    // );
+
+
+
+
+            {/* <DialogTitle > 
+                <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
+                    Autores Relacionados
+                </Typography>
+            </DialogTitle> */}
+
+            {/* <DialogTitle >
+                <Typography component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}>
+                    Incluir Autor
+                </Typography>
+            </DialogTitle> */}
+
+
+
+
+
+                    // <DataTable
+                    //     data={authors}                    
+                    //     columns={authorsSourcesColumns}
+                    //     customStyles={customStyles}
+                    //     striped
+                    //     conditionalRowStyles={conditionalRowStyles}
+                    //     responsive
+                    //     pagination
+                    // />
+

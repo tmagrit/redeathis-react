@@ -1,26 +1,47 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
-//import { toggleProfileActive } from '../features/membersSlice';
+import { useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-//import Chip from '@mui/material/Chip';
-//import ToggleOffIcon from '@mui/icons-material/ToggleOff';
-//import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import Typography from '@mui/material/Typography';
 
 import ActionMenu from './ActionMenu';
+import ActionAuthorMenu from './ActionAuthorMenu';
 import { truncate } from './truncate';
 
 export function useTableTemplates(props) {
 
     //const { action } = props
 
+    // REACT ROUTER DYNAMIC PARAMETER
+    let params = useParams();
+
     // REDUX SELECTORS
     const dispatch = useDispatch();
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
+    // AUTHORS SELECTORS
+    const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
+ 
+
+
+    /////////////////////
+
+    // RESEARCH AUTHORS STATES
+    const [researchAuthors, setResearchAuthors] = useState([]);
+
+    const handleUpdateResearchAuthors = (allresearchauthors) => {
+        const updatedResearchAuthors = allresearchauthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
+        setResearchAuthors(updatedResearchAuthors);
+    };
+
+    /////////////////////
+
+
+
 
     function statusColor(id) {
         if(id === 1)
@@ -209,6 +230,14 @@ export function useTableTemplates(props) {
                 sortable: true,
                 grow: 3,
             },
+            {
+                name: 'Atualização',
+                selector: row => row.updated_at,
+                cell: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('yyyy-MM-dd'),
+                sortable: true,
+                right: true,
+                grow: 2,
+            },
             // {
             //     name: 'Nascimento',
             //     selector: row => row.has_birth ? DateTime.fromObject(row.birth).setLocale('pt-br').toFormat('dd/MM/yyyy').toString() : 'sem registro',
@@ -227,13 +256,51 @@ export function useTableTemplates(props) {
             // },
             {
                 name: 'Ações',
-                maxWidth: '100px',
+                maxWidth: '50px',
                 cell: row => <ActionMenu section={'authors'} row={row} />,
                 right: true,
                 grow: 1,
             },
         ]
     );
+
+    // COLUMNS TO AUTHOR ADD LIST
+    const authorsSourcesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.id ,
+                sortable: true,
+                width: '70px',
+            },
+            {
+                name: 'Nome',
+                selector: row => row.name + ' ' + row.surname ,
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Atualização',
+                selector: row => row.updated_at,
+                cell: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('yyyy-MM-dd'),
+                sortable: true,
+                right: true,
+                grow: 2,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row =>    <ActionAuthorMenu 
+                                    section={'research'} 
+                                    authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)} 
+                                    row={row} 
+                                    researchAuthor={allResearchAuthors.find(ra => ra.author_id === row.id)} 
+                                />,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );    
 
     // COLUMNS TO PAGES LIST
     const pagesColumns = (
@@ -300,8 +367,12 @@ export function useTableTemplates(props) {
         fullProfilesColumns: fullProfilesColumns,
         fullResearchColumns: fullResearchColumns,
         authorsColumns: authorsColumns,
+        authorsSourcesColumns: authorsSourcesColumns,
         pagesColumns: pagesColumns,
     };
 };
 
-
+//import Chip from '@mui/material/Chip';
+//import ToggleOffIcon from '@mui/icons-material/ToggleOff';
+//import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+//import { toggleProfileActive } from '../features/membersSlice';

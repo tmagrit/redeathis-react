@@ -15,7 +15,7 @@ import { customStyles } from '../styles/tableTemplatesStyles'
 
 const FilteredDataTable = ( props ) => {
 
-    const { title, columns, data } = props;     
+    const { title, columns, data, conditionalRowStyles } = props;     
 
     // TABLE TEMPLATES HOOK
     //const tableTemplates = useTableTemplates(); 
@@ -62,6 +62,7 @@ const FilteredDataTable = ( props ) => {
             paginationResetDefaultPage={resetPaginationToggle} 
 			subHeader
 			subHeaderComponent={subHeaderComponentMemo}
+            conditionalRowStyles={conditionalRowStyles}
             persistTableHead
         />
     );
@@ -73,4 +74,5 @@ FilteredDataTable.propTypes = {
     title: PropTypes.node.isRequired,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
+    conditionalRowStyles: PropTypes.array.isRequired,
 };

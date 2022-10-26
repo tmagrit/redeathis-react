@@ -40,12 +40,14 @@ const Title = (props) => {
       if(context === 'create') {
         if(props.position === 'left')  
           return 'Nova Referência'; 
-        if(props.position === 'right')  
+        if(props.position === 'status')  
           return 'Status';
-        if(props.position === 'rightmiddle')  
+        if(props.position === 'tags')  
+          return 'Marcadores';
+        if(props.position === 'geolocation')  
           return 'Geolocalização';  
         else   
-        if(props.position === 'rightbelow')  
+        if(props.position === 'year')  
           return 'Ano';  
         else  
           return 'Referências Relacionadas';
@@ -55,12 +57,14 @@ const Title = (props) => {
       if(context === 'edit') {
         if(props.position === 'left')  
           return 'Editar Referência'; 
-        if(props.position === 'right')  
+        if(props.position === 'status')  
           return 'Status';
-        if(props.position === 'rightmiddle')  
+        if(props.position === 'tags')  
+          return 'Marcadores';          
+        if(props.position === 'geolocation')  
           return 'Geolocalização';  
         else   
-        if(props.position === 'rightbelow')  
+        if(props.position === 'year')  
           return 'Ano';  
         else  
           return 'Referências Relacionadas';  
