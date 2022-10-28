@@ -3,31 +3,18 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
-import { DateTime } from 'luxon';
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-// import SearchIcon from '@mui/icons-material/Search';
-// import TextField from '@mui/material/TextField';
-// import InputAdornment from '@mui/material/InputAdornment';
-
-
-// REACT DATA TABLE COMPONENT
-import DataTable from 'react-data-table-component';
-import { customStyles } from '../styles/tableTemplatesStyles'
-
 import Author from './Author';
-import ActionAuthorMenu from './ActionAuthorMenu';
 import FilteredDataTable from './FilteredDataTable';
 import { useTableTemplates } from './tableTemplates';
-import Title from './Title'; 
 
 const AuthorDialog = (props) => {
 
@@ -97,7 +84,12 @@ const AuthorDialog = (props) => {
             </AppBar>
 
             <DialogContent dividers sx={{ minHeight: 70, }}>
-                <Stack direction="row" spacing={1}>
+                <Stack
+                    direction="column"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    spacing={0.5}
+                >
                     {researchAuthors?.map(ra => {
                         return (
                             <Author 
@@ -116,7 +108,7 @@ const AuthorDialog = (props) => {
                     <FilteredDataTable 
                         data={authors} 
                         columns={tableTemplates.authorsSourcesColumns}
-                        //title={<Title position={'middle'}/>}
+                        title=""
                         conditionalRowStyles={conditionalRowStyles}
                     />
                 ) : (
@@ -136,6 +128,18 @@ AuthorDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
+//import { DateTime } from 'luxon';
+//import DialogTitle from '@mui/material/DialogTitle';
+// import SearchIcon from '@mui/icons-material/Search';
+// import TextField from '@mui/material/TextField';
+// import InputAdornment from '@mui/material/InputAdornment';
+
+
+// REACT DATA TABLE COMPONENT
+//import DataTable from 'react-data-table-component';
+//import { customStyles } from '../styles/tableTemplatesStyles'
+//import ActionAuthorMenu from './ActionAuthorMenu';
+//import Title from './Title'; 
 
 
 

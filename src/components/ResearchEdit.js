@@ -13,14 +13,9 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Fab from '@mui/material/Fab'; 
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
-
 import IconButton from '@mui/material/IconButton'; 
-
-
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -29,18 +24,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import Copyright from './Copyright';
 import Title from './Title';   
-import ResearchIndex from './ResearchIndex';  
 import DateSetter from './DateSetter'; 
-import FormBox from './FormBox';
-
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDialog from './MapDialog';
@@ -87,9 +77,6 @@ const ResearchEdit = () => {
     const [researchAuthors, setResearchAuthors] = useState([]);
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
-    // TEXT EDITOR STATES
-    //const [readOnly, setReadOnly] = useState(false);
-
     // SOURCE AUTHORS FIELD ROW SIZE
     const sourceAuthorsRows = () => {
         if(researchAuthors.length > 0) {
@@ -99,10 +86,18 @@ const ResearchEdit = () => {
                 return researchAuthors.length + 3;
         } else
             return 1;
-        
     };
 
-    //console.log('sourceAuthorsRows', sourceAuthorsRows())
+      // SOURCE RESEARCH FIELD ROW SIZE
+      const sourceResearchRows = () => {
+        if(researchSources.length > 0) {
+            if(researchSources.length < 4)
+                return researchSources.length + 2;       
+            else 
+                return researchSources.length + 3;
+        } else
+            return 1;
+    };
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
@@ -150,11 +145,6 @@ const ResearchEdit = () => {
             researchTagsData: checked,
         }));
     };
-
-    // // TRACK RESEARCH TAGS CHANGES 
-    // useEffect(() => {
-    //     setChecked([...researchTags]);
-    // }, [allResearchTags, researchTags]);
 
     // HANDLE SELECTED CATEGORIES
     const handleToggle = (obj) => () => {
@@ -361,43 +351,48 @@ const ResearchEdit = () => {
                                 InputLabelProps={{ shrink: true }}
                             />
 
+                            <TextField
+                                value={''}
+                                fullWidth
+                                label="Referências Relacionadas"
+                                name="source-research"
+                                size="small"
+                                multiline={true}
+                                rows={sourceResearchRows()}
+                                type="hidden"
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
 
-                            <FormBox 
-                                id='sources-box' 
-                                label='Pesquisas Relacionadas' 
-                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
-                                children={
-                                    <Grid container >
-                                        <Grid item xs={12} >
-                                            {researchSources.map(rs => {
-                                                return  <Source 
-                                                            key={rs.id} 
-                                                            source={rs} 
-                                                            sourceAction={() => handleUpdateResearchSources(sources)} 
-                                                            color={categories.find(c => c.id === rs.research_source.category_id ).color} 
-                                                        />
-                                            })}
-                                        </Grid>    
-                                        <Grid item xs={12} >
-                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
-    
-                                            <Fab 
-                                                variant="extended" 
-                                                size="medium" 
-                                                onClick={handleSourceDialogOpen}
-                                            >
-                                                <MultipleStopIcon sx={{ mr: 1 }} />
-                                                Relacionar Pesquisa
-                                            </Fab>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                } 
-                            />
-
-
-
-
+                                InputProps={{
+                                    startAdornment: <Stack 
+                                                        direction="column"
+                                                        justifyContent="flex-start"
+                                                        alignItems="flex-start"
+                                                        spacing={0.5}
+                                                    >
+                                                        {researchSources.map(rs => {
+                                                            return  <Source 
+                                                                        key={rs.id} 
+                                                                        source={rs} 
+                                                                        sourceAction={() => handleUpdateResearchSources(sources)} 
+                                                                        color={categories.find(c => c.id === rs.research_source.category_id ).color} 
+                                                                    />
+                                                        })}
+                                                    </Stack>,
+                                    endAdornment: <InputAdornment position="end">
+                                                        <IconButton
+                                                                aria-label="relacionar referência"
+                                                                onClick={handleSourceDialogOpen}
+                                                                edge="end"
+                                                        >
+                                                            <MultipleStopIcon />
+                                                        </IconButton>
+                                                    </InputAdornment>,
+                                }}
+                                //error={emailError(email)}
+                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
+                            >
+                            </TextField>
 
                         </Grid>
                     </Paper>
@@ -550,19 +545,6 @@ const ResearchEdit = () => {
                     </Paper>
 
                 </Grid>
-
-                {/* INDEX */}
-                <Grid item xs={12}>
-                    <Paper sx={{ minHeight: 240, }} >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
-                            <Title position={'middle'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <ResearchIndex />
-                        </Grid>
-                    </Paper>
-                </Grid>
                 
             </Grid>
             <Copyright sx={{ pt: 4 }} />
@@ -572,11 +554,25 @@ const ResearchEdit = () => {
 
 export default ResearchEdit;
 
+//import Box from '@mui/material/Box';
+//import Fab from '@mui/material/Fab'; 
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import ResearchIndex from './ResearchIndex'; 
+// import FormBox from './FormBox';
 
 //import TextEditor from './TextEditor';
 // import DeckGL from '@deck.gl/react';
 // import { ScatterplotLayer } from '@deck.gl/layers';
 // import { hexToRgb } from './colorConverter';
+
+
+    // TEXT EDITOR STATES
+    //const [readOnly, setReadOnly] = useState(false);
+
+    // // TRACK RESEARCH TAGS CHANGES 
+    // useEffect(() => {
+    //     setChecked([...researchTags]);
+    // }, [allResearchTags, researchTags]);
 
                             {/* <FormBox 
                                 id='text-editor-box' 
@@ -622,4 +618,52 @@ export default ResearchEdit;
                                         </Grid>
                                     </Grid>
                                 } 
+                            /> */}       
+                            
+                            
+                            {/* <FormBox 
+                                id='sources-box' 
+                                label='Pesquisas Relacionadas' 
+                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
+                                children={
+                                    <Grid container >
+                                        <Grid item xs={12} >
+                                            {researchSources.map(rs => {
+                                                return  <Source 
+                                                            key={rs.id} 
+                                                            source={rs} 
+                                                            sourceAction={() => handleUpdateResearchSources(sources)} 
+                                                            color={categories.find(c => c.id === rs.research_source.category_id ).color} 
+                                                        />
+                                            })}
+                                        </Grid>    
+                                        <Grid item xs={12} >
+                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
+    
+                                            <Fab 
+                                                variant="extended" 
+                                                size="medium" 
+                                                onClick={handleSourceDialogOpen}
+                                            >
+                                                <MultipleStopIcon sx={{ mr: 1 }} />
+                                                Relacionar Pesquisa
+                                            </Fab>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                } 
                             /> */}                            
+
+
+                {/* INDEX */}
+                {/* <Grid item xs={12}>
+                    <Paper sx={{ minHeight: 240, }} >
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
+                            <Title position={'middle'}/> 
+                        </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            <ResearchIndex />
+                        </Grid>
+                    </Paper>
+                </Grid> */}

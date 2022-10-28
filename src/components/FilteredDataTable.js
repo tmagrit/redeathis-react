@@ -48,24 +48,41 @@ const FilteredDataTable = ( props ) => {
 		);
 	}, [filterText, resetPaginationToggle]);
 
-
-    return (
-        <DataTable
-            title={title}
-            columns={columns}
-            data={filteredItems}
-            customStyles={customStyles}
-            striped
-            responsive
-            //selectableRows
-            pagination
-            paginationResetDefaultPage={resetPaginationToggle} 
-			subHeader
-			subHeaderComponent={subHeaderComponentMemo}
-            conditionalRowStyles={conditionalRowStyles}
-            persistTableHead
-        />
-    );
+    if(title) {
+        return(  
+                <DataTable
+                    title={title}
+                    columns={columns}
+                    data={filteredItems}
+                    customStyles={customStyles}
+                    striped
+                    responsive
+                    pagination
+                    paginationResetDefaultPage={resetPaginationToggle} 
+                    subHeader
+                    subHeaderComponent={subHeaderComponentMemo}
+                    conditionalRowStyles={conditionalRowStyles}
+                    persistTableHead
+                />
+            );
+    } else {
+        return (
+            <DataTable
+                columns={columns}
+                data={filteredItems}
+                customStyles={customStyles}
+                striped
+                responsive
+                pagination
+                paginationResetDefaultPage={resetPaginationToggle} 
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                conditionalRowStyles={conditionalRowStyles}
+                persistTableHead
+            />
+        );
+    }
+   
 };
 
 export default FilteredDataTable;

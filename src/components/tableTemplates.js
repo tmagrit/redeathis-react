@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 
 import ActionMenu from './ActionMenu';
 import ActionAuthorMenu from './ActionAuthorMenu';
+import ActionSourceMenu from './ActionSourceMenu';
 import { truncate } from './truncate';
 
 export function useTableTemplates(props) {
@@ -21,27 +22,29 @@ export function useTableTemplates(props) {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
+    const sources = useSelector(state => state.research.sources);
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
     // AUTHORS SELECTORS
     const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
  
-
-
     /////////////////////
 
-    // RESEARCH AUTHORS STATES
+    // RESEARCH AND AUTHORS STATES
     const [researchAuthors, setResearchAuthors] = useState([]);
+    const [researchSources, setResearchSources] = useState([]);
 
     const handleUpdateResearchAuthors = (allresearchauthors) => {
         const updatedResearchAuthors = allresearchauthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
         setResearchAuthors(updatedResearchAuthors);
     };
 
+    const handleUpdateResearchSources = (sources) => {
+        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        setResearchSources(updatedResearchSources);
+    };
+
     /////////////////////
-
-
-
 
     function statusColor(id) {
         if(id === 1)
@@ -90,7 +93,7 @@ export function useTableTemplates(props) {
                 omit: true,
             },
             {
-                name: 'Cronologia',
+                name: 'Ano',
                 selector: row => row.date.start.year,
                 cell: row => row.date.interval ? `${row.date.start.year}-${row.date.end.year}` : row.date.start.year,
                 sortable: true,
@@ -302,6 +305,74 @@ export function useTableTemplates(props) {
         ]
     );    
 
+    // COLUMNS TO SOURCES LIST
+    const researchSourcesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.id ,
+                sortable: true,
+                width: '70px',
+            },
+            {
+                name: 'Título',
+                selector: row => row.title,
+                cell: row => <span style={{ wordBreak: "break-word" }}>{row.title}</span>, 
+                sortable: true,
+                grow: 3,
+            },
+            {
+                name: 'Resumo',
+                selector: row => row.summary,
+                sortable: true,
+                omit: true,
+            },
+
+            {
+                name: 'Ano',
+                selector: row => row.date.start.year,
+                cell: row => row.date.interval ? `${row.date.start.year}-${row.date.end.year}` : row.date.start.year,
+                sortable: true,
+                maxWidth: '120px',
+                grow: 1,
+            },
+            {
+                name: 'Categoria',
+                //selector: row => row.category_id, categories.find(c => c.id === row.category_id).name
+                selector: row => categories.find(c => c.id === row.category_id).name, 
+                cell: row => <Stack direction="row"  alignItems="center" spacing={0.7}  >
+                                <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === row.category_id).color}` }}> </Avatar>
+                                <Typography variant="caption" > {categories.find(c => c.id === row.category_id).name} </Typography>
+                            </Stack>,
+                sortable: true,
+                maxWidth: '200px',
+                grow: 1,
+            },
+            {
+                name: 'Status',
+                selector: row => statuses.find(s => s.id === row.status).status,
+                cell: row => <Box sx={{ color: statusColorName(row.status) }} >
+                                    {statuses.find(s => s.id === row.status).status} 
+                                </Box>,
+                sortable: true,
+                maxWidth: '140px',
+                grow: 2,
+            },
+            {
+                name: 'Ações',
+                maxWidth: '100px',
+                cell: row =>    <ActionSourceMenu 
+                                    section={'research'} 
+                                    sourceAction={() => handleUpdateResearchSources(sources)} 
+                                    row={row} 
+                                    source={researchSources.find(rs => rs.source_id === row.id)} 
+                                />,
+                right: true,
+                grow: 1,
+            },
+        ]
+    );
+
     // COLUMNS TO PAGES LIST
     const pagesColumns = (
         [
@@ -368,6 +439,7 @@ export function useTableTemplates(props) {
         fullResearchColumns: fullResearchColumns,
         authorsColumns: authorsColumns,
         authorsSourcesColumns: authorsSourcesColumns,
+        researchSourcesColumns: researchSourcesColumns,
         pagesColumns: pagesColumns,
     };
 };

@@ -3,24 +3,18 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createResearch } from '../features/researchSlice';
 import { DateTime } from 'luxon';
-
 import { useNavigate } from 'react-router-dom';
-
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import LinkIcon from '@mui/icons-material/Link';
-import TextEditor from './TextEditor';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Fab from '@mui/material/Fab';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import IconButton from '@mui/material/IconButton'; 
-
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -29,26 +23,15 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LabelIcon from '@mui/icons-material/Label';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-
 import Copyright from './Copyright';
 import Title from './Title';   
-import Index from './ResearchIndex'; 
 import DateSetter from './DateSetter'; 
-import FormBox from './FormBox';
-
 import Map, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-//import DeckGL from '@deck.gl/react';
-//import { ScatterplotLayer } from '@deck.gl/layers';
-//import { hexToRgb } from './colorConverter';
-
 import MapViewport from './MapViewport';
 import MapDialog from './MapDialog';
 
@@ -93,13 +76,9 @@ const ResearchCreate = () => {
     const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === 1).color);
     const [checked, setChecked] = useState([]); 
 
-    // TEXT EDITOR STATES
-    const [readOnly, setReadOnly] = useState(false);
-
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
     
-
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
         setMapDialogOpen(true);
@@ -254,6 +233,7 @@ const ResearchCreate = () => {
                                 }}
                                 InputLabelProps={{ shrink: true }}
                             />
+
                             <TextField
                                 value={researchData.notes}
                                 onChange={(event) => handleChangeResearchData(event)}
@@ -268,6 +248,26 @@ const ResearchCreate = () => {
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
+
+                            <TextField
+                                value={''}
+                                disabled
+                                fullWidth
+                                label="Referências Relacionados"
+                                name="source-research"
+                                size="small"
+                                type="text"
+                                sx={{ my: 1,}}
+                                InputLabelProps={{ shrink: true }}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">
+                                                        <IconButton edge="end" disabled>
+                                                            <MultipleStopIcon />
+                                                        </IconButton>
+                                                    </InputAdornment>,
+                                }}
+                            >
+                            </TextField>
                         </Grid>
                     </Paper>
                 </Grid>
@@ -416,19 +416,6 @@ const ResearchCreate = () => {
                     </Paper>
 
                 </Grid>
-
-                {/* INDEX */}
-                <Grid item xs={12}>
-                    <Paper sx={{ minHeight: 240, }} >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
-                            <Title position={'middle'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Index />
-                        </Grid>
-                    </Paper>
-                </Grid>
                 
             </Grid>
             <Copyright sx={{ pt: 4 }} />
@@ -439,7 +426,21 @@ const ResearchCreate = () => {
 export default ResearchCreate;
 
 
+// import TextEditor from './TextEditor';
+// import Box from '@mui/material/Box';
+// import Fab from '@mui/material/Fab';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import LabelIcon from '@mui/icons-material/Label';
+// import BookmarkIcon from '@mui/icons-material/Bookmark';
 
+// import Index from './ResearchIndex'; 
+// import FormBox from './FormBox';
+//import DeckGL from '@deck.gl/react';
+//import { ScatterplotLayer } from '@deck.gl/layers';
+//import { hexToRgb } from './colorConverter';
+
+    // // TEXT EDITOR STATES
+    // const [readOnly, setReadOnly] = useState(false);
                             {/* <FormBox 
                                 id='sources-box' 
                                 label='Pesquisas Relacionadas' 
@@ -576,3 +577,20 @@ export default ResearchCreate;
                             </AccordionDetails>
                         </Accordion>
                     ))} */}                                
+
+
+
+
+
+                {/* INDEX */}
+                {/* <Grid item xs={12}>
+                    <Paper sx={{ minHeight: 240, }} >
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
+                            <Title position={'middle'}/> 
+                        </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Index />
+                        </Grid>
+                    </Paper>
+                </Grid> */}
