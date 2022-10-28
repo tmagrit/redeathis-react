@@ -32,7 +32,7 @@ const AuthorEdit = (props) => {
             fullWidth={true}
             maxWidth='lg'
         >
-            <AppBar position="static" color="inherit">
+            <AppBar position="static" color="inherit" elevation={0}>
                 <Toolbar  variant="dense" >
                     <IconButton
                         edge="start"
@@ -49,9 +49,9 @@ const AuthorEdit = (props) => {
                 </Toolbar>
             </AppBar>
 
-            <DialogTitle >
+            {/* <DialogTitle >
                 Editar Autor
-            </DialogTitle>
+            </DialogTitle> */}
             <DialogContent dividers sx={{ minHeight: 200, }}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>   
