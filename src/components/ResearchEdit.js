@@ -277,6 +277,22 @@ const ResearchEdit = () => {
                             >
                             </TextField>
 
+                            {researchData.category_id === 3 ? 
+                                <TextField
+                                    value={researchData.notes}
+                                    onChange={(event) => handleChangeResearchData(event)}
+                                    fullWidth
+                                    label="Editora"
+                                    name="notes"
+                                    size="small"
+                                    multiline={true}
+                                    //minRows={5}
+                                    rows={2}
+                                    type="text"
+                                    sx={{ my: 1,}}
+                                    InputLabelProps={{ shrink: true }}
+                                /> 
+                            : null} 
 
                             {/* CREATE SOURCE DIALOG */}
                             <SourceDialog
@@ -333,21 +349,6 @@ const ResearchEdit = () => {
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start"><LinkIcon /></InputAdornment>,
                                 }}
-                                InputLabelProps={{ shrink: true }}
-                            />
-
-                            <TextField
-                                value={researchData.notes}
-                                onChange={(event) => handleChangeResearchData(event)}
-                                fullWidth
-                                label="Notas"
-                                name="notes"
-                                size="small"
-                                multiline={true}
-                                //minRows={5}
-                                rows={4}
-                                type="text"
-                                sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
 

@@ -190,6 +190,23 @@ const ResearchCreate = () => {
                             >
                             </TextField>
 
+                            {researchData.category_id === 3 ? 
+                                <TextField
+                                    value={researchData.notes}
+                                    onChange={(event) => handleChangeResearchData(event)}
+                                    fullWidth
+                                    label="Editora"
+                                    name="notes"
+                                    size="small"
+                                    multiline={true}
+                                    rows={2}
+                                    //maxRows={10}
+                                    type="text"
+                                    sx={{ my: 1,}}
+                                    InputLabelProps={{ shrink: true }}
+                                /> 
+                            : null}
+
                             <TextField
                                 value={researchData.excerpt}
                                 onChange={(event) => handleChangeResearchData(event)}
@@ -235,25 +252,10 @@ const ResearchCreate = () => {
                             />
 
                             <TextField
-                                value={researchData.notes}
-                                onChange={(event) => handleChangeResearchData(event)}
-                                fullWidth
-                                label="Notas"
-                                name="notes"
-                                size="small"
-                                multiline={true}
-                                rows={4}
-                                //maxRows={10}
-                                type="text"
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                            />
-
-                            <TextField
                                 value={''}
                                 disabled
                                 fullWidth
-                                label="Referências Relacionados"
+                                label="Referências Relacionadas"
                                 name="source-research"
                                 size="small"
                                 type="text"
