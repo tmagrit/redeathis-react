@@ -606,6 +606,7 @@ export const insertResearchTags = createAsyncThunk('content/insertResearchTags',
 export const researchSlice = createSlice({
     name: 'research',
     initialState: {
+        newResearchCategory: { category_id: 1, color: '#3d85c6' },
         research: [],
         categories: [],
         statuses: [],
@@ -748,6 +749,9 @@ export const researchSlice = createSlice({
             }
         },
 
+        updateNewResearchCategory(state, action) { 
+            state.newResearchCategory = action.payload;
+        },
         removeSource(state, action) { 
             const newSources = state.sources.filter(s => s.id !== action.payload.id);
             state.sources = newSources;
@@ -1101,6 +1105,7 @@ export const researchSlice = createSlice({
 // }
 
 export const { 
+    updateNewResearchCategory,
     updateClassName,
     updateTagsNames,
     removeSource,

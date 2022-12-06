@@ -5,9 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
 
 const MapDialog = (props) => {
@@ -18,41 +15,30 @@ const MapDialog = (props) => {
     };
   
     return (
-        // <Dialog onClose={handleClose} open={open}>
         <Dialog onClose={handleClose} open={open} fullScreen>
-          <AppBar position="sticky" color="inherit">
+          <AppBar position="sticky" color="inherit"  elevation={0}>
             <Toolbar variant="dense">
-              <IconButton
-                edge="start"
-                color="inherit"
-                onClick={handleClose}
-                aria-label="close"
-                
-              >
-                <CloseIcon />
-              </IconButton>
-              <Box sx={{ flexGrow: 1, }} />
-              <TextField
-                placeholder="Buscar Localidade"
-                id="input-search"
-                size="small"
-                type="text"
-                sx={{ my: 1,}}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"><TravelExploreIcon /></InputAdornment>,
-                }}
-              />
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    onClick={handleClose}
+                    aria-label="close"
+                    
+                >
+                    <CloseIcon />
+                </IconButton>
+                <Box sx={{ flexGrow: 1, }} />
             </Toolbar>
           </AppBar>
           {children}
         </Dialog>
-        );
-    }
+    );
+};
 
-  export default MapDialog;
+export default MapDialog;
   
-  MapDialog.propTypes = {
+MapDialog.propTypes = {
     children: PropTypes.node.isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-  };
+};

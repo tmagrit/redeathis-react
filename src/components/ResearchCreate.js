@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createResearch } from '../features/researchSlice';
+import { createResearch, updateNewResearchCategory } from '../features/researchSlice';
 import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
@@ -53,31 +53,32 @@ const ResearchCreate = () => {
     // START NEW RESEARCH OBJECT
     const startDate = DateTime.now();
     const research = {
-        title: '',
-        summary: '',
-        date: {
-            interval: false,
-            start: startDate,
-            end: startDate
-        },
-        geolocation: {
-            latitude: -12.977749,
-            longitude: -38.501630,
-            zoom: 15
-        },
-        link: '',
-        notes: '',
-        category_id: 1,
-        status: 2
-    }
+            title: '',
+            summary: '',
+            date: {
+                interval: false,
+                start: startDate,
+                end: startDate
+            },
+            geolocation: {
+                latitude: -12.977749,
+                longitude: -38.501630,
+                zoom: 15
+            },
+            link: '',
+            notes: '',
+            category_id: 1,
+            status: 2
+        };
 
     // EDIT RESEARCH STATES
-    const [researchData, setResearchData] = useState({ ...research });
-    const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === 1).color);
+    const [researchData, setResearchData] = useState({ ...research }); //console.log('researchData', researchData);
     const [checked, setChecked] = useState([]); 
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
+
+    const categoryColor = categories.find(c => c.id === researchData.category_id).color;  
     
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
@@ -120,11 +121,6 @@ const ResearchCreate = () => {
         setChecked(newChecked);
     };    
 
-    // TRACK CATEGORY CHANGES 
-    useEffect(() => {
-        setCategoryColor(categories.find(c => c.id === researchData.category_id).color || '#3d85c6');
-    }, [researchData.category_id, categories])
-
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
@@ -147,9 +143,9 @@ const ResearchCreate = () => {
                                 InputLabelProps={{ shrink: true }}
                             >
                                 {categories.map((c) => (
-                                <MenuItem key={c.id} value={c.id} >
-                                    {c.name}
-                                </MenuItem>
+                                    <MenuItem key={c.id} value={c.id} >
+                                        {c.name}
+                                    </MenuItem>
                                 ))}
                             </TextField>
 
@@ -328,8 +324,6 @@ const ResearchCreate = () => {
                                 >
                                     <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
                                         <Avatar sx={{ width: 15, height: 15,  bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} > </Avatar>
-                                            {/* <BookmarkIcon fontSize="inherit" /> */}
-                                        
                                         <Typography  component="div" variant="body2" color="inherit" gutterBottom sx={{ fontWeight: 400, }}> 
                                             {sc.name} 
                                         </Typography>
@@ -352,11 +346,6 @@ const ResearchCreate = () => {
                                                 disablePadding
                                                 >
                                                 <ListItemButton role={undefined} dense> 
-                                                    {/* <ListItemIcon>
-                                                         <Avatar sx={{ width: 27, height: 27, bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
-                                                            <LabelIcon fontSize="inherit" />
-                                                        </Avatar> 
-                                                    </ListItemIcon> */}
                                                     <ListItemText primary={ct.name} />
                                                 </ListItemButton>
                                             </ListItem>
@@ -384,8 +373,13 @@ const ResearchCreate = () => {
                                     mapStyle={mapboxStyle}
                                     mapboxAccessToken={mapboxKey}
                                 > 
-                                    <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={categoryColor} />
-                                </Map> 
+                                    <Marker 
+                                        longitude={researchData.geolocation.longitude} 
+                                        latitude={researchData.geolocation.latitude} 
+                                        anchor="bottom" 
+                                        color="#FFF"
+                                    />
+                                </Map>
                             </div>
                             <MapDialog
                                 open={mapDialogOpen}
@@ -426,173 +420,3 @@ const ResearchCreate = () => {
 };
 
 export default ResearchCreate;
-
-
-// import TextEditor from './TextEditor';
-// import Box from '@mui/material/Box';
-// import Fab from '@mui/material/Fab';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import LabelIcon from '@mui/icons-material/Label';
-// import BookmarkIcon from '@mui/icons-material/Bookmark';
-
-// import Index from './ResearchIndex'; 
-// import FormBox from './FormBox';
-//import DeckGL from '@deck.gl/react';
-//import { ScatterplotLayer } from '@deck.gl/layers';
-//import { hexToRgb } from './colorConverter';
-
-    // // TEXT EDITOR STATES
-    // const [readOnly, setReadOnly] = useState(false);
-                            {/* <FormBox 
-                                id='sources-box' 
-                                label='Pesquisas Relacionadas' 
-                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
-                                children={
-                                    <Grid container >
-                                        <Grid item xs={12} >
-                                            <Typography sx={{ color: 'text.disabled', fontStyle: 'italic', }}>Teste</Typography>
-                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
-                                                
-    
-                                                <Fab 
-                                                    color="success"
-                                                    disabled
-                                                    variant="extended" 
-                                                    size="small" 
-                                                    onClick={undefined}
-                                                    
-                                                    //sx={{ position: 'absolute', bottom: 16, right: 16, }}
-                                                >
-                                                    <MultipleStopIcon sx={{ mr: 1 }} />
-                                                    Relacionar Pesquisa
-                                                </Fab>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                } 
-                            />
-
-                            <FormBox 
-                                id='authors-box' 
-                                label='Autores' 
-                                padding={{ pl: '14px', pr: '14px', py: '14px', }}
-                                children={
-                                    <Grid container >
-                                        <Grid item xs={12} >
-                                            <Box sx={{ display: 'flex', flexDirection: 'rox', alignItems: 'center', justifyContent: 'right', mt: 1, }} >
-    
-                                            <Fab 
-                                                color="success"
-                                                disabled
-                                                variant="extended" 
-                                                size="small" 
-                                                onClick={undefined}
-                                                
-                                                //sx={{ position: 'absolute', bottom: 16, right: 16, }}
-                                            >
-                                                <MultipleStopIcon sx={{ mr: 1 }} />
-                                                Relacionar Autor
-                                            </Fab>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                } 
-                            /> */}
-
-//////////////////////////
-
-
-
-                            {/* <FormBox 
-                                id='text-editor-box' 
-                                label='Resumo'
-                                padding={{ p: 0, }} 
-                                children={
-                                    <TextEditor 
-                                        value={researchData.summary}
-                                        setValue={summary => setResearchData({...researchData, summary})}
-                                        readOnly={readOnly}
-                                    />
-                                } 
-                            /> */}
-
-
-
-                            ////////////////////////////
-
-
-                                                            {/* <DeckGL  initialViewState={researchData.geolocation} layers={layers} >
-                                    <Map reuseMaps initialViewState={researchData.geolocation} mapStyle={mapboxStyle} styleDiffing={true} />
-                                </DeckGL> */}
-
-
-
-                                //////////////////////////////////////
-
-
-
-
-                    {/* {classes && classes.filter(c => c.category_id === researchData.category_id).map(sc => (
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls={sc.name}
-                                id={sc.id}
-                            >
-                                <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
-                                    <Avatar sx={{ width: 27, height: 27,  bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
-                                        <BookmarkIcon fontSize="inherit" />
-                                    </Avatar>
-                                    <Typography  component="div" variant="body1" color="inherit" gutterBottom sx={{ fontWeight: 600, }}> 
-                                        {sc.name} 
-                                    </Typography>
-                                </Stack>
-                            </AccordionSummary>
-                            <Divider />
-                            <AccordionDetails>
-
-                                <List dense >
-                                    {tags && tags.filter(t => t.class_id === sc.id).map(ct => (
-                                        <ListItem 
-                                            key={ct.id}
-                                            secondaryAction={
-                                                <Checkbox
-                                                  edge="end"
-                                                  onChange={handleToggle(ct)}
-                                                  checked={checked.indexOf(ct) !== -1}
-                                                  inputProps={{ 'aria-labelledby': ct.id }}
-                                                />
-                                              }
-                                              disablePadding
-                                            >
-                                            <ListItemButton role={undefined} dense> 
-                                                <ListItemIcon>
-                                                    <Avatar sx={{ width: 27, height: 27, bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
-                                                        <LabelIcon fontSize="inherit" />
-                                                    </Avatar>
-                                                </ListItemIcon>
-                                                <ListItemText primary={ct.name} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}    
-                                </List>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))} */}                                
-
-
-
-
-
-                {/* INDEX */}
-                {/* <Grid item xs={12}>
-                    <Paper sx={{ minHeight: 240, }} >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'row', }}>
-                            <Title position={'middle'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Index />
-                        </Grid>
-                    </Paper>
-                </Grid> */}
