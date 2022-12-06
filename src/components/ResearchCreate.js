@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createResearch, updateNewResearchCategory } from '../features/researchSlice';
+import { createResearch } from '../features/researchSlice';
 import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';

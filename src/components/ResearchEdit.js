@@ -72,15 +72,11 @@ const ResearchEdit = () => {
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }; //console.log('researchWithDate',researchWithDate);
     const [researchData, setResearchData] = useState(researchWithDate);
-    //const [categoryColor, setCategoryColor] = useState(categories.find(c => c.id === researchData.category_id).color);
-
-    const categoryColor = categories.find(c => c.id === researchData.category_id).color;
-
     const [researchSources, setResearchSources] = useState([]);
     const [researchAuthors, setResearchAuthors] = useState([]);
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
-
+    const categoryColor = categories.find(c => c.id === researchData.category_id).color;
     // SOURCE AUTHORS FIELD ROW SIZE - CONTROLS FORM SIZE
     const sourceAuthorsRows = () => {
         if(researchAuthors.length > 0) {
@@ -484,11 +480,6 @@ const ResearchEdit = () => {
                                                 disablePadding
                                                 >
                                                 <ListItemButton role={undefined} dense> 
-                                                    {/* <ListItemIcon>
-                                                        <Avatar sx={{ width: 27, height: 27, bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} >
-                                                            <LabelIcon fontSize="inherit" />
-                                                        </Avatar>
-                                                    </ListItemIcon> */}
                                                     <ListItemText primary={ct.name} />
                                                 </ListItemButton>
                                             </ListItem>
