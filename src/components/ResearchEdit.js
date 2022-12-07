@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { updateResearch, refreshResearchTags, selectResearchSources } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -162,32 +162,6 @@ const ResearchEdit = () => {
         setChecked(newChecked);
     }; 
 
-    // TRACK SOURCE CHANGES 
-    useEffect(() => {
-        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        //console.log('ResearchSources',updatedResearchSources);
-        //setResearchSources([...updatedResearchSources]);
-    }, []);
-
-    const handleUpdateResearchSources = (sources) => {
-        //const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        //setResearchSources(updatedResearchSources);
-    };
-
-    //  // TRACK RESEARCH AUTHORS CHANGES 
-    //  useEffect(() => {
-    //     const updatedResearchAuthors = allResearchAuthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
-    //     setResearchAuthors([...updatedResearchAuthors]);
-    // }, []);
-
-
-    // const handleUpdateResearchAuthors = (allresearchauthors) => {
-    //     //const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
-    //     //setResearchAuthors(updatedResearchAuthors);
-    // };
-
-
-
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
@@ -257,17 +231,9 @@ const ResearchEdit = () => {
                                                         {localResearchSources.authors && localResearchSources.authors.map(lra => {
                                                             return  <Author 
                                                                         key={lra.author_id} 
-                                                                        researchAuthor={lra} 
-                                                                        //authorAction={() => handleUpdateResearchAuthors(localResearchSources.authors)}  
+                                                                        researchAuthor={lra}  
                                                                     />
                                                         })}
-                                                        {/* {researchAuthors.map(ra => {
-                                                            return  <Author 
-                                                                        key={ra.id} 
-                                                                        researchAuthor={ra} 
-                                                                        authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)}  
-                                                                    />
-                                                        })} */}
                                                     </Stack>,
                                     endAdornment: <InputAdornment position="end">
                                                         <IconButton
@@ -382,7 +348,6 @@ const ResearchEdit = () => {
                                                             return  <Source 
                                                                         key={alrs.id} 
                                                                         source={alrs} 
-                                                                        //sourceAction={() => handleUpdateResearchSources(sources)} 
                                                                         color={categories.find(c => c.id === alrs.research_source.category_id ).color} 
                                                                     />
                                                         })}

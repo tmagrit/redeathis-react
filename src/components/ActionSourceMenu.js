@@ -24,16 +24,11 @@ const ActionSourceMenu = (props) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    // const sources = useSelector(state => state.research.sources);
-    // const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) ));
     const researchSourcesIds = researchSources.map(rs => {return rs.source_id});
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
-    //const [open, setOpen] = useState(true);
-
-    //console.log(open);
 
     // HANDLE ACTION MENU
     const handleMenu = (event) => {
@@ -61,14 +56,9 @@ const ActionSourceMenu = (props) => {
     const handleUnrelate = () => {
         dispatch(removeSource(source));
         dispatch(deleteSource(source));
-        //sourceAction();
+
         handleClose();
     };
-
-    // // TRACK SOURCE CHANGES 
-    // useEffect(() => {
-    //     sourceAction();
-    // }, [sources, addSourceStatus, sourceAction]);
 
     return (
         <React.Fragment>
@@ -138,5 +128,4 @@ ActionSourceMenu.propTypes = {
     source: PropTypes.object.isRequired,
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    //sourceAction: PropTypes.func.isRequired,
 };

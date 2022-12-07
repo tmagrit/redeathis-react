@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Chip from '@mui/material/Chip';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-
 import ActionAuthorMenu from './ActionAuthorMenu';
 
 const Author = (props) => {
@@ -16,7 +15,6 @@ const Author = (props) => {
             deleteIcon={
                 <ActionAuthorMenu 
                     section={'research'} 
-                    //authorAction={authorAction} 
                     researchAuthor={researchAuthor} 
                     row={researchAuthor.author} 
                 /> 
@@ -35,5 +33,4 @@ Author.defaultProps = {
 
 Author.propTypes = {
     researchAuthor: PropTypes.object.isRequired,
-    //authorAction: PropTypes.func.isRequired,
 };

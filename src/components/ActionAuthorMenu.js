@@ -24,14 +24,11 @@ const ActionAuthorMenu = (props) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    // const allResearchAuthors = useSelector(state => state.research.researchAuthors);
-    // const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
     const researchAuthorsIds = researchAuthors.map(ra => {return ra.author_id});
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
-    //const [open, setOpen] = useState(true);
 
     // HANDLE ACTION MENU
     const handleMenu = (event) => {
@@ -53,21 +50,14 @@ const ActionAuthorMenu = (props) => {
     const handleRelate = (row) => {
         dispatch(addResearchAuthor({ author_id: row.id, research_id: parseInt(params.researchId, 10) }));
         handleClose();
-        //authorAction();
     };
 
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = () => {
         dispatch(removeResearchAuthor(researchAuthor));
         dispatch(deleteResearchAuthor(researchAuthor));
-        //authorAction();
         handleClose();
     };
-
-    // // TRACK SOURCE CHANGES 
-    // useEffect(() => {
-    //     authorAction();
-    // }, [allResearchAuthors, addResearchAuthorStatus, authorAction]);
 
     return (
         <React.Fragment>
@@ -137,5 +127,4 @@ ActionAuthorMenu.propTypes = {
     researchAuthor: PropTypes.object.isRequired,
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    //authorAction: PropTypes.func.isRequired,
 };

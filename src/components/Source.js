@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Chip from '@mui/material/Chip';
 import LayersIcon from '@mui/icons-material/Layers';
-
 import ActionSourceMenu from './ActionSourceMenu';
 import { truncate } from './truncate';
 
@@ -17,7 +16,6 @@ const Source = (props) => {
             deleteIcon={
                 <ActionSourceMenu 
                     section={'research'} 
-                    //sourceAction={sourceAction} 
                     source={source} 
                     row={source.research_source} 
                 />
@@ -37,5 +35,4 @@ Source.defaultProps = {
 Source.propTypes = {
     source: PropTypes.object.isRequired,
     color: PropTypes.string.isRequired,
-   //sourceAction: PropTypes.func.isRequired,
 };
