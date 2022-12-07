@@ -7,7 +7,7 @@ import ActionAuthorMenu from './ActionAuthorMenu';
 
 const Author = (props) => {
 
-    const { researchAuthor, authorAction } = props;
+    const { researchAuthor } = props;
 
     return (
         <Chip 
@@ -16,7 +16,7 @@ const Author = (props) => {
             deleteIcon={
                 <ActionAuthorMenu 
                     section={'research'} 
-                    authorAction={authorAction} 
+                    //authorAction={authorAction} 
                     researchAuthor={researchAuthor} 
                     row={researchAuthor.author} 
                 /> 
@@ -35,30 +35,5 @@ Author.defaultProps = {
 
 Author.propTypes = {
     researchAuthor: PropTypes.object.isRequired,
-    authorAction: PropTypes.func.isRequired,
+    //authorAction: PropTypes.func.isRequired,
 };
-
-//import Avatar from '@mui/material/Avatar';
-// import Card from '@mui/material/Card';
-// import CardHeader from '@mui/material/CardHeader';
-// import DeleteIcon from '@mui/icons-material/Delete';
-
-// <Card sx={{ width: '100%', mb: 1, }}>
-//     <CardHeader
-//         avatar={
-//             <Avatar variant="rounded" >
-//                 <AccountBoxIcon />
-//             </Avatar>
-//         }
-//         action={ 
-//             <ActionAuthorMenu 
-//                 section={'research'} 
-//                 authorAction={authorAction} 
-//                 researchAuthor={researchAuthor} 
-//                 row={researchAuthor.author} 
-//             /> 
-//         }
-//         title={`${researchAuthor.author.name} ${researchAuthor.author.surname}`}
-//         subheader="<research.date>"
-//     />
-// </Card>

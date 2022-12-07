@@ -57,14 +57,10 @@ const ResearchEdit = () => {
     const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags); 
-    
     const allResearchSources = useSelector(selectResearchSources); //console.log('allResearchSources',allResearchSources);
     const localResearchSources = allResearchSources.find(rs => rs.id === parseInt(params.researchId, 10));
 
     const sources = useSelector(state => state.research.sources);
-    const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) )); //console.log('allResearchAuthors',allResearchAuthors);
-    const addSourceStatus = useSelector(state => state.research.addSourceStatus);
-    const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
     
     // FILTER TAGS RELATED
     const allResearchTags = useSelector(state => state.research.research_tags);
@@ -78,25 +74,11 @@ const ResearchEdit = () => {
     const [researchData, setResearchData] = useState(researchWithDate);
 
     const allLocalResearchSources = [...localResearchSources.targets, ...localResearchSources.sources]; //console.log('allLocalResearchSources',allLocalResearchSources);
-
-
-    const [researchSources, setResearchSources] = useState([]); //console.log('researchSources',researchSources);
-    const [researchAuthors, setResearchAuthors] = useState([]); //console.log('researchAuthors',researchAuthors);
-
-
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;
+
     // SOURCE AUTHORS FIELD ROW SIZE - CONTROLS FORM SIZE 
-    // const sourceAuthorsRows = () => {
-    //     if(researchAuthors.length > 0) {
-    //         if(researchAuthors.length < 4)
-    //             return researchAuthors.length + 2;       
-    //         else 
-    //             return researchAuthors.length + 3;
-    //     } else
-    //         return 1;
-    // };
     const sourceAuthorsRows = () => {
         if(localResearchSources.authors.length > 0) {
             if(localResearchSources.authors.length < 4)
@@ -126,14 +108,14 @@ const ResearchEdit = () => {
     const [authorDialogOpen, setAuthorDialogOpen] = useState(false);
 
     // HANDLE TOGGLE DIALOGS
-    // SOURCES
+    // // SOURCES
     const handleSourceDialogOpen = () => {
         setSourceDialogOpen(true);
     };
     const handleSourceDialogClose = () => {
         setSourceDialogOpen(false);
     };
-    // AUTHORS
+    // // AUTHORS
     const handleAuthorDialogOpen = () => {
         setAuthorDialogOpen(true);
     };
@@ -199,10 +181,10 @@ const ResearchEdit = () => {
     // }, []);
 
 
-    const handleUpdateResearchAuthors = (allresearchauthors) => {
-        //const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
-        //setResearchAuthors(updatedResearchAuthors);
-    };
+    // const handleUpdateResearchAuthors = (allresearchauthors) => {
+    //     //const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
+    //     //setResearchAuthors(updatedResearchAuthors);
+    // };
 
 
 
@@ -276,7 +258,7 @@ const ResearchEdit = () => {
                                                             return  <Author 
                                                                         key={lra.author_id} 
                                                                         researchAuthor={lra} 
-                                                                        authorAction={() => handleUpdateResearchAuthors(localResearchSources.authors)}  
+                                                                        //authorAction={() => handleUpdateResearchAuthors(localResearchSources.authors)}  
                                                                     />
                                                         })}
                                                         {/* {researchAuthors.map(ra => {
@@ -400,7 +382,7 @@ const ResearchEdit = () => {
                                                             return  <Source 
                                                                         key={alrs.id} 
                                                                         source={alrs} 
-                                                                        sourceAction={() => handleUpdateResearchSources(sources)} 
+                                                                        //sourceAction={() => handleUpdateResearchSources(sources)} 
                                                                         color={categories.find(c => c.id === alrs.research_source.category_id ).color} 
                                                                     />
                                                         })}

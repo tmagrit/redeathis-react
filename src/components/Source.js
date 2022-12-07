@@ -8,7 +8,7 @@ import { truncate } from './truncate';
 
 const Source = (props) => {
 
-    const { source, color, sourceAction } = props;
+    const { source, color } = props;
 
     return (
         <Chip 
@@ -17,7 +17,7 @@ const Source = (props) => {
             deleteIcon={
                 <ActionSourceMenu 
                     section={'research'} 
-                    sourceAction={sourceAction} 
+                    //sourceAction={sourceAction} 
                     source={source} 
                     row={source.research_source} 
                 />
@@ -37,29 +37,5 @@ Source.defaultProps = {
 Source.propTypes = {
     source: PropTypes.object.isRequired,
     color: PropTypes.string.isRequired,
-    sourceAction: PropTypes.func.isRequired,
+   //sourceAction: PropTypes.func.isRequired,
 };
-
-// import Card from '@mui/material/Card';
-// import CardHeader from '@mui/material/CardHeader';
-// import Avatar from '@mui/material/Avatar';
-
-// <Card sx={{ width: '100%', mb: 1, }}>
-//     <CardHeader
-//         avatar={
-//             <Avatar variant="rounded" sx={{ bgcolor: color }} >
-//                 <LayersIcon />
-//             </Avatar>
-//         }
-//         action={ 
-//             <ActionSourceMenu 
-//                 section={'research'} 
-//                 sourceAction={sourceAction} 
-//                 source={source} 
-//                 row={source.research_source} 
-//             /> 
-//         }
-//         title={source.research_source.title}
-//         subheader="<research.date>"
-//     />
-// </Card>

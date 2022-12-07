@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addSource, deleteSource, removeSource } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
@@ -17,15 +17,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionSourceMenu = (props) => {
 
-    const { section, source, sourceAction, row } = props;
+    const { section, source, row } = props;
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const sources = useSelector(state => state.research.sources);
-    const addSourceStatus = useSelector(state => state.research.addSourceStatus);
+    // const sources = useSelector(state => state.research.sources);
+    // const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) ));
     const researchSourcesIds = researchSources.map(rs => {return rs.source_id});
 
@@ -61,14 +61,14 @@ const ActionSourceMenu = (props) => {
     const handleUnrelate = () => {
         dispatch(removeSource(source));
         dispatch(deleteSource(source));
-        sourceAction();
+        //sourceAction();
         handleClose();
     };
 
-    // TRACK SOURCE CHANGES 
-    useEffect(() => {
-        sourceAction();
-    }, [sources, addSourceStatus, sourceAction]);
+    // // TRACK SOURCE CHANGES 
+    // useEffect(() => {
+    //     sourceAction();
+    // }, [sources, addSourceStatus, sourceAction]);
 
     return (
         <React.Fragment>
@@ -138,5 +138,5 @@ ActionSourceMenu.propTypes = {
     source: PropTypes.object.isRequired,
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    sourceAction: PropTypes.func.isRequired,
+    //sourceAction: PropTypes.func.isRequired,
 };

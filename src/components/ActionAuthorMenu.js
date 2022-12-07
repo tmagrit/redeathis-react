@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addResearchAuthor, deleteResearchAuthor, removeResearchAuthor } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
@@ -17,15 +17,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionAuthorMenu = (props) => {
 
-    const { section, researchAuthor, authorAction, row } = props;
+    const { section, researchAuthor, row } = props;
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const allResearchAuthors = useSelector(state => state.research.researchAuthors);
-    const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
+    // const allResearchAuthors = useSelector(state => state.research.researchAuthors);
+    // const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
     const researchAuthorsIds = researchAuthors.map(ra => {return ra.author_id});
 
@@ -53,21 +53,21 @@ const ActionAuthorMenu = (props) => {
     const handleRelate = (row) => {
         dispatch(addResearchAuthor({ author_id: row.id, research_id: parseInt(params.researchId, 10) }));
         handleClose();
-        authorAction();
+        //authorAction();
     };
 
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = () => {
         dispatch(removeResearchAuthor(researchAuthor));
         dispatch(deleteResearchAuthor(researchAuthor));
-        authorAction();
+        //authorAction();
         handleClose();
     };
 
-    // TRACK SOURCE CHANGES 
-    useEffect(() => {
-        authorAction();
-    }, [allResearchAuthors, addResearchAuthorStatus, authorAction]);
+    // // TRACK SOURCE CHANGES 
+    // useEffect(() => {
+    //     authorAction();
+    // }, [allResearchAuthors, addResearchAuthorStatus, authorAction]);
 
     return (
         <React.Fragment>
@@ -137,5 +137,5 @@ ActionAuthorMenu.propTypes = {
     researchAuthor: PropTypes.object.isRequired,
     row: PropTypes.object.isRequired,
     section: PropTypes.string.isRequired,
-    authorAction: PropTypes.func.isRequired,
+    //authorAction: PropTypes.func.isRequired,
 };
