@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { updateResearch, refreshResearchTags } from '../features/researchSlice';
+import { updateResearch, refreshResearchTags, selectResearchSources } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { DateTime } from 'luxon';
@@ -53,13 +53,17 @@ const ResearchEdit = () => {
     // REDUX SELECTORS
     const dispatch = useDispatch();
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
-    const sources = useSelector(state => state.research.sources);
-    const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const statuses = useSelector(state => state.research.statuses);
     const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags); 
-    const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
+    
+    const allResearchSources = useSelector(selectResearchSources); //console.log('allResearchSources',allResearchSources);
+    const localResearchSources = allResearchSources.find(rs => rs.id === parseInt(params.researchId, 10));
+
+    const sources = useSelector(state => state.research.sources);
+    const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) )); //console.log('allResearchAuthors',allResearchAuthors);
+    const addSourceStatus = useSelector(state => state.research.addSourceStatus);
     const addResearchAuthorStatus = useSelector(state => state.research.addResearchAuthorStatus);
     
     // FILTER TAGS RELATED
@@ -72,29 +76,44 @@ const ResearchEdit = () => {
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }; //console.log('researchWithDate',researchWithDate);
     const [researchData, setResearchData] = useState(researchWithDate);
-    const [researchSources, setResearchSources] = useState([]);
-    const [researchAuthors, setResearchAuthors] = useState([]);
+
+    const allLocalResearchSources = [...localResearchSources.targets, ...localResearchSources.sources]; //console.log('allLocalResearchSources',allLocalResearchSources);
+
+
+    const [researchSources, setResearchSources] = useState([]); //console.log('researchSources',researchSources);
+    const [researchAuthors, setResearchAuthors] = useState([]); //console.log('researchAuthors',researchAuthors);
+
+
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;
-    // SOURCE AUTHORS FIELD ROW SIZE - CONTROLS FORM SIZE
+    // SOURCE AUTHORS FIELD ROW SIZE - CONTROLS FORM SIZE 
+    // const sourceAuthorsRows = () => {
+    //     if(researchAuthors.length > 0) {
+    //         if(researchAuthors.length < 4)
+    //             return researchAuthors.length + 2;       
+    //         else 
+    //             return researchAuthors.length + 3;
+    //     } else
+    //         return 1;
+    // };
     const sourceAuthorsRows = () => {
-        if(researchAuthors.length > 0) {
-            if(researchAuthors.length < 4)
-                return researchAuthors.length + 2;       
+        if(localResearchSources.authors.length > 0) {
+            if(localResearchSources.authors.length < 4)
+                return localResearchSources.authors.length + 2;       
             else 
-                return researchAuthors.length + 3;
+                return localResearchSources.authors.length + 3;
         } else
             return 1;
     };
 
     // SOURCE RESEARCH FIELD ROW SIZE - CONTROLS FORM SIZE
     const sourceResearchRows = () => {
-        if(researchSources.length > 0) {
-            if(researchSources.length < 4)
-                return researchSources.length + 2;       
+        if(allLocalResearchSources.length > 0) {
+            if(allLocalResearchSources.length < 4)
+                return allLocalResearchSources.length + 2;       
             else 
-                return researchSources.length + 3;
+                return allLocalResearchSources.length + 3;
         } else
             return 1;
     };
@@ -161,34 +180,31 @@ const ResearchEdit = () => {
         setChecked(newChecked);
     }; 
 
-    // // TRACK CATEGORY CHANGES 
-    // useEffect(() => {
-    //     setCategoryColor(categories.find(c => c.id === researchData.category_id).color);
-    // }, [researchData.category_id, categories]);
-
-
     // TRACK SOURCE CHANGES 
     useEffect(() => {
         const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        setResearchSources([...updatedResearchSources]);
+        //console.log('ResearchSources',updatedResearchSources);
+        //setResearchSources([...updatedResearchSources]);
     }, []);
 
     const handleUpdateResearchSources = (sources) => {
-        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        setResearchSources(updatedResearchSources);
+        //const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+        //setResearchSources(updatedResearchSources);
     };
 
-     // TRACK RESEARCH AUTHORS CHANGES 
-     useEffect(() => {
-        const updatedResearchAuthors = allResearchAuthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
-        setResearchAuthors([...updatedResearchAuthors]);
-    }, []);
+    //  // TRACK RESEARCH AUTHORS CHANGES 
+    //  useEffect(() => {
+    //     const updatedResearchAuthors = allResearchAuthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
+    //     setResearchAuthors([...updatedResearchAuthors]);
+    // }, []);
 
 
     const handleUpdateResearchAuthors = (allresearchauthors) => {
-        const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
-        setResearchAuthors(updatedResearchAuthors);
+        //const updatedResearchAuthors = allresearchauthors.filter(s => s.research_id === parseInt(params.researchId, 10) );
+        //setResearchAuthors(updatedResearchAuthors);
     };
+
+
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -256,13 +272,20 @@ const ResearchEdit = () => {
                                                         alignItems="flex-start"
                                                         spacing={0.5}
                                                     >
-                                                        {researchAuthors.map(ra => {
+                                                        {localResearchSources.authors && localResearchSources.authors.map(lra => {
+                                                            return  <Author 
+                                                                        key={lra.author_id} 
+                                                                        researchAuthor={lra} 
+                                                                        authorAction={() => handleUpdateResearchAuthors(localResearchSources.authors)}  
+                                                                    />
+                                                        })}
+                                                        {/* {researchAuthors.map(ra => {
                                                             return  <Author 
                                                                         key={ra.id} 
                                                                         researchAuthor={ra} 
                                                                         authorAction={() => handleUpdateResearchAuthors(allResearchAuthors)}  
                                                                     />
-                                                        })}
+                                                        })} */}
                                                     </Stack>,
                                     endAdornment: <InputAdornment position="end">
                                                         <IconButton
@@ -373,12 +396,12 @@ const ResearchEdit = () => {
                                                         alignItems="flex-start"
                                                         spacing={0.5}
                                                     >
-                                                        {researchSources.map(rs => {
+                                                        {allLocalResearchSources && allLocalResearchSources.map(alrs => {
                                                             return  <Source 
-                                                                        key={rs.id} 
-                                                                        source={rs} 
+                                                                        key={alrs.id} 
+                                                                        source={alrs} 
                                                                         sourceAction={() => handleUpdateResearchSources(sources)} 
-                                                                        color={categories.find(c => c.id === rs.research_source.category_id ).color} 
+                                                                        color={categories.find(c => c.id === alrs.research_source.category_id ).color} 
                                                                     />
                                                         })}
                                                     </Stack>,

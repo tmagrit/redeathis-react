@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import reactRte from 'react-rte';
 import { supabase } from '../services/supabaseClient';
 
 export const getResearch = createAsyncThunk('research/getResearch', async (obj , { dispatch, getState }) => {
@@ -748,10 +749,6 @@ export const researchSlice = createSlice({
                 }
             }
         },
-
-        updateNewResearchCategory(state, action) { 
-            state.newResearchCategory = action.payload;
-        },
         removeSource(state, action) { 
             const newSources = state.sources.filter(s => s.id !== action.payload.id);
             state.sources = newSources;
@@ -1083,29 +1080,20 @@ export const researchSlice = createSlice({
       }
 })
 
-// // SELECTOR OF COMPLETE PROFILE 
-// export const selectFullProfiles  = state => {
-//     if (    state.research.getMembersStatus === 'succeeded' && 
-//             state.research.getRolesStatus === 'succeeded' &&
-//             state.research.getProfileRolesStatus === 'succeeded' && 
-//             state.research.getOrganizationsStatus === 'succeeded' ) {
+export const selectResearchSources  = state => {
+    const researchSources = state.research.research.map(rr => {
+        const researchsources = state.research.sources.filter(rs => rs.target_id === rr.id);
+        const researchtargets = state.research.sources.filter(rs => rs.source_id === rr.id);
+        const researchauthors = state.research.researchAuthors.filter(ra => ra.research_id === rr.id);
         
-//         const fullProfiles = state.research.profiles.map(p => {
-//             return ({
-//                         ...p, 
-//                         organization: state.research.organizations.find(o => o.id === p.profile_roles[0].organization_id),
-//                         role: state.research.roles.find(r => r.id === p.profile_roles[0].role),
-//                     });
-//         });
+        return ({...rr, authors: researchauthors, sources: researchsources, targets: researchtargets });
+    })
 
-//         return fullProfiles
-//     }
 
-//     return null
-// }
+    return researchSources;
+};
 
 export const { 
-    updateNewResearchCategory,
     updateClassName,
     updateTagsNames,
     removeSource,
