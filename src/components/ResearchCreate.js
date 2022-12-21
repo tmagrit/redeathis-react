@@ -30,10 +30,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Copyright from './Copyright';
 import Title from './Title';   
 import DateSetter from './DateSetter'; 
-import Map, { Marker } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import Map from 'react-map-gl';
 import MapViewport from './MapViewport';
 import MapDialog from './MapDialog';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import DeckGLOverlay from '../components/DeckGLOverlay';
+import { hexToRgb } from '../components/colorConverter';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -69,17 +71,35 @@ const ResearchCreate = () => {
             notes: '',
             category_id: 1,
             status: 2
-        };
+        };    
 
     // EDIT RESEARCH STATES
     const [researchData, setResearchData] = useState({ ...research }); //console.log('researchData', researchData);
-    const [checked, setChecked] = useState([]); 
+    const [checked, setChecked] = useState([]);   
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;  
     
+
+    // DECK GL OVERLAY LAYER
+    const scatterplotLayer = 
+        new ScatterplotLayer({
+            id: 'map-research-marker',
+            data: [researchData.geolocation],
+            pickable: false,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => [d.longitude,d.latitude],
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(categoryColor)
+        }
+    );    
+        
     // HANDLE TOGGLE DIALOG
     const handleMapDialogOpen = () => {
         setMapDialogOpen(true);
@@ -374,12 +394,7 @@ const ResearchCreate = () => {
                                     mapboxAccessToken={mapboxKey}
                                     reuseMaps
                                 > 
-                                    <Marker 
-                                        longitude={researchData.geolocation.longitude} 
-                                        latitude={researchData.geolocation.latitude} 
-                                        anchor="bottom" 
-                                        color="#FFF"
-                                    />
+                                    <DeckGLOverlay layers={[scatterplotLayer]}  />
                                 </Map>
                             </div>
                             <MapDialog

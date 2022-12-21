@@ -32,9 +32,11 @@ import Copyright from './Copyright';
 import Title from './Title';   
 import DateSetter from './DateSetter'; 
 import Map, { Marker } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import DeckGLOverlay from '../components/DeckGLOverlay';
+import { hexToRgb } from '../components/colorConverter';
 
 // DIALOG TO RELATE SOURCE AND AUTHOR
 import SourceDialog from './SourceDialog';
@@ -77,6 +79,23 @@ const ResearchEdit = () => {
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;
+
+    // DECK GL OVERLAY LAYER
+    const scatterplotLayer = 
+        new ScatterplotLayer({
+            id: 'map-research-marker',
+            data: [researchData.geolocation],
+            pickable: false,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => [d.longitude,d.latitude],
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(categoryColor)
+        }
+    );  
 
     // SOURCE AUTHORS FIELD ROW SIZE - CONTROLS FORM SIZE 
     const sourceAuthorsRows = () => {
@@ -479,13 +498,7 @@ const ResearchEdit = () => {
                                     mapboxAccessToken={mapboxKey}
                                     reuseMaps
                                 > 
-                                    <Marker 
-                                        longitude={researchData.geolocation.longitude} 
-                                        latitude={researchData.geolocation.latitude} 
-                                        anchor="bottom"
-                                        color="#FFF" 
-                                        //color={categoryColor} 
-                                    />
+                                    <DeckGLOverlay layers={[scatterplotLayer]}  />
                                 </Map>
                             </div>
                             <MapDialog

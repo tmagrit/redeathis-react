@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 
 import Map, { Marker } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 
 import PublicMenuBar from '../components/PublicMenuBar';
 

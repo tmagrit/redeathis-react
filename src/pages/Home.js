@@ -95,6 +95,7 @@ const Home = () => {
                 style={{ width: '100vw', height: '100vh' }} 
                 mapStyle={mapboxStyle} 
                 mapboxAccessToken={mapboxKey} 
+                reuseMaps
             >
                 <NavigationControl position='bottom-right' /> 
                 <DeckGLOverlay layers={[scatterplotLayer]}  />
