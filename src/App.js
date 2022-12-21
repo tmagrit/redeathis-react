@@ -36,6 +36,9 @@ import Institutional from './pages/Institutional';
 // MY HISTORY HOOK
 import { useHistory } from './components/history';
 
+// STYLES 
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
 
 function App() {
 

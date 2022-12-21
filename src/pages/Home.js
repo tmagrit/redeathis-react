@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateViewport } from '../features/sessionSlice';
 import { Link } from "react-router-dom";
@@ -43,7 +43,7 @@ const Home = () => {
         return researchdata
     });
 
-    // DECK GL OVERLAY LAYER
+    // DECK GL OVERLAY LAYER 
     const scatterplotLayer = 
         new ScatterplotLayer({
             id: 'map-home-markers',
