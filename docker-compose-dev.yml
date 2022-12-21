@@ -1,3 +1,11 @@
+############
+# Usage
+#   Start:          docker-compose -f docker-compose-dev.yml up -d 
+#   Start w/ Build: docker-compose -f docker-compose-dev.yml up -d --build
+#   Stop:           docker-compose -f docker-compose-dev.yml down
+#   Destroy:        docker-compose -f docker-compose-dev.yml down -v --remove-orphans
+############
+
 version: "3.8"
 services:
   development:

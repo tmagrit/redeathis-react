@@ -477,6 +477,7 @@ const ResearchEdit = () => {
                                     interactive={false}
                                     mapStyle={mapboxStyle}
                                     mapboxAccessToken={mapboxKey}
+                                    reuseMaps
                                 > 
                                     <Marker 
                                         longitude={researchData.geolocation.longitude} 

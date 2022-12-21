@@ -77,11 +77,11 @@ function App() {
         dispatch(getResearchTags());
     }, [])
 
-    // TRACK ROUTES 
-    useEffect(() => {
-        // dispatch(updateProfileSection(history?.pathArray[2] || ''));
-        // dispatch(updateProfileContext(history?.pathArray[3] || ''));
-    }, [history.location]);
+    // // TRACK ROUTES 
+    // useEffect(() => {
+    //     // dispatch(updateProfileSection(history?.pathArray[2] || ''));
+    //     // dispatch(updateProfileContext(history?.pathArray[3] || ''));
+    // }, [history.location]);
 
     if(session.sessionStatus === 'succeeded') {
         return (

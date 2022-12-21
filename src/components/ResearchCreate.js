@@ -372,6 +372,7 @@ const ResearchCreate = () => {
                                     interactive={false}
                                     mapStyle={mapboxStyle}
                                     mapboxAccessToken={mapboxKey}
+                                    reuseMaps
                                 > 
                                     <Marker 
                                         longitude={researchData.geolocation.longitude} 

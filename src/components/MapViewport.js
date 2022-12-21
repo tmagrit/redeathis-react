@@ -42,6 +42,7 @@ const MapViewport = (props) => {
             mapStyle={mapboxStyle}
             mapboxAccessToken={mapboxKey}
             onMove={e => handleChange(e.viewState)}
+            reuseMaps
         >
             <GeocoderControl />
             <Marker longitude={viewport.longitude} latitude={viewport.latitude} anchor="bottom" color={color} />
