@@ -2,7 +2,13 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice';
+
+
+
 import { Link } from "react-router-dom";
+
+import Stack from '@mui/material/Stack';
+import Collapse from '@mui/material/Collapse';
 import Paper from '@mui/material/Paper';
 import Fab from '@mui/material/Fab';
 import AppBar from '@mui/material/AppBar';
@@ -21,6 +27,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import VillaIcon from '@mui/icons-material/Villa';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 import { slugger } from './slugger';
 import { useHistory } from './history';
@@ -55,40 +63,115 @@ const PublicMenuBar = () => {
     };
 
     return ( 
-        <Paper 
+        <Stack 
             sx={{
                 position: 'absolute', 
                 zIndex: 80, 
-                paddingTop: 1,
-                paddingBottom: 1,
-                paddingLeft: 1.5,
-                paddingRight: 1.5, 
                 margin: 1.1,
-                borderRadius: '26px',
-                height: '52px',
-                //maxWidth: '40vw',
-                //minWidth: '30vw',
-                //minHeight: '10vw',
-                //pointerEvents: 'none',
+                //borderRadius: '34px',
+                //height: '52px',
+                //width: '52px',
                 top: 1.1,
                 left: 1.1
             }}
-            elevation={3}
-        >
-
-            <Box component="div" sx={{ flexGrow: 1 }}>
-                <Typography variant="caption" display="block" sx={{ position: 'relative', top: 4 }}>
+            direction="row" >
+            <Paper elevation={3} >
+                <Box 
+                    sx={{ 
+                        display: 'flex', 
+                        height: '100%',
+                        justifyContent: "left",
+                        alignItems: "left"
+                    }}
+                >
+                    <IconButton 
+                        onClick={() => {}}
+                    >
+                        <MenuIcon sx={{ 
+                            display: 'flex', 
+                            justifyContent: "center",
+                            alignItems: "center",
+                            alignContent: "center"
+                            }} 
+                            size='large'
+                        />
+                    </IconButton>
+                </Box>
+            </Paper>
+            <Box component="div"  sx={{ paddingLeft: '8px', height: '40px', color: '#fff' }} >
+                {/* <div>TESTE</div> */}
+                 <Typography variant="caption" display="block" sx={{ position: 'relative', top: 0 }}>
                     Acervo de referências em construção
                 </Typography>
-                 <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -4, textDecoration: 'none', color: 'inherit', }} >
+                <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -8, textDecoration: 'none', color: 'inherit', }} >
                     Rede Residência ATHIS
-                </Typography>
-            </Box>  
-        </Paper>
+                </Typography> 
+            </Box> 
+        </Stack>
     );
 };
 
 export default PublicMenuBar;
+
+
+
+
+////////////////////////////////////////////
+
+// {/* <Paper 
+// sx={{
+//     position: 'absolute', 
+//     zIndex: 80, 
+//     margin: 1.1,
+//     borderRadius: '34px',
+//     height: '52px',
+//     width: '326px',
+//     top: 1.1,
+//     left: 1.1
+// }}
+// elevation={3}
+// >
+// <Box 
+//     sx={{ 
+//         display: 'flex', 
+//         fontSize: '45px',
+//         height: '100%',
+//         justifyContent: "left",
+//         alignItems: "left"
+//     }}
+// >
+//     <Stack direction="row" >
+//         <IconButton 
+//             onClick={() => {}}
+//             sx={{ width: '52px', }} 
+//             disableRipple 
+//         >
+//             <MenuIcon sx={{ 
+//                 display: 'flex', 
+//                 fontSize: '35px',
+//                 justifyContent: "center",
+//                 alignItems: "center",
+//                 alignContent: "center"
+//                 }} size='large'
+//             />
+//         </IconButton>
+
+
+//         <Box component="div" 
+//             sx={{ flexGrow: '1', paddingRight: '8px', }}
+//         >
+//             <Typography variant="caption" display="block" sx={{ position: 'relative', top: 4 }}>
+//                 Acervo de referências em construção
+//             </Typography>
+//             <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -26, textDecoration: 'none', color: 'inherit', }} >
+//                 Rede Residência ATHIS
+//             </Typography>
+//         </Box>  
+//     </Stack>
+// </Box>
+// </Paper> */}
+
+
 
 
 ////////////////////////////////////////////
