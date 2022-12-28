@@ -52,30 +52,6 @@ const PublicMenuBar = () => {
         //filters: false,
     }); 
 
-    // const categoryLegend = [[1, 6], [2, 7], [3, 5], [4, 8]].map(couple => {
-    //     if(categories) 
-    //         return [categories.find(cat => cat.id === couple[0]), categories.find(cat => cat.id === couple[1])]
-    //     else
-    //         return null;
-    // }); 
-    
-    console.log('categorieLegendGrade', categorieLegendGrade);
-
-
-    // const categoryLegend = () => {
-    //     const grade = [[1, 6], [2, 7], [3, 5], [4, 8]];
-
-    //     if(categoriesStatus === "succeeded") {
-    //         const legendGrade = grade.map(couple => {
-    //             return [categories.find(cat => cat.id === couple[0]), categories.find(cat => cat.id === couple[1])]
-    //         });
-
-    //         return legendGrade;
-    //     } else 
-    //         return null;
-    // }; 
-
-
     // HANDLE MENU
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
