@@ -31,7 +31,6 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import { slugger } from './slugger';
 import { useHistory } from './history';
 
-
 const PublicMenuBar = () => {
 
     // REDUX SELECTORS
@@ -271,6 +270,10 @@ const PublicMenuBar = () => {
                     left: 1.1
                 }}
             >
+                <IconButton onClick={toggleDrawer('pageMenu', true)} >
+                    <MenuIcon />
+                </IconButton>
+                <Divider />
                 <IconButton onClick={() => {}} >
                     <FilterAltIcon />
                 </IconButton>

@@ -5,23 +5,19 @@ import { getMembers, getProfileRoles, getRoles, getOrganizations } from './featu
 import { getResearch, getCategories, getStatuses, getAuthors, getResearchAuthors, getSources, getClasses, getTags, getResearchTags } from './features/researchSlice';
 import { getPages } from './features/pagesSlice';
 import { Routes, Route } from "react-router-dom";
-import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 // COMPONENTS
 import MainDashboard from './components/MainDashboard';
-//import ResearchMain from './components/ResearchMain';
 import ResearchCreate from './components/ResearchCreate';
 import ResearchEdit from './components/ResearchEdit';
 import ResearchIndex from './components/ResearchIndex';
 import CategoriesMain from './components/CategoriesMain';
 import MembersIndex from './components/MembersIndex';
-//import MembersMain from './components/MembersMain';
 import AuthorIndex from './components/AuthorIndex';
 import PagesIndex from './components/PagesIndex';
-//import PagesMain from './components/PagesMain';
 import PagesCreate from './components/PagesCreate';
 import PagesEdit from './components/PagesEdit';
 
@@ -37,6 +33,7 @@ import Institutional from './pages/Institutional';
 import { useHistory } from './components/history';
 
 // STYLES 
+import './App.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
@@ -150,3 +147,7 @@ function App() {
 };
 
 export default App;
+
+//import ResearchMain from './components/ResearchMain';
+//import MembersMain from './components/MembersMain';
+//import PagesMain from './components/PagesMain';
