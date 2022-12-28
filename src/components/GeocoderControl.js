@@ -104,10 +104,10 @@ export default GeocoderControl;
 GeocoderControl.defaultProps = {
     marker: false,
     position: 'top-right',
-    onLoading: () => {},
-    onResults: () => {},
-    onResult: () => {},
-    onError: () => {}
+    // onLoading: () => {},
+    // onResults: () => {},
+    // onResult: () => {},
+    // onError: () => {}
 };
 
 GeocoderControl.propTypes = {

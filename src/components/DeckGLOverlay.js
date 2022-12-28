@@ -1,5 +1,5 @@
 import { useControl } from 'react-map-gl';
-import { MapboxOverlay } from '@deck.gl/mapbox';
+import { MapboxOverlay } from '@deck.gl/mapbox/typed';
 
 import PropTypes from 'prop-types';
 
