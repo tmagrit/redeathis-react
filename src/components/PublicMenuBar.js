@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
+import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -21,6 +22,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import InfoIcon from '@mui/icons-material/Info';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+
 import { slugger } from './slugger';
 import { useHistory } from './history';
 
@@ -30,20 +35,23 @@ const PublicMenuBar = () => {
     // REDUX SELECTORS
     const dispatch = useDispatch()
     const session = useSelector(state => state.session);
+    const categories = useSelector(state => state.research.categories);
     const profile = useSelector(state => state.session.profile);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MY HISTORY HOOK
-    const history = useHistory(); console.log('history',history);
+    const history = useHistory(); //console.log('history',history);
 
     // // REACT STATES
     const [drawer, setDrawer] = useState({
         pageMenu: false,
         sponsors: false,
-        //bottom: false,
-        //right: false,
+        //filters: false,
     }); 
 
+    const categoryLegend = [[1, 6], [2, 7], [3, 5], [4, 8]].map(couple => {
+        return [categories.find(cat => cat.id === couple[0]), categories.find(cat => cat.id === couple[1])]
+    }); //console.log('categoryLegend', categoryLegend);
 
     // HANDLE MENU
     const toggleDrawer = (anchor, open) => (event) => {
@@ -54,63 +62,125 @@ const PublicMenuBar = () => {
         setDrawer({ ...drawer, [anchor]: open });
       };
 
-      const selectedDrawer = (anchor) => (
-        <Box
-          sx={{ display: 'flex', flexDirection: 'column', width: anchor === 'sponsors' || anchor === 'pageMenu' ? 'auto' : 250 }}
-          role="presentation"
-          onClick={toggleDrawer(anchor, false)}
-          onKeyDown={toggleDrawer(anchor, false)}
-        >
-            <List sx={{ flexGrow: 1 }} >
-                {pages.map((pa, index) => (
-                    <ListItem key={slugger(pa.slug)} disablePadding>
-                        <ListItemButton component={Link} to={`/institutional/${slugger(pa.slug)}`} >
-                            <ListItemIcon>
-                                <AutoStoriesIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={pa.slug} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <Box />
-                
-            <List >
-                {session?.session?.user?.aud === "authenticated" ? (
-                    <Fragment>
-                        <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/admin" >
-                                <ListItemIcon >
-                                    <SettingsIcon />
-                                </ListItemIcon>
-                            <ListItemText primary="Administrar" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/" onClick={handleLogout} >
-                                <ListItemIcon >
-                                    <LogoutIcon />
-                                </ListItemIcon>
-                            <ListItemText primary="Sair" />
-                            </ListItemButton>
-                        </ListItem>
-                    </Fragment>    
-                ) : (
-                    <ListItem disablePadding>
-                    <ListItemButton component={Link} to="/signin" >
-                        <ListItemIcon >
-                            <LoginIcon />
-                        </ListItemIcon>
-                    <ListItemText primary="Entrar" />
-                    </ListItemButton>
-                </ListItem>
-                )}
+    const selectedDrawer = (anchor) => {
+        switch (anchor) {
+            case 'pageMenu':
+                return(
+                    <Box
+                        sx={{ display: 'flex', flexDirection: 'column', width: 240, }}
+                        role="presentation"
+                        onClick={toggleDrawer(anchor, false)}
+                        onKeyDown={toggleDrawer(anchor, false)}
+                    >
+                        <List sx={{ flexGrow: 1 }} >
+                            {pages.map((pa) => (
+                                <ListItem key={slugger(pa.slug)} disablePadding>
+                                    <ListItemButton component={Link} to={`/institutional/${slugger(pa.slug)}`} >
+                                        <ListItemIcon>
+                                            <AutoStoriesIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary={pa.slug} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                        <Divider />
+                        <Box />
+                            
+                        <List >
+                            {session?.session?.user?.aud === "authenticated" ? (
+                                <Fragment>
+                                    <ListItem disablePadding>
+                                        <ListItemButton component={Link} to="/admin" >
+                                            <ListItemIcon >
+                                                <SettingsIcon />
+                                            </ListItemIcon>
+                                        <ListItemText primary="Administrar" />
+                                        </ListItemButton>
+                                    </ListItem>
+                                    <ListItem disablePadding>
+                                        <ListItemButton component={Link} to="/" onClick={handleLogout} >
+                                            <ListItemIcon >
+                                                <LogoutIcon />
+                                            </ListItemIcon>
+                                        <ListItemText primary="Sair" />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Fragment>    
+                            ) : (
+                                <ListItem disablePadding>
+                                    <ListItemButton component={Link} to="/signin" >
+                                        <ListItemIcon >
+                                            <LoginIcon />
+                                        </ListItemIcon>
+                                    <ListItemText primary="Entrar" />
+                                    </ListItemButton>
+                                </ListItem>
+                            )}
+                        </List>
+                    </Box>
+                );
+
+            case 'sponsors':
+                return(
+                    <Box
+                        sx={{ display: 'flex', flexDirection: 'row',  justifyContent: 'space-evenly', alignItems: 'center', width: 'auto', }}
+                        role="presentation"
+                        onClick={toggleDrawer(anchor, false)}
+                        onKeyDown={toggleDrawer(anchor, false)}
+                    >
+                        <Box component="div" sx={{ padding: 5, }}>
+                            <Typography variant="h5" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', }} >
+                                Realização 
+                            </Typography> 
+                        </Box>
+                        <Box component="div" sx={{ padding: 5, }}>
+                            <Typography variant="h5" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', }} >
+                                Apoio 
+                            </Typography> 
+                        </Box>
+                        <Box component="div" sx={{ padding: 5, }}>
+                            <Typography variant="h5" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', }} >
+                                Fomento 
+                            </Typography> 
+                        </Box>
+                    </Box>
+                );
+
+            // case 'filters':
+            //     return(
+            //         <Box
+            //             sx={{ display: 'flex', width: 'auto', height: 350, }}
+            //             role="presentation"
+            //             onClick={toggleDrawer(anchor, false)}
+            //             onKeyDown={toggleDrawer(anchor, false)}
+            //         >
+            //             <Stack spacing={0}>
+            //                 {categoryLegend.map(couple => {
+            //                     return (
+            //                         <Box>
+            //                             <Stack 
+            //                                 direction="row" 
+            //                                 alignItems="center"
+            //                                 spacing={1} 
+            //                                 sx={{ my:2, }}
+            //                                 key={couple[0].id}
+            //                             >
+            //                                 <Avatar sx={{ width: 10, height: 10, bgcolor: `${couple[0].color}` }}> </Avatar>
+            //                                 <Typography variant="caption" component="p" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
+            //                             </Stack>
+            //                         </Box>
+            //                     )
+            //                 })}
+            //             </Stack>
+            //         </Box>
+            //     )
+
+        }
+
+    };
 
 
-            </List>
-        </Box>
-      );
 
 
     // const handleMenu = (event) => {
@@ -126,69 +196,128 @@ const PublicMenuBar = () => {
     };
 
     return ( 
-        <Stack 
-            sx={{
-                position: 'absolute', 
-                zIndex: 80, 
-                margin: 1.1,
-                top: 1.1,
-                left: 1.1
-            }}
-            direction="row" 
-        >
-            <Drawer
-                anchor='right'
-                open={drawer.pageMenu}
-                onClose={toggleDrawer('pageMenu', false)}
+        <Fragment>
+            <Stack 
+                sx={{
+                    position: 'absolute', 
+                    zIndex: 80, 
+                    margin: 1.1,
+                    top: 1.1,
+                    left: 1.1
+                }}
+                direction="row" 
             >
-                {selectedDrawer('pageMenu')}
-            </Drawer>
-
-            <Paper elevation={ history.pathArray[1] === '' ? 3 : 0 } >
-                <Box 
-                    sx={{ 
-                        display: 'flex', 
-                        height: '100%',
-                        justifyContent: "left",
-                        alignItems: "left"
-                    }}
+                <Drawer
+                    anchor="right"
+                    open={drawer.pageMenu}
+                    onClose={toggleDrawer('pageMenu', false)}
                 >
-                    <IconButton 
-                        onClick={toggleDrawer('pageMenu', true)}
-                    >
-                        <MenuIcon sx={{ 
+                    {selectedDrawer('pageMenu')}
+                </Drawer>
+
+                <Drawer
+                    anchor="bottom"
+                    open={drawer.sponsors}
+                    onClose={toggleDrawer('sponsors', false)}
+                >
+                    {selectedDrawer('sponsors')}
+                </Drawer>
+
+                <Paper elevation={ history.pathArray[1] === '' ? 3 : 0 } >
+                    <Box 
+                        sx={{ 
                             display: 'flex', 
-                            justifyContent: "center",
-                            alignItems: "center",
-                            alignContent: "center"
-                            }} 
-                            size='large'
-                        />
-                    </IconButton>
-                </Box>
-            </Paper>
-            <Box component="div"  sx={{ 
-                    paddingLeft: '8px', 
-                    height: '40px', 
-                    color: history.pathArray[1] === '' ? '#fff' : null 
-                }} 
+                            height: '100%',
+                            justifyContent: "left",
+                            alignItems: "left"
+                        }}
+                    >
+                        <IconButton 
+                            onClick={toggleDrawer('pageMenu', true)}
+                        >
+                            <MenuIcon sx={{ 
+                                display: 'flex', 
+                                justifyContent: "center",
+                                alignItems: "center",
+                                alignContent: "center"
+                                }} 
+                                size='large'
+                            />
+                        </IconButton>
+                    </Box>
+                </Paper>
+                <Box component="div"  sx={{ 
+                        paddingLeft: '8px', 
+                        height: '40px', 
+                        color: history.pathArray[1] === '' ? '#fff' : null 
+                    }} 
+                >
+                    <Typography variant="caption" display="block" sx={{ position: 'relative', top: 0 }}>
+                        Acervo de referências em construção
+                    </Typography>
+                    <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -8, textDecoration: 'none', color: 'inherit', }} onClick={toggleDrawer('sponsors', true)}>
+                        Rede Residência ATHIS
+                    </Typography> 
+                </Box> 
+            
+            </Stack>
+
+            <Paper 
+                elevation={3} 
+                sx={{
+                    position: 'absolute', 
+                    zIndex: 80, 
+                    margin: 1.1,
+                    top: 150,
+                    left: 1.1
+                }}
             >
-                 <Typography variant="caption" display="block" sx={{ position: 'relative', top: 0 }}>
-                    Acervo de referências em construção
-                </Typography>
-                <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -8, textDecoration: 'none', color: 'inherit', }} >
-                    Rede Residência ATHIS
-                </Typography> 
-            </Box> 
-        </Stack>
+                <IconButton onClick={() => {}} >
+                    <FilterAltIcon />
+                </IconButton>
+                <Divider />
+                <IconButton >
+                    <EventNoteIcon />
+                </IconButton>
+                <Divider />
+                <IconButton onClick={toggleDrawer('sponsors', true)} >
+                    <InfoIcon />
+                </IconButton>
+
+            </Paper>  
+
+            <Paper 
+                elevation={3} 
+                sx={{
+                    position: 'absolute', 
+                    zIndex: 80, 
+                    margin: 1.1,
+                    padding: 2,
+                    bottom: 20,
+                    right: 1.1
+                }}
+            >
+                
+                {categoryLegend.map(couple => {
+                    return (
+                        <Stack 
+                            direction="row" 
+                            alignItems="center"
+                            spacing={1} 
+                            sx={{ pb: 0.5, '&:last-child': { pb: 0 }, }}
+                            key={couple[0].id}
+                        >
+                            <Avatar sx={{ width: 10, height: 10, bgcolor: `${couple[0].color}` }}> </Avatar>
+                            <Typography variant="caption" component="p" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
+                        </Stack>
+                    )
+                })}
+            </Paper> 
+        </Fragment>
     );
 };
 
 export default PublicMenuBar;
-
-
-
-
 
 // import MenuItem from '@mui/material/MenuItem';
 // import Collapse from '@mui/material/Collapse';

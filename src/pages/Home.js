@@ -97,7 +97,7 @@ const Home = () => {
                 mapboxAccessToken={mapboxKey} 
                 reuseMaps
             >
-                <NavigationControl position='bottom-right' /> 
+                {/* <NavigationControl position='bottom-right' />  */}
                 <DeckGLOverlay layers={[scatterplotLayer]}  />
                 <GeocoderControl collapsed={true} position='top-right' />
             </Map>
