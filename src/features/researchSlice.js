@@ -1093,6 +1093,19 @@ export const selectResearchSources  = state => {
     return researchSources;
 };
 
+export const categoryLegendGrade = state => {
+    const grade = [[1, 6], [2, 7], [3, 5], [4, 8]];
+
+    if(state.research.getCategoriesStatus === "succeeded") {
+        const legendGrade = grade.map(couple => {
+            return [state.research.categories.find(cat => cat.id === couple[0]), state.research.categories.find(cat => cat.id === couple[1])]
+        });
+
+        return legendGrade;
+    } else 
+        return [];
+};
+
 export const { 
     updateClassName,
     updateTagsNames,

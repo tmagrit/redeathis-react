@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/sessionSlice';
+import { logout } from '../features/sessionSlice'; 
+import { categoryLegendGrade } from '../features/researchSlice'; 
 import { Link } from "react-router-dom";
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -36,8 +37,9 @@ const PublicMenuBar = () => {
     // REDUX SELECTORS
     const dispatch = useDispatch()
     const session = useSelector(state => state.session);
-    const categories = useSelector(state => state.research.categories);
-    const profile = useSelector(state => state.session.profile);
+    //const categories = useSelector(state => state.research.categories); 
+    const categorieLegendGrade = useSelector(categoryLegendGrade);
+    //const profile = useSelector(state => state.session.profile);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MY HISTORY HOOK
@@ -50,9 +52,29 @@ const PublicMenuBar = () => {
         //filters: false,
     }); 
 
-    const categoryLegend = [[1, 6], [2, 7], [3, 5], [4, 8]].map(couple => {
-        return [categories.find(cat => cat.id === couple[0]), categories.find(cat => cat.id === couple[1])]
-    }); //console.log('categoryLegend', categoryLegend);
+    // const categoryLegend = [[1, 6], [2, 7], [3, 5], [4, 8]].map(couple => {
+    //     if(categories) 
+    //         return [categories.find(cat => cat.id === couple[0]), categories.find(cat => cat.id === couple[1])]
+    //     else
+    //         return null;
+    // }); 
+    
+    console.log('categorieLegendGrade', categorieLegendGrade);
+
+
+    // const categoryLegend = () => {
+    //     const grade = [[1, 6], [2, 7], [3, 5], [4, 8]];
+
+    //     if(categoriesStatus === "succeeded") {
+    //         const legendGrade = grade.map(couple => {
+    //             return [categories.find(cat => cat.id === couple[0]), categories.find(cat => cat.id === couple[1])]
+    //         });
+
+    //         return legendGrade;
+    //     } else 
+    //         return null;
+    // }; 
+
 
     // HANDLE MENU
     const toggleDrawer = (anchor, open) => (event) => {
@@ -287,33 +309,34 @@ const PublicMenuBar = () => {
 
             </Paper>  
 
-            <Paper 
-                elevation={3} 
-                sx={{
-                    position: 'absolute', 
-                    zIndex: 80, 
-                    margin: 1.1,
-                    padding: 2,
-                    bottom: 20,
-                    right: 1.1
-                }}
-            >
-                
-                {categoryLegend.map(couple => {
-                    return (
-                        <Stack 
-                            direction="row" 
-                            alignItems="center"
-                            spacing={1} 
-                            sx={{ pb: 0.5, '&:last-child': { pb: 0 }, }}
-                            key={couple[0].id}
-                        >
-                            <Avatar sx={{ width: 10, height: 10, bgcolor: `${couple[0].color}` }}> </Avatar>
-                            <Typography variant="caption" component="p" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
-                        </Stack>
-                    )
-                })}
-            </Paper> 
+            {categorieLegendGrade.length > 0 && (
+                <Paper 
+                    elevation={3} 
+                    sx={{
+                        position: 'absolute', 
+                        zIndex: 80, 
+                        margin: 1.1,
+                        padding: 2,
+                        bottom: 20,
+                        right: 1.1
+                    }}
+                > 
+                    {categorieLegendGrade.map(couple => {
+                        return (
+                            <Stack 
+                                direction="row" 
+                                alignItems="center"
+                                spacing={1} 
+                                sx={{ pb: 0.5, '&:last-child': { pb: 0 }, }}
+                                key={couple[0].id}
+                            >
+                                <Avatar sx={{ width: 10, height: 10, bgcolor: `${couple[0].color}` }}> </Avatar>
+                                <Typography variant="caption" component="p" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
+                            </Stack>
+                        )
+                    })}
+                </Paper>
+            )}
 
             {/* <Box sx={{ position: 'absolute', bottom: 200, left: 111, zIndex: 70, width: '450px' }}>
                 <Slider

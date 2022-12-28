@@ -104,18 +104,18 @@ export default GeocoderControl;
 GeocoderControl.defaultProps = {
     marker: false,
     position: 'top-right',
-    // onLoading: () => {},
-    // onResults: () => {},
-    // onResult: () => {},
-    // onError: () => {}
+    onLoading: () => {},
+    onResults: () => {},
+    onResult: () => {},
+    onError: () => {}
 };
 
 GeocoderControl.propTypes = {
     marker: PropTypes.bool.isRequired,
     position: PropTypes.string,
-    onLoading: PropTypes.object,
-    onResults: PropTypes.object,
-    onResult: PropTypes.object,
-    onError: PropTypes.object
+    onLoading: PropTypes.func,
+    onResults: PropTypes.func,
+    onResult: PropTypes.func,
+    onError: PropTypes.func
 };
 
