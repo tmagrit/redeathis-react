@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 
 const CasaAthis = (props) => {
 
-    const { width, height, fill, stroke, strokeWidth, } = props;
+    const { scale, fill, stroke, strokeWidth, } = props;
 
     return (
         <svg 
             xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 34 34"
-            width={width}
-            height={height}
+            viewBox="0 0 30 30"
+            width={scale}
+            height={scale}
         >
             <polygon 
-                points="30 32 30 15 17 2 4 15 4 32"
+                points="28 30 28 13 15 0 2 13 2 30"
                 fill={fill}
                 stroke={stroke}
                 strokeWidth={strokeWidth}
@@ -24,18 +24,16 @@ const CasaAthis = (props) => {
 export default CasaAthis;
 
 CasaAthis.defaultProps = {
-    width: '1rem',
-    height: '1rem',
-    fill: '#fff',
-    stroke: '#fff',
-    strokeWidth: 0
+    scale: '1rem',
+    fill: '#000000DE',
+    stroke: '#000000DE',
+    strokeWidth: '0'
 
 };
 
 CasaAthis.propTypes = {
-    width: PropTypes.string,
-    height: PropTypes.string,
+    scale: PropTypes.string,
     fill: PropTypes.string,
     stroke: PropTypes.string,
-    strokeWidth: PropTypes.number
+    strokeWidth: PropTypes.string
 };

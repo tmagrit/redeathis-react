@@ -31,6 +31,8 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import { slugger } from './slugger';
 import { useHistory } from './history';
 
+import Logo from './Logo';
+
 const PublicMenuBar = () => {
 
     // REDUX SELECTORS
@@ -195,70 +197,9 @@ const PublicMenuBar = () => {
 
     return ( 
         <Fragment>
-            <Stack 
-                sx={{
-                    position: 'absolute', 
-                    zIndex: 80, 
-                    margin: 1.1,
-                    top: 1.1,
-                    left: 1.1
-                }}
-                direction="row" 
-            >
-                <Drawer
-                    anchor="right"
-                    open={drawer.pageMenu}
-                    onClose={toggleDrawer('pageMenu', false)}
-                >
-                    {selectedDrawer('pageMenu')}
-                </Drawer>
-
-                <Drawer
-                    anchor="bottom"
-                    open={drawer.sponsors}
-                    onClose={toggleDrawer('sponsors', false)}
-                >
-                    {selectedDrawer('sponsors')}
-                </Drawer>
-
-                <Paper elevation={ history.pathArray[1] === '' ? 3 : 0 } >
-                    <Box 
-                        sx={{ 
-                            display: 'flex', 
-                            height: '100%',
-                            justifyContent: "left",
-                            alignItems: "left"
-                        }}
-                    >
-                        <IconButton 
-                            onClick={toggleDrawer('pageMenu', true)}
-                        >
-                            <MenuIcon sx={{ 
-                                display: 'flex', 
-                                justifyContent: "center",
-                                alignItems: "center",
-                                alignContent: "center"
-                                }} 
-                                size='large'
-                            />
-                        </IconButton>
-                    </Box>
-                </Paper>
-                <Box component="div"  sx={{ 
-                        paddingLeft: '8px', 
-                        height: '40px', 
-                        color: history.pathArray[1] === '' ? '#fff' : null 
-                    }} 
-                >
-                    <Typography variant="caption" display="block" sx={{ position: 'relative', top: 0 }}>
-                        Acervo de referências em construção
-                    </Typography>
-                    <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -8, textDecoration: 'none', color: 'inherit', }} onClick={toggleDrawer('sponsors', true)}>
-                        Rede Residência ATHIS
-                    </Typography> 
-                </Box> 
-            
-            </Stack>
+            <Box component={Link} to="/" >
+                <Logo color='#fff' />
+            </Box>
 
             <Paper 
                 elevation={3} 
@@ -317,6 +258,23 @@ const PublicMenuBar = () => {
                 </Paper>
             )}
 
+            <Drawer
+                anchor="right"
+                open={drawer.pageMenu}
+                onClose={toggleDrawer('pageMenu', false)}
+            >
+                {selectedDrawer('pageMenu')}
+            </Drawer>
+
+            <Drawer
+                anchor="bottom"
+                open={drawer.sponsors}
+                onClose={toggleDrawer('sponsors', false)}
+            >
+                {selectedDrawer('sponsors')}
+            </Drawer>
+            
+
             {/* <Box sx={{ position: 'absolute', bottom: 200, left: 111, zIndex: 70, width: '450px' }}>
                 <Slider
                     getAriaLabel={() => 'Temperature range'}
@@ -341,3 +299,59 @@ const PublicMenuBar = () => {
 };
 
 export default PublicMenuBar;
+
+
+            {/* <Stack 
+                sx={{
+                    position: 'absolute', 
+                    zIndex: 80, 
+                    // margin: 1.1,
+                    // top: 1.1,
+                    // left: 1.1
+                    margin: 1.1,
+                    top: 111,
+                    left: 1.1
+                }}
+                direction="row" 
+            >
+
+                <Paper elevation={ history.pathArray[1] === '' ? 3 : 0 } >
+                    <Box 
+                        sx={{ 
+                            display: 'flex', 
+                            height: '100%',
+                            justifyContent: "left",
+                            alignItems: "left"
+                        }}
+                    >
+                        <IconButton 
+                            onClick={toggleDrawer('pageMenu', true)}
+                        >
+                            <MenuIcon sx={{ 
+                                display: 'flex', 
+                                justifyContent: "center",
+                                alignItems: "center",
+                                alignContent: "center"
+                                }} 
+                                size='large'
+                            />
+                        </IconButton>
+                    </Box>
+                </Paper>
+                <Box component="div"  sx={{ 
+                        paddingLeft: '8px', 
+                        height: '40px', 
+                        color: history.pathArray[1] === '' ? '#fff' : null 
+                    }} 
+                >
+                    <Typography variant="caption" display="block" sx={{ position: 'relative', top: 0 }}>
+                        Acervo de referências em construção
+                    </Typography>
+                    <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -8, textDecoration: 'none', color: 'inherit', }} onClick={toggleDrawer('sponsors', true)}>
+                        Rede Residência ATHIS
+                    </Typography> 
+                </Box> 
+
+                
+            
+            </Stack> */}
