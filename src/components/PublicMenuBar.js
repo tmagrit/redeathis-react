@@ -180,16 +180,6 @@ const PublicMenuBar = () => {
 
     };
 
-
-
-
-    // const handleMenu = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
     // HANDLE LOGOUT
     const handleLogout = (event) => {
         dispatch(logout());
@@ -198,16 +188,17 @@ const PublicMenuBar = () => {
     return ( 
         <Fragment>
             <Box component={Link} to="/" >
-                <Logo color='#fff' />
+                <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' } />
             </Box>
 
             <Paper 
-                elevation={3} 
+                elevation={0} 
+                square
                 sx={{
                     position: 'absolute', 
                     zIndex: 80, 
                     margin: 1.1,
-                    top: 150,
+                    top: '80px',
                     left: 1.1
                 }}
             >
@@ -229,15 +220,16 @@ const PublicMenuBar = () => {
 
             </Paper>  
 
-            {categorieLegendGrade.length > 0 && (
+            {categorieLegendGrade.length > 0 && history.location.pathname === '/' && (
                 <Paper 
-                    elevation={3} 
+                    elevation={1} 
+                    square
                     sx={{
                         position: 'absolute', 
                         zIndex: 80, 
                         margin: 1.1,
                         padding: 2,
-                        bottom: 20,
+                        bottom: 35,
                         right: 1.1
                     }}
                 > 
@@ -274,6 +266,20 @@ const PublicMenuBar = () => {
                 {selectedDrawer('sponsors')}
             </Drawer>
             
+        </Fragment>
+    );
+};
+
+export default PublicMenuBar;
+
+
+    // const handleMenu = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
 
             {/* <Box sx={{ position: 'absolute', bottom: 200, left: 111, zIndex: 70, width: '450px' }}>
                 <Slider
@@ -294,11 +300,7 @@ const PublicMenuBar = () => {
                     }]}
                 />
             </Box>     */}
-        </Fragment>
-    );
-};
 
-export default PublicMenuBar;
 
 
             {/* <Stack 

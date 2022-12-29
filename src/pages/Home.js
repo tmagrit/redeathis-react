@@ -106,6 +106,7 @@ const Home = () => {
             {clickInfo.object && (  
                 <ClickAwayListener onClickAway={handleCloseClickInfo}>
                     <Paper 
+                        square
                         sx={{
                             position: 'absolute', 
                             zIndex: 80, 
@@ -115,10 +116,10 @@ const Home = () => {
                             minWidth: '30vw',
                             minHeight: '10vw',
                             //pointerEvents: 'none',
-                            top: 48,
+                            top: '80px',
                             right: 0
                         }}
-                        elevation={3}
+                        elevation={2}
                     >
                         <Box sx={{ my:0, py: 0, }}>    
                             <Typography variant="subtitle1" component="span" >{ clickInfo.object.title }</Typography>
@@ -158,6 +159,7 @@ const Home = () => {
             
             {hoverInfo.object && (  
                 <Paper 
+                    square
                     sx={{
                         position: 'absolute',
                         left: hoverInfo.x, 
@@ -168,7 +170,7 @@ const Home = () => {
                         maxWidth: '40vw',
                         pointerEvents: 'none',
                     }}
-                    elevation={4}
+                    elevation={2}
                 >
                     <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
                 </Paper>
