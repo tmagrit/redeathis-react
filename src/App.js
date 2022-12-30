@@ -40,8 +40,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-
+//import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import './mapbox-gl-geocoder.css';
 
 function App() {
 
