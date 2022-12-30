@@ -50,19 +50,8 @@ export default Logo;
 
 Logo.defaultProps = {
     color: '#fff'
-    // width: '1rem',
-    // height: '1rem',
-    // fill: '#fff',
-    // stroke: '#fff',
-    // strokeWidth: 0
-
 };
 
 Logo.propTypes = {
-    color: PropTypes.string,
-    // width: PropTypes.string,
-    // height: PropTypes.string,
-    // fill: PropTypes.string,
-    // stroke: PropTypes.string,
-    // strokeWidth: PropTypes.number
+    color: PropTypes.string
 };

@@ -10,11 +10,11 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
-
-import Map, { Marker } from 'react-map-gl';
-
+import Map from 'react-map-gl';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import DeckGLOverlay from '../components/DeckGLOverlay';
+import { hexToRgb } from '../components/colorConverter';
 import PublicMenuBar from '../components/PublicMenuBar';
-
 import { categoryTitle } from '../components/categoryTitle';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -41,9 +41,32 @@ const ViewResearch = () => {
 
     // REACT STATES
     const [researchData, setResearchData] = useState(researchWithDate);
-    const [geolocation, setGeolocation] = useState({...researchData.geolocation, zoom: 4});
+    const [viewport, setViewport] = useState({...researchData.geolocation, zoom: 4});
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;
+
+    // HANDLE MAP CHANGE
+    const handleMapChange = (viewport) => {
+        //dispatch(updateViewport(viewport.viewState));
+        setViewport(viewport.viewState);
+    };
+
+    // DECK GL OVERLAY LAYER
+    const scatterplotLayer = 
+        new ScatterplotLayer({
+            id: 'map-research-marker',
+            data: [researchData.geolocation],
+            pickable: false,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => [d.longitude,d.latitude],
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(categoryColor)
+        }
+    ); 
 
     return (
         <React.Fragment>
@@ -136,23 +159,31 @@ const ViewResearch = () => {
 
                     {/* RIGHT PANEL */}
                     <Grid item xs={12} md={4}>
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <div  
+                                style={{ width: '100%', height: 360, position: 'relative' }} 
+                                //onMouseLeave={() => console.log({...researchData.geolocation})}
+                                //onMouseLeave={() => {handleMapChange({...researchData.geolocation, zoom: 4}); console.log('{...researchData.geolocation, zoom: 4}', {...researchData.geolocation, zoom: 4}); }}
+                            >
+                                <Map
+                                    initialViewState={viewport}
+                                    onMove={e => handleMapChange(e.viewState)}     
+                                    //onMouseLeave={() => setViewport({...researchData.geolocation, zoom: 4})}
+                                    //{...researchData.geolocation}
+                                    //interactive={false}
+                                    mapStyle={mapboxStyle}
+                                    mapboxAccessToken={mapboxKey}
+                                    reuseMaps
+                                > 
+                                    <DeckGLOverlay layers={[scatterplotLayer]}  />
+                                </Map>
+                            </div>
+                        </Grid>
 
-                            <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                                <div  style={{ width: '100%', height: 360, position: 'relative' }} >
-                                    <Map
-                                        {...geolocation}
-                                        interactive={false}
-                                        mapStyle={mapboxStyle}
-                                        mapboxAccessToken={mapboxKey}
-                                    > 
-                                        <Marker longitude={researchData.geolocation.longitude} latitude={researchData.geolocation.latitude} anchor="bottom" color={categoryColor} />
-                                    </Map>
-                                </div>
-                            </Grid>
 
-                            <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
                                 
-                            </Grid>
+                        </Grid>
 
                     </Grid>
 

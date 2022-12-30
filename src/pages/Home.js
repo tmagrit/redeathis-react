@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import Map, { NavigationControl } from 'react-map-gl';
+import Map from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
 
 import PublicMenuBar from '../components/PublicMenuBar';

@@ -205,14 +205,20 @@ const PublicMenuBar = () => {
                 <IconButton onClick={toggleDrawer('pageMenu', true)} >
                     <MenuIcon />
                 </IconButton>
-                <Divider />
-                <IconButton onClick={() => {}} >
-                    <FilterAltIcon />
-                </IconButton>
-                <Divider />
-                <IconButton >
-                    <EventNoteIcon />
-                </IconButton>
+
+                {history.location.pathname === '/' ? (
+                    <Fragment>
+                        <Divider />
+                        <IconButton onClick={() => {}} >
+                            <FilterAltIcon />
+                        </IconButton>
+                        <Divider />
+                        <IconButton >
+                            <EventNoteIcon />
+                        </IconButton>
+                    </Fragment>) :
+                 null}
+
                 <Divider />
                 <IconButton onClick={toggleDrawer('sponsors', true)} >
                     <InfoIcon />
