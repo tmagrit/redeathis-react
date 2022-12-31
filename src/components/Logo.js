@@ -26,15 +26,15 @@ const Logo = (props) => {
                     zIndex: 100, 
                     margin: 0,
                     top: 4,
-                    left: 1.1
+                    left: 15
                 }}
             >
                 <Stack direction="row" spacing={0} >
                     <Box>
-                        <Typography component="h2" variant="logoH2" sx={{ flexgrow: 1, color: color, ml: 1.1, }} >
+                        <Typography component="h2" variant="logoH2" sx={{ flexgrow: 1, color: color, textDecoration: 'none', }} >
                             ACERVO DE REFERÊNCIAS EM CONSTRUÇÃO
                         </Typography>
-                        <Typography component="h1" variant="logoH1" sx={{ flexgrow: 1, color: color, position: 'relative', top: '-0.3rem', ml: 0.8, }} >
+                        <Typography component="h1" variant="logoH1" sx={{ flexgrow: 1, color: color, position: 'relative', top: '-0.3rem', }} >
                             REDE ATHIS
                         </Typography>
                     </Box>

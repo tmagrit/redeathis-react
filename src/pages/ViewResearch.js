@@ -15,6 +15,7 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
 import PublicMenuBar from '../components/PublicMenuBar';
+import PublicFooter from '../components/PublicFooter';
 import { categoryTitle } from '../components/categoryTitle';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -33,11 +34,11 @@ const ViewResearch = () => {
     const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
-    const researchTags = useSelector(state => state.research.research_tags).filter(rt => rt.research_id === parseInt(params.researchId, 10) ); //console.log('researchTags',researchTags);
-    const researchTagsIds = researchTags.map(t => {if(t.tag_id) return t.tag_id} ); //console.log('researchTagsIds',researchTagsIds);
-    const researchTagsData = tags.filter(rtd => researchTagsIds.includes(rtd.id)); //console.log('researchTagsData',researchTagsData);
-    const researchClassesIds = researchTagsData.map(rtd => {if(rtd.class_id) return rtd.class_id} ); //console.log('researchClassesIds',researchClassesIds);
-    const researchClassesData = classes.filter(cl => researchClassesIds.includes(cl.id)); //console.log('researchClassesData',researchClassesData);
+    const researchTags = useSelector(state => state.research.research_tags).filter(rt => rt.research_id === parseInt(params.researchId, 10) ); 
+    const researchTagsIds = researchTags.map(t => {if(t.tag_id) return t.tag_id} ); 
+    const researchTagsData = tags.filter(rtd => researchTagsIds.includes(rtd.id)); 
+    const researchClassesIds = researchTagsData.map(rtd => {if(rtd.class_id) return rtd.class_id} ); 
+    const researchClassesData = classes.filter(cl => researchClassesIds.includes(cl.id)); 
 
     // REACT STATES
     const [researchData, setResearchData] = useState(researchWithDate);
@@ -47,7 +48,6 @@ const ViewResearch = () => {
 
     // HANDLE MAP CHANGE
     const handleMapChange = (viewport) => {
-        //dispatch(updateViewport(viewport.viewState));
         setViewport(viewport.viewState);
     };
 
@@ -69,78 +69,59 @@ const ViewResearch = () => {
     ); 
 
     return (
-        <React.Fragment>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', }}>
             <PublicMenuBar />
+            
             <Container maxWidth="xl" sx={{ mt: 4, mb: 4, pt: 6, }} >
-
-                <Grid container spacing={3}>
+                <Grid container spacing={2} >
                     {/* LEFT PANEL */}
                     <Grid item xs={12} md={8}>
 
-                        <Grid item xs={12} sx={{ pt: 2, display: 'flex', flexDirection: 'column', }}>
+                        <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column',  }}>
                             <Box>
-                                <Typography variant="h5" component="h1" nowrap sx={{ display: 'inline', }}> {researchData.title} </Typography> 
-                                <Typography variant="h5" component="h1" nowrap sx={{ color: 'text.secondary', display: 'inline', }}> 
+                                <Typography variant="h6" component="h2" nowrap > {researchData.title} </Typography> 
+                            </Box>
+                            <Box>
+                                <Typography variant="h5" component="span" nowrap sx={{ color: 'text.secondary', display: 'inline', fontWeight: 500, }}> 
                                     {researchData.date.interval ? 
-                                        (` [${researchData.date.start.year}-${researchData.date.end.year}]`) 
+                                        (`${researchData.date.start.year}-${researchData.date.end.year}`) 
                                         : 
-                                        (` [${researchData.date.start.year}]`) 
+                                        (`${researchData.date.start.year}`) 
                                     } 
                                 </Typography>
                             </Box>
+
                             <Box>
                                 {researchAuthors.length > 0 && ( 
                                     researchAuthors.map(ra => {
-                                        return  <Typography variant="subtitle1" component="h2" nowrap sx={{ color: 'text.secondary', display: 'inline', }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                        return  <Typography variant="overline" component="h3" nowrap sx={{ color: 'text.secondary', display: 'inline', }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                                     })
                                 )}
                             </Box>
+
                             <Stack 
                                 direction="row" 
                                 alignItems="center"
                                 spacing={1} 
-                                sx={{ my:2, }}
+                                sx={{ mb:2, }}
                             >
-                                <Avatar sx={{ width: 14, height: 14, bgcolor: `${categoryColor}` }}> </Avatar>
-                                <Typography variant="subtitle1" component="h3" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
-                                {/* <Typography variant="subtitle1" >{categories.find(c => c.id === researchData.category_id).name}</Typography> */}
+                                <Avatar sx={{ width: 12, height: 12, bgcolor: `${categoryColor}` }}> </Avatar>
+                                <Typography variant="subtitle2" component="h4" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
                             </Stack>
                             
                         </Grid>
 
                         <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
-                            {/* <Typography variant="body1" component="body1" nowrap sx={{ display: 'inline', }}>
-                                <span>Resumo: </span> 
-                                <span dangerouslySetInnerHTML={{ __html: researchData.summary }} /> 
-                            </Typography> */}
-                            
-                            {/* {researchTags && researchTags.map(rt => {
-                                const tagData = tags.find(t => t.id === rt.tag_id);
-                                const classData = classes.find(cl => cl.id === tagData.class_id);
-                                return (
-                                    <Box sx={{ mb: 1, }}>
-                                        <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>
-                                            {`${classData.name}: `} 
-                                        </Typography> 
-                                        <Typography variant="body1" component="span" nowrap sx={{ display: 'inline', }}> 
-                                            {tagData.name}
-                                        </Typography>
-                                    </Box>
-                                )
-                            })} */}
 
                             {researchTags && researchClassesData.map(rcd => {
                                 return (
                                     <Box sx={{ mb: 1, }}>
-                                        <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', mr: 1.5, }}>
+                                        <Typography variant="body2" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', mr: 1.5, }}>
                                             {`${rcd.name}:`} 
                                         </Typography> 
                                         {researchTagsData.filter(t => t.class_id === rcd.id).map(rtd => {
                                             return (
                                                 <Chip label={rtd.name} variant="outlined" size="small" onClick={() => console.log('clicked')} sx={{ mr: 1, }} />
-                                                // <Typography variant="body1" component="span" nowrap sx={{ display: 'inline', }}> 
-                                                //     {`${rtd.name}; `} 
-                                                // </Typography>
                                             )
                                         })}
                                     </Box>
@@ -148,8 +129,8 @@ const ViewResearch = () => {
                             })}
                             
                             <Box sx={{ mt: 1.5, }}>
-                                <Typography variant="body1" component="h4" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
-                                <Typography variant="body1" component="span" nowrap sx={{ display: 'inline', }}> 
+                                <Typography variant="body2" component="p" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
+                                <Typography variant="body2" component="p" nowrap sx={{ display: 'inline', }}> 
                                     {researchData.summary} 
                                 </Typography>
                             </Box>
@@ -158,19 +139,15 @@ const ViewResearch = () => {
                     </Grid>
 
                     {/* RIGHT PANEL */}
-                    <Grid item xs={12} md={4}>
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                    <Grid item xs={12} md={4}>                     
+                        
+                        <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
                             <div  
                                 style={{ width: '100%', height: 360, position: 'relative' }} 
-                                //onMouseLeave={() => console.log({...researchData.geolocation})}
-                                //onMouseLeave={() => {handleMapChange({...researchData.geolocation, zoom: 4}); console.log('{...researchData.geolocation, zoom: 4}', {...researchData.geolocation, zoom: 4}); }}
                             >
                                 <Map
                                     initialViewState={viewport}
                                     onMove={e => handleMapChange(e.viewState)}     
-                                    //onMouseLeave={() => setViewport({...researchData.geolocation, zoom: 4})}
-                                    //{...researchData.geolocation}
-                                    //interactive={false}
                                     mapStyle={mapboxStyle}
                                     mapboxAccessToken={mapboxKey}
                                     reuseMaps
@@ -186,13 +163,14 @@ const ViewResearch = () => {
                         </Grid>
 
                     </Grid>
-
                     
                 </Grid>
 
-                
             </Container>
-        </React.Fragment>
+
+            <PublicFooter />
+
+        </Box>
     );
 
 };

@@ -7,30 +7,38 @@ import { Link } from "react-router-dom";
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LoginIcon from '@mui/icons-material/Login';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuIcon from '@mui/icons-material/Menu';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
-
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import InfoIcon from '@mui/icons-material/Info';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 
+
 import { slugger } from './slugger';
 import { useHistory } from './history';
-
+import SearchBar from './SearchBar';
+import PublicFooter from './PublicFooter';
 import Logo from './Logo';
 
 const PublicMenuBar = () => {
@@ -38,20 +46,32 @@ const PublicMenuBar = () => {
     // REDUX SELECTORS
     const dispatch = useDispatch()
     const session = useSelector(state => state.session);
-    //const categories = useSelector(state => state.research.categories); 
     const categorieLegendGrade = useSelector(categoryLegendGrade);
-    //const profile = useSelector(state => state.session.profile);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MY HISTORY HOOK
-    const history = useHistory(); //console.log('history',history);
+    const history = useHistory(); 
 
-    // // REACT STATES
+    // REACT STATES
     const [drawer, setDrawer] = useState({
         pageMenu: false,
         sponsors: false,
         //filters: false,
     }); 
+    const [dialog, setDialog] = useState(false); 
+
+    // HANDLE DIALOG
+    const handleDialog = () => {
+        setDialog(!dialog);
+    }; 
+
+    // HANDLE LOGO CONTEXT
+    const isHome = () => {
+        if(history.location.pathname === '/')
+            return true;
+        else
+            return false;
+    };
 
     // HANDLE MENU
     const toggleDrawer = (anchor, open) => (event) => {
@@ -123,29 +143,9 @@ const PublicMenuBar = () => {
 
             case 'sponsors':
                 return(
-                    <Box
-                        sx={{ display: 'flex', flexDirection: 'row',  justifyContent: 'space-evenly', alignItems: 'center', width: 'auto', }}
-                        role="presentation"
-                        onClick={toggleDrawer(anchor, false)}
-                        onKeyDown={toggleDrawer(anchor, false)}
-                    >
-                        <Box component="div" sx={{ padding: 5, }}>
-                            <Typography variant="h5" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', }} >
-                                Realização 
-                            </Typography> 
-                        </Box>
-                        <Box component="div" sx={{ padding: 5, }}>
-                            <Typography variant="h5" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', }} >
-                                Apoio 
-                            </Typography> 
-                        </Box>
-                        <Box component="div" sx={{ padding: 5, }}>
-                            <Typography variant="h5" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', }} >
-                                Fomento 
-                            </Typography> 
-                        </Box>
-                    </Box>
+                    <PublicFooter />
                 );
+
 
             // case 'filters':
             //     return(
@@ -175,6 +175,13 @@ const PublicMenuBar = () => {
             //             </Stack>
             //         </Box>
             //     )
+            
+            
+
+            case 'research':
+                return(
+                    null // TODO RETORNAR DIALOG
+                );
 
         }
 
@@ -187,46 +194,79 @@ const PublicMenuBar = () => {
 
     return ( 
         <Fragment>
-            <Box component={Link} to="/" >
-                <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' } />
-            </Box>
+            {isHome() ? (
+                    <Box component={Link} to="/" >
+                        <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' }   />
+                    </Box>
+                ) : (
+                    <AppBar position="fixed" color="inherit" elevation={1} sx={{ height: '56px', zIndex: 40, }}>
+                        <Toolbar 
+                            // sx={{
+                            //     width: "100vw",
+                            //     maxWidth: "xl",
+                            //     mx: "auto"
+                            //     }}  
+                            >
+                            <Box component={Link} to="/" sx={{ textDecoration: 'none', }} >
+                                <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' } />
+                            </Box>
 
-            <Paper 
-                elevation={0} 
-                square
-                sx={{
-                    position: 'absolute', 
-                    zIndex: 80, 
-                    margin: 1.1,
-                    top: '80px',
-                    left: 1.1
-                }}
-            >
-                <IconButton onClick={toggleDrawer('pageMenu', true)} >
-                    <MenuIcon />
-                </IconButton>
+                            <Box sx={{ flexGrow: 1 }} />
 
-                {history.location.pathname === '/' ? (
-                    <Fragment>
-                        <Divider />
-                        <IconButton onClick={() => {}} >
-                            <FilterAltIcon />
-                        </IconButton>
-                        <Divider />
-                        <IconButton >
-                            <EventNoteIcon />
-                        </IconButton>
-                    </Fragment>) :
-                 null}
+                            <IconButton color="text.secondary" size="large" onClick={handleDialog} >
+                                <ManageSearchIcon />
+                            </IconButton>
+                            <IconButton color="text.secondary" size="large" onClick={handleDialog} >
+                                <PersonSearchIcon />
+                            </IconButton>
+                            <IconButton edge="end" color="text.secondary" size="large" onClick={toggleDrawer('pageMenu', true)} >
+                                <MenuIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                )
+            }
 
-                <Divider />
-                <IconButton onClick={toggleDrawer('sponsors', true)} >
-                    <InfoIcon />
-                </IconButton>
+            {isHome() ? (
+                <Paper 
+                    elevation={0} 
+                    square
+                    sx={{
+                        position: 'absolute', 
+                        zIndex: 80, 
+                        ml: 3,
+                        top: '100px', 
+                    }}
+                >
+                    <IconButton onClick={toggleDrawer('pageMenu', true)} >
+                        <MenuIcon />
+                    </IconButton>
+                    <Divider />
+                    <IconButton onClick={handleDialog} >
+                        <ManageSearchIcon />
+                    </IconButton>
+                    <Divider />
+                    <IconButton onClick={handleDialog} >
+                        <PersonSearchIcon />
+                    </IconButton>
+                    <Divider />
+                    <IconButton onClick={() => {}} >
+                        <FilterAltIcon />
+                    </IconButton>
+                    <Divider />
+                    <IconButton >
+                        <EventNoteIcon />
+                    </IconButton>
+                    <Divider />
+                    <IconButton onClick={toggleDrawer('sponsors', true)} >
+                        <InfoIcon />
+                    </IconButton>
 
-            </Paper>  
+                </Paper>
+                ) : null
+            }  
 
-            {categorieLegendGrade.length > 0 && history.location.pathname === '/' && (
+            {categorieLegendGrade.length > 0 && isHome() && (
                 <Paper 
                     elevation={1} 
                     square
@@ -271,6 +311,29 @@ const PublicMenuBar = () => {
             >
                 {selectedDrawer('sponsors')}
             </Drawer>
+
+            {/* MANAGE SEARCH DIALOG */}
+            <Dialog 
+                onClose={handleDialog} 
+                open={dialog} 
+                >
+                <DialogTitle> 
+                    <SearchBar />
+                </DialogTitle>    
+                
+                <Divider />
+
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Resultados de busca em itens de acervo.
+                    </DialogContentText>
+                </DialogContent>
+    
+            </Dialog>
+
+
+
+
             
         </Fragment>
     );
