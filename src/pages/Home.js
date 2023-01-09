@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateViewport } from '../features/sessionSlice';
+import { selectFilteredResearch } from '../features/researchSlice';
 import { Link } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -25,7 +26,7 @@ const Home = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const research = useSelector(state => state.research.research);
+    const filteredResearch = useSelector(selectFilteredResearch);   
     const sessionViewport = useSelector(state => state.session.viewport);
     const categories = useSelector(state => state.research.categories);
 
@@ -37,17 +38,11 @@ const Home = () => {
     // REDUX SELECTORS
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));
 
-    // SET SCATTERPLOT COORDINATES
-    const researchScatterplot = research.map(r => {
-        const researchdata = { ...r, coordinates: [r.geolocation.longitude,r.geolocation.latitude] }
-        return researchdata
-    });
-
     // DECK GL OVERLAY LAYER 
     const scatterplotLayer = 
         new ScatterplotLayer({
             id: 'map-home-markers',
-            data: researchScatterplot,
+            data: filteredResearch,
             pickable: true,
             stroked: false,
             filled: true,

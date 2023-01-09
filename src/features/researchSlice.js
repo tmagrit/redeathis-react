@@ -1080,6 +1080,21 @@ export const researchSlice = createSlice({
       }
 })
 
+export const selectFilteredResearch  = state => {
+    // FILTER PUBLISHED STATUS
+    const publishedResearch = state.research.research.filter(r => r.status === 1);
+    // SET GEOLOCATION
+    const geolocatedResearch = publishedResearch.map(pr => {
+        const geolocatedresearch = { ...pr, coordinates: [pr.geolocation.longitude,pr.geolocation.latitude] };
+
+        return geolocatedresearch;
+    }); 
+ 
+
+
+    return geolocatedResearch;
+};
+
 export const selectResearchSources  = state => {
     const researchSources = state.research.research.map(rr => {
         const researchsources = state.research.sources.filter(rs => rs.target_id === rr.id);
