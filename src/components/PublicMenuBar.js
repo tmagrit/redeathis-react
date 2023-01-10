@@ -38,13 +38,15 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import { slugger } from './slugger';
 import { useHistory } from './history';
 import SearchBar from './SearchBar';
+import SearchResults from './SearchResults';
 import PublicFooter from './PublicFooter';
 import Logo from './Logo';
 
 const PublicMenuBar = () => {
 
     // REDUX SELECTORS
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
     const session = useSelector(state => state.session);
     const categorieLegendGrade = useSelector(categoryLegendGrade);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
@@ -58,11 +60,11 @@ const PublicMenuBar = () => {
         sponsors: false,
         //filters: false,
     }); 
-    const [dialog, setDialog] = useState(false); 
+    const [researchSearchDialog, setResearchSearchDialog] = useState(false);
 
     // HANDLE DIALOG
-    const handleDialog = () => {
-        setDialog(!dialog);
+    const handleResearchSearchDialog = () => {
+        setResearchSearchDialog(!researchSearchDialog);
     }; 
 
     // HANDLE LOGO CONTEXT
@@ -213,10 +215,10 @@ const PublicMenuBar = () => {
 
                             <Box sx={{ flexGrow: 1 }} />
 
-                            <IconButton color="text.secondary" size="large" onClick={handleDialog} >
+                            <IconButton color="text.secondary" size="large" onClick={handleResearchSearchDialog} >
                                 <ManageSearchIcon />
                             </IconButton>
-                            <IconButton color="text.secondary" size="large" onClick={handleDialog} >
+                            <IconButton color="text.secondary" size="large" >
                                 <PersonSearchIcon />
                             </IconButton>
                             <IconButton edge="end" color="text.secondary" size="large" onClick={toggleDrawer('pageMenu', true)} >
@@ -242,11 +244,11 @@ const PublicMenuBar = () => {
                         <MenuIcon />
                     </IconButton>
                     <Divider />
-                    <IconButton onClick={handleDialog} >
+                    <IconButton onClick={handleResearchSearchDialog} >
                         <ManageSearchIcon />
                     </IconButton>
                     <Divider />
-                    <IconButton onClick={handleDialog} >
+                    <IconButton >
                         <PersonSearchIcon />
                     </IconButton>
                     <Divider />
@@ -312,10 +314,13 @@ const PublicMenuBar = () => {
                 {selectedDrawer('sponsors')}
             </Drawer>
 
+
             {/* MANAGE SEARCH DIALOG */}
             <Dialog 
-                onClose={handleDialog} 
-                open={dialog} 
+                fullWidth	
+                PaperProps={{ square: true, }}
+                onClose={handleResearchSearchDialog} 
+                open={researchSearchDialog} 
                 >
                 <DialogTitle> 
                     <SearchBar />
@@ -325,104 +330,14 @@ const PublicMenuBar = () => {
 
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Resultados de busca em itens de acervo.
+                        <SearchResults />
                     </DialogContentText>
                 </DialogContent>
-    
+
             </Dialog>
-
-
-
-
             
         </Fragment>
     );
 };
 
 export default PublicMenuBar;
-
-
-    // const handleMenu = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
-
-            {/* <Box sx={{ position: 'absolute', bottom: 200, left: 111, zIndex: 70, width: '450px' }}>
-                <Slider
-                    getAriaLabel={() => 'Temperature range'}
-                    size="small"
-                    step={1}
-                    value={[1970,2010]}
-                    //onChange={handleChange}
-                    valueLabelDisplay="on"
-                    //getAriaValueText={valuetext}
-                    marks={[{
-                        value: 1970,
-                        label: '1970',
-                    },
-                    {
-                        value: 2010,
-                        label: '2010',
-                    }]}
-                />
-            </Box>     */}
-
-
-
-            {/* <Stack 
-                sx={{
-                    position: 'absolute', 
-                    zIndex: 80, 
-                    // margin: 1.1,
-                    // top: 1.1,
-                    // left: 1.1
-                    margin: 1.1,
-                    top: 111,
-                    left: 1.1
-                }}
-                direction="row" 
-            >
-
-                <Paper elevation={ history.pathArray[1] === '' ? 3 : 0 } >
-                    <Box 
-                        sx={{ 
-                            display: 'flex', 
-                            height: '100%',
-                            justifyContent: "left",
-                            alignItems: "left"
-                        }}
-                    >
-                        <IconButton 
-                            onClick={toggleDrawer('pageMenu', true)}
-                        >
-                            <MenuIcon sx={{ 
-                                display: 'flex', 
-                                justifyContent: "center",
-                                alignItems: "center",
-                                alignContent: "center"
-                                }} 
-                                size='large'
-                            />
-                        </IconButton>
-                    </Box>
-                </Paper>
-                <Box component="div"  sx={{ 
-                        paddingLeft: '8px', 
-                        height: '40px', 
-                        color: history.pathArray[1] === '' ? '#fff' : null 
-                    }} 
-                >
-                    <Typography variant="caption" display="block" sx={{ position: 'relative', top: 0 }}>
-                        Acervo de referências em construção
-                    </Typography>
-                    <Typography variant="h5" component={Link} to="/" sx={{ position: 'relative', top: -8, textDecoration: 'none', color: 'inherit', }} onClick={toggleDrawer('sponsors', true)}>
-                        Rede Residência ATHIS
-                    </Typography> 
-                </Box> 
-
-                
-            
-            </Stack> */}

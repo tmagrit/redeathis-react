@@ -617,6 +617,7 @@ export const researchSlice = createSlice({
         classes: [],
         tags: [],
         research_tags: [],
+        researchSearchInput: '',
                 
         getResearchStatus: 'idle',
         getResearchError: null,
@@ -768,7 +769,11 @@ export const researchSlice = createSlice({
         removeTag(state, action) { 
             const newTags = state.tags.filter(t => t.id !== action.payload.id);
             state.tags = newTags;
-        }
+        },
+        setResearchSearchInput(state, action) { 
+            //const newClasses = state.classes.filter(c => c.id !== action.payload.id);
+            state.researchSearchInput = action.payload;
+        },
         
     },
     extraReducers: {
@@ -1080,9 +1085,12 @@ export const researchSlice = createSlice({
       }
 })
 
+// FILTERED RESEARCH SELECTOR 
 export const selectFilteredResearch  = state => {
+
     // FILTER PUBLISHED STATUS
     const publishedResearch = state.research.research.filter(r => r.status === 1);
+
     // SET GEOLOCATION
     const geolocatedResearch = publishedResearch.map(pr => {
         const geolocatedresearch = { ...pr, coordinates: [pr.geolocation.longitude,pr.geolocation.latitude] };
@@ -1090,9 +1098,31 @@ export const selectFilteredResearch  = state => {
         return geolocatedresearch;
     }); 
  
-
-
     return geolocatedResearch;
+};
+
+// SEARCHED RESEARCH SELECTOR 
+export const selectSearchedResearch  = state => {
+
+    // FILTER PUBLISHED STATUS
+    const publishedResearch = state.research.research.filter(r => r.status === 1);
+
+    // SET CATEGORY NAMES
+    const categoryNameResearch = publishedResearch.map(pr => {
+        const categorynameresearch = { ...pr, categoryName: state.research.categories.find(c => c.id === pr.category_id).name };
+
+        return categorynameresearch;
+    }); 
+
+    // FILTER SEARCHED ITEMS
+    const searchedResearch = categoryNameResearch.filter((r) => {
+        return Object.values(r).join('').toLowerCase().includes(state.research.researchSearchInput.toLowerCase());
+    });   
+ 
+    if(state.research.researchSearchInput === '')
+        return publishedResearch;
+    else
+        return searchedResearch;
 };
 
 export const selectResearchSources  = state => {
@@ -1102,8 +1132,7 @@ export const selectResearchSources  = state => {
         const researchauthors = state.research.researchAuthors.filter(ra => ra.research_id === rr.id);
         
         return ({...rr, authors: researchauthors, sources: researchsources, targets: researchtargets });
-    })
-
+    });
 
     return researchSources;
 };
@@ -1129,6 +1158,7 @@ export const {
     removeAuthor,
     removeClass,
     removeTag,
+    setResearchSearchInput,
 } = researchSlice.actions
 
 export default researchSlice.reducer

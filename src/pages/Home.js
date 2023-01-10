@@ -32,8 +32,8 @@ const Home = () => {
 
     // REACT STATES
     const [viewport, setViewport] = useState(sessionViewport);
-    const [clickInfo, setClickInfo] = useState({ object: false }); 
-    const [hoverInfo, setHoverInfo] = useState({ object: false }); 
+    const [clickInfo, setClickInfo] = useState({ object: false }); console.log('clickInfo',clickInfo);
+    const [hoverInfo, setHoverInfo] = useState({ object: false });
 
     // REDUX SELECTORS
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));
