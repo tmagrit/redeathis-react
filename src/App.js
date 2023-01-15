@@ -82,18 +82,12 @@ function App() {
         dispatch(getResearchTags());
     }, [])
 
-    // // TRACK ROUTES 
-    // useEffect(() => {
-    //     // dispatch(updateProfileSection(history?.pathArray[2] || ''));
-    //     // dispatch(updateProfileContext(history?.pathArray[3] || ''));
-    // }, [history.location]);
-
     if(session.sessionStatus === 'succeeded') {
         return (
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="/" element={<Home />} />
-                <Route path="home" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
+                {/* <Route path="home" element={<Home />} /> */}
                 <Route path="view/research/:researchId" element={<ViewResearch />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />
@@ -152,7 +146,3 @@ function App() {
 };
 
 export default App;
-
-//import ResearchMain from './components/ResearchMain';
-//import MembersMain from './components/MembersMain';
-//import PagesMain from './components/PagesMain';
