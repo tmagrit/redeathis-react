@@ -88,6 +88,8 @@ function App() {
                 <Route index element={<Home />} />
                 {/* <Route path="/" element={<Home />} /> */}
                 {/* <Route path="home" element={<Home />} /> */}
+
+                {/* PUBLIC RESEARCH ROUTES */}
                 <Route path="view/research/:researchId" element={<ViewResearch />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />

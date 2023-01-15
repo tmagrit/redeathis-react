@@ -16,7 +16,7 @@ const SearchBar = ( ) => {
     const researchSearchInput = useSelector(state => state.research.researchSearchInput);   
     
     // REACT STATES
-    const [value, setValue] = useState(''); console.log('value',value);
+    const [value, setValue] = useState('');
 
     // HANDLE RESEARCH INPUT
     const handleResearchSearchInput = (e) => {
