@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateViewport } from '../features/sessionSlice';
-import { selectFilteredResearch } from '../features/researchSlice';
+import { selectFilteredResearch, selectResearchTags } from '../features/researchSlice';
 import { Link } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -18,6 +18,7 @@ import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { categoryTitle } from '../components/categoryTitle';
+import ResearchTag from '../components/ResearchTag';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -29,20 +30,31 @@ const Home = () => {
     const filteredResearch = useSelector(selectFilteredResearch);   
     const sessionViewport = useSelector(state => state.session.viewport);
     const categories = useSelector(state => state.research.categories);
+    const allResearchTags = useSelector(selectResearchTags);   
 
     // REACT STATES
     const [viewport, setViewport] = useState(sessionViewport);
-    const [clickInfo, setClickInfo] = useState({ object: false }); console.log('clickInfo',clickInfo);
+    const [clickInfo, setClickInfo] = useState({ object: false }); 
     const [hoverInfo, setHoverInfo] = useState({ object: false });
 
-    // REDUX SELECTORS
-    const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));
+    // REDUX SELECTORS   
+    const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));   
+    
+    const scatterFilteredResearch = filteredResearch.map(fr => {
+        const researchTags = allResearchTags.find(art => art.research_id === fr.id ); 
+
+        return ({ 
+            ...fr,
+            researchTags: researchTags
+        });
+    }); 
+    
 
     // DECK GL OVERLAY LAYER 
     const scatterplotLayer = 
         new ScatterplotLayer({
             id: 'map-home-markers',
-            data: filteredResearch,
+            data: scatterFilteredResearch,
             pickable: true,
             stroked: false,
             filled: true,
@@ -107,7 +119,7 @@ const Home = () => {
                             zIndex: 80, 
                             padding: 2, 
                             margin: 1.2,
-                            maxWidth: '40vw',
+                            maxWidth: '55vw',
                             minWidth: '30vw',
                             minHeight: '10vw',
                             //pointerEvents: 'none',
@@ -118,7 +130,7 @@ const Home = () => {
                     >
                         <Box sx={{ my:0, py: 0, }}>    
                             <Typography variant="subtitle1" component="span" >{ clickInfo.object.title }</Typography>
-                            <Typography variant="subtittle1" component="span" sx={{ color: 'text.secondary',}}> 
+                            <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary',}}> 
                                 {clickInfo.object.date.start && 
                                     (clickInfo.object.date.interval ? 
                                         (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
@@ -131,7 +143,7 @@ const Home = () => {
                         <Box sx={{ my:0, py: 0, }}>
                             {researchAuthors.length > 0 && ( 
                                 researchAuthors.map(ra => {
-                                    return  <Typography variant="caption" component="span" sx={{ color: 'text.secondary', my:0, py: 0, }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                    return  <Typography variant="caption" component="span" sx={{ color: 'text.secondary', my:0, py: 0, textTransform: 'uppercase', }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                                 })
                             )}
                         </Box>
@@ -139,15 +151,57 @@ const Home = () => {
                             direction="row" 
                             alignItems="center"
                             spacing={0.7}
-                            sx={{ mt:1, mb:1, }}
+                            sx={{ mt:1, mb:2, }}
                         >
                             <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
-                            <Typography variant="caption" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
+                            <Typography variant="subtitle2" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                         </Stack>
                         <Typography variant="caption" component="span" > {clickInfo.object.excerpt} </Typography> 
-                        <Typography variant="caption" sx={{ textDecoration: 'none', }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
+                        <Typography variant="caption" sx={{ textDecoration: 'none',}} component={Link} to={`/view/research/${clickInfo.object.id}`} >
                                 Saiba mais... 
-                        </Typography>     
+                        </Typography>   
+
+
+
+
+                        <Stack 
+                            sx={{ pt: 2, }}
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="flex-start"
+                            spacing={2}
+                        >
+                            {
+                                (clickInfo.object.researchTags.researchClassesData.length > 0) && 
+                                (clickInfo.object.researchTags.researchTagsData.length > 0) && 
+                                clickInfo.object.researchTags.researchClassesData.map(rcd => {
+                                    return (
+                                        <Stack
+                                            direction="column"
+                                            justifyContent="flex-start"
+                                            alignItems="flex-start"
+                                            spacing={0.5}
+                                            //key={rcd.id}
+                                        >
+                                                <Typography variant="caption" component="h4" gutterBottom={false} >
+                                                    {rcd.name} 
+                                                </Typography> 
+                                                {clickInfo.object.researchTags.researchTagsData.filter(t => t.class_id === rcd.id).map(rtd => {
+                                                    return (
+                                                        <ResearchTag id={rtd.id} />
+                                                    )
+                                                })}    
+                                        </Stack>
+                                    )
+                                })
+                            }
+
+                        </Stack>
+
+
+
+
+
                     </Paper>
                 </ClickAwayListener>
             )}

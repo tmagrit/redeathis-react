@@ -1150,6 +1150,29 @@ export const categoryLegendGrade = state => {
         return [];
 };
 
+export const selectResearchTags  = state => {
+
+    const classes = state.research.classes;
+    const tags = state.research.tags;
+
+    const allResearchTags = state.research.research.map(art => {
+
+        const researchTags = state.research.research_tags.filter(rt => rt.research_id === art.id ); 
+        const researchTagsIds = researchTags.map(t => {if(t.tag_id) return t.tag_id} ); 
+        const researchTagsData = tags.filter(rtd => researchTagsIds.includes(rtd.id)); 
+        const researchClassesIds = researchTagsData.map(rtd => {if(rtd.class_id) return rtd.class_id} ); 
+        const researchClassesData = classes.filter(cl => researchClassesIds.includes(cl.id)); 
+
+        return ({ 
+            research_id: art.id, 
+            researchClassesData: researchClassesData,
+            researchTagsData: researchTagsData
+        });
+    });
+
+    return allResearchTags;
+};
+
 export const { 
     updateClassName,
     updateTagsNames,
