@@ -81,7 +81,7 @@ const ViewResearch = () => {
                                         {researchData.title} 
                                     </Typography> 
                                     {/* DATA */}
-                                    <Typography variant="h6" component="span" nowrap sx={{ color: 'text.secondary', display: 'inline', }}> 
+                                    <Typography variant="h6" component="span" noWrap sx={{ color: 'text.secondary', display: 'inline', }}> 
                                         {researchData.date.interval ? 
                                             (`[${researchData.date.start.year}-${researchData.date.end.year}]`) 
                                             : 
@@ -118,8 +118,8 @@ const ViewResearch = () => {
                           
                             
                             <Box sx={{ pt: 3, pb: 2, }}>
-                                <Typography variant="body2" component="p" nowrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
-                                <Typography variant="body2" component="p" nowrap sx={{ display: 'inline', }}> 
+                                <Typography variant="body2" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
+                                <Typography variant="body2" component="div" noWrap sx={{ display: 'inline', }}> 
                                     {researchData.summary} 
                                 </Typography>
                             </Box>
@@ -144,7 +144,7 @@ const ViewResearch = () => {
                                                 </Typography> 
                                                 {researchTags.researchTagsData.filter(t => t.class_id === rcd.id).map(rtd => {
                                                     return (
-                                                        <ResearchTag id={rtd.id} />
+                                                        <ResearchTag id={rtd.id} key={rtd.id} />
                                                     )
                                                 })}    
                                         </Stack>

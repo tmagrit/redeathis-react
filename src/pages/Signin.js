@@ -116,7 +116,7 @@ const Signin = () => {
         </Box>
       <Divider />
       <Box sx={{ px: 4, py: 3, }} >
-      <Typography component="span" variant="p" align="center" >
+      <Typography component="span" variant="div" align="center" >
           Esqueceu sua senha? <Link to="/resetpassword" color="inherit" underline="hover" >Clique aqui</Link>
         </Typography>
       </Box>

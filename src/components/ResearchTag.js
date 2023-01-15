@@ -50,7 +50,7 @@ const ResearchTag = (props) => {
 export default ResearchTag;
 
 ResearchTag.propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.number.isRequired
 };
 
 

@@ -191,14 +191,14 @@ const Home = () => {
                                             justifyContent="flex-start"
                                             alignItems="flex-start"
                                             spacing={0.5}
-                                            //key={rcd.id}
+                                            key={rcd.id}
                                         >
                                                 <Typography variant="caption" component="h4" gutterBottom={false} >
                                                     {rcd.name} 
                                                 </Typography> 
                                                 {clickInfo.object.researchTags.researchTagsData.filter(t => t.class_id === rcd.id).map(rtd => {
                                                     return (
-                                                        <ResearchTag id={rtd.id} />
+                                                        <ResearchTag id={rtd.id} key={rtd.id} />
                                                     )
                                                 })}    
                                         </Stack>

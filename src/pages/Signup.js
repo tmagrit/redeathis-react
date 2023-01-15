@@ -156,7 +156,7 @@ const Signup = () => {
         </Box>
       <Divider />
       <Box sx={{ px: 4, py: 3, }} >
-      <Typography component="span" variant="p" align="center" >
+      <Typography component="span" variant="div" align="center" >
           Já é membro? <Link to="/signin" color="inherit" underline="hover" >Acesse aqui</Link>
         </Typography>
       </Box>

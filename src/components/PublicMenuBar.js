@@ -169,7 +169,7 @@ const PublicMenuBar = () => {
             //                                 key={couple[0].id}
             //                             >
             //                                 <Avatar sx={{ width: 10, height: 10, bgcolor: `${couple[0].color}` }}> </Avatar>
-            //                                 <Typography variant="caption" component="p" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
+            //                                 <Typography  >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
             //                             </Stack>
             //                         </Box>
             //                     )
@@ -202,13 +202,7 @@ const PublicMenuBar = () => {
                     </Box>
                 ) : (
                     <AppBar position="fixed" color="inherit" elevation={1} sx={{ height: '56px', zIndex: 40, }}>
-                        <Toolbar 
-                            // sx={{
-                            //     width: "100vw",
-                            //     maxWidth: "xl",
-                            //     mx: "auto"
-                            //     }}  
-                            >
+                        <Toolbar >
                             <Box component={Link} to="/" sx={{ textDecoration: 'none', }} >
                                 <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' } />
                             </Box>
@@ -218,9 +212,11 @@ const PublicMenuBar = () => {
                             <IconButton color="text.secondary" size="large" onClick={handleResearchSearchDialog} >
                                 <ManageSearchIcon />
                             </IconButton>
+
                             {/* <IconButton color="text.secondary" size="large" >
                                 <PersonSearchIcon />
                             </IconButton> */}
+
                             <IconButton edge="end" color="text.secondary" size="large" onClick={toggleDrawer('pageMenu', true)} >
                                 <MenuIcon />
                             </IconButton>
@@ -247,12 +243,12 @@ const PublicMenuBar = () => {
                     <IconButton onClick={handleResearchSearchDialog} >
                         <ManageSearchIcon />
                     </IconButton>
-                    <Divider />
-                    {/* <IconButton >
+                    {/*<Divider />
+                     <IconButton >
                         <PersonSearchIcon />
                     </IconButton> */}
                     <Divider />
-                    <IconButton onClick={() => {}} >
+                    <IconButton >
                         <FilterAltIcon />
                     </IconButton>
                     <Divider />
@@ -291,7 +287,7 @@ const PublicMenuBar = () => {
                                 key={couple[0].id}
                             >
                                 <Avatar sx={{ width: 10, height: 10, bgcolor: `${couple[0].color}` }}> </Avatar>
-                                <Typography variant="caption" component="p" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
+                                <Typography variant="caption" component="div" >{`${couple[0].name} e ${couple[1].name}`}</Typography> 
                             </Stack>
                         )
                     })}
@@ -329,9 +325,10 @@ const PublicMenuBar = () => {
                 <Divider />
 
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        <SearchResults />
-                    </DialogContentText>
+                    <SearchResults />
+                    {/* <DialogContentText id="alert-dialog-description">
+                        
+                    </DialogContentText> */}
                 </DialogContent>
 
             </Dialog>
