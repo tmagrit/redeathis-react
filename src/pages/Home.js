@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import LinkIcon from '@mui/icons-material/Link';
 import Map from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
 
@@ -129,7 +130,7 @@ const Home = () => {
                         elevation={2}
                     >
                         <Box sx={{ my:0, py: 0, }}>    
-                            <Typography variant="subtitle1" component="span" >{ clickInfo.object.title }</Typography>
+                            <Typography variant="h6" component="span" >{ clickInfo.object.title }</Typography>
                             <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary',}}> 
                                 {clickInfo.object.date.start && 
                                     (clickInfo.object.date.interval ? 
@@ -156,14 +157,15 @@ const Home = () => {
                             <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
                             <Typography variant="subtitle2" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                         </Stack>
-                        <Typography variant="caption" component="span" > {clickInfo.object.excerpt} </Typography> 
-                        <Typography variant="caption" sx={{ textDecoration: 'none',}} component={Link} to={`/view/research/${clickInfo.object.id}`} >
-                                Saiba mais... 
+                        <Typography variant="subtitle1" component="span" > {clickInfo.object.excerpt} </Typography> 
+
+                        <Typography variant="subtitle1" component="span" sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
+                                <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, }} /> 
                         </Typography>   
 
 
 
-
+                        {/* TAGS */}
                         <Stack 
                             sx={{ pt: 2, }}
                             direction="row"
