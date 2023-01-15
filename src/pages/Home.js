@@ -130,6 +130,7 @@ const Home = () => {
                         }}
                         elevation={2}
                     >
+                        {/* TITLE */}
                         <Box sx={{ my:0, py: 0, }}>    
                             <Typography variant="h6" component="span" >{ clickInfo.object.title }</Typography>
                             <Typography variant="h6" component="span" sx={{ color: 'text.secondary',}}> 
@@ -142,6 +143,8 @@ const Home = () => {
                                 } 
                             </Typography>
                         </Box>
+
+                        {/* AUTHORS */}
                         <Box sx={{ my:0, py: 0, }}>
                             {researchAuthors.length > 0 && ( 
                                 researchAuthors.map(ra => {
@@ -149,6 +152,8 @@ const Home = () => {
                                 })
                             )}
                         </Box>
+
+                        {/* CATEGORY */}
                         <Stack 
                             direction="row" 
                             alignItems="center"
@@ -156,10 +161,10 @@ const Home = () => {
                             sx={{ mt:1, mb:2, }}
                         >
                             <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
-                            <Typography variant="subtitle2" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
+                            <Typography variant="subtitle1" component="div" sx={{ fontSize: 15, lineHeight: 1.5, }}> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                         </Stack>
                         
-                        {/* TAGS */}
+                        {/* EXCERPT */}
                         <Typography variant="subtitle1" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
                         <Typography variant="subtitle1" sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
                                 <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, }} /> 
