@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import LinkIcon from '@mui/icons-material/Link';
@@ -131,7 +132,7 @@ const Home = () => {
                     >
                         <Box sx={{ my:0, py: 0, }}>    
                             <Typography variant="h6" component="span" >{ clickInfo.object.title }</Typography>
-                            <Typography variant="subtitle1" component="span" sx={{ color: 'text.secondary',}}> 
+                            <Typography variant="h6" component="span" sx={{ color: 'text.secondary',}}> 
                                 {clickInfo.object.date.start && 
                                     (clickInfo.object.date.interval ? 
                                         (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
@@ -157,17 +158,19 @@ const Home = () => {
                             <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
                             <Typography variant="subtitle2" component="div"> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                         </Stack>
-                        <Typography variant="subtitle1" component="span" > {clickInfo.object.excerpt} </Typography> 
-
-                        <Typography variant="subtitle1" component="span" sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
+                        
+                        {/* TAGS */}
+                        <Typography variant="subtitle1" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
+                        <Typography variant="subtitle1" sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
                                 <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, }} /> 
                         </Typography>   
 
+                        <Divider sx={{ pt: 1.5, }} />
 
 
                         {/* TAGS */}
                         <Stack 
-                            sx={{ pt: 2, }}
+                            sx={{ pt: 1.5, }}
                             direction="row"
                             justifyContent="flex-start"
                             alignItems="flex-start"
