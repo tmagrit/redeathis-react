@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSession, logout, trackSession, updateProfile, updateProfileSection, updateProfileContext } from './features/sessionSlice';
+import { getSession, trackSession, updateProfile } from './features/sessionSlice';
 import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
 import { getResearch, getCategories, getStatuses, getAuthors, getResearchAuthors, getSources, getClasses, getTags, getResearchTags } from './features/researchSlice';
 import { getPages } from './features/pagesSlice';
@@ -40,8 +40,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-//import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import './mapbox-gl-geocoder.css';
+import './mapbox-gl-geocoder.css'; //import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 function App() {
 
