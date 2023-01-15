@@ -218,9 +218,9 @@ const PublicMenuBar = () => {
                             <IconButton color="text.secondary" size="large" onClick={handleResearchSearchDialog} >
                                 <ManageSearchIcon />
                             </IconButton>
-                            <IconButton color="text.secondary" size="large" >
+                            {/* <IconButton color="text.secondary" size="large" >
                                 <PersonSearchIcon />
-                            </IconButton>
+                            </IconButton> */}
                             <IconButton edge="end" color="text.secondary" size="large" onClick={toggleDrawer('pageMenu', true)} >
                                 <MenuIcon />
                             </IconButton>
@@ -248,9 +248,9 @@ const PublicMenuBar = () => {
                         <ManageSearchIcon />
                     </IconButton>
                     <Divider />
-                    <IconButton >
+                    {/* <IconButton >
                         <PersonSearchIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <Divider />
                     <IconButton onClick={() => {}} >
                         <FilterAltIcon />
