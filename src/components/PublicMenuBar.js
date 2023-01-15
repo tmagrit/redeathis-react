@@ -14,7 +14,7 @@ import Avatar from '@mui/material/Avatar';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+//import DialogContentText from '@mui/material/DialogContentText';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -27,13 +27,12 @@ import LoginIcon from '@mui/icons-material/Login';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuIcon from '@mui/icons-material/Menu';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+//import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import InfoIcon from '@mui/icons-material/Info';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-
 
 import { slugger } from './slugger';
 import { useHistory } from './history';

@@ -119,7 +119,7 @@ const ViewResearch = () => {
                             
                             <Box sx={{ pt: 3, pb: 2, }}>
                                 <Typography variant="body2" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
-                                <Typography variant="body2" component="div" noWrap sx={{ display: 'inline', }}> 
+                                <Typography variant="body2" component="div" sx={{ display: 'inline', }}> 
                                     {researchData.summary} 
                                 </Typography>
                             </Box>
