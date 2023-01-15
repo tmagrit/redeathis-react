@@ -92,6 +92,7 @@ function App() {
         return (
             <Routes>
                 <Route index element={<Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="home" element={<Home />} />
                 <Route path="view/research/:researchId" element={<ViewResearch />} />
                 <Route path="signin" element={<Signin />} />

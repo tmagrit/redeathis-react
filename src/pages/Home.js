@@ -166,8 +166,12 @@ const Home = () => {
                         
                         {/* EXCERPT */}
                         <Typography variant="subtitle1" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
-                        <Typography variant="subtitle1" sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} component={Link} to={`/view/research/${clickInfo.object.id}`} >
-                                <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, }} /> 
+                        <Typography 
+                            variant="subtitle1" 
+                            sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} 
+                            component={Link} to={`/view/research/${clickInfo.object.id}`} 
+                        >
+                                <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, color: 'inherit', }} /> 
                         </Typography>   
 
                         <Divider sx={{ pt: 1.5, }} />
