@@ -69,7 +69,7 @@ const MainMenu = () => {
                 subheader={
                     <ListSubheader component="div" id="acervo">
                         <Box color={drawerState ? 'inherit' : 'background.paper'} >
-                            ACERVO
+                            Acervo
                         </Box>
                     </ListSubheader>
                 }
@@ -117,7 +117,7 @@ const MainMenu = () => {
                 </ListItemButton>
                 </List>
 
-                <Divider sx={{ my: 1 }} />
+                <Divider  />
 
                 {/* INSTITUCIONAL  */}
                 <List 
@@ -126,7 +126,7 @@ const MainMenu = () => {
                     subheader={
                         <ListSubheader component="div" id="institucional">
                             <Box color={drawerState ? 'inherit' : 'background.paper'} >
-                                INSTITUCIONAL
+                                Institucional
                             </Box>
                         </ListSubheader>
                     }
@@ -215,7 +215,7 @@ const MainMenu = () => {
                     </Collapse>
                 </List>
 
-                <Divider sx={{ my: 1 }} />
+                <Divider />
 
                 {/* NAVIGATION  */}
                 <ListItemButton onClick={() => history.goBack()} >
