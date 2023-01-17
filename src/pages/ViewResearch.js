@@ -113,7 +113,17 @@ const ViewResearch = () => {
                             
                         </Grid>
 
-                        <Grid xs={12} item > 
+
+
+
+
+
+
+
+
+                        
+
+                        {/* <Grid xs={12} item > 
                         
                           
                             
@@ -153,7 +163,25 @@ const ViewResearch = () => {
 
                             </Stack>  
 
-                        </Grid>
+                        </Grid> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     </Grid>
 
