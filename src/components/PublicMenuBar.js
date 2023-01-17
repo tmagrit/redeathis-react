@@ -176,8 +176,6 @@ const PublicMenuBar = () => {
             //             </Stack>
             //         </Box>
             //     )
-            
-            
 
             case 'research':
                 return(
@@ -200,7 +198,7 @@ const PublicMenuBar = () => {
                         <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' }   />
                     </Box>
                 ) : (
-                    <AppBar position="fixed" color="inherit" elevation={1} sx={{ height: '56px', zIndex: 40, }}>
+                    <AppBar position="fixed" color="inherit" elevation={0}  sx={{ height: '56px', zIndex: 40, borderBottom: 1, borderColor: 'divider', }}>
                         <Toolbar >
                             <Box component={Link} to="/" sx={{ textDecoration: 'none', }} >
                                 <Logo color={ history.location.pathname === '/' ? '#FFF' : '#00000099' } />

@@ -29,11 +29,11 @@ const ResearchTag = (props) => {
                     borderColor: `${categoryColor}`,
                     border: "1px solid",
                     borderRadius: 0,
-                    backgroundColor: "#fff",
+                    //backgroundColor: "#fff",
                     "&:hover": {
                         color: "#fff",
                         backgroundColor: `${categoryColor}`,
-                        boxShadow: "none"
+                        boxShadow: "none",
                     },
 
                 }}
