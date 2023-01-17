@@ -23,7 +23,8 @@ const SearchResults = () => {
             {searchedResearch.map(fr => {
                 const category = categories.find(c => c.id === fr.category_id )
                 return (
-                    <SearchResult key={fr.id} component={Link} to={`/view/research/${fr.id}`} >
+                    <SearchResult key={fr.id} component={Link} to="/view/research/56" >
+                    {/* <SearchResult key={fr.id} component={Link} to={`/view/research/${fr.id}`} >     */}
                         <Stack sx={{ p: 1, }} >
                             <Typography variant="body2" component="div" sx={{ fontWeight: 500,}} >{truncate(fr.title, 7)}</Typography>
                             <Stack direction="row" spacing={0.5} justifyContent="flex-start" alignItems="center" >
