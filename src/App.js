@@ -109,6 +109,9 @@ function App() {
                     {/* MAIN DASHBOARD */}
                     <Route index element={<MainDashboard />} />
 
+                    {/* PUBLIC RESEARCH ROUTES */}
+                    <Route path="view/research/:researchId" element={<ViewResearch />} />
+
                     {/* RESEARCH ROUTE */}
                     <Route path="research" element={<ResearchIndex />} />
                     {/* <Route path="research/all" element={<ResearchIndex />} /> */}
