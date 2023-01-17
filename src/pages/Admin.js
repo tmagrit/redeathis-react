@@ -13,11 +13,11 @@ import Menu from '@mui/material/Menu';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import MenuIcon from '@mui/icons-material/Menu';
+//import Badge from '@mui/material/Badge';
+import SettingsIcon from '@mui/icons-material/Settings';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import MenuIcon from '@mui/icons-material/Menu';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -117,9 +117,9 @@ const Admin = () => {
                 </Link>
             </Typography>
             <IconButton color="inherit" onClick={handleMenu}>
-              <Badge badgeContent={4} color="secondary">
-                <VerifiedUserIcon />
-              </Badge>
+              {/* <Badge badgeContent={4} color="secondary"> */}
+                <SettingsIcon />
+              {/* </Badge> */}
             </IconButton>
             <Menu
                 id="menu-appbar"

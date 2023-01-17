@@ -84,14 +84,14 @@ const MainMenu = () => {
 
                 <Collapse in={section === 'research'} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
-                        {/* <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} sx={{ pl: drawerState ? 4 : 3 }}>
+                        {/* <ListItemButton component={Link} to="/admin/research/all" selected={activeMenu(context,'all')} >
                             <ListItemIcon>
                                 <ViewListIcon />
                             </ListItemIcon>
                             <ListItemText primary="Referências" />
                         </ListItemButton> */}
 
-                        <ListItemButton component={Link} to="/admin/research/create" selected={activeMenu(context,'create')} sx={{ pl: drawerState ? 4 : 3 }}>
+                        <ListItemButton component={Link} to="/admin/research/create" selected={activeMenu(context,'create')} >
                             <ListItemIcon>
                                 <AddCircleOutlineIcon />
                             </ListItemIcon>
@@ -141,14 +141,14 @@ const MainMenu = () => {
                     <Collapse in={section === 'members'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
-                            {/* <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} sx={{ pl: drawerState ? 4 : 3 }}>
+                            {/* <ListItemButton component={Link} to="/admin/members/all" selected={activeMenu(context,'all')} >
                                 <ListItemIcon>
                                     <ViewListIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Colaboradores" />
                             </ListItemButton> */}
 
-                            <ListItemButton sx={{ pl: drawerState ? 4 : 3 }}>
+                            <ListItemButton >
                                 <ListItemIcon>
                                     <PersonAddIcon />
                                 </ListItemIcon>
@@ -176,7 +176,7 @@ const MainMenu = () => {
                     <Collapse in={section === 'groups'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
-                            <ListItemButton component={Link} to="/admin/groups/create" selected={activeMenu(context,'create')} sx={{ pl: drawerState ? 4 : 3 }}>
+                            <ListItemButton component={Link} to="/admin/groups/create" selected={activeMenu(context,'create')} >
                                 <ListItemIcon>
                                     <EditLocationAltIcon />
                                 </ListItemIcon>
@@ -204,7 +204,7 @@ const MainMenu = () => {
                     <Collapse in={section === 'pages'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
-                            <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} sx={{ pl: drawerState ? 4 : 3 }}>
+                            <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} >
                                 <ListItemIcon>
                                     <AddCircleOutlineIcon />
                                 </ListItemIcon>
