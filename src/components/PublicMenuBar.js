@@ -14,7 +14,6 @@ import Avatar from '@mui/material/Avatar';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-//import DialogContentText from '@mui/material/DialogContentText';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -27,7 +26,6 @@ import LoginIcon from '@mui/icons-material/Login';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuIcon from '@mui/icons-material/Menu';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-//import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -47,7 +45,7 @@ const PublicMenuBar = () => {
     const dispatch = useDispatch();
 
     const session = useSelector(state => state.session);
-    const categorieLegendGrade = useSelector(categoryLegendGrade); console.log('categorieLegendGrade',categorieLegendGrade);
+    const categorieLegendGrade = useSelector(categoryLegendGrade);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MY HISTORY HOOK
@@ -206,7 +204,7 @@ const PublicMenuBar = () => {
 
                             <Box sx={{ flexGrow: 1 }} />
 
-                            <IconButton color="text.secondary" size="large" onClick={handleResearchSearchDialog} >
+                            <IconButton size="large" onClick={handleResearchSearchDialog} >
                                 <ManageSearchIcon />
                             </IconButton>
 
@@ -214,7 +212,7 @@ const PublicMenuBar = () => {
                                 <PersonSearchIcon />
                             </IconButton> */}
 
-                            <IconButton edge="end" color="text.secondary" size="large" onClick={toggleDrawer('pageMenu', true)} >
+                            <IconButton edge="end" size="large" onClick={toggleDrawer('pageMenu', true)} >
                                 <MenuIcon />
                             </IconButton>
                         </Toolbar>
