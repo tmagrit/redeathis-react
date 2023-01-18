@@ -72,7 +72,7 @@ const PublicMenuBar = () => {
             return true;
         else
             return false;
-    };
+    }; console.log('history.location.pathname',history.location.pathname === '/');
 
     // HANDLE MENU
     const toggleDrawer = (anchor, open) => (event) => {
@@ -261,6 +261,7 @@ const PublicMenuBar = () => {
                 ) : null
             }  
 
+            {/* LEGENDA */}
             {categorieLegendGrade.length > 0 && isHome() && (
                 <Paper 
                     elevation={1} 
@@ -291,6 +292,7 @@ const PublicMenuBar = () => {
                 </Paper>
             )}
 
+            {/* PUBLIC PAGES NAV */}
             <Drawer
                 anchor="right"
                 open={drawer.pageMenu}
@@ -299,6 +301,7 @@ const PublicMenuBar = () => {
                 {selectedDrawer('pageMenu')}
             </Drawer>
 
+            {/* FOOTER */}
             <Drawer
                 anchor="bottom"
                 open={drawer.sponsors}
@@ -308,7 +311,7 @@ const PublicMenuBar = () => {
             </Drawer>
 
 
-            {/* MANAGE SEARCH DIALOG */}
+            {/* RESEARCH SEARCH DIALOG */}
             <Dialog 
                 fullWidth	
                 PaperProps={{ square: true, }}

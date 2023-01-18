@@ -66,7 +66,8 @@ const ViewResearch = () => {
 
     return (
         <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'grey.A100', }}>
-            {/* <PublicMenuBar /> */}
+
+            <PublicMenuBar />
             
             <Container maxWidth="xl" sx={{ mt: 4, mb: 4, pt: 6, }} >
                 <Grid container spacing={2} >
@@ -94,7 +95,7 @@ const ViewResearch = () => {
                                 <Box>
                                     {researchAuthors.length > 0 && ( 
                                         researchAuthors.map(ra => {
-                                            return  <Typography variant="overline" component="h3" sx={{ color: 'text.secondary', display: 'inline', lineHeight: 1, }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
+                                            return  <Typography key={ra.author.id} variant="overline" component="h3" sx={{ color: 'text.secondary', display: 'inline', lineHeight: 1, }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                                         })
                                     )}
                                 </Box> 
