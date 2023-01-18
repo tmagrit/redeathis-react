@@ -66,7 +66,7 @@ const ViewResearch = () => {
 
     return (
         <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'grey.A100', }}>
-            <PublicMenuBar />
+            {/* <PublicMenuBar /> */}
             
             <Container maxWidth="xl" sx={{ mt: 4, mb: 4, pt: 6, }} >
                 <Grid container spacing={2} >

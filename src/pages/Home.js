@@ -97,7 +97,7 @@ const Home = () => {
 
     return (
         <React.Fragment>
-            <PublicMenuBar />
+            {/* <PublicMenuBar /> */}
             <Map 
                 initialViewState={viewport}
                 onMove={e => handleMapChange(e.viewState)}
