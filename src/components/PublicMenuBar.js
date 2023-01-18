@@ -47,7 +47,7 @@ const PublicMenuBar = () => {
     const dispatch = useDispatch();
 
     const session = useSelector(state => state.session);
-    const categorieLegendGrade = useSelector(categoryLegendGrade);
+    const categorieLegendGrade = useSelector(categoryLegendGrade); console.log('categorieLegendGrade',categorieLegendGrade);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MY HISTORY HOOK
@@ -72,7 +72,7 @@ const PublicMenuBar = () => {
             return true;
         else
             return false;
-    }; console.log('history.location.pathname',history.location.pathname === '/');
+    }; 
 
     // HANDLE MENU
     const toggleDrawer = (anchor, open) => (event) => {
