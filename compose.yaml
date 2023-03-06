@@ -1,0 +1,86 @@
+############
+# Usage
+#   Start:          docker compose up -d 
+#   Start w/ Build: docker compose up -d --build
+#   Stop:           docker compose down
+#   Destroy:        docker compose down -v --remove-orphans
+############
+
+version: "3.8"
+services:
+
+  # endpoint:
+  #   build:
+  #     args:
+  #       - NODE_ENV=development
+  #     context: endpoint
+  #     dockerfile: Dockerfile
+  #     target: dev-envs
+  #   command: npm run start-watch
+  #   environment:
+  #     IMAGEKIT_URL_ENDPOINT: ${SERVER_URL_ENDPOINT}
+  #     IMAGEKIT_PUBLIC_KEY: ${SERVER_PUBLIC_KEY}
+  #     IMAGEKIT_PRIVATE_KEY: ${SERVER_PRIVATE_KEY} 
+  #     SERVER_BASE_URL: ${SERVER_BASE_URL}
+  #     SERVER_SECRET: ${SERVER_SECRET}
+  #     NODE_ENV: development
+  #   ports:
+  #     - 3001:3001 
+  #     - 9229:9229
+  #     - 9230:9230        
+  #   volumes:
+  #     - ./endpoint:/code:ro
+  #     - ./endpoint/package.json:/code/package.json
+  #     - ./endpoint/package-lock.json:/code/package-lock.json
+  #     - back-notused:/opt/app/node_modules
+  #   networks:
+  #     - public
+  #     - private
+
+  # imagekitapi:
+  #   build:
+  #     args:
+  #       - NODE_ENV=development
+  #     context: imagekitapi
+  #     dockerfile: Dockerfile
+  #     target: dev-envs
+  #   command: npm run start-watch
+  #   environment:
+  #     IMAGEKIT_PRIVATE_KEY: ${SERVER_PRIVATE_KEY} 
+  #     NODE_ENV: development
+  #   ports:
+  #     - 8001:8001 
+  #     - 9239:9239
+  #     - 9240:9240        
+  #   volumes:
+  #     - ./imagekitapi:/code:ro
+  #     - ./imagekitapi/package.json:/code/package.json
+  #     - ./imagekitapi/package-lock.json:/code/package-lock.json
+  #     - back-notused:/opt/app/node_modules
+  #   networks:
+  #     - public
+  #     - private      
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: dev-envs
+    ports:
+      - 3000:3000
+    env_file: 
+      - ./frontend/.env
+    volumes:
+      - ./frontend/src:/code/src
+      - /code/node_modules
+    networks:
+      - public
+      - private
+    depends_on:
+      - endpoint
+      - imagekitapi
+networks:
+  public:
+  private:
+volumes:
+  back-notused:
