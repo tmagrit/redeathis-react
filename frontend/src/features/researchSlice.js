@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import reactRte from 'react-rte';
 import { supabase } from '../services/supabaseClient';
 
 export const getResearch = createAsyncThunk('research/getResearch', async (obj , { dispatch, getState }) => {

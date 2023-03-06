@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { useState } from 'react';
-import RichTextEditor from 'react-rte';
+// import { useState } from 'react';
+// import RichTextEditor from 'react-rte';
 import Box from '@mui/material/Box';
 
 const TextEditor = ({ value, setValue, readOnly }) => {
 
-    const [editorValue, setEditorValue] = useState(RichTextEditor.createValueFromString(value, 'html'));
+    // const [editorValue, setEditorValue] = useState(RichTextEditor.createValueFromString(value, 'html'));
   
-    const handleChange = value => {
-      setEditorValue(value);
-      setValue(value.toString("html"));
-    };
+    // const handleChange = value => {
+    //   setEditorValue(value);
+    //   setValue(value.toString("html"));
+    // };
   
     return (
         <Box sx={{ my: 1,  }}>
-            <RichTextEditor
+            {/* <RichTextEditor
                 value={editorValue}
                 onChange={handleChange}
                 readOnly={readOnly}
@@ -29,7 +29,7 @@ const TextEditor = ({ value, setValue, readOnly }) => {
                     // borderColor: 'rgba(0, 0, 0, 0.54)',
                     // },
                 }}
-            />
+            /> */}
         </Box>
     );
   };

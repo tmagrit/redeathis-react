@@ -76,9 +76,9 @@ services:
     networks:
       - public
       - private
-    depends_on:
-      - endpoint
-      - imagekitapi
+    # depends_on:
+    #   - endpoint
+    #   - imagekitapi
 networks:
   public:
   private:
