@@ -3,13 +3,13 @@
 
 module.exports = {
     apps : [{
-        name: 'mr-imagekit-endpoint', 
+        name: 'ra-imagekit-endpoint', 
         script: 'npm',
             args: 'start',
         cwd: './endpoint',
         autorestart: true
     }, {
-        name: 'mr-imagekit-api',  
+        name: 'ra-imagekit-api',  
         script: 'npm',
             args: 'start',
         cwd: './imagekitapi',
