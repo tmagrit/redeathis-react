@@ -4,6 +4,7 @@ import { getSession, trackSession, updateProfile } from './features/sessionSlice
 import { getMembers, getProfileRoles, getRoles, getOrganizations } from './features/membersSlice';
 import { getResearch, getCategories, getStatuses, getAuthors, getResearchAuthors, getSources, getClasses, getTags, getResearchTags } from './features/researchSlice';
 import { getPages } from './features/pagesSlice';
+import { getImages } from './features/imagesSlice';
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute';
 import Backdrop from '@mui/material/Backdrop';
@@ -80,6 +81,7 @@ function App() {
         dispatch(getClasses());
         dispatch(getTags());
         dispatch(getResearchTags());
+        dispatch(getImages());
     }, [])
 
     if(session.sessionStatus === 'succeeded') {

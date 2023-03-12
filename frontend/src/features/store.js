@@ -5,6 +5,7 @@ import sessionReducer from './sessionSlice';
 import membersReducer from './membersSlice';
 import researchReducer from './researchSlice';
 import pagesReducer from './pagesSlice';
+import imagesReducer from './imagesSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
       members: membersReducer,
       research: researchReducer,
       pages: pagesReducer,
+      images: imagesReducer,
     },
   })
 
