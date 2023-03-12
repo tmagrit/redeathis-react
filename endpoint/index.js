@@ -67,6 +67,7 @@ const uppyOptions = {
         protocol: new URL(process.env.SERVER_BASE_URL).protocol.replace(":","") // it should be http or https
     },
     filePath: '/tmp',
+    uploadUrls: ['https://tmagrit.tech', 'http://tmagrit.tech', 'http://localhost'],
     secret: process.env.SERVER_SECRET,
     debug: true
 };
