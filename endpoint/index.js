@@ -68,6 +68,7 @@ const uppyOptions = {
     },
     filePath: '/tmp',
     uploadUrls: ['https://tmagrit.tech', 'http://tmagrit.tech', 'http://localhost'],
+    streamingUpload: true,
     secret: process.env.SERVER_SECRET,
     debug: true
 };
