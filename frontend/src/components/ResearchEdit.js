@@ -31,7 +31,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Copyright from './Copyright';
 import Title from './Title';   
 import DateSetter from './DateSetter'; 
-import Map, { Marker } from 'react-map-gl';
+import Map from 'react-map-gl';
 import MapDialog from './MapDialog';
 import MapViewport from './MapViewport';
 import { ScatterplotLayer } from '@deck.gl/layers';
@@ -43,6 +43,8 @@ import SourceDialog from './SourceDialog';
 import AuthorDialog from './AuthorDialog';
 import Source from './Source';
 import Author from './Author';
+import ImageGallery from './ImageGallery'; 
+import UppyDashboard from './UppyDashboard';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -186,7 +188,7 @@ const ResearchEdit = () => {
             <Grid container spacing={3}>
                 {/* LEFT PANEL */}
                 <Grid item xs={12} md={8}>
-                    <Paper sx={{ minHeight: 240, }} >
+                    <Paper sx={{ minHeight: 240, mb: 2, }} square >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'left'}/> 
                         </Grid>
@@ -388,6 +390,20 @@ const ResearchEdit = () => {
 
                         </Grid>
                     </Paper>
+
+                {/* IMAGE GALLERY */}
+                    <Paper square >
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Title position={'contentGallery'}/> 
+                        </Grid>
+                        <Divider />
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}> 
+
+                        <ImageGallery />
+                        
+                        </Grid >
+                    </Paper>
+
                 </Grid>
 
                 {/* RIGHT PANEL */}
@@ -408,7 +424,7 @@ const ResearchEdit = () => {
                                 size="small"
                                 value={researchData.status}
                                 onChange={(event) => handleChangeResearchData(event)}
-                                sx={{ my: 1,}}
+                                sx={{ mt: 1, mb: 2,}}
                                 InputLabelProps={{ shrink: true }}
                             >
                                 {statuses.map((c) => (
@@ -418,9 +434,10 @@ const ResearchEdit = () => {
                                 ))}
                             </TextField>
                             <Button 
-                                variant="contained" 
+                                variant="contained"
+                                color="success" 
                                 fullWidth 
-                                sx={{ py: 1, mb: 2, }} 
+                                sx={{ mb: 2, }} 
                                 onClick={handleUpdateResearch}  
                             >
                                 Atualizar
@@ -437,7 +454,7 @@ const ResearchEdit = () => {
                         <Divider />
 
                         {classes && classes.filter(c => c.category_id === researchData.category_id).map(sc => (
-                            <Accordion disableGutters elevation={1} square >
+                            <Accordion disableGutters elevation={0} square >
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls={sc.name}
@@ -513,23 +530,35 @@ const ResearchEdit = () => {
                                     />
                                 }
                             />
-
-                            <Divider />
-
-                            <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                                <Title position={'year'}/> 
-                            </Grid>
-
-                            <Divider />
-
-                            <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                                <DateSetter 
-                                    setDate={(value) => setResearchData({ ...researchData, date:value })}
-                                    date={{ ...researchData.date }}
-                                />
-                            </Grid>
-
                         </Grid>
+
+                        <Divider />
+
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Title position={'year'}/> 
+                        </Grid>
+
+                        <Divider />
+
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            <DateSetter 
+                                setDate={(value) => setResearchData({ ...researchData, date:value })}
+                                date={{ ...researchData.date }}
+                            />
+                        </Grid>
+
+                        <Divider />
+
+                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Title position={'images'}/> 
+                        </Grid>
+
+                        <Divider />
+
+                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
+                            <UppyDashboard />
+                        </Grid>
+
                     </Paper>
 
                 </Grid>

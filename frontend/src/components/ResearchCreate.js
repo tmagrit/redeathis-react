@@ -146,7 +146,7 @@ const ResearchCreate = () => {
             <Grid container spacing={3}>
                 {/* LEFT PANEL */}
                 <Grid item xs={12} md={8}>
-                    <Paper square sx={{ mb: 3, }}>
+                    <Paper square sx={{ mb: 3, }} >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'left'}/> 
                         </Grid>
@@ -308,7 +308,7 @@ const ResearchCreate = () => {
                                 size="small"
                                 value={researchData.status}
                                 onChange={(event) => handleChangeResearchData(event)}
-                                sx={{ my: 1,}}
+                                sx={{ mt: 1, mb: 2,}}
                                 InputLabelProps={{ shrink: true }}
                             >
                                 {statuses.map((c) => (
@@ -319,8 +319,9 @@ const ResearchCreate = () => {
                             </TextField>
                             <Button 
                                 variant="contained" 
+                                color="success" 
                                 fullWidth 
-                                sx={{ py: 1, mb: 2, }} 
+                                sx={{ mb: 2, }} 
                                 onClick={handleCreateResearch}  
                             >
                                 Criar
@@ -336,7 +337,7 @@ const ResearchCreate = () => {
                         <Divider />
 
                         {classes && classes.filter(c => c.category_id === researchData.category_id).map(sc => (
-                            <Accordion disableGutters elevation={1} square >
+                            <Accordion disableGutters elevation={0} square >
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls={sc.name}

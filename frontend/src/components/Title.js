@@ -46,9 +46,10 @@ const Title = (props) => {
           return 'Marcadores';
         if(props.position === 'geolocation')  
           return 'Geolocalização';  
-        else   
         if(props.position === 'year')  
-          return 'Ano';  
+          return 'Ano'; 
+        if(props.position === 'images')  
+          return 'Imagens';    
         else  
           return 'Referências Relacionadas';
       }
@@ -62,10 +63,13 @@ const Title = (props) => {
         if(props.position === 'tags')  
           return 'Marcadores';          
         if(props.position === 'geolocation')  
-          return 'Geolocalização';  
-        else   
+          return 'Geolocalização'; 
+        if(props.position === 'contentGallery')  
+          return 'Galeria de Imagens';    
         if(props.position === 'year')  
-          return 'Ano';  
+          return 'Ano'; 
+        if(props.position === 'images')  
+          return 'Imagens';            
         else  
           return 'Referências Relacionadas';  
       } 
