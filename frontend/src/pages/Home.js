@@ -15,6 +15,8 @@ import Map from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
 
 import PublicMenuBar from '../components/PublicMenuBar';
+import MenuBar from '../components/MenuBar';
+
 import GeocoderControl from '../components/GeocoderControl';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
@@ -98,7 +100,8 @@ const Home = () => {
     return (
         <React.Fragment>
 
-            <PublicMenuBar />
+            {/* <PublicMenuBar /> */}
+            <MenuBar />
             
             <Map 
                 initialViewState={viewport}
@@ -110,7 +113,7 @@ const Home = () => {
             >
                 {/* <NavigationControl position='bottom-right' />  */}
                 <DeckGLOverlay layers={[scatterplotLayer]}  />
-                <GeocoderControl collapsed={true} position='top-right' />
+                <GeocoderControl collapsed={true} position='bottom-left' />
             </Map>
             
 

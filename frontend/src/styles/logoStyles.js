@@ -11,7 +11,7 @@ export const logoTheme = createTheme({
         logoH1: {
             fontFamily: 'Montserrat', 
             fontSize: '2.25rem',
-            fontWeight: 700
+            fontWeight: 300
          },
         
         logoH2: { 
