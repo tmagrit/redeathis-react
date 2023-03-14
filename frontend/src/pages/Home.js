@@ -16,6 +16,7 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 
 //import PublicMenuBar from '../components/PublicMenuBar';
 import MenuBar from '../components/MenuBar';
+import Controls from '../components/Controls';
 import Legend from '../components/Legend';
 
 import GeocoderControl from '../components/GeocoderControl';
@@ -103,6 +104,7 @@ const Home = () => {
 
             {/* <PublicMenuBar /> */}
             <MenuBar />
+            <Controls />
             <Legend />
             
             <Map 

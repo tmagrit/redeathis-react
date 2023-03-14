@@ -1,26 +1,94 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material';
-import CasaAthis from './CasaAthis';
-import { logoTheme } from '../styles/logoStyles';
+//import CasaAthis from './CasaAthis';
+import { publicTheme } from '../styles/publicStyles';
 
-import "@fontsource/montserrat";
-import "@fontsource/montserrat/300.css";
-import "@fontsource/montserrat/400.css";
-import "@fontsource/montserrat/500.css";
-import "@fontsource/montserrat/700.css";
-import "@fontsource/montserrat/800.css";
-
-const Logo = (props) => {
-
-    const { color } = props;
+const Logo = () => {
 
     return (
-        <ThemeProvider theme={logoTheme} >
+        <ThemeProvider theme={publicTheme} >
             <Box 
+                component={Link} 
+                to="/" 
+                sx={{ 
+                    textDecoration: 'none', 
+                    color: 'text.primary', 
+                }} 
+            >
+                {/* <Typography component="h2" variant="logoSubtitle" sx={{ ml: 0.5, mt: 1, }} >
+                    ACERVO DE REFERÊNCIAS EM CONSTRUÇÃO
+                </Typography> */}
+                <Stack direction="row" spacing={0.5} >
+                    <Typography 
+                        component="h1" 
+                        variant="logoThin" 
+                        sx={{ 
+                            my: 0, 
+                            textDecoration: 'none',                            
+                            // position: 'relative', 
+                            // top: '-0.5rem', 
+                        }} 
+                    >
+                        REDE
+                    </Typography>
+                    <Typography 
+                        component="h1" 
+                        variant="logoThick" 
+                        sx={{ 
+                            my: 0, 
+                            textDecoration: 'none',                            
+                            // position: 'relative', 
+                            // top: '-0.5rem', 
+                        }} 
+                    >
+                        ATHIS
+                    </Typography>
+                </Stack>
+            </Box>   
+            
+            
+            
+            
+            
+            
+
+            {/* LOGO WITH SUBTITLES
+            
+            <Box 
+                component={Link} 
+                to="/" 
+                sx={{ 
+                    textDecoration: 'none', 
+                    color: 'text.primary', 
+                }} 
+            >
+                <Typography component="h2" variant="logoSubtitle" sx={{ ml: 0.5, mt: 1, }} >
+                    ACERVO DE REFERÊNCIAS EM CONSTRUÇÃO
+                </Typography>
+                <Stack direction="row" spacing={0.5} >
+                    <Typography component="h1" variant="logoThin" sx={{ my: 0, position: 'relative', top: '-0.5rem', textDecoration: 'none', }} >
+                        REDE
+                    </Typography>
+                    <Typography component="h1" variant="logoThick" sx={{ my: 0, position: 'relative', top: '-0.5rem', textDecoration: 'none', }} >
+                        ATHIS
+                    </Typography>
+                </Stack>
+            </Box>    */}
+
+
+
+
+            
+            
+            
+            
+            
+            {/* <Box 
                 sx={{ 
                     position: 'absolute', 
                     zIndex: 100, 
@@ -41,7 +109,7 @@ const Logo = (props) => {
 
                     <CasaAthis scale='2.75rem' fill={color} />
                 </Stack>
-            </Box>    
+            </Box>     */}
         </ThemeProvider>
     );
 };

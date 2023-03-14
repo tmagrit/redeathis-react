@@ -21,6 +21,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
+import Logo from './Logo';
 import { slugger } from './slugger';
 import { publicTheme } from '../styles/publicStyles';
 
@@ -126,8 +127,11 @@ const MenuBar = () => {
                     }, 
                 }}
             >
-                <Toolbar >
-                    <Box 
+                <Toolbar variant="dense" >
+
+                    <Logo /> 
+
+                    {/* <Box 
                         component={Link} 
                         to="/" 
                         sx={{ 
@@ -146,7 +150,8 @@ const MenuBar = () => {
                                 ATHIS
                             </Typography>
                         </Stack>
-                    </Box> 
+                    </Box>  */}
+
 
                     <Box sx={{ flexGrow: 1 }} />
 

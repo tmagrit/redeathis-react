@@ -91,12 +91,14 @@ export const publicTheme = createTheme({
 
         logoThin: {
             fontFamily: 'Montserrat', 
-            fontSize: '2.5rem',
+            //fontSize: '2.5rem',
+            fontSize: '1.8rem',
             fontWeight: 300
         },
         logoThick: {
             fontFamily: 'Montserrat', 
-            fontSize: '2.5rem',
+            //fontSize: '2.5rem',
+            fontSize: '1.8rem',
             fontWeight: 800
         }, 
         

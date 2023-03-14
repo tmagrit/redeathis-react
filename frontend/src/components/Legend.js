@@ -24,9 +24,8 @@ const PublicMenuBar = () => {
                         background: 'rgba(244, 240, 235, 0.75)', 
                         zIndex: 900, 
                         mr: 1.1,
-                        mb: 0.45,
                         padding: 2,
-                        bottom: 35,
+                        bottom: 40,
                         right: 1.1
                     }}
                 > 
