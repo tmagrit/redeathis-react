@@ -120,7 +120,7 @@ const MenuBar = () => {
                 sx={{ 
                     background: 'rgba(244, 240, 235, 0.26)',
                     "&:hover": {
-                        background: 'rgba(244, 240, 235, 0.54)',
+                        background: 'rgba(244, 240, 235, 0.75)',
                         borderBottom: 1,
                         borderColor: 'divider',
                     }, 

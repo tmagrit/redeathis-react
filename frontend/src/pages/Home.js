@@ -14,8 +14,9 @@ import LinkIcon from '@mui/icons-material/Link';
 import Map from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
 
-import PublicMenuBar from '../components/PublicMenuBar';
+//import PublicMenuBar from '../components/PublicMenuBar';
 import MenuBar from '../components/MenuBar';
+import Legend from '../components/Legend';
 
 import GeocoderControl from '../components/GeocoderControl';
 import DeckGLOverlay from '../components/DeckGLOverlay';
@@ -34,7 +35,7 @@ const Home = () => {
     const filteredResearch = useSelector(selectFilteredResearch);   
     const sessionViewport = useSelector(state => state.session.viewport);
     const categories = useSelector(state => state.research.categories);
-    const allResearchTags = useSelector(selectResearchTags);   
+    const allResearchTags = useSelector(selectResearchTags);
 
     // REACT STATES
     const [viewport, setViewport] = useState(sessionViewport);
@@ -102,6 +103,7 @@ const Home = () => {
 
             {/* <PublicMenuBar /> */}
             <MenuBar />
+            <Legend />
             
             <Map 
                 initialViewState={viewport}
