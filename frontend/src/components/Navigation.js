@@ -42,7 +42,7 @@ const MenuBar = () => {
 
     // MENU STATES
     const [anchorEl, setAnchorEl] = useState(null);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
       setOpen(!open);
