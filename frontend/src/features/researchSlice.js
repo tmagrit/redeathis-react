@@ -478,7 +478,13 @@ export const getTags = createAsyncThunk('research/getTags', async (obj , { dispa
     try { 
         const { data, error } = await supabase
             .from('tags')
-            .select('*')   
+            .select(`
+                *,
+                class:class_id ( 
+                    *,
+                    id
+                )
+            `)
             .order('name', { ascending: false });
 
         if (error) 

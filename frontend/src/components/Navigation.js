@@ -29,6 +29,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Logo from './Logo';
 import Controls from './Controls';
 import Legend from './Legend';
+import FilterSelect from './FilterSelect';
 import { slugger } from './slugger';
 import { AppBar, DrawerHeader, Main, publicTheme, drawerWidth } from '../styles/publicStyles';
 
@@ -207,6 +208,7 @@ const MenuBar = () => {
                         </IconButton>
                     </DrawerHeader>
                     <Divider />
+                    <FilterSelect />
                 </Drawer>
             </Box>
         </ThemeProvider>

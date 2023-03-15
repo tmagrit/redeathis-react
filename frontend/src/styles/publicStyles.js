@@ -12,7 +12,7 @@ import "@fontsource/montserrat/700.css";
 import "@fontsource/montserrat/800.css";
 import "@fontsource/montserrat/900.css";
 
-export const drawerWidth = 320;
+export const drawerWidth = 420;
 
 export const Paper = styled(MuiPaper, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -107,6 +107,39 @@ export const publicTheme = createTheme({
           contrastText: '#e6f6fc',
         },
 
+        // CUSTOM RESEARCH PALETTE STYLES
+        //     blue: '#4285F4',
+        //     red: '#EA4335',
+        //     yellow: '#FBBC05',
+        //     green: '#34A853'
+        pp: {
+            light: '#dd7271',
+            main: '#4285F4',
+            dark: '#3d62cd',
+            contrastText: '#fff',            
+        },
+        
+        ic: {
+            light: '#e6534e',
+            main: '#EA4335',
+            dark: '#c9312e',
+            contrastText: '#fff',
+        },
+
+        pe: {
+            light: '#fbc009',
+            main: '#FB9D00',
+            dark: '#fb6f00',
+            contrastText: '#fff',
+        },
+
+        ls: {
+            light: '#5cc275',
+            main: '#34a853',
+            dark: '#1f843c',
+            contrastText: '#fff',
+        },
+
         text: {
             primary: 'rgba(0, 0, 0, 0.87)',
             secondary: 'rgba(0, 0, 0, 0.6)',
@@ -133,13 +166,6 @@ export const publicTheme = createTheme({
             focusOpacity: 0.12,
             activatedOpacity: 0.12,
         },
-
-        // custom: {
-        //   light: '#ffa726',
-        //   main: '#f57c00',
-        //   dark: '#ef6c00',
-        //   contrastText: 'rgba(0, 0, 0, 0.87)',
-        // },
 
         // Used by `getContrastText()` to maximize the contrast between
         // the background and the text.
