@@ -234,7 +234,7 @@ const Home = () => {
                         border: 1,
                         borderColor: 'divider',
                     }}
-                    elevation={2}
+                    //elevation={2} (not effective on outline variant)
                 >
                     <Typography variant="caption" display="block" sx={{ fontWeight: 'bold', }}>{hoverInfo.object.title}</Typography>
                 </Paper>

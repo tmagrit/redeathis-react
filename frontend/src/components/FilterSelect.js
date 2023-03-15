@@ -4,11 +4,6 @@ import { useSelector } from 'react-redux';
 import { categoryLegendGrade } from '../features/researchSlice'; 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -38,7 +33,8 @@ const FilterSelect = () => {
                             <Autocomplete
                                 //onChange={(e) => console.log('Autocomplete',e)}
                                 multiple
-                                id={cat.id}
+                                id={`${cat.id}`}
+                                key={`${cat.id}`}
                                 options={categoryTags}
                                 limitTags={3}
                                 disableCloseOnSelect

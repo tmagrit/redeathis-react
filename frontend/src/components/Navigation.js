@@ -69,7 +69,6 @@ const MenuBar = () => {
     const PublicNavMenu = () => {
         return (
             <Menu 
-                
                 id="publicNavMenu-menuBar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
@@ -99,7 +98,7 @@ const MenuBar = () => {
                         <Divider />
                     </Box>
                     {session?.session?.user?.aud === "authenticated" ? ( 
-                        <Fragment>
+                        <div>
                             <MenuItem component={Link} to="/admin" >
                                 <ListItemIcon>
                                     <SettingsIcon fontSize="small" />
@@ -112,16 +111,16 @@ const MenuBar = () => {
                                 </ListItemIcon>
                                 <ListItemText>Sair</ListItemText>
                             </MenuItem> 
-                        </Fragment>
+                        </div>
                     ) : (
-                        <Fragment>
+                        <div>
                             <MenuItem component={Link} to="/signin" >
                                 <ListItemIcon>
                                     <LoginIcon fontSize="small" />
                                 </ListItemIcon>
                                 <ListItemText>Entrar</ListItemText>
                             </MenuItem>
-                        </Fragment>
+                        </div>
                     )}
                    
                 </MenuList>
