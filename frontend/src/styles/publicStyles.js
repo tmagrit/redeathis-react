@@ -171,7 +171,6 @@ export const publicTheme = createTheme({
         },
     },
 
-
     typography: {
         fontFamily: 'Montserrat, Arial',
         fontWeightLight: 200,

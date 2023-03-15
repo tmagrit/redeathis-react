@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateViewport } from '../features/sessionSlice';
 import { selectFilteredResearch, selectResearchTags } from '../features/researchSlice';
 import { Link } from "react-router-dom";
+import { ThemeProvider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -13,24 +14,18 @@ import Avatar from '@mui/material/Avatar';
 import LinkIcon from '@mui/icons-material/Link';
 import Map from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
-
-//import PublicMenuBar from '../components/PublicMenuBar';
-import MenuBar from '../components/MenuBar';
-import Controls from '../components/Controls';
-import Legend from '../components/Legend';
-
-
-
 import Navigation from '../components/Navigation';
-
-
-
+//import PublicMenuBar from '../components/PublicMenuBar';
+// import MenuBar from '../components/MenuBar';
+// import Controls from '../components/Controls';
+// import Legend from '../components/Legend';
 import GeocoderControl from '../components/GeocoderControl';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { categoryTitle } from '../components/categoryTitle';
 import ResearchTag from '../components/ResearchTag';
+import { publicTheme } from '../styles/publicStyles';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -60,7 +55,6 @@ const Home = () => {
             researchTags: researchTags
         });
     }); 
-    
 
     // DECK GL OVERLAY LAYER 
     const scatterplotLayer = 
@@ -106,12 +100,7 @@ const Home = () => {
     }, []);
 
     return (
-        <React.Fragment >
-
-            {/* <PublicMenuBar /> 
-            <MenuBar />
-            <Controls />
-            <Legend /> */}
+        <ThemeProvider theme={publicTheme} > 
 
             <Navigation />
             
@@ -127,7 +116,6 @@ const Home = () => {
                 <DeckGLOverlay layers={[scatterplotLayer]}  />
                 <GeocoderControl collapsed={true} position='bottom-left' />
             </Map>
-            
 
             {clickInfo.object && (  
                 <ClickAwayListener onClickAway={handleCloseClickInfo}>
@@ -143,7 +131,7 @@ const Home = () => {
                             minHeight: '10vw',
                             //pointerEvents: 'none',
                             top: '80px',
-                            right: 0
+                            left: 0
                         }}
                         elevation={2}
                     >
@@ -193,7 +181,6 @@ const Home = () => {
 
                         <Divider sx={{ pt: 1.5, }} />
 
-
                         {/* TAGS */}
                         <Stack 
                             sx={{ pt: 1.5, }}
@@ -226,36 +213,33 @@ const Home = () => {
                                     )
                                 })
                             }
-
                         </Stack>
-
-
-
-
-
                     </Paper>
                 </ClickAwayListener>
             )}
             
             {hoverInfo.object && (  
                 <Paper 
-                    square
+                    variant="outlined"
                     sx={{
                         position: 'absolute',
                         left: hoverInfo.x, 
                         top: hoverInfo.y, 
                         zIndex: 110, 
-                        padding: 1, 
+                        padding: 1.5, 
                         margin: 1,
                         maxWidth: '40vw',
                         pointerEvents: 'none',
+                        borderRadius: '12px',
+                        border: 1,
+                        borderColor: 'divider',
                     }}
                     elevation={2}
                 >
-                    <Typography variant="caption" display="block">{hoverInfo.object.title}</Typography>
+                    <Typography variant="caption" display="block" sx={{ fontWeight: 'bold', }}>{hoverInfo.object.title}</Typography>
                 </Paper>
             )}
-        </React.Fragment>   
+        </ThemeProvider>   
     );
 
 }
