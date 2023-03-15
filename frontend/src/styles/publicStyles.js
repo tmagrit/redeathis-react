@@ -1,4 +1,6 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
+import MuiAppBar from '@mui/material/AppBar';
+import MuiPaper from '@mui/material/Paper';
 import "@fontsource/montserrat";
 import "@fontsource/montserrat/100.css";
 import "@fontsource/montserrat/200.css";
@@ -9,6 +11,80 @@ import "@fontsource/montserrat/600.css";
 import "@fontsource/montserrat/700.css";
 import "@fontsource/montserrat/800.css";
 import "@fontsource/montserrat/900.css";
+
+export const drawerWidth = 320;
+
+export const Paper = styled(MuiPaper, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        background: 'rgba(244, 240, 235, 0.65)',
+        position: 'absolute', 
+        zIndex: 900, 
+        bottom: 40,
+        right: 1.1,
+        marginRight: 10,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: drawerWidth - 1,
+        }),
+    }),
+);
+
+export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        flexGrow: 1,
+        height: '90%',
+        //padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginRight: -drawerWidth,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: 0,
+        }),
+    }),
+);
+
+export const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+    })(({ theme, open }) => ({
+        transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        borderBottom: 1,
+        borderColor: 'divider',
+        background: 'rgba(244, 240, 235, 0.65)',
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginRight: drawerWidth,
+    }),
+}));
+
+export const DrawerHeader = styled('div')(({ theme }) => ({
+    background: 'transparent',
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-start',
+}));
 
 export const publicTheme = createTheme({
     palette: {
@@ -79,6 +155,20 @@ export const publicTheme = createTheme({
 
     shape: {
         borderRadius: 0,
+    },
+
+    mixins: {
+        toolbar: {
+            minHeight: 48,
+            "@media (min-width:0px)": {
+                "@media (orientation: landscape)": {
+                    minHeight: 48,
+                },
+            },
+            "@media (min-width:600px)": { 
+                minHeight: 48, 
+            },
+        },
     },
 
 

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+//import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
@@ -34,9 +34,11 @@ import { slugger } from './slugger';
 import { useHistory } from './history';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import { publicTheme } from '../styles/publicStyles';
+import { publicTheme, Paper } from '../styles/publicStyles';
 
-const PublicMenuBar = () => {
+const PublicMenuBar = (props) => {
+
+    const { open, setOpen } = props;
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
@@ -145,20 +147,15 @@ const PublicMenuBar = () => {
     return ( 
         <ThemeProvider theme={publicTheme} > 
             <Paper 
+                open={open}
                 elevation={1} 
                 square
-                sx={{
-                    position: 'absolute', 
-                    bottom: 40,
-                    zIndex: 900, 
-                    ml: 1.1,
-                }}
             >
                 <IconButton onClick={handleResearchSearchDialog} >
                     <ManageSearchIcon />
                 </IconButton>
                 <Divider />
-                <IconButton  onClick={toggleDrawer('filters', true)} >
+                <IconButton  onClick={setOpen} >
                     <FilterAltIcon />
                 </IconButton>
                 <Divider />
@@ -166,27 +163,6 @@ const PublicMenuBar = () => {
                     <TravelExploreIcon />
                 </IconButton>
             </Paper>
-
-
-
-
-
-
-
-
-            {/* PUBLIC PAGES NAV */}
-            <Drawer
-                anchor="right"
-                open={drawer.filters}
-                onClose={toggleDrawer('filters', false)}
-                PaperProps={{ 
-                    style: {
-                        background: 'rgba(244, 240, 235, 0.75)',
-                    }
-                }}
-            >
-                {selectedDrawer('filters')}
-            </Drawer>
 
             {/* RESEARCH SEARCH DIALOG */}
             <Dialog 
@@ -203,23 +179,8 @@ const PublicMenuBar = () => {
 
                 <DialogContent>
                     <SearchResults />
-                    {/* <DialogContentText id="alert-dialog-description">
-                        
-                    </DialogContentText> */}
                 </DialogContent>
             </Dialog>
-
-
-
-
-
-
-
-
-
-
-
-            
         </ThemeProvider>
     );
 };

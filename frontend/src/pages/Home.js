@@ -19,6 +19,12 @@ import MenuBar from '../components/MenuBar';
 import Controls from '../components/Controls';
 import Legend from '../components/Legend';
 
+
+
+import Navigation from '../components/Navigation';
+
+
+
 import GeocoderControl from '../components/GeocoderControl';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
@@ -100,12 +106,14 @@ const Home = () => {
     }, []);
 
     return (
-        <React.Fragment>
+        <React.Fragment >
 
-            {/* <PublicMenuBar /> */}
+            {/* <PublicMenuBar /> 
             <MenuBar />
             <Controls />
-            <Legend />
+            <Legend /> */}
+
+            <Navigation />
             
             <Map 
                 initialViewState={viewport}

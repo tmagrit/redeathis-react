@@ -23,10 +23,10 @@ const PublicMenuBar = () => {
                         position: 'absolute',
                         background: 'rgba(244, 240, 235, 0.75)', 
                         zIndex: 900, 
-                        mr: 1.1,
+                        ml: 1.1,
                         padding: 2,
                         bottom: 40,
-                        right: 1.1
+                        left: 1.1
                     }}
                 > 
                     {categorieLegendGrade.map(couple => {
