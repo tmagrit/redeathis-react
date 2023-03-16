@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice'; 
-import { categoryLegendGrade } from '../features/researchSlice'; 
+import { selectCategoryLegendGrade } from '../features/researchSlice'; 
 import { Link } from "react-router-dom";
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -45,7 +45,7 @@ const PublicMenuBar = () => {
     const dispatch = useDispatch();
 
     const session = useSelector(state => state.session);
-    const categorieLegendGrade = useSelector(categoryLegendGrade);
+    const categorieLegendGrade = useSelector(selectCategoryLegendGrade);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MY HISTORY HOOK

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { categoryLegendGrade } from '../features/researchSlice'; 
+import { selectCategoryLegendGrade } from '../features/researchSlice'; 
 import { ThemeProvider } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -11,7 +11,7 @@ import { publicTheme } from '../styles/publicStyles';
 const PublicMenuBar = () => {
 
     // REDUX SELECTORS
-    const categorieLegendGrade = useSelector(categoryLegendGrade);
+    const categorieLegendGrade = useSelector(selectCategoryLegendGrade);
 
     if(categorieLegendGrade.length > 0)
         return ( 

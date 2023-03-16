@@ -1176,7 +1176,7 @@ export const selectResearchSources  = state => {
     return researchSources;
 };
 
-export const categoryLegendGrade = state => {
+export const selectCategoryLegendGrade = state => {
     const grade = [[1, 6], [2, 7], [3, 5], [4, 8]];
 
     if(state.research.getCategoriesStatus === "succeeded") {
@@ -1187,6 +1187,16 @@ export const categoryLegendGrade = state => {
         return legendGrade;
     } else 
         return [];
+};
+
+export const selectFilteredTagsArray = state => {
+    const categories = state.research.categories
+
+    const filteredTagsArray = categories
+        .map(ft => ft.filteredTags)
+        .reduce((accumulator, ftft) => accumulator.concat(ftft), []);
+
+    return filteredTagsArray;    
 };
 
 export const { 

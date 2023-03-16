@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectFilteredTagsArray } from '../features/researchSlice'; 
 import { ThemeProvider } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -17,6 +19,8 @@ const PublicMenuBar = (props) => {
 
     const { open, setOpen } = props;
 
+    //REDUX SELECTORS
+    const filteredTags = useSelector(selectFilteredTagsArray);
     const [researchSearchDialog, setResearchSearchDialog] = useState(false);
 
     // HANDLE DIALOG
@@ -35,7 +39,7 @@ const PublicMenuBar = (props) => {
                     <ManageSearchIcon />
                 </IconButton>
                 <Divider />
-                <IconButton  onClick={setOpen} >
+                <IconButton  onClick={setOpen} color={filteredTags.length > 0 ? 'secondary' : 'primary'} >
                     <FilterAltIcon />
                 </IconButton>
                 <Divider />

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { categoryLegendGrade, updateCategories } from '../features/researchSlice'; 
+import { selectCategoryLegendGrade, updateCategories } from '../features/researchSlice'; 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
@@ -12,7 +12,7 @@ const FilterSelect = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const categorieLegendGrade = useSelector(categoryLegendGrade); 
+    const categorieLegendGrade = useSelector(selectCategoryLegendGrade); 
     const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
