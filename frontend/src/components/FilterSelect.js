@@ -12,14 +12,33 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 const FilterSelect = () => {
 
     // REDUX SELECTORS
-    const categorieLegendGrade = useSelector(categoryLegendGrade); //console.log('categorieLegendGrade',categorieLegendGrade);
-    //const categories = useSelector(state => state.research.categories);
+    const categorieLegendGrade = useSelector(categoryLegendGrade); 
+    const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
+
+    // REACT STATES
+    const [filterTags, setFilterTags] = useState(categories.map(c => { return {...c, filteredTags: []}} ));
 
     // AUTOCOMPLETE COMPONENTS
     const icon = <CheckBoxOutlineBlankIcon fontSize="small"/>;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
+    const handleFilterChange = (event, value, cat) => {
+        const newFilteredTags = filterTags.map(ft => {
+            if(ft.id !== cat.id) 
+                return ft;
+            else {
+                const newCat = {
+                    ...ft, 
+                    filteredTags: value
+                }
+                return newCat;   
+            } 
+        }); 
+
+        setFilterTags(newFilteredTags);
+    };
 
     return (
         <Box sx={{ m: 1.2, }}>
@@ -31,7 +50,10 @@ const FilterSelect = () => {
                             .sort((a,b) => a.class_id - b.class_id);
                         return (
                             <Autocomplete
-                                //onChange={(e) => console.log('Autocomplete',e)}
+                                onChange={(event, newValue) => {
+                                    //console.log('Autocomplete', event, newValue);
+                                    handleFilterChange(event, newValue, cat) 
+                                }}
                                 multiple
                                 id={`${cat.id}`}
                                 key={`${cat.id}`}
