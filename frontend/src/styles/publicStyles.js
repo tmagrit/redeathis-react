@@ -221,6 +221,24 @@ export const publicTheme = createTheme({
             fontFamily: 'Montserrat', 
             fontSize: '0.65rem',
             fontWeight: 400 
-        }
-    }
+        },
+    },
+
+    components: {
+        MuiChip: {
+            defaultProps: {
+                variant: 'filled',
+                clickable: true, 
+                size: 'small',
+            },
+            styleOverrides: {
+                root: {
+                  fontSize: '9px',
+                  textTransform: 'uppercase',
+                  //padding: 0,
+                },
+            },
+
+        },
+    },
 });
