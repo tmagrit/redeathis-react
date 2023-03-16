@@ -20,7 +20,7 @@ const PublicMenuBar = (props) => {
     const { open, setOpen } = props;
 
     //REDUX SELECTORS
-    const filteredTags = useSelector(selectFilteredTagsArray);
+    const filteredTags = useSelector(selectFilteredTagsArray); 
     const [researchSearchDialog, setResearchSearchDialog] = useState(false);
 
     // HANDLE DIALOG
@@ -39,7 +39,7 @@ const PublicMenuBar = (props) => {
                     <ManageSearchIcon />
                 </IconButton>
                 <Divider />
-                <IconButton  onClick={setOpen} color={filteredTags.length > 0 ? 'secondary' : 'primary'} >
+                <IconButton  onClick={setOpen} color={filteredTags.length > 0 ? 'secondary' : ''} >
                     <FilterAltIcon />
                 </IconButton>
                 <Divider />

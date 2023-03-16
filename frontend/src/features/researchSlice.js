@@ -626,6 +626,7 @@ export const researchSlice = createSlice({
         tags: [],
         research_tags: [],
         researchSearchInput: '',
+        categoriesFilter: [],
                 
         getResearchStatus: 'idle',
         getResearchError: null,
@@ -784,6 +785,14 @@ export const researchSlice = createSlice({
         },
         updateCategories(state, action) { 
             state.categories = action.payload;
+        },
+        cleanFilters(state, action) { 
+            const cleanCategories = state.categories.map(c => {return {...c, filteredTags: []}} );
+            state.categoriesFilter = [];
+            state.categories = cleanCategories;
+        }, 
+        updateCategoriesFilter(state, action) { 
+            state.categoriesFilter = action.payload;
         },
         
     },
@@ -1209,6 +1218,8 @@ export const {
     removeTag,
     setResearchSearchInput,
     updateCategories,
+    cleanFilters,
+    updateCategoriesFilter,
 } = researchSlice.actions
 
 export default researchSlice.reducer
