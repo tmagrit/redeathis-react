@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { categoryLegendGrade } from '../features/researchSlice'; 
+import { useSelector, useDispatch } from 'react-redux';
+import { categoryLegendGrade, updateCategories } from '../features/researchSlice'; 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
@@ -12,20 +11,18 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 const FilterSelect = () => {
 
     // REDUX SELECTORS
+    const dispatch = useDispatch();
     const categorieLegendGrade = useSelector(categoryLegendGrade); 
     const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
-
-    // REACT STATES
-    const [filterTags, setFilterTags] = useState(categories.map(c => { return {...c, filteredTags: []}} ));
 
     // AUTOCOMPLETE COMPONENTS
     const icon = <CheckBoxOutlineBlankIcon fontSize="small"/>;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const handleFilterChange = (event, value, cat) => {
-        const newFilteredTags = filterTags.map(ft => {
+        const newCategories = categories.map(ft => {
             if(ft.id !== cat.id) 
                 return ft;
             else {
@@ -35,9 +32,9 @@ const FilterSelect = () => {
                 }
                 return newCat;   
             } 
-        }); 
+        });
 
-        setFilterTags(newFilteredTags);
+        dispatch(updateCategories(newCategories));
     };
 
     return (
@@ -51,7 +48,6 @@ const FilterSelect = () => {
                         return (
                             <Autocomplete
                                 onChange={(event, newValue) => {
-                                    //console.log('Autocomplete', event, newValue);
                                     handleFilterChange(event, newValue, cat) 
                                 }}
                                 multiple
