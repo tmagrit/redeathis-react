@@ -1,7 +1,7 @@
 import * as React from 'react'; 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectResearchTags } from '../features/researchSlice';
+import { selectFilteredResearch } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
 import { DateTime } from 'luxon';
 import Container from '@mui/material/Container';
@@ -33,7 +33,7 @@ const ViewResearch = () => {
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
     const categories = useSelector(state => state.research.categories);
-    const allResearchTags = useSelector(selectResearchTags);
+    const { allResearchTags } = useSelector(selectFilteredResearch);
     const researchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) );
 
     // REACT STATES

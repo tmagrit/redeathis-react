@@ -34,10 +34,10 @@ const Home = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const filteredResearch = useSelector(selectFilteredResearch);   
+    const { filteredResearch } = useSelector(selectFilteredResearch); // console.log('filteredResearch',filteredResearch);
     const sessionViewport = useSelector(state => state.session.viewport);
     const categories = useSelector(state => state.research.categories);
-    const allResearchTags = useSelector(selectResearchTags);
+    //const allResearchTags = useSelector(selectResearchTags);
 
     // REACT STATES
     const [viewport, setViewport] = useState(sessionViewport);
@@ -47,20 +47,21 @@ const Home = () => {
     // REDUX SELECTORS   
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));   
     
-    const scatterFilteredResearch = filteredResearch.map(fr => {
-        const researchTags = allResearchTags.find(art => art.research_id === fr.id ); 
+    // const scatterFilteredResearch = filteredResearch.map(fr => {
+    //     const researchTags = allResearchTags.find(art => art.research_id === fr.id ); 
 
-        return ({ 
-            ...fr,
-            researchTags: researchTags
-        });
-    }); 
+    //     return ({ 
+    //         ...fr,
+    //         researchTags: researchTags
+    //     });
+    // }); console.log('scatterFilteredResearch',scatterFilteredResearch);
 
     // DECK GL OVERLAY LAYER 
     const scatterplotLayer = 
         new ScatterplotLayer({
             id: 'map-home-markers',
-            data: scatterFilteredResearch,
+            //data: scatterFilteredResearch,
+            data: filteredResearch,
             pickable: true,
             stroked: false,
             filled: true,
