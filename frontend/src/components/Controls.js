@@ -10,10 +10,12 @@ import DialogContent from '@mui/material/DialogContent';
 import Divider from '@mui/material/Divider';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import TimelapseIcon from '@mui/icons-material/Timelapse';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import { publicTheme, Paper } from '../styles/publicStyles';
+import { isFullTimeInterval } from './isFullTimeInterval';
 
 const PublicMenuBar = (props) => {
 
@@ -21,6 +23,9 @@ const PublicMenuBar = (props) => {
 
     //REDUX SELECTORS
     const filteredTags = useSelector(selectFilteredTagsArray); 
+    const minYear = useSelector(state => state.research.researchMinYear); 
+    const researchTimeInterval = useSelector(state => state.research.timeInterval); 
+
     const [researchSearchDialog, setResearchSearchDialog] = useState(false);
 
     // HANDLE DIALOG
@@ -37,6 +42,10 @@ const PublicMenuBar = (props) => {
             >
                 <IconButton onClick={handleResearchSearchDialog} >
                     <ManageSearchIcon />
+                </IconButton>
+                <Divider />
+                <IconButton onClick={setOpen} color={isFullTimeInterval(researchTimeInterval, minYear)  ? 'secondary' : ''} > 
+                    <TimelapseIcon />
                 </IconButton>
                 <Divider />
                 <IconButton  onClick={setOpen} color={filteredTags.length > 0 ? 'secondary' : ''} >

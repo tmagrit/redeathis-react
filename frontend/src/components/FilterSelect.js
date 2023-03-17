@@ -11,6 +11,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
+import TimeSlider from './TimeSlider';
+
 const FilterSelect = () => {
 
     // REDUX SELECTORS
@@ -171,10 +173,17 @@ const FilterSelect = () => {
                     </Box>
                 </Box>
                 
-                <Box sx={{ m: 1.2, }}>
-                    <Button fullWidth variant="outlined" onClick={() => dispatch(cleanFilters())}>
-                        Limpar Filtros
-                    </Button>
+                <Box >
+                    <Divider />
+                    <Box sx={{ mx: 2, my: 1.2, }}>
+                        <TimeSlider />
+                    </Box> 
+                    <Divider />
+                    <Box sx={{ m: 1.2, }}>
+                        <Button fullWidth variant="outlined" onClick={() => dispatch(cleanFilters())}>
+                            Limpar Filtros
+                        </Button>
+                    </Box>
                 </Box>
 
             </Box>

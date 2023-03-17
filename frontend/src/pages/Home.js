@@ -34,7 +34,7 @@ const Home = () => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const { filteredResearch } = useSelector(selectFilteredResearch); 
+    const { filteredResearch } = useSelector(selectFilteredResearch);
     const sessionViewport = useSelector(state => state.session.viewport);
     const categories = useSelector(state => state.research.categories);
 

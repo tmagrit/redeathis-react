@@ -17,6 +17,11 @@ export const getResearch = createAsyncThunk('research/getResearch', async (obj ,
 
         if (error) 
             throw error;
+        
+        const researchYears = data.map(d => d.date.start.year);
+        const minYear = researchYears.reduce((acc, val) => Math.min(acc, val)); 
+        dispatch(updateResearchMinYear(minYear)); 
+        dispatch(updateTimeInterval([minYear, new Date().getFullYear()]));    
 
         return data;
 
@@ -627,6 +632,8 @@ export const researchSlice = createSlice({
         research_tags: [],
         researchSearchInput: '',
         categoriesFilter: [],
+        researchMinYear: null,
+        timeInterval: [null, null], 
                 
         getResearchStatus: 'idle',
         getResearchError: null,
@@ -788,11 +795,20 @@ export const researchSlice = createSlice({
         },
         cleanFilters(state, action) { 
             const cleanCategories = state.categories.map(c => {return {...c, filteredTags: []}} );
+            const minYear = state.researchMinYear;
+            const now = new Date().getFullYear();
+            state.timeInterval = [minYear, now];
             state.categoriesFilter = [];
             state.categories = cleanCategories;
         }, 
         updateCategoriesFilter(state, action) { 
             state.categoriesFilter = action.payload;
+        },
+        updateResearchMinYear(state, action) { 
+            state.researchMinYear = action.payload;
+        },
+        updateTimeInterval(state, action) { 
+            state.timeInterval = action.payload;
         },
         
     },
@@ -1108,6 +1124,8 @@ export const researchSlice = createSlice({
 // FILTERED RESEARCH SELECTOR 
 export const selectFilteredResearch  = state => {
     // SET RESEARCH TAGS
+    const research = state.research.research;
+    const researchTimeInterval = state.research.timeInterval;
     const categories = state.research.categories;
     const classes = state.research.classes;
     const tags = state.research.tags;
@@ -1127,8 +1145,12 @@ export const selectFilteredResearch  = state => {
         });
     });
 
+    // FILTER TIME INTERVAL
+    const minTimeResearch = research.filter(r => r.date.start.year >= researchTimeInterval[0]);
+    const minMaxTimeResearch = minTimeResearch.filter(r => r.date.start.year <= researchTimeInterval[1]);
+
     // FILTER PUBLISHED STATUS
-    const publishedResearch = state.research.research.filter(r => r.status === 1);
+    const publishedResearch = minMaxTimeResearch.filter(r => r.status === 1);
 
     // SET GEOLOCATION
     const geolocatedResearch = publishedResearch.map(pr => {
@@ -1150,7 +1172,7 @@ export const selectFilteredResearch  = state => {
     // APPLY CATEGORY PUBLIC FILTER ON RESEARCH 
     const filteredResearchTags = categories
         .map(c => c.filteredTags)
-        .reduce((acc,val) => acc.concat(val), []);  //console.log('filteredResearchTags',filteredResearchTags)
+        .reduce((acc,val) => acc.concat(val), []); 
     
     const isFiltered = (arr, el) => {
         let elTagIds = el.researchTags?.researchTagsData
@@ -1161,7 +1183,7 @@ export const selectFilteredResearch  = state => {
             return false;     
     };
 
-    const filteredResearchTagIds = filteredResearchTags.map(frti => frti.id); //console.log('filteredResearchTagIds',filteredResearchTagIds)
+    const filteredResearchTagIds = filteredResearchTags.map(frti => frti.id); 
     const userFilterResearch = taggedFilteredResearch.filter(tfr => isFiltered(filteredResearchTagIds, tfr));
 
     if(userFilterResearch.length) { 
@@ -1242,6 +1264,8 @@ export const {
     updateCategories,
     cleanFilters,
     updateCategoriesFilter,
+    updateResearchMinYear,
+    updateTimeInterval,
 } = researchSlice.actions
 
-export default researchSlice.reducer
+export default researchSlice.reducer;

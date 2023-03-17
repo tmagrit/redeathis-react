@@ -63,7 +63,7 @@ function App() {
                 dispatch(updateProfile(session.profile))
             //dispatch(logout()); //TODO - PROBLEM: REFRESHING PAGE LOGOUT THE USER
         }
-    }, [])
+    }, []);
 
     // GET MEMBERS AND RESEARCH STATES
     useEffect(() => {
