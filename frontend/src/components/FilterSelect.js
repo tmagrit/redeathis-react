@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCategoryLegendGrade, updateCategories, cleanFilters, updateCategoriesFilter } from '../features/researchSlice'; 
 import Box from '@mui/material/Box';
@@ -22,9 +21,6 @@ const FilterSelect = () => {
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
     const categoriesFilter = useSelector(state => state.research.categoriesFilter);
-
-    // REACT STATES
-    const [value, setValue] = useState({});
 
     // AUTOCOMPLETE COMPONENTS
     const icon = <CheckBoxOutlineBlankIcon fontSize="small"/>;

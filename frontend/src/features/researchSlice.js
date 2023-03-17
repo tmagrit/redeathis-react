@@ -1108,6 +1108,7 @@ export const researchSlice = createSlice({
 // FILTERED RESEARCH SELECTOR 
 export const selectFilteredResearch  = state => {
     // SET RESEARCH TAGS
+    const categories = state.research.categories;
     const classes = state.research.classes;
     const tags = state.research.tags;
 
@@ -1145,8 +1146,29 @@ export const selectFilteredResearch  = state => {
             researchTags: researchTags
         });
     }); 
- 
-    return { filteredResearch: taggedFilteredResearch, allResearchTags: allResearchTags }; 
+
+    // APPLY CATEGORY PUBLIC FILTER ON RESEARCH 
+    const filteredResearchTags = categories
+        .map(c => c.filteredTags)
+        .reduce((acc,val) => acc.concat(val), []);  //console.log('filteredResearchTags',filteredResearchTags)
+    
+    const isFiltered = (arr, el) => {
+        let elTagIds = el.researchTags?.researchTagsData
+            .reduce((acc,val) => acc.concat(val.id), []); 
+        if(arr.filter(val => elTagIds.includes(val)).length) 
+            return true;
+        else 
+            return false;     
+    };
+
+    const filteredResearchTagIds = filteredResearchTags.map(frti => frti.id); //console.log('filteredResearchTagIds',filteredResearchTagIds)
+    const userFilterResearch = taggedFilteredResearch.filter(tfr => isFiltered(filteredResearchTagIds, tfr));
+
+    if(userFilterResearch.length) { 
+        return { filteredResearch: userFilterResearch, allResearchTags: allResearchTags }; 
+    } else {
+        return { filteredResearch: taggedFilteredResearch, allResearchTags: allResearchTags };
+    }
  };
 
 // SEARCHED RESEARCH SELECTOR 
