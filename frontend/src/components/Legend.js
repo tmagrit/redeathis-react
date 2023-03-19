@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 import { selectCategoryLegendGrade } from '../features/researchSlice'; 
 import { ThemeProvider } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
+//import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import { publicTheme } from '../styles/publicStyles';
+import { publicTheme, PaperLegend } from '../styles/publicStyles';
 
-const PublicMenuBar = () => {
+const PublicMenuBar = (props) => {
+
+    const { open, show } = props;
 
     // REDUX SELECTORS
     const categorieLegendGrade = useSelector(selectCategoryLegendGrade);
@@ -16,7 +18,9 @@ const PublicMenuBar = () => {
     if(categorieLegendGrade.length > 0)
         return ( 
             <ThemeProvider theme={publicTheme} > 
-                <Paper 
+                <PaperLegend 
+                    show={show}
+                    open={open}
                     elevation={1} 
                     square
                     sx={{
@@ -43,7 +47,7 @@ const PublicMenuBar = () => {
                             </Stack>
                         )
                     })}
-                </Paper>
+                </PaperLegend>
             </ThemeProvider > 
         )
     else 

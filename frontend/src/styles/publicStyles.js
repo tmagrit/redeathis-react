@@ -13,9 +13,10 @@ import "@fontsource/montserrat/800.css";
 import "@fontsource/montserrat/900.css";
 
 export const drawerWidth = 420;
+export const footerHeight = 150;
 
-export const Paper = styled(MuiPaper, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
+export const PaperControls = styled(MuiPaper, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open, show }) => ({
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -27,17 +28,33 @@ export const Paper = styled(MuiPaper, { shouldForwardProp: (prop) => prop !== 'o
         right: 1.1,
         marginRight: 10,
         ...(open && {
+            marginRight: drawerWidth - 1,
             transition: theme.transitions.create('margin', {
                 easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.enteringScreen,
             }),
+        }),
+        ...(show && {
+            marginBottom: `${footerHeight - 30}px`,
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        }),        
+        ...(open && show && {
             marginRight: drawerWidth - 1,
+            marginBottom: `${footerHeight - 30}px`, 
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
         }),
     }),
 );
 
-export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
+export const Main = styled('main', { 
+    shouldForwardProp: (prop) => prop !== 'open' 
+    })(({ theme, open }) => ({
         flexGrow: 1,
         height: '90%',
         //padding: theme.spacing(3),
@@ -86,15 +103,93 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-start',
 }));
 
+export const PaperFooter = styled(MuiPaper, {
+    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: (prop) => prop !== 'show',
+    })(({ theme, open, show }) => ({
+        zIndex: 2000,
+        height: '30px',
+        background: 'linear-gradient(to top, rgba(13, 11, 7,0.5) 0%, rgba(13, 11, 7,0) 100%)',
+        position: 'fixed',
+        width: '100%',
+        bottom: 0,
+        transition: theme.transitions.create(['margin', 'width', 'height'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['margin', 'width', 'height'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginRight: drawerWidth,
+    }),
+    ...(show && {
+        transition: theme.transitions.create(['margin', 'width', 'height', 'background'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        background: '#0D0B07',
+        height: `${footerHeight}px`,
+    }),
+    ...(show && open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['margin', 'width', 'height', 'background'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        background: '#0D0B07',
+        marginRight: drawerWidth,
+        height: `${footerHeight}px`,
+    }),
+}));
+
+export const PaperLegend = styled(MuiPaper, {
+    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: (prop) => prop !== 'show',
+    })(({ theme, open, show }) => ({
+        position: 'absolute',
+        background: 'rgba(244, 240, 235, 0.75)', 
+        zIndex: 900, 
+        ml: 1.1,
+        padding: 2,
+        bottom: 40,
+        left: 1.1,
+        transition: theme.transitions.create(['margin', 'width', 'height', 'opacity'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        opacity: '0',
+        transition: theme.transitions.create(['margin', 'width', 'height', 'opacity'], {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+    ...(show && {
+        marginBottom: `${footerHeight - 30}px`, 
+        transition: theme.transitions.create(['margin'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+    ...(show && open && {
+        //width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['margin', 'width', 'height', 'background'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+}));
+
 export const publicTheme = createTheme({
     palette: {
-        
         common: {
-            black: '#846a47',
+            black: '#0D0B07',
             white: '#f4f0eb'
         },
         primary: {
-          // light: will be calculated from palette.primary.main,
           light: '#bca68c',
           main: '#846a47',
           dark: '#624824',
@@ -104,7 +199,7 @@ export const publicTheme = createTheme({
           light: '#74bee6',
           main: '#66a5d2', 
           dark: '#5681a9',
-          contrastText: '#e6f6fc',
+          contrastText: '#e6f6fc', 
         },
 
         // CUSTOM RESEARCH PALETTE STYLES
@@ -141,15 +236,16 @@ export const publicTheme = createTheme({
         },
 
         text: {
-            primary: 'rgba(0, 0, 0, 0.87)',
-            secondary: 'rgba(0, 0, 0, 0.6)',
-            disabled: 'rgba(0, 0, 0, 0.38)',
+            primary: 'rgba(13, 11, 7, 0.87)',
+            secondary: 'rgba(13, 11, 7, 0.6)',
+            disabled: 'rgba(13, 11, 7, 0.38)',
         },
 
-        divider: 'rgba(0, 0, 0, 0.12)',
+        divider: 'rgba(13, 11, 7, 0.12)',
 
         background: {
             paper: '#efe9e1',
+            //paper: '#0D0B07',
             default: '#f4f0eb',
         },
 
@@ -206,21 +302,30 @@ export const publicTheme = createTheme({
 
         logoThin: {
             fontFamily: 'Montserrat', 
-            //fontSize: '2.5rem',
             fontSize: '1.8rem',
             fontWeight: 300
         },
         logoThick: {
             fontFamily: 'Montserrat', 
-            //fontSize: '2.5rem',
             fontSize: '1.8rem',
             fontWeight: 800
         }, 
-        
-        logoSubtitle: { 
+
+        logoFooterThin: {
             fontFamily: 'Montserrat', 
-            fontSize: '0.65rem',
-            fontWeight: 400 
+            fontSize: '2.1rem',
+            fontWeight: 300
+        },
+        logoFooterThick: {
+            fontFamily: 'Montserrat', 
+            fontSize: '2.1rem',
+            fontWeight: 800
+        }, 
+        
+        logoFooterSubtitle: { 
+            fontFamily: 'Montserrat', 
+            fontSize: '0.56rem',
+            fontWeight: 200 
         },
     },
 

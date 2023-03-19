@@ -30,6 +30,7 @@ import Logo from './Logo';
 import Controls from './Controls';
 import Legend from './Legend';
 import FilterSelect from './FilterSelect';
+import PublicFooter from '../components/PublicFooter';
 import { slugger } from './slugger';
 import { AppBar, DrawerHeader, Main, publicTheme, drawerWidth } from '../styles/publicStyles';
 
@@ -44,6 +45,7 @@ const MenuBar = () => {
     // MENU STATES
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
+    const [show, setShow] = useState(false);
 
     const handleDrawerOpen = () => {
       setOpen(!open);
@@ -52,6 +54,11 @@ const MenuBar = () => {
     const handleDrawerClose = () => {
       setOpen(false);
     };
+
+    const handleFooterShow = (e) => {
+        setShow(e);
+    };
+
 
     // HANDLE MENU
     const handleMenu = (event) => {
@@ -180,8 +187,8 @@ const MenuBar = () => {
                 <Main open={open}  >
                     {/* <DrawerHeader /> */}
 
-                    <Controls open={open} setOpen={handleDrawerOpen} />
-                    <Legend />
+                    <Controls open={open} show={show} setOpen={handleDrawerOpen} />
+                    <Legend open={open} show={show} />
                 </Main>
 
                 <Drawer
@@ -209,6 +216,9 @@ const MenuBar = () => {
                     <Divider />
                     <FilterSelect />
                 </Drawer>
+
+                <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} />
+
             </Box>
         </ThemeProvider>
     );

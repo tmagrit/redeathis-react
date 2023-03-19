@@ -14,12 +14,12 @@ import TimelapseIcon from '@mui/icons-material/Timelapse';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import { publicTheme, Paper } from '../styles/publicStyles';
+import { publicTheme, PaperControls } from '../styles/publicStyles';
 import { isFullTimeInterval } from './isFullTimeInterval';
 
 const PublicMenuBar = (props) => {
 
-    const { open, setOpen } = props;
+    const { open, setOpen, show } = props;
 
     //REDUX SELECTORS
     const filteredTags = useSelector(selectFilteredTagsArray); 
@@ -35,8 +35,9 @@ const PublicMenuBar = (props) => {
 
     return ( 
         <ThemeProvider theme={publicTheme} > 
-            <Paper 
+            <PaperControls 
                 open={open}
+                show={show}
                 elevation={1} 
                 square
             >
@@ -55,7 +56,7 @@ const PublicMenuBar = (props) => {
                 <IconButton >
                     <TravelExploreIcon />
                 </IconButton>
-            </Paper>
+            </PaperControls>
 
             {/* RESEARCH SEARCH DIALOG */}
             <Dialog 
