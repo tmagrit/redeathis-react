@@ -1,6 +1,6 @@
 # Implementação Aplicativo Rede Athis
 
-> Passos para implementar  Aplicativo Rede Athis em servidor Debian 10 usando PM2, NGONX como proxy reverso e certificaçaõ SSL com LetsEncrypt
+> Passos para implementar  Aplicativo Rede Athis em servidor Debian 10 usando PM2, NGINX como proxy reverso e certificaçaõ SSL com LetsEncrypt
 
 ## 1. Instalação do Node/NPM
 ```
@@ -12,7 +12,7 @@ sudo apt install nodejs
 
 dpkg -l nodejs
 ```
-## 2. Clone do repositório redeathis-react do Github
+## 2. Clonagem do repositório redeathis-react do Github
 ### Configuração de chave SSH
 ```
 cd ~
@@ -25,7 +25,13 @@ cd /usr/apps
 
 git clone git@github.com:tmagrit/redeathis-react.git
 ```
-### 3. Instale todas as dependências
+### Registro de chave pública em repositório Git
+```
+cd /usr/apps
+
+git clone git@github.com:tmagrit/redeathis-react.git
+```
+### 3. Instalação de dependências da aplicação
 ```
 cd /usr/apps/redeathis-react/endpoint
 npm install
@@ -53,7 +59,7 @@ pm2 flush (Limpa os logs)
 sudo pm2 save
 ```
 ### Configuração do arquivo de parâmetros do PM2
-```js, ecosystem.config.js
+```js ecosystem.config.js
 module.exports = {
     apps : [{
         name: 'ra-imagekit-endpoint', 
