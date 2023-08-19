@@ -58,10 +58,8 @@ pm2 flush (Limpa os logs)
 # Para garantir o reinício das aplicações apos reboot
 sudo pm2 save
 ```
-### Configuração do arquivo de parâmetros do PM2
-```
-ecosystem.config.js
-```
+### Configuração do arquivo de parâmetros do PM2 ```ecosystem.config.js```
+Substituir os parâmetros e salvar na pasta raíz ```/usr/apps/redeathis-react``` da aplicação
 ```js 
 module.exports = {
     apps : [{
@@ -104,40 +102,154 @@ sudo ufw status
 sudo ufw allow http (Autoriza porta 80 HTTP)
 sudo ufw allow https (Autoriza porta 443 HTTPS)
 ```
-## xxx. Instalação e configuração do NGINX
+## 6. Instalação e configuração do NGINX
+### Configuração dos repositórios mais atuais em servidor Debian
+Pré requisitos:
 ```
+sudo apt install curl gnupg2 ca-certificates lsb-release debian-archive-keyring
+```
+Importe a chave oficial do nginx para verificar a autenticidade do pacote:
+```
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+```
+Verifique que o pacote tem a chave correta:
+```
+gpg --dry-run --quiet --no-keyring --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
+```
+A saída do comando anterior deve conter a chave digital 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 como segue:
+```
+pub   rsa2048 2011-08-19 [SC] [expires: 2024-06-14]
+      573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+uid                      nginx signing key <signing-key@nginx.com>
+```
+Se a chave digital for diferente, remova o pacote.
+Para atualizar o repositório apt com a versão estável do NGINX, execute:
+```
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/debian `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
+```
+### Instalação do NGINX
+```
+sudo apt update
 sudo apt install nginx
+```
+### Configuração básica do proxy reverso
+Na pasta ```/etc/nginx/conf.d``` crie as pastas ```sites-available``` e ```sites-enabled```: 
+```
+cd /etc/nginx/conf.d
 
-sudo nano /etc/nginx/sites-available/default
+sudo mkdir sites-available
+
+sudo mkdir sites-enabled
 ```
-Add the following to the location part of the server block
+No diretório ```sites-available``` crie o arquivo ```ra.conf```: 
 ```
-    server_name yourdomain.com www.yourdomain.com;
+cd sites-available
+
+sudo vi ra.conf
+```
+e entre com os dados:
+
+```conf
+server {
+    server_name <DOMAIN_NAME> www.<DOMAIN_NAME>;
 
     location / {
-        proxy_pass http://localhost:5000; #whatever port your app runs on
+        root   /usr/apps/redeathis-react/frontend/build;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /auth {
+        proxy_pass http://<DOMAIN_NAME>:3001/auth;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
+        proxy_ssl_server_name on;
     }
+
+    location /imagekit/files {
+        proxy_pass http://<DOMAIN_NAME>:8001/imagekit/files;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_ssl_server_name on;
+    }
+
+    location /imagekit/deletefile {
+        proxy_pass http://<DOMAIN_NAME>:8001/imagekit/deletefile;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_ssl_server_name on;
+    }
+
+    location /imagekit/updatefile {
+        proxy_pass http://<DOMAIN_NAME>:8001/imagekit/updatefile;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_ssl_server_name on;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
 ```
+No diretório ```sites-enabled``` crie um link simbólico para o arquivo ```ra.conf```: 
+
 ```
-# Conferir configuração do NGINX
+    cd /etc/nginx/conf.d/sites/enabled
+
+    sudo ln -s ../sites-available/plex.conf .
+```
+Altere o arquivo ```/etc/nginx/nginx.conf``` para carregar os novos arquivos de configuração. 
+```
+# Altere a linha
+
+include /etc/nginx/conf.d/*.conf;
+
+# Para
+
+include /etc/nginx/conf.d/sites-enabled/*.conf;
+
+# Teste a sintaxe do arquivo de configuração
+
 sudo nginx -t
 
-# Restart NGINX
+# Envie um sinal para recarregar o NGINX
+
+sudo nginx -s reload
+
+# Ou então reinicie o serviço NGINX
 sudo service nginx restart
 ```
-## xxxx. Crie certificado SSL com LetsEncrypt
+Neste momento já deve ser possível acessar o aplicativo pelo endereço ```<DOMAIN_NAME>```. 
+```
+## 7. Crie certificado SSL para o domínio ```<DOMAIN_NAME>``` com LetsEncrypt
 ```
 sudo add-apt-repository ppa:certbot/certbot
+
 sudo apt-get update
+
 sudo apt-get install python-certbot-nginx
+
 sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 # Only valid for 90 days, test the renewal process with
+
 certbot renew --dry-run
 ```
 
