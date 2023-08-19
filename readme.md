@@ -59,7 +59,10 @@ pm2 flush (Limpa os logs)
 sudo pm2 save
 ```
 ### Configuração do arquivo de parâmetros do PM2
-```js ecosystem.config.js
+```
+ecosystem.config.js
+```
+```js 
 module.exports = {
     apps : [{
         name: 'ra-imagekit-endpoint', 
