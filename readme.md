@@ -21,6 +21,8 @@ ssh-keygen -t ed25519 -C "seu@email.com"
 ```
 ### Clone do repositório
 ```
+TODO: configurar ssh git - https://gist.github.com/Tamal/1cc77f88ef3e900aeae65f0e5e504794
+
 cd /usr/apps
 
 git clone git@github.com:tmagrit/redeathis-react.git
@@ -108,27 +110,31 @@ Pré requisitos:
 ```
 sudo apt install curl gnupg2 ca-certificates lsb-release debian-archive-keyring
 ```
-Importe a chave oficial do nginx para verificar a autenticidade do pacote:
+Importação aa chave oficial para verificar a autenticidade do pacote:
 ```
 curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
     | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 ```
-Verifique que o pacote tem a chave correta:
+Verificação de chave certificada:
 ```
 gpg --dry-run --quiet --no-keyring --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
 ```
-A saída do comando anterior deve conter a chave digital 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 como segue:
+A saída do comando anterior deve conter a chave digital ```573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62``` como segue:
 ```
 pub   rsa2048 2011-08-19 [SC] [expires: 2024-06-14]
       573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 uid                      nginx signing key <signing-key@nginx.com>
 ```
-Se a chave digital for diferente, remova o pacote.
-Para atualizar o repositório apt com a versão estável do NGINX, execute:
+Se a chave digital for diferente, remova o pacote. Para atualizar o repositório apt com a versão estável do NGINX, execute:
 ```
 echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
 http://nginx.org/packages/debian `lsb_release -cs` nginx" \
     | sudo tee /etc/apt/sources.list.d/nginx.list
+```
+### Configuração de preferêcia dos repositórios sobre os nativos
+```
+echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" \
+    | sudo tee /etc/apt/preferences.d/99nginx
 ```
 ### Instalação do NGINX
 ```
@@ -152,7 +158,7 @@ sudo vi ra.conf
 ```
 e entre com os dados:
 
-```conf
+```
 server {
     server_name <DOMAIN_NAME> www.<DOMAIN_NAME>;
 
@@ -211,9 +217,9 @@ server {
 No diretório ```sites-enabled``` crie um link simbólico para o arquivo ```ra.conf```: 
 
 ```
-    cd /etc/nginx/conf.d/sites/enabled
+cd /etc/nginx/conf.d/sites/enabled
 
-    sudo ln -s ../sites-available/plex.conf .
+sudo ln -s ../sites-available/plex.conf .
 ```
 Altere o arquivo ```/etc/nginx/nginx.conf``` para carregar os novos arquivos de configuração. 
 ```
@@ -221,24 +227,24 @@ Altere o arquivo ```/etc/nginx/nginx.conf``` para carregar os novos arquivos de 
 
 include /etc/nginx/conf.d/*.conf;
 
-# Para
+# para
 
 include /etc/nginx/conf.d/sites-enabled/*.conf;
 
-# Teste a sintaxe do arquivo de configuração
+# e teste a sintaxe do arquivo de configuração com o comando
 
 sudo nginx -t
 
-# Envie um sinal para recarregar o NGINX
+# Ao final, envie um sinal para recarregar o NGINX
 
 sudo nginx -s reload
 
-# Ou então reinicie o serviço NGINX
+# Ou então reinicie o serviço NGINX com o comando
 sudo service nginx restart
 ```
-Neste momento já deve ser possível acessar o aplicativo pelo endereço ```<DOMAIN_NAME>```. 
+> Neste momento já deve ser possível acessar o aplicativo pelo endereço ```<DOMAIN_NAME>```. 
 ```
-## 7. Crie certificado SSL para o domínio ```<DOMAIN_NAME>``` com LetsEncrypt
+## 7. Configuração de certificado SSL para o domínio ```<DOMAIN_NAME>``` com LetsEncrypt
 ```
 sudo add-apt-repository ppa:certbot/certbot
 
@@ -249,7 +255,6 @@ sudo apt-get install python-certbot-nginx
 sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 # Only valid for 90 days, test the renewal process with
-
 certbot renew --dry-run
 ```
 
