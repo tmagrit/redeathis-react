@@ -208,30 +208,30 @@ export const publicTheme = createTheme({
         //     yellow: '#FBBC05',
         //     green: '#34A853'
         pp: {
-            light: '#dd7271',
-            main: '#4285F4',
-            dark: '#3d62cd',
+            light: '#85cccf',
+            main: '#33a8aa',
+            dark: '#1c8b8a',
             contrastText: '#fff',            
         },
         
         ic: {
-            light: '#e6534e',
-            main: '#EA4335',
-            dark: '#c9312e',
+            light: '#c6cae1',
+            main: '#33377a',
+            dark: '#272663',
             contrastText: '#fff',
         },
 
         pe: {
-            light: '#fbc009',
-            main: '#FB9D00',
-            dark: '#fb6f00',
+            light: '#fd97bf',
+            main: '#be266a',
+            dark: '#981f62',
             contrastText: '#fff',
         },
 
         ls: {
-            light: '#5cc275',
-            main: '#34a853',
-            dark: '#1f843c',
+            light: '#fbd2d4',
+            main: '#eb6145',
+            dark: '#ca4e3d',
             contrastText: '#fff',
         },
 
