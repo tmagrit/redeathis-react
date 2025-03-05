@@ -158,7 +158,7 @@ const MenuBar = () => {
                 >
                     <Toolbar variant="dense" >
 
-                        <LogoRedeAthis /> 
+                        <LogoRedeAthis width={'150'} /> 
 
                         <Box sx={{ flexGrow: 1 }} />
 
