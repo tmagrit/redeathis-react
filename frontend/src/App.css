@@ -28,7 +28,11 @@
   color: #61dafb;
 }
 
-/* SVG colors to LogoRedeAthis.js */
+/* SVG colors */
+.ra-svg-lightBeige {
+  fill: #eee9e0;
+}
+
 .ra-svg-green {
   fill: #33a8aa;
 }
@@ -45,6 +49,10 @@
   fill: #55534f;
 }
 
+.ra-svg-lightOrange {
+  fill: #f5a449;
+}
+
 .ra-svg-orange {
   fill: #eb6145;
 }
@@ -53,6 +61,30 @@
   fill: #981f62;
 }
 
+/* SVG logo colors */
+#logo_rede_athis path {
+  transition: fill 0.3s ease;
+}
+/* Hover off */
+#logo_rede_athis .ra-hv-svg-yellow , .ra-hv-svg-orange, .ra-hv-svg-pink, .ra-hv-svg-blue, .ra-hv-svg-green {
+  fill: #55534f;
+}
+/* Hover on */
+#logo_rede_athis:hover .ra-hv-svg-yellow {
+  fill: #f5a449;
+}
+#logo_rede_athis:hover .ra-hv-svg-orange {
+  fill: #eb6145;
+}
+#logo_rede_athis:hover .ra-hv-svg-pink {
+  fill: #981f62;
+}
+#logo_rede_athis:hover .ra-hv-svg-blue {
+  fill: #33377a;
+}
+#logo_rede_athis:hover .ra-hv-svg-green {
+  fill: #33a8aa;
+}
 
 
 
