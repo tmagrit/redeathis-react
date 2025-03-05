@@ -28,6 +28,35 @@
   color: #61dafb;
 }
 
+/* SVG colors to LogoRedeAthis.js */
+.ra-svg-green {
+  fill: #33a8aa;
+}
+
+.ra-svg-blue {
+  fill: #33377a;
+}
+
+.ra-svg-yellow {
+  fill: #f5a449;
+}
+
+.ra-svg-gray {
+  fill: #55534f;
+}
+
+.ra-svg-orange {
+  fill: #eb6145;
+}
+
+.ra-svg-pink {
+  fill: #981f62;
+}
+
+
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
