@@ -202,7 +202,7 @@ export const publicTheme = createTheme({
           contrastText: '#e6f6fc', 
         },
 
-        // CUSTOM RESEARCH PALETTE STYLES
+        // OLD CUSTOM RESEARCH PALETTE STYLES
         //     blue: '#4285F4',
         //     red: '#EA4335',
         //     yellow: '#FBBC05',
@@ -216,21 +216,21 @@ export const publicTheme = createTheme({
         
         ic: {
             light: '#c6cae1',
-            main: '#33377a',
+            main: '#33377A',
             dark: '#272663',
             contrastText: '#fff',
         },
 
         pe: {
             light: '#fd97bf',
-            main: '#be266a',
+            main: '#BE266A',
             dark: '#981f62',
             contrastText: '#fff',
         },
 
         ls: {
             light: '#fbd2d4',
-            main: '#eb6145',
+            main: '#EB6145',
             dark: '#ca4e3d',
             contrastText: '#fff',
         },
