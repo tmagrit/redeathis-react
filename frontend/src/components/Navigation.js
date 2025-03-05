@@ -26,7 +26,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-import Logo from './Logo';
+// import Logo from './Logo';
+import LogoRedeAthis from './LogoRedeAthis';
 import Controls from './Controls';
 import Legend from './Legend';
 import FilterSelect from './FilterSelect';
@@ -157,7 +158,7 @@ const MenuBar = () => {
                 >
                     <Toolbar variant="dense" >
 
-                        <Logo /> 
+                        <LogoRedeAthis /> 
 
                         <Box sx={{ flexGrow: 1 }} />
 
