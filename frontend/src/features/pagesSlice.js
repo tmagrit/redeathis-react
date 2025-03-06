@@ -6,7 +6,7 @@ export const getPages = createAsyncThunk('pages/getPages', async (obj , { dispat
         const { data, error } = await supabase
             .from('pages')
             .select(`*`)    
-            .order('id', { ascending: true });
+            .order('page_order', { ascending: true });
 
         if (error) 
             throw error;
