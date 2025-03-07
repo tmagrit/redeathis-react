@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-//import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
@@ -47,6 +47,7 @@ const MenuBar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
     const [show, setShow] = useState(false);
+    const [isHoveredOrTouchedIndex, setIsHoveredOrTouchedIndex] = useState(null);
 
     const handleDrawerOpen = () => {
       setOpen(!open);
@@ -73,6 +74,8 @@ const MenuBar = () => {
     const handleLogout = () => {
         dispatch(logout());
     };
+
+    console.log(isHoveredOrTouchedIndex);
 
     const PublicNavMenu = () => {
         return (
@@ -162,8 +165,84 @@ const MenuBar = () => {
 
                         <Box sx={{ flexGrow: 1 }} />
 
+                        {/* CIRCLE NAVIGATION ELEMENT */}
+                        <Box 
+                            sx={{ 
+                                    display: { xs: 'none', md: 'none', lg: 'flex' }, 
+                                    alignItems: 'center', 
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-around' 
+                                }}
+                        >  
+                            {pages.map((pa) => (
+                                <Box key={slugger(pa.slug)} >
+                                    <Link 
+                                        to={`/institutional/${slugger(pa.slug)}`} 
+                                        style={{ textDecoration: 'none' }}   
+                                    >
+                                        <Box 
+                                            sx={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                flexDirection: 'column',
+                                                textAlign: 'center',
+                                                minWidth: 60 
+                                            }}
+                                            onMouseEnter={() => setIsHoveredOrTouchedIndex(pa.id)}
+                                            onMouseLeave={() => setIsHoveredOrTouchedIndex(null)}
+                                            onTouchStart={() => setIsHoveredOrTouchedIndex(pa.id)}
+                                            onTouchEnd={() => setIsHoveredOrTouchedIndex(null)} 
+                                        >
+                                            <svg width="18" height="18" viewBox="0 0 18 18">
+                                                <circle
+                                                    cx="9"
+                                                    cy="9"
+                                                    r="7"
+                                                    fill={`${pa.color}`}
+                                                    stroke={`${pa.color}`}
+                                                    //stroke="#000000"
+                                                    strokeWidth="2"
+                                                />
+                                            </svg>
+
+                                            <Box 
+                                                sx={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    flexDirection: 'column',
+                                                    textAlign: 'center',
+                                                    backgroundColor: `${pa.color}`,
+                                                    padding: '3px',
+                                                    position: 'absolute', // Permite sobreposição
+                                                    top: '80%', // Posiciona abaixo do círculo
+                                                    left: '90%', // Centraliza horizontalmente
+                                                    transform: 'translateX(-50%)', // Ajusta o posicionamento
+                                                    zIndex: `${pa.page_order}`, // Garante que fique acima de outros elementos 
+                                                    visibility: isHoveredOrTouchedIndex === pa.id ? 'visible' : 'hidden',
+                                                }}
+                                            >
+                                                <Typography 
+                                                    component={Link} 
+                                                    key={slugger(pa.slug)} 
+                                                    to={`/institutional/${slugger(pa.slug)}`} 
+                                                    sx={{ minWidth: 100, textDecoration: 'none', textTransform: 'uppercase' }}
+                                                    color='#eee9e0'
+                                                    variant="mainNavigationItem"
+                                                    noWrap
+                                                >
+                                                    {pa.slug}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+                                    </Link>
+                                </Box>
+
+                            ))}
+                        </Box>
+
                         {/* TODO: ADD LOGIC TO HANDLE BUTTONS SHOW DEPEND ON FILTER OPEN */}
-                        <Box sx={{ display: { xs: 'none', md: 'none', lg: 'block' }}}> 
+                        {/* <Box sx={{ display: { xs: 'none', md: 'none', lg: 'block' }}}> 
                             {pages.map((pa) => (
                                 <Button 
                                     key={slugger(pa.slug)} 
@@ -174,11 +253,11 @@ const MenuBar = () => {
                                     {pa.slug}
                                 </Button>
                             ))}
-                        </Box>
+                        </Box> */}
 
-                        <IconButton edge="end" size="large" onClick={handleMenu} >
+                        {/* <IconButton edge="end" size="large" onClick={handleMenu} >
                             <MenuIcon />
-                        </IconButton>
+                        </IconButton> */}
 
                         <PublicNavMenu />
 

@@ -321,11 +321,15 @@ export const publicTheme = createTheme({
             fontSize: '2.1rem',
             fontWeight: 800
         }, 
-        
         logoFooterSubtitle: { 
             fontFamily: 'Montserrat', 
             fontSize: '0.56rem',
             fontWeight: 200 
+        },
+        mainNavigationItem: { 
+            fontFamily: 'Aberforth', 
+            fontSize: '1.5rem',
+            fontWeight: 400 
         },
     },
 
