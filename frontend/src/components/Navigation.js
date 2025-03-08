@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/sessionSlice'; 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -11,7 +11,6 @@ import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 
-import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Menu from '@mui/material/Menu';
@@ -23,19 +22,19 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import MenuIcon from '@mui/icons-material/Menu';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 // import Logo from './Logo';
 import LogoRedeAthis from './LogoRedeAthis';
-import Controls from './Controls';
-import Legend from './Legend';
-import FilterSelect from './FilterSelect';
 import PublicFooter from '../components/PublicFooter';
 import { slugger } from './slugger';
-import { AppBar, DrawerHeader, Main, publicTheme, drawerWidth } from '../styles/publicStyles';
+import { AppBar, publicTheme } from '../styles/publicStyles';
 
 const MenuBar = () => {
+
+    // REACT ROUTER 
+    const location = useLocation();
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
@@ -49,18 +48,9 @@ const MenuBar = () => {
     const [show, setShow] = useState(false);
     const [isHoveredOrTouchedIndex, setIsHoveredOrTouchedIndex] = useState(null);
 
-    const handleDrawerOpen = () => {
-      setOpen(!open);
-    };
-  
-    const handleDrawerClose = () => {
-      setOpen(false);
-    };
-
     const handleFooterShow = (e) => {
         setShow(e);
     };
-
 
     // HANDLE MENU
     const handleMenu = (event) => {
@@ -74,8 +64,6 @@ const MenuBar = () => {
     const handleLogout = () => {
         dispatch(logout());
     };
-
-    console.log(isHoveredOrTouchedIndex);
 
     const PublicNavMenu = () => {
         return (
@@ -148,18 +136,8 @@ const MenuBar = () => {
                     position="fixed" 
                     color="inherit" 
                     elevation={0}  
-                    sx={{ 
-                        background: 'rgba(244, 240, 235, 0.65)',
-                        borderBottom: 1,
-                        borderColor: 'divider',
-                        // "&:hover": {
-                        //     background: 'rgba(244, 240, 235, 0.65)',
-                        //     borderBottom: 1,
-                        //     borderColor: 'divider',
-                        // }, 
-                    }}
                 >
-                    <Toolbar variant="dense" >
+                    <Toolbar >
 
                         <LogoRedeAthis width={'150'} /> 
 
@@ -168,14 +146,15 @@ const MenuBar = () => {
                         {/* CIRCLE NAVIGATION ELEMENT */}
                         <Box 
                             sx={{ 
-                                    display: { xs: 'none', md: 'none', lg: 'flex' }, 
+                                    // display: { xs: 'none', md: 'none', lg: 'flex' }, 
+                                    display: 'flex',
                                     alignItems: 'center', 
                                     flexDirection: 'row',
                                     justifyContent: 'space-around' 
                                 }}
                         >  
                             {pages.map((pa) => (
-                                <Box key={slugger(pa.slug)} >
+                                <Box key={slugger(pa.slug)} sx={{ maxWidth: 50, overflow: 'visible'}}>
                                     <Link 
                                         to={`/institutional/${slugger(pa.slug)}`} 
                                         style={{ textDecoration: 'none' }}   
@@ -186,7 +165,9 @@ const MenuBar = () => {
                                                 alignItems: 'center', 
                                                 flexDirection: 'column',
                                                 textAlign: 'center',
-                                                minWidth: 60 
+                                                minWidth: 40,
+                                                paddingTop: 3,
+                                                paddingBottom: 1 
                                             }}
                                             onMouseEnter={() => setIsHoveredOrTouchedIndex(pa.id)}
                                             onMouseLeave={() => setIsHoveredOrTouchedIndex(null)}
@@ -198,9 +179,8 @@ const MenuBar = () => {
                                                     cx="9"
                                                     cy="9"
                                                     r="7"
-                                                    fill={`${pa.color}`}
-                                                    stroke={`${pa.color}`}
-                                                    //stroke="#000000"
+                                                    fill={isHoveredOrTouchedIndex === pa.id || location.pathname === `/institutional/${slugger(pa.slug)}` ? `${pa.color}` : 'transparent'}
+                                                    stroke={isHoveredOrTouchedIndex === pa.id  || location.pathname === `/institutional/${slugger(pa.slug)}` === pa.id ? `${pa.color}` : '#CFC1AD'}
                                                     strokeWidth="2"
                                                 />
                                             </svg>
@@ -212,12 +192,8 @@ const MenuBar = () => {
                                                     flexDirection: 'column',
                                                     textAlign: 'center',
                                                     backgroundColor: `${pa.color}`,
+                                                    marginTop: 0.5,
                                                     padding: '3px',
-                                                    position: 'absolute', // Permite sobreposição
-                                                    top: '80%', // Posiciona abaixo do círculo
-                                                    left: '90%', // Centraliza horizontalmente
-                                                    transform: 'translateX(-50%)', // Ajusta o posicionamento
-                                                    zIndex: `${pa.page_order}`, // Garante que fique acima de outros elementos 
                                                     visibility: isHoveredOrTouchedIndex === pa.id ? 'visible' : 'hidden',
                                                 }}
                                             >
@@ -225,7 +201,7 @@ const MenuBar = () => {
                                                     component={Link} 
                                                     key={slugger(pa.slug)} 
                                                     to={`/institutional/${slugger(pa.slug)}`} 
-                                                    sx={{ minWidth: 100, textDecoration: 'none', textTransform: 'uppercase' }}
+                                                    sx={{ px: 1, textDecoration: 'none', textTransform: 'uppercase' }}
                                                     color='#eee9e0'
                                                     variant="mainNavigationItem"
                                                     noWrap
@@ -241,61 +217,14 @@ const MenuBar = () => {
                             ))}
                         </Box>
 
-                        {/* TODO: ADD LOGIC TO HANDLE BUTTONS SHOW DEPEND ON FILTER OPEN */}
-                        {/* <Box sx={{ display: { xs: 'none', md: 'none', lg: 'block' }}}> 
-                            {pages.map((pa) => (
-                                <Button 
-                                    key={slugger(pa.slug)} 
-                                    component={Link} 
-                                    to={`/institutional/${slugger(pa.slug)}`}
-                                    color="inherit"
-                                >
-                                    {pa.slug}
-                                </Button>
-                            ))}
-                        </Box> */}
-
                         {/* <IconButton edge="end" size="large" onClick={handleMenu} >
                             <MenuIcon />
-                        </IconButton> */}
+                        </IconButton>
 
-                        <PublicNavMenu />
+                        <PublicNavMenu /> */}
 
                     </Toolbar>
                 </AppBar>
-
-                <Main open={open}  >
-                    {/* <DrawerHeader /> */}
-
-                    <Controls open={open} show={show} setOpen={handleDrawerOpen} />
-                    <Legend open={open} show={show} />
-                </Main>
-
-                <Drawer
-                    PaperProps={{ 
-                        style: {
-                            background: 'rgba(244, 240, 235, 0.75)',
-                        }
-                    }}
-                    sx={{
-                        width: drawerWidth,
-                        flexShrink: 0,
-                        '& .MuiDrawer-paper': {
-                            width: drawerWidth,
-                        },
-                    }}
-                    variant="persistent"
-                    anchor="right"
-                    open={open}
-                >
-                    <DrawerHeader>
-                        <IconButton onClick={handleDrawerClose}>
-                            {publicTheme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </IconButton>
-                    </DrawerHeader>
-                    <Divider />
-                    <FilterSelect />
-                </Drawer>
 
                 <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} />
 
