@@ -1,31 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/sessionSlice'; 
 import { Link, useLocation } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-
-import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
-import Menu from '@mui/material/Menu';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
-
-import LoginIcon from '@mui/icons-material/Login';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MenuIcon from '@mui/icons-material/Menu';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import LogoutIcon from '@mui/icons-material/Logout';
-// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-
-// import Logo from './Logo';
 import LogoRedeAthis from './LogoRedeAthis';
 import PublicFooter from '../components/PublicFooter';
 import { slugger } from './slugger';
@@ -36,14 +17,9 @@ const MenuBar = () => {
     // REACT ROUTER 
     const location = useLocation();
 
-    // REDUX SELECTORS
-    const dispatch = useDispatch();
-
-    const session = useSelector(state => state.session);
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
 
     // MENU STATES
-    const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
     const [show, setShow] = useState(false);
     const [isHoveredOrTouchedIndex, setIsHoveredOrTouchedIndex] = useState(null);
@@ -52,87 +28,11 @@ const MenuBar = () => {
         setShow(e);
     };
 
-    // HANDLE MENU
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    // HANDLE LOGOUT
-    const handleLogout = () => {
-        dispatch(logout());
-    };
-
-    const PublicNavMenu = () => {
-        return (
-            <Menu 
-                id="publicNavMenu-menuBar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}    
-            >
-                <MenuList sx={{ width: 320, maxWidth: '100%', }} >
-                    <Box sx={{ display: { xs: 'block', md: 'block', lg: 'none' }}} >
-                        {pages.map((pa) => (
-                            <MenuItem
-                                key={slugger(pa.slug)} 
-                                component={Link} 
-                                to={`/institutional/${slugger(pa.slug)}`}
-                                color="inherit"
-                            >
-                                <ListItemText inset >{pa.slug}</ListItemText>
-                            </MenuItem>
-                         ))}
-                        <Divider />
-                    </Box>
-                    {session?.session?.user?.aud === "authenticated" ? ( 
-                        <div>
-                            <MenuItem component={Link} to="/admin" >
-                                <ListItemIcon>
-                                    <SettingsIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Administrar</ListItemText>
-                            </MenuItem>
-                            <MenuItem component={Link} to="/" onClick={handleLogout} >
-                                <ListItemIcon>
-                                    <LogoutIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Sair</ListItemText>
-                            </MenuItem> 
-                        </div>
-                    ) : (
-                        <div>
-                            <MenuItem component={Link} to="/signin" >
-                                <ListItemIcon>
-                                    <LoginIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Entrar</ListItemText>
-                            </MenuItem>
-                        </div>
-                    )}
-                   
-                </MenuList>
-            </Menu>
-        );
-    };
-
     return ( 
         <ThemeProvider theme={publicTheme} > 
             <Box sx={{ display: 'flex', }}>
             <CssBaseline />
                 <AppBar 
-                    open={open}
                     position="fixed" 
                     color="inherit" 
                     elevation={0}  
@@ -150,11 +50,18 @@ const MenuBar = () => {
                                     display: 'flex',
                                     alignItems: 'center', 
                                     flexDirection: 'row',
-                                    justifyContent: 'space-around' 
+                                    justifyContent: 'space-around',
+                                    paddingRight: 1
                                 }}
                         >  
                             {pages.map((pa) => (
-                                <Box key={slugger(pa.slug)} sx={{ maxWidth: 50, overflow: 'visible'}}>
+                                <Box 
+                                    key={slugger(pa.slug)} 
+                                    sx={{ 
+                                        maxWidth: { xs: 30, md: 50 }, 
+                                        overflow: 'visible'
+                                    }}
+                                >
                                     <Link 
                                         to={`/institutional/${slugger(pa.slug)}`} 
                                         style={{ textDecoration: 'none' }}   
@@ -166,7 +73,7 @@ const MenuBar = () => {
                                                 flexDirection: 'column',
                                                 textAlign: 'center',
                                                 minWidth: 40,
-                                                paddingTop: 3,
+                                                paddingTop: 5,
                                                 paddingBottom: 1 
                                             }}
                                             onMouseEnter={() => setIsHoveredOrTouchedIndex(pa.id)}
@@ -216,12 +123,6 @@ const MenuBar = () => {
 
                             ))}
                         </Box>
-
-                        {/* <IconButton edge="end" size="large" onClick={handleMenu} >
-                            <MenuIcon />
-                        </IconButton>
-
-                        <PublicNavMenu /> */}
 
                     </Toolbar>
                 </AppBar>
