@@ -244,8 +244,8 @@ export const publicTheme = createTheme({
         divider: 'rgba(13, 11, 7, 0.12)',
 
         background: {
-            paper: '#efe9e1',
-            //paper: '#0D0B07',
+            // paper: '#efe9e1', // DEPRECATED STYLE
+            paper: '#f4f0eb',
             default: '#f4f0eb',
         },
 
