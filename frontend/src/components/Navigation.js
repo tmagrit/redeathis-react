@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -249,13 +249,14 @@ const MenuBar = () => {
                     maxWidth="xl" 
                     sx={{ mt: '112px' }} 
                 >
-                    <Grid container spacing={3}>
+                    <Outlet />
+                    {/* <Grid container spacing={3}>
                         <Grid item xs={12} >
                             <Grid item xs={12} sx={{ pt: 5, pl: 20, display: 'flex', flexDirection: 'column', }}>
                                 <MainArt />
                             </Grid>
                         </Grid>  
-                    </Grid>
+                    </Grid> */}
                 </Container>
 
                 <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} />
