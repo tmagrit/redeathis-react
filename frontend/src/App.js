@@ -11,6 +11,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 // COMPONENTS
+import PublicIndex from './components/PublicIndex';
 import MainDashboard from './components/MainDashboard';
 import ResearchCreate from './components/ResearchCreate';
 import ResearchEdit from './components/ResearchEdit';
@@ -87,9 +88,15 @@ function App() {
     if(session.sessionStatus === 'succeeded') {
         return (
             <Routes>
-                <Route index element={<Home />} />
-                {/* <Route path="/" element={<Home />} /> */}
-                {/* <Route path="home" element={<Home />} /> */}
+                {/* HOME AND INSTITUTIONAL ROUTES */}
+                <Route path="/" element={<Home />} >
+                    <Route index element={<PublicIndex />} />
+                    <Route path="redeathis" element={<PublicIndex />} />
+                    <Route path="apresentacao" element={<PublicIndex />} />
+                    <Route path="quemsomos" element={<PublicIndex />} />
+                    <Route path="colabore" element={<PublicIndex />} />
+                
+                </Route>
 
                 {/* PUBLIC RESEARCH ROUTES */}
                 <Route path="view/research/:researchId" element={<ViewResearch />} />
