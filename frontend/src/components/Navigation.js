@@ -165,7 +165,11 @@ const MenuBar = () => {
                                                     key={slugger(pa.slug)} 
                                                     to={`/${slugger(pa.slug)}`} 
                                                     onClick={() => handleMenuPageIndex(pa.id)}
-                                                    sx={{ px: 1, textDecoration: 'none', textTransform: 'uppercase', }}
+                                                    sx={{ 
+                                                        px: 1, 
+                                                        textDecoration: 'none', 
+                                                        textTransform: 'uppercase',
+                                                    }}
                                                     color='#eee9e0'
                                                     variant="mainNavigationItem"
                                                     noWrap
@@ -221,6 +225,7 @@ const MenuBar = () => {
                         transform: 'rotate(180deg)',
                         writingMode: 'vertical-lr', 
                         textTransform: 'uppercase',
+                        display: activePageIndex === 0 ? 'none' : 'block',
                     }}
                 >
                     {staticPages[activePageIndex].title}
