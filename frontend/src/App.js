@@ -12,6 +12,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 // COMPONENTS
 import PublicIndex from './components/PublicIndex';
+import PublicRedeAthis from './components/PublicRedeAthis';
+import PublicOverview from './components/PublicOverview';
+import PublicTeam from './components/PublicTeam';
+import PublicGetInvolved from './components/PublicGetInvolved';
 import MainDashboard from './components/MainDashboard';
 import ResearchCreate from './components/ResearchCreate';
 import ResearchEdit from './components/ResearchEdit';
@@ -91,10 +95,10 @@ function App() {
                 {/* HOME AND INSTITUTIONAL ROUTES */}
                 <Route path="/" element={<Home />} >
                     <Route index element={<PublicIndex />} />
-                    <Route path="redeathis" element={<PublicIndex />} />
-                    <Route path="apresentacao" element={<PublicIndex />} />
-                    <Route path="quemsomos" element={<PublicIndex />} />
-                    <Route path="colabore" element={<PublicIndex />} />
+                    <Route path="redeathis" element={<PublicRedeAthis />} />
+                    <Route path="apresentacao" element={<PublicOverview />} />
+                    <Route path="quemsomos" element={<PublicTeam />} />
+                    <Route path="colabore" element={<PublicGetInvolved />} />
                 
                 </Route>
 
