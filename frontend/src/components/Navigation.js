@@ -95,7 +95,7 @@ const MenuBar = () => {
                 >
                     <Toolbar >
 
-                        <LogoRedeAthis width={'150'} /> 
+                        <LogoRedeAthis width={'150'} onLogoRedeAthisClick={() => setActivePageIndex(0)}/> 
 
                         <Box sx={{ flexGrow: 1 }} />
 
@@ -109,7 +109,7 @@ const MenuBar = () => {
                                     paddingRight: 1
                                 }}
                         >  
-                            {staticPages.map((pa) => (
+                            {staticPages.slice(1).map((pa) => (
                                 <Box 
                                     key={slugger(pa.slug)} 
                                     sx={{ 

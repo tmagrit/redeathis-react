@@ -8,12 +8,13 @@ import { publicTheme } from '../styles/publicStyles';
 // STYLES 
 import '../App.css';
 const LogoRedeAthis = (props) => {
-    const { width } = props;
+    const { width, onLogoRedeAthisClick } = props;
 
     return (
         <ThemeProvider theme={publicTheme} >
             <Box 
                 component={Link} 
+                onClick={onLogoRedeAthisClick}
                 to="/" 
                 sx={{ 
                     textDecoration: 'none', 
@@ -53,4 +54,5 @@ LogoRedeAthis.defaultProps = {
 
 LogoRedeAthis.propTypes = {
     width: PropTypes.string.isRequired,
+    onLogoRedeAthisClick:  PropTypes.func,
 };
