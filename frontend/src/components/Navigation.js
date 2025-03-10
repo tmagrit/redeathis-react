@@ -76,6 +76,10 @@ const MenuBar = () => {
         setActivePageIndex((index - 1 + staticPages.length) % staticPages.length);
     };  
 
+    const handleMenuPageIndex= (index) => {
+        setActivePageIndex(index);
+    }; 
+
     const handleFooterShow = (e) => {
         setShow(e);
     };
@@ -131,6 +135,7 @@ const MenuBar = () => {
                                             onMouseLeave={() => setIsHoveredOrTouchedIndex(null)}
                                             onTouchStart={() => setIsHoveredOrTouchedIndex(pa.id)}
                                             onTouchEnd={() => setIsHoveredOrTouchedIndex(null)} 
+                                            onClick={() => handleMenuPageIndex(pa.id)}
                                         >
                                             <svg width="18" height="18" viewBox="0 0 18 18">
                                                 <circle
@@ -159,6 +164,7 @@ const MenuBar = () => {
                                                     component={Link} 
                                                     key={slugger(pa.slug)} 
                                                     to={`/${slugger(pa.slug)}`} 
+                                                    onClick={() => handleMenuPageIndex(pa.id)}
                                                     sx={{ px: 1, textDecoration: 'none', textTransform: 'uppercase', }}
                                                     color='#eee9e0'
                                                     variant="mainNavigationItem"
@@ -180,7 +186,8 @@ const MenuBar = () => {
 
                 <Fab 
                     variant="extended" 
-                    disabled={false}
+                    component={Link}
+                    to={`/${staticPages[(activePageIndex - 1 + staticPages.length) % staticPages.length].slug}`}
                     sx={{ 
                         position: "absolute",
                         boxShadow: "none",
@@ -221,7 +228,8 @@ const MenuBar = () => {
 
                 <Fab 
                     variant="extended" 
-                    disabled={false}
+                    component={Link}
+                    to={`/${staticPages[(activePageIndex + 1) % staticPages.length].slug}`}
                     sx={{ 
                         position: "absolute",
                         boxShadow: "none",
@@ -249,14 +257,9 @@ const MenuBar = () => {
                     maxWidth="xl" 
                     sx={{ mt: '112px' }} 
                 >
+
                     <Outlet />
-                    {/* <Grid container spacing={3}>
-                        <Grid item xs={12} >
-                            <Grid item xs={12} sx={{ pt: 5, pl: 20, display: 'flex', flexDirection: 'column', }}>
-                                <MainArt />
-                            </Grid>
-                        </Grid>  
-                    </Grid> */}
+
                 </Container>
 
                 <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} />
