@@ -297,7 +297,7 @@ export const publicTheme = createTheme({
     },
 
     typography: {
-        fontFamily: 'Montserrat, Arial',
+        fontFamily: 'Roboto, Arial',
         fontWeightLight: 200,
         fontWeightRegular: 400,
         fontWeightMedium: 500,
@@ -333,6 +333,12 @@ export const publicTheme = createTheme({
             fontFamily: 'Aberforth', 
             fontSize: '1.5rem',
             fontWeight: 400 
+        },
+        clickInfoTitle: { 
+            fontFamily: 'Aberforth', 
+            fontSize: '1.5rem',
+            fontWeight: 40, 
+            textTransform: 'uppercase', 
         },
     },
 
