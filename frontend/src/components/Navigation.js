@@ -259,7 +259,7 @@ const MenuBar = () => {
                 </Fab>
 
                 <Container 
-                    maxWidth="xl" 
+                    maxWidth={false} 
                     sx={{ mt: '112px' }} 
                 >
 
@@ -267,7 +267,7 @@ const MenuBar = () => {
 
                 </Container>
 
-                <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} />
+                {/* <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} /> */}
 
             </Box>
         </ThemeProvider>
