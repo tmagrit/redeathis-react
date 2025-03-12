@@ -8,11 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import Fab from '@mui/material/Fab';
-
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import MainArt from './MainArt';
-
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LogoRedeAthis from './LogoRedeAthis';
@@ -260,14 +256,21 @@ const MenuBar = () => {
 
                 <Container 
                     maxWidth={false} 
-                    sx={{ mt: '112px' }} 
+                    sx={{ 
+                        // backgroundImage: 'url(https://www.iconsdb.com/icons/download/yellow/plus-24.png)',
+                        // height: '24px',
+                        // backgroundSize: 'cover',
+                        // backgroundRepeat: 'repeat',
+                        // backgroundAttachment: 'fixed',
+                        mt: '112px',
+                    }} 
                 >
 
                     <Outlet />
 
                 </Container>
 
-                {/* <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} /> */}
+                <PublicFooter open={open} show={show} setShow={(e) => handleFooterShow(e)} />
 
             </Box>
         </ThemeProvider>

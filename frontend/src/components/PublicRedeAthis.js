@@ -33,8 +33,8 @@ const PublicRedeAthis = () => {
         const categories = useSelector(state => state.research.categories);
     
         // REACT STATES
-        const [viewport, setViewport] = useState(sessionViewport); console.log('viewport',viewport);
-        const [clickInfo, setClickInfo] = useState({ object: false }); console.log('clickInfo.object',clickInfo.object);
+        const [viewport, setViewport] = useState(sessionViewport); 
+        const [clickInfo, setClickInfo] = useState({ object: false }); 
         const [hoverInfo, setHoverInfo] = useState({ object: false });
     
         // REDUX SELECTORS   
