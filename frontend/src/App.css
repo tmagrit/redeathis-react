@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'Aberforth';
-  src: url(../public/fonts/Aberforth.ttf) format('truetype'); 
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap; 
-}
-
 .App {
   text-align: center;
 }
