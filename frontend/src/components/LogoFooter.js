@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material';
 //import CasaAthis from './CasaAthis';
@@ -11,63 +10,28 @@ import { publicTheme } from '../styles/publicStyles';
 const LogoFooter = () => {
 
     return (
-        <ThemeProvider theme={publicTheme} >
-            {/* <Box 
-                component={Link} 
-                to="/" 
-                sx={{ 
-                    textDecoration: 'none', 
-                    color: 'text.primary', 
-                }} 
-            >
-
-                <Stack direction="row" spacing={0.5} >
-                    <Typography 
-                        component="h1" 
-                        variant="logoThin" 
-                        sx={{ 
-                            my: 0, 
-                            textDecoration: 'none',                            
-                            // position: 'relative', 
-                            // top: '-0.5rem', 
-                        }} 
-                    >
-                        REDE
-                    </Typography>
-                    <Typography 
-                        component="h1" 
-                        variant="logoThick" 
-                        sx={{ 
-                            my: 0, 
-                            textDecoration: 'none',                            
-                            // position: 'relative', 
-                            // top: '-0.5rem', 
-                        }} 
-                    >
-                        ATHIS
-                    </Typography>
-                </Stack>
-            </Box>    */}
-            
+        <ThemeProvider theme={publicTheme} >            
             <Box 
                 component={Link} 
                 to="/" 
-                sx={{ 
-                    textDecoration: 'none', 
-                    color: 'common.white', 
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'left',
+                    pr: 2,
+                    textDecoration: 'none',
                 }} 
             >
-                <Typography component="h2" variant="logoFooterSubtitle" sx={{ ml: 0.5, mt: 1, }} >
-                    ACERVO DE REFERÊNCIAS EM CONSTRUÇÃO
+                <Typography component="h2" variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                    Laboratório de Habitação e Cidade
                 </Typography>
-                <Stack direction="row" spacing={0.5} >
-                    <Typography component="h1" variant="logoFooterThin" sx={{ my: 0, position: 'relative', top: '-0.5rem', textDecoration: 'none', }} >
-                        REDE
-                    </Typography>
-                    <Typography component="h1" variant="logoFooterThick" sx={{ my: 0, position: 'relative', top: '-0.5rem', textDecoration: 'none', }} >
-                        ATHIS
-                    </Typography>
-                </Stack>
+                <Typography component="subtitle1" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                    Faculdade de Arquitetura da UFBA
+                </Typography>
+                <Typography component="subtitle1" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                    Rua Caetano de Moura 121, Federação, CEP: 40210-905
+                </Typography>
+
             </Box>   
 
         </ThemeProvider>

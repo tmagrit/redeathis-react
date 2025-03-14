@@ -109,7 +109,7 @@ export const PaperFooter = styled(MuiPaper, {
     })(({ theme, open, show }) => ({
         zIndex: 2000,
         height: '30px',
-        background: 'linear-gradient(to top, rgba(13, 11, 7,0.5) 0%, rgba(13, 11, 7,0) 100%)',
+        //background: 'linear-gradient(to top, rgba(13, 11, 7,0.5) 0%, rgba(13, 11, 7,0) 100%)',
         position: 'fixed',
         width: '100%',
         bottom: 0,
@@ -130,7 +130,7 @@ export const PaperFooter = styled(MuiPaper, {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        background: '#0D0B07',
+        //background: '#0D0B07',
         height: `${footerHeight}px`,
     }),
     ...(show && open && {
@@ -139,7 +139,7 @@ export const PaperFooter = styled(MuiPaper, {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        background: '#0D0B07',
+        //background: '#0D0B07',
         marginRight: drawerWidth,
         height: `${footerHeight}px`,
     }),
@@ -202,11 +202,6 @@ export const publicTheme = createTheme({
           contrastText: '#e6f6fc', 
         },
 
-        // OLD CUSTOM RESEARCH PALETTE STYLES
-        //     blue: '#4285F4',
-        //     red: '#EA4335',
-        //     yellow: '#FBBC05',
-        //     green: '#34A853'
         pp: {
             light: '#85cccf',
             main: '#33a8aa',
@@ -240,6 +235,8 @@ export const publicTheme = createTheme({
             secondary: 'rgba(13, 11, 7, 0.6)',
             disabled: 'rgba(13, 11, 7, 0.38)',
         },
+
+        footerText: '#CFC1AD',
 
         divider: 'rgba(13, 11, 7, 0.12)',
 
@@ -324,10 +321,21 @@ export const publicTheme = createTheme({
             fontSize: '2.1rem',
             fontWeight: 800
         }, 
-        logoFooterSubtitle: { 
-            fontFamily: 'Montserrat', 
-            fontSize: '0.56rem',
-            fontWeight: 200 
+        footerTitle: { 
+            fontFamily: 'Roboto', 
+            fontSize: '0.8rem',
+            fontWeight: 600 
+        },
+        footerSubtitle: { 
+            fontFamily: 'Roboto', 
+            fontSize: '0.7rem',
+            fontWeight: 200,
+            textTransform: 'uppercase', 
+        },
+        footerBody: { 
+            fontFamily: 'Roboto', 
+            fontSize: '0.8rem',
+            fontWeight: 200, 
         },
         mainNavigationItem: { 
             fontFamily: 'Aberforth', 
