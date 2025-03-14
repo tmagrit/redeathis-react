@@ -257,11 +257,11 @@ const MenuBar = () => {
                 <Container 
                     maxWidth={false} 
                     sx={{ 
-                        // backgroundImage: 'url(https://www.iconsdb.com/icons/download/yellow/plus-24.png)',
-                        // height: '24px',
-                        // backgroundSize: 'cover',
-                        // backgroundRepeat: 'repeat',
-                        // backgroundAttachment: 'fixed',
+                        backgroundImage: 'url(/images/background/background-left.png), url(/images/background/background-right.png)',
+                        height: 'calc(100vh - 112px)',
+                        backgroundSize: 'auto, auto',
+                        backgroundRepeat: 'repeat-y, repeat-y',
+                        backgroundPosition: 'left top, right top',
                         mt: '112px',
                     }} 
                 >
