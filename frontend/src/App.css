@@ -1,6 +1,11 @@
 @font-face {
   font-family: 'Aberforth';
-  src: url(./fonts/Aberforth.ttf) format('truetype'); 
+  src: url('./fonts/Aberforth.eot');
+  src: 
+    url('./fonts/Aberforth.eot') format('embedded-opentype'), 
+    url('./fonts/Aberforth.woff2') format('woff2'), 
+    url('./fonts/Aberforth.woff') format('woff'), 
+    url('./fonts/Aberforth.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap; 
