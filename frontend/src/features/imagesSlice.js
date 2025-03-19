@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { sortImages, sortStrings, sortDescendentStrings } from '../utils'; 
 
 const getImagesUrl = process.env.REACT_APP_GET_IMAGES_URL;
 const delImageUrl = process.env.REACT_APP_DEL_IMAGE_URL;
-const updateImageUrl = process.env.REACT_APP_UPDATE_IMAGE_URL
+const updateImageUrl = process.env.REACT_APP_UPDATE_IMAGE_URL;
 
 export const getImages = createAsyncThunk('images/getImages', async (obj , { dispatch, getState }) => {
     try { 
@@ -18,10 +19,19 @@ export const getImages = createAsyncThunk('images/getImages', async (obj , { dis
                 let folder = d.filePath.split('/')
                 return ({
                     ...d,
+                    ...(d.customMetadata.title ? { title: d.customMetadata.title } : { title: '' }),
                     ...(d.customMetadata.description ? { description: d.customMetadata.description } : { description: '' }),
+                    ...(d.customMetadata.date ? { date: d.customMetadata.date } : { date: '' }),
+                    ...(d.customMetadata.technique ? { technique: d.customMetadata.technique } : { technique: '' }),
+                    ...(d.customMetadata.dimensions ? { dimensions: d.customMetadata.dimensions } : { dimensions: '' }),
+                    ...(d.customMetadata.serial ? { serial: d.customMetadata.serial } : { serial: '' }),
+                    ...(d.customMetadata.available ? { available: d.customMetadata.available } : { available: false }),
                     folder: folder[1]
                 })
             });
+
+            // const folderList = pathData.map(pd => pd.folder)
+            // console.log('folderList', folderList)
 
             return pathData;
         } else {
@@ -58,23 +68,34 @@ export const deleteImage = createAsyncThunk('images/deleteImage', async (obj , {
 export const updateImage = createAsyncThunk('images/updateImage', async (obj , { dispatch, getState }) => {
     try { 
         const { images } = getState()
-        const { data, error } = await axios.get(`${updateImageUrl}?fileid=${obj.fileid}&description=${obj.description}`);
-        
+        const { data, error } = await axios.get(`${updateImageUrl}?fileid=${obj.fileid}&title=${obj.customMetaData.title}&description=${obj.customMetaData.description}&date=${obj.customMetaData.date}&technique=${obj.customMetaData.technique}&dimensions=${obj.customMetaData.dimensions}&serial=${obj.customMetaData.serial}&available=${obj.customMetaData.available}`);
+     
         const payload = images.images.map(i => {
             if(i.fileId === obj.fileid) {
-                let folder = data.filePath.split('/');
                 let newData = {
                     ...data,
-                    folder: folder[1],
-                    description: data.customMetadata.description
+                    folder: obj.folder,
+                    title: '',
+                    description: '',
+                    date: '',
+                    technique: '',
+                    dimensions: '',
+                    serial: '',
+                    available: false
                 };
+                if(data.customMetadata) {
+                    newData = {
+                        ...newData,
+                        ...data.customMetadata
+                    };
+                }
 
                 return newData;
             } else 
                 return i;
         });  
 
-        alert('Detalhes atualizados com sucesso.');
+        //alert('Detalhes atualizados com sucesso.');
         
         if(error) {
             throw error
@@ -152,6 +173,7 @@ export const imagesSlice = createSlice({
 
       }
 })
+
 
 export const { 
     removeImage
