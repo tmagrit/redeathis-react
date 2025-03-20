@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { sortImages, sortStrings, sortDescendentStrings } from '../utils'; 
 
 const getImagesUrl = process.env.REACT_APP_GET_IMAGES_URL;
 const delImageUrl = process.env.REACT_APP_DEL_IMAGE_URL;
