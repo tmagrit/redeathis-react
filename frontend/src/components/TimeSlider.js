@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTimeInterval } from '../features/researchSlice'; 
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider'; 
+import { ThemeProvider } from '@mui/material';
+import { RedeAthisSlider, publicTheme } from '../styles/publicStyles';
 import { isFullTimeInterval } from './isFullTimeInterval';
 
 function valuetext(value) {
@@ -17,14 +17,15 @@ const TimeSlider = () => {
     const researchTimeInterval = useSelector(state => state.research.timeInterval); 
 
     const handleChange = (event, newValue) => {
+        console.log("Slider value changed:", newValue);
         dispatch(updateTimeInterval(newValue));
     };
   
     return (
-        <Box sx={{ width: '100%', px: 1.5, }}>
-            <Slider
-                color={isFullTimeInterval(researchTimeInterval, minYear) ? 'secondary' : 'primary'}
-                size="small"
+        <ThemeProvider theme={publicTheme} >
+            <RedeAthisSlider
+                //color={isFullTimeInterval(researchTimeInterval, minYear) ? 'secondary' : 'primary'}
+                //size="small"
                 marks={[
                     {
                         value: minYear,
@@ -44,7 +45,7 @@ const TimeSlider = () => {
                 onChange={handleChange}
                 getAriaValueText={valuetext}
             />
-        </Box>
+        </ThemeProvider>
     );
 };
 
