@@ -10,12 +10,12 @@ import DialogContent from '@mui/material/DialogContent';
 import Divider from '@mui/material/Divider';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import TimelapseIcon from '@mui/icons-material/Timelapse';
+// import TimelapseIcon from '@mui/icons-material/Timelapse';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import { publicTheme, PaperControls } from '../styles/publicStyles';
-import { isFullTimeInterval } from './isFullTimeInterval';
+// import { isFullTimeInterval } from './isFullTimeInterval';
 
 const PublicMenuBar = (props) => {
 
@@ -38,22 +38,48 @@ const PublicMenuBar = (props) => {
             <PaperControls 
                 open={open}
                 show={show}
-                elevation={1} 
+                elevation={6} 
                 square
+                
             >
-                <IconButton onClick={handleResearchSearchDialog} >
+                <IconButton 
+                    onClick={handleResearchSearchDialog}
+                    //color={filteredTags.length > 0 ? 'secondary' : 'primary'}
+                    sx={{
+                        color: '#846a47',
+                        borderRadius: '0',
+                        "& .MuiTouchRipple-root .MuiTouchRipple-child": {
+                            borderRadius: '0',
+                            },
+                    }} 
+                >
                     <ManageSearchIcon />
                 </IconButton>
                 <Divider />
-                <IconButton onClick={setOpen} color={isFullTimeInterval(researchTimeInterval, minYear)  ? 'secondary' : ''} > 
-                    <TimelapseIcon />
-                </IconButton>
-                <Divider />
-                <IconButton  onClick={setOpen} color={filteredTags.length > 0 ? 'secondary' : ''} >
+                <IconButton 
+                    onClick={setOpen}
+                    //color={filteredTags.length > 0 ? 'secondary' : 'primary.main'}
+                    sx={{
+                        color: '#846a47',
+                        borderRadius: '0',
+                        "& .MuiTouchRipple-root .MuiTouchRipple-child": {
+                            borderRadius: '0',
+                            },
+                    }} 
+                >
                     <FilterAltIcon />
                 </IconButton>
                 <Divider />
-                <IconButton >
+                <IconButton 
+                    //color={filteredTags.length > 0 ? 'secondary' : 'primary'}
+                    sx={{
+                        color: 'primary.main',
+                        borderRadius: '0',
+                        "& .MuiTouchRipple-root .MuiTouchRipple-child": {
+                            borderRadius: '0',
+                            },
+                    }} 
+                >
                     <TravelExploreIcon />
                 </IconButton>
             </PaperControls>
