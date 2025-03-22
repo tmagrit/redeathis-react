@@ -25,10 +25,10 @@ const LogoFooter = () => {
                 <Typography component="h2" variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", }} >
                     Laboratório de Habitação e Cidade
                 </Typography>
-                <Typography component="subtitle1" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                <Typography component="span" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
                     Faculdade de Arquitetura da UFBA
                 </Typography>
-                <Typography component="subtitle1" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                <Typography component="span" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
                     Rua Caetano de Moura 121, Federação, CEP: 40210-905
                 </Typography>
 
