@@ -21,67 +21,95 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { categoryTitle } from '../components/categoryTitle';
 import ResearchTag from '../components/ResearchTag';
 
+import Controls from './Controls';
+import Legend from './Legend';
+import TimeSlider from './TimeSlider';
+import FilterSelect from './FilterSelect';
+
+
+// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+// import IconButton from '@mui/material/IconButton';
+import Drawer from '@mui/material/Drawer';
+import { drawerWidth } from '../styles/publicStyles';
+// import { DrawerHeader, publicTheme, drawerWidth } from '../styles/publicStyles';
+
+
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
 
 const PublicRedeAthis = () => {
 
-        // REDUX SELECTORS
-        const dispatch = useDispatch();
-        const { filteredResearch } = useSelector(selectFilteredResearch);
-        const sessionViewport = useSelector(state => state.session.viewport);
-        const categories = useSelector(state => state.research.categories);
+    // REDUX SELECTORS
+    const dispatch = useDispatch();
+    const { filteredResearch } = useSelector(selectFilteredResearch);
+    const sessionViewport = useSelector(state => state.session.viewport);
+    const categories = useSelector(state => state.research.categories);
+
+    // REACT STATES
+    const [viewport, setViewport] = useState(sessionViewport); 
+    const [clickInfo, setClickInfo] = useState({ object: false }); 
+    const [hoverInfo, setHoverInfo] = useState({ object: false });
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const handleDrawerOpen = () => {
+      setOpen(!open);
+    };
+  
+    const handleDrawerClose = () => {
+      setOpen(false);
+    };
+
+
+
     
-        // REACT STATES
-        const [viewport, setViewport] = useState(sessionViewport); 
-        const [clickInfo, setClickInfo] = useState({ object: false }); 
-        const [hoverInfo, setHoverInfo] = useState({ object: false });
+    // REDUX SELECTORS   
+    const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));   
     
-        // REDUX SELECTORS   
-        const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));   
+    // DECK GL OVERLAY LAYER 
+    const scatterplotLayer = 
+        new ScatterplotLayer({
+            id: 'map-home-markers',
+            data: filteredResearch,
+            pickable: true,
+            stroked: false,
+            filled: true,
+            radiusScale: 5,
+            radiusMinPixels: 5,
+            radiusMaxPixels: 10,
+            getPosition: d => d.coordinates,
+            getRadius: d => 5,
+            getFillColor: d => hexToRgb(categories.find(c => c.id === d.category_id).color),
+            onClick: info => setClickInfo(info),
+            onHover: info => setHoverInfo(info)
+        }
+    );
     
-        // DECK GL OVERLAY LAYER 
-        const scatterplotLayer = 
-            new ScatterplotLayer({
-                id: 'map-home-markers',
-                data: filteredResearch,
-                pickable: true,
-                stroked: false,
-                filled: true,
-                radiusScale: 5,
-                radiusMinPixels: 5,
-                radiusMaxPixels: 10,
-                getPosition: d => d.coordinates,
-                getRadius: d => 5,
-                getFillColor: d => hexToRgb(categories.find(c => c.id === d.category_id).color),
-                onClick: info => setClickInfo(info),
-                onHover: info => setHoverInfo(info)
-            }
-        );
-    
-        // HANDLE MAP CHANGE
-        const handleMapChange = (viewport) => {
-            dispatch(updateViewport(viewport.viewState));
-            setViewport(viewport.viewState);
-        };
-    
-        // HANDLE CLOSE CLICKINFO
-        const handleCloseClickInfo = (event) => {
+    // HANDLE MAP CHANGE
+    const handleMapChange = (viewport) => {
+        dispatch(updateViewport(viewport.viewState));
+        setViewport(viewport.viewState);
+    };
+
+    // HANDLE CLOSE CLICKINFO
+    const handleCloseClickInfo = (event) => {
+        setClickInfo({ object: false });
+    };
+
+    useEffect(() => {
+        const listener = e => {
+            if (e.key === "Escape") {
             setClickInfo({ object: false });
+            }
         };
+        window.addEventListener("keydown", listener);
     
-        useEffect(() => {
-            const listener = e => {
-              if (e.key === "Escape") {
-                setClickInfo({ object: false });
-              }
-            };
-            window.addEventListener("keydown", listener);
-        
-            return () => {
-              window.removeEventListener("keydown", listener);
-            };
-        }, []);
+        return () => {
+            window.removeEventListener("keydown", listener);
+        };
+    }, []);
 
     return ( 
 
@@ -114,7 +142,7 @@ const PublicRedeAthis = () => {
                         reuseMaps
                     >
                         <DeckGLOverlay layers={[scatterplotLayer]}  />
-                        <GeocoderControl collapsed={true} position='bottom-left' />
+                        <GeocoderControl collapsed={true} position='top-left' />
                     </Map>
 
                     {clickInfo.object && (   
@@ -137,8 +165,10 @@ const PublicRedeAthis = () => {
                             >
                                 {/* TITLE */} 
                                 <Box sx={{ my:0, py: 0, }}>    
-                                    <Typography variant="clickInfoTitle" component="span" sx={{ color: clickInfo.object.category.color, }} >{ clickInfo.object.title }</Typography>
-                                    <Typography variant="clickInfoTitle" component="span" sx={{ color: clickInfo.object.category.color, }}> 
+                                    <Typography variant="searchResultsTitle" component="span" sx={{ color: clickInfo.object.category.color, }} >{ clickInfo.object.title }</Typography>
+                                    <Typography variant="searchResultsTitle" component="span" sx={{ color: clickInfo.object.category.color, }}> 
+                                    {/* <Typography variant="clickInfoTitle" component="span" sx={{ color: clickInfo.object.category.color, }} >{ clickInfo.object.title }</Typography> */}
+                                    {/* <Typography variant="clickInfoTitle" component="span" sx={{ color: clickInfo.object.category.color, }}>  */}
                                         {clickInfo.object.date.start && 
                                             (clickInfo.object.date.interval ? 
                                                 (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
@@ -163,27 +193,27 @@ const PublicRedeAthis = () => {
                                     direction="row" 
                                     alignItems="center"
                                     spacing={0.7}
-                                    sx={{ mt:1, mb:2, }}
+                                    sx={{ mt:0.5, mb:1, }}
                                 >
                                     <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
-                                    <Typography variant="subtitle1" component="div" sx={{ fontSize: 15, lineHeight: 1.5, }}> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
+                                    <Typography variant="footerBody" component="div" sx={{ fontSize: 15, lineHeight: 1.5, }}> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                                 </Stack>
                                 
                                 {/* EXCERPT */}
-                                <Typography variant="subtitle1" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
+                                <Typography variant="footerBody" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
                                 <Typography 
-                                    variant="subtitle1" 
+                                    variant="footerBody" 
                                     sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} 
                                     component={Link} to={`/view/research/${clickInfo.object.id}`} 
                                 >
                                         <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, color: 'inherit', }} /> 
                                 </Typography>   
 
-                                <Divider sx={{ pt: 1.5, }} />
+                                <Divider sx={{ pt: 1, }} />
 
                                 {/* TAGS */}
                                 <Stack 
-                                    sx={{ pt: 1.5, }}
+                                    sx={{ pt: 1, }}
                                     direction="row"
                                     justifyContent="flex-start"
                                     alignItems="flex-start"
@@ -217,7 +247,78 @@ const PublicRedeAthis = () => {
                             </Paper>
                         </ClickAwayListener>
                     )}
-                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* LEGENDA */}
+                    <Legend open={open} show={show} />
+
+                    {/* SELETOR DE JANELA CRONOLÓGICA */}
+                    <TimeSlider />
+
+                    {/* CONTROLES */}
+                    <Controls open={open} show={show} setOpen={handleDrawerOpen} />
+
+                    {/* FILTROS */}
+                    <Drawer
+                        PaperProps={{ 
+                            elevation: 0,
+                            style: {
+                                background: 'rgba(244, 240, 235, 0.85)',
+                            }
+                        }}
+                        sx={{
+                            width: drawerWidth,
+                            flexShrink: 0,
+                            '& .MuiDrawer-paper': {
+                                width: drawerWidth,
+                                height: 'calc(100vh - 112px - 150px)',
+                                marginRight: 6.5,
+                                marginTop: '112px',
+                            },
+                        }}
+                        variant="persistent"
+                        anchor="right"
+                        open={open}
+                    >
+                        {/* <DrawerHeader>
+                            <IconButton onClick={handleDrawerClose}>
+                                {publicTheme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            </IconButton>
+                        </DrawerHeader>
+                        <Divider /> */}
+                        <FilterSelect />
+                    </Drawer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     {hoverInfo.object && (  
                         <Paper 
                             variant="outlined"

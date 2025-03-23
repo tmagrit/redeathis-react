@@ -17,7 +17,6 @@ const TimeSlider = () => {
     const researchTimeInterval = useSelector(state => state.research.timeInterval); 
 
     const handleChange = (event, newValue) => {
-        console.log("Slider value changed:", newValue);
         dispatch(updateTimeInterval(newValue));
     };
   

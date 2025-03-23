@@ -25,7 +25,7 @@ const SearchResults = () => {
                 return (
                     <SearchResult key={fr.id} component={Link} to={`/view/research/${fr.id}`} > 
                         <Stack sx={{ p: 1, }} >
-                            <Typography variant="body2" component="div" sx={{ fontWeight: 500,}} >{truncate(fr.title, 7)}</Typography>
+                            <Typography variant="searchResultsTitle" component="div" sx={{ color: `${category.color}`, }} >{truncate(fr.title, 9)}</Typography>
                             <Stack direction="row" spacing={0.5} justifyContent="flex-start" alignItems="center" >
                                 <Avatar sx={{ width: 7, height: 7, bgcolor: `${category.color}` }}> </Avatar>
                                 <Typography variant="caption" component="div" >{category.name}</Typography>

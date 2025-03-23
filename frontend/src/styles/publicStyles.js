@@ -1,6 +1,7 @@
 import { createTheme, styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import MuiPaper from '@mui/material/Paper';
+import Slider from '@mui/material/Slider';
 import "@fontsource/montserrat";
 import "@fontsource/montserrat/100.css";
 import "@fontsource/montserrat/200.css";
@@ -22,13 +23,16 @@ export const PaperControls = styled(MuiPaper, { shouldForwardProp: (prop) => pro
             duration: theme.transitions.duration.leavingScreen,
         }),
         background: 'rgba(244, 240, 235, 0.65)',
+        //color: theme.palette.secondary,
+
         position: 'absolute', 
         zIndex: 900, 
-        bottom: 40,
-        right: 1.1,
-        marginRight: 10,
+        top: 10,
+        right: 10,
+        marginRight: 30,
         ...(open && {
-            marginRight: drawerWidth - 1,
+            // marginRight: drawerWidth - 1,
+            marginRight: drawerWidth + 28,
             transition: theme.transitions.create('margin', {
                 easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.enteringScreen,
@@ -107,7 +111,7 @@ export const PaperFooter = styled(MuiPaper, {
     shouldForwardProp: (prop) => prop !== 'open',
     shouldForwardProp: (prop) => prop !== 'show',
     })(({ theme, open, show }) => ({
-        zIndex: 2000,
+        zIndex: 900,
         height: '30px',
         //background: 'linear-gradient(to top, rgba(13, 11, 7,0.5) 0%, rgba(13, 11, 7,0) 100%)',
         position: 'fixed',
@@ -161,7 +165,7 @@ export const PaperLegend = styled(MuiPaper, {
         duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
-        opacity: '0',
+        //opacity: '0', //show legend even with filter open
         transition: theme.transitions.create(['margin', 'width', 'height', 'opacity'], {
             easing: theme.transitions.easing.easeInOut,
             duration: theme.transitions.duration.enteringScreen,
@@ -181,6 +185,53 @@ export const PaperLegend = styled(MuiPaper, {
             duration: theme.transitions.duration.enteringScreen,
         }),
     }),
+}));
+
+
+export const RedeAthisSlider = styled(Slider)(({ theme }) => ({
+    color: theme.palette.primary.main,
+    height: 8,
+    zIndex: 900,
+    position: 'absolute',
+    left: 145,
+    bottom: 28,
+    width: '350px',
+    //paddingLeft: 100,
+    //ml: 8,
+    '& .MuiSlider-track': {
+      border: 'none',
+    },
+    '& .MuiSlider-thumb': {
+      height: 24,
+      width: 24,
+      backgroundColor: theme.palette.common.white,
+      border: '2px solid currentColor',
+      '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+        boxShadow: 'inherit',
+      },
+      '&::before': {
+        display: 'none',
+      },
+    },
+    '& .MuiSlider-valueLabel': {
+      lineHeight: 1.2,
+      fontSize: 12,
+      background: 'unset',
+      padding: 0,
+      width: 32,
+      height: 32,
+      borderRadius: '50% 50% 50% 0',
+      backgroundColor: theme.palette.primary.main,
+      transformOrigin: 'bottom left',
+      transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
+      '&::before': { display: 'none' },
+      '&.MuiSlider-valueLabelOpen': {
+        transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+      },
+      '& > *': {
+        transform: 'rotate(45deg)',
+      },
+    },
 }));
 
 export const publicTheme = createTheme({
@@ -345,7 +396,13 @@ export const publicTheme = createTheme({
         clickInfoTitle: { 
             fontFamily: 'Aberforth', 
             fontSize: '1.5rem',
-            fontWeight: 40, 
+            fontWeight: 400, 
+            textTransform: 'uppercase', 
+        },
+        searchResultsTitle: { 
+            fontFamily: 'Aberforth', 
+            fontSize: '1.2rem',
+            fontWeight: 400, 
             textTransform: 'uppercase', 
         },
     },

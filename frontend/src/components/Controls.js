@@ -58,9 +58,9 @@ const PublicMenuBar = (props) => {
                 <Divider />
                 <IconButton 
                     onClick={setOpen}
-                    //color={filteredTags.length > 0 ? 'secondary' : 'primary.main'}
+                    //color={filteredTags.length > 0 ? '#846a47' : 'red'}
                     sx={{
-                        color: '#846a47',
+                        color: filteredTags.length > 0 ? '#F5A449' : 'primary.main',
                         borderRadius: '0',
                         "& .MuiTouchRipple-root .MuiTouchRipple-child": {
                             borderRadius: '0',
@@ -69,9 +69,8 @@ const PublicMenuBar = (props) => {
                 >
                     <FilterAltIcon />
                 </IconButton>
-                <Divider />
+                {/* <Divider />
                 <IconButton 
-                    //color={filteredTags.length > 0 ? 'secondary' : 'primary'}
                     sx={{
                         color: 'primary.main',
                         borderRadius: '0',
@@ -81,7 +80,7 @@ const PublicMenuBar = (props) => {
                     }} 
                 >
                     <TravelExploreIcon />
-                </IconButton>
+                </IconButton> */}
             </PaperControls>
 
             {/* RESEARCH SEARCH DIALOG */}
