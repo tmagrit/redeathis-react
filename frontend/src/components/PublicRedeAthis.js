@@ -142,7 +142,12 @@ const PublicRedeAthis = () => {
                         reuseMaps
                     >
                         <DeckGLOverlay layers={[scatterplotLayer]}  />
-                        <GeocoderControl collapsed={true} position='top-left' />
+                        <GeocoderControl 
+                            collapsed={true} 
+                            position='top-left' 
+                            placeholder="Buscar endereço"
+                                
+                        />
                     </Map>
 
                     {clickInfo.object && (   

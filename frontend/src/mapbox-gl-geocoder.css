@@ -9,9 +9,9 @@
 .mapboxgl-ctrl-geocoder {
   font-size: 18px;
   line-height: 24px;
-  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   position: relative;
-  background-color: #fff;
+  background-color: #f4f0eb;
   width: 100%;
   min-width: 240px;
   z-index: 1;
@@ -26,8 +26,8 @@
   background-color: transparent;
   margin: 0;
   height: 36px;
-  color: #404040; /* fallback */
-  color: rgba(0, 0, 0, 0.75);
+  color: #846a47; /* fallback */
+  color: rgba(132, 106, 71, 0.75);
   padding: 6px 35px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -39,8 +39,8 @@
 }
 
 .mapboxgl-ctrl-geocoder--input:focus {
-  color: #404040; /* fallback */
-  color: rgba(0, 0, 0, 0.75);
+  color: #846a47; /* fallback */
+  color: rgba(132, 106, 71, 0.75);
   outline: 0;
   box-shadow: none;
   outline: thin dotted;
@@ -68,7 +68,7 @@
 
 /* Suggestions */
 .mapboxgl-ctrl-geocoder .suggestions {
-  background-color: #fff;
+  background-color: #f4f0eb;
   /* border-radius: 4px; */
   left: 0;
   list-style: none;
@@ -93,13 +93,13 @@
   cursor: default;
   display: block;
   padding: 6px 12px;
-  color: #404040;
+  color: #846a47;
 }
 
 .mapboxgl-ctrl-geocoder .suggestions > .active > a,
 .mapboxgl-ctrl-geocoder .suggestions > li > a:hover {
-  color: #404040;
-  background-color: #f3f3f3;
+  color: #846a47;
+  background-color: #EAE5DF;
   text-decoration: none;
   cursor: pointer;
 }
@@ -120,7 +120,7 @@
       display: inline-block;
       vertical-align: middle;
       speak: none;
-      fill: #757575;
+      fill: #846a47;
       top: 15px;
     }
 
@@ -137,7 +137,7 @@
   margin: 0;
   border: none;
   cursor: pointer;
-  background: #fff;
+  background: #f4f0eb; 
   line-height: 1;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .mapboxgl-ctrl-geocoder--button:hover .mapboxgl-ctrl-geocoder--icon-close {
-  fill: #909090;
+  fill: #846a47;
 }
 
 .mapboxgl-ctrl-geocoder--icon-geolocate {
@@ -178,7 +178,8 @@
 }
 
 .mapboxgl-ctrl-geocoder--powered-by a {
-  color: #909090;
+  color: #846a47; /* fallback */
+  color: rgba(132, 106, 71, 0.45);
 }
 
 .mapboxgl-ctrl-geocoder--powered-by a:not(:hover) {
