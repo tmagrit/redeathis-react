@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCategoryLegendGrade, updateCategories, cleanFilters, updateCategoriesFilter } from '../features/researchSlice'; 
+import { selectCategoryLegendGrade, updateCategories, cleanFilters, updateCategoriesFilter,selectFilteredTagsArray } from '../features/researchSlice'; 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
@@ -23,6 +23,7 @@ const FilterSelect = () => {
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
     const categoriesFilter = useSelector(state => state.research.categoriesFilter);
+    const filteredTags = useSelector(selectFilteredTagsArray); console.log('filteredTags', filteredTags);
 
     // AUTOCOMPLETE COMPONENTS
     const icon = <CheckBoxOutlineBlankIcon fontSize="small"/>;
@@ -179,10 +180,12 @@ const FilterSelect = () => {
                         <TimeSlider />
                     </Box>  */}
                     <Divider />
-                    <Box sx={{ m: 1.2, }}>
+                    <Box sx={{ m: 1, }}>
                         <Button 
-                            fullWidth variant="outlined" 
+                            fullWidth 
+                            variant={filteredTags.length > 0 ? 'contained' : 'outlined'} 
                             onClick={() => dispatch(cleanFilters())}
+                            sx={{ backgroundColor: filteredTags.length > 0 ? '#F5A449' : '' }}
                         >
                             Limpar Filtros
                         </Button>

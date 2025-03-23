@@ -13,7 +13,7 @@ const PublicMenuBar = (props) => {
     const { open, show } = props;
 
     // REDUX SELECTORS
-    const categorieLegendGrade = useSelector(selectCategoryLegendGrade); console.log('categorieLegendGrade', categorieLegendGrade);
+    const categorieLegendGrade = useSelector(selectCategoryLegendGrade); 
 
     if(categorieLegendGrade.length > 0)
         return ( 
