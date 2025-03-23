@@ -23,7 +23,7 @@ const FilterSelect = () => {
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags);
     const categoriesFilter = useSelector(state => state.research.categoriesFilter);
-    const filteredTags = useSelector(selectFilteredTagsArray); console.log('filteredTags', filteredTags);
+    const filteredTags = useSelector(selectFilteredTagsArray); 
 
     // AUTOCOMPLETE COMPONENTS
     const icon = <CheckBoxOutlineBlankIcon fontSize="small"/>;
@@ -185,7 +185,12 @@ const FilterSelect = () => {
                             fullWidth 
                             variant={filteredTags.length > 0 ? 'contained' : 'outlined'} 
                             onClick={() => dispatch(cleanFilters())}
-                            sx={{ backgroundColor: filteredTags.length > 0 ? '#F5A449' : '' }}
+                            sx={{ 
+                                backgroundColor: filteredTags.length > 0 ? '#F5A449' : '',
+                                '&:hover': {
+                                    backgroundColor: filteredTags.length > 0 ? '#F5A449' : '',
+                                }, 
+                            }}
                         >
                             Limpar Filtros
                         </Button>
