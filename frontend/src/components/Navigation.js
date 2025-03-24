@@ -16,12 +16,12 @@ import PublicFooter from '../components/PublicFooter';
 import { slugger } from './slugger';
 import { AppBar, publicTheme } from '../styles/publicStyles';
 
-const MenuBar = () => {
+const Navigation = () => {
 
     // REACT ROUTER 
     const location = useLocation();
 
-    const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 );
+    const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 ); //TODO CONVERT TO DYNAMIC PAGES
     const staticPages = [
         {
             id: 0,
@@ -277,4 +277,4 @@ const MenuBar = () => {
     );
 };
 
-export default MenuBar;
+export default Navigation;
