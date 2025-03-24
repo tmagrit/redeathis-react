@@ -337,6 +337,18 @@ export const publicTheme = createTheme({
             },
             "@media (min-width:600px)": { 
                 minHeight: 48, 
+                paddingLeft: 25,
+                paddingRight: 25,
+
+            },
+            "@media (min-width:900px)": { 
+                minHeight: 48, 
+                paddingLeft: 48,
+                paddingRight: 48,
+
+            },
+            "@media (min-width:1200px)": { 
+                minHeight: 48, 
                 paddingLeft: 48,
                 paddingRight: 48,
 
