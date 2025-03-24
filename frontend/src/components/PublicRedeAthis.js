@@ -134,28 +134,6 @@ const PublicRedeAthis = () => {
                     }} 
                 >
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     {!clickInfo.object && ( 
                         <div>
                             {/* LEGENDA */}
@@ -192,44 +170,8 @@ const PublicRedeAthis = () => {
                         anchor="right"
                         open={open}
                     >
-                        {/* <DrawerHeader>
-                            <IconButton onClick={handleDrawerClose}>
-                                {publicTheme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                            </IconButton>
-                        </DrawerHeader>
-                        <Divider /> */}
                         <FilterSelect />
                     </Drawer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                     {/* MAPA */}
                     <Map 
