@@ -117,7 +117,6 @@ const PublicRedeAthis = () => {
             container 
             spacing={3}
         >
-            {/* <Grid item xs={1} > </Grid>  */}
             <Grid 
                 item xs={12} 
                 sx={{ 
@@ -134,6 +133,105 @@ const PublicRedeAthis = () => {
                         paddingRight: 30,
                     }} 
                 >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {!clickInfo.object && ( 
+                        <div>
+                            {/* LEGENDA */}
+                            <Legend open={open} show={show} />
+
+                            {/* SELETOR DE JANELA CRONOLÓGICA */}
+                            <TimeSlider />
+                        </div>  
+                    )}
+
+
+                    {/* CONTROLES */}
+                    <Controls open={open} show={show} setOpen={handleDrawerOpen} />
+
+                    {/* FILTROS */}
+                    <Drawer
+                        PaperProps={{ 
+                            elevation: 0,
+                            style: {
+                                background: 'rgba(244, 240, 235, 0.85)',
+                            }
+                        }}
+                        sx={{
+                            width: drawerWidth,
+                            flexShrink: 0,
+                            '& .MuiDrawer-paper': {
+                                width: drawerWidth,
+                                height: 'calc(100vh - 112px - 150px)',
+                                marginRight: 6.5,
+                                marginTop: '112px',
+                            },
+                        }}
+                        variant="persistent"
+                        anchor="right"
+                        open={open}
+                    >
+                        {/* <DrawerHeader>
+                            <IconButton onClick={handleDrawerClose}>
+                                {publicTheme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            </IconButton>
+                        </DrawerHeader>
+                        <Divider /> */}
+                        <FilterSelect />
+                    </Drawer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* MAPA */}
                     <Map 
                         initialViewState={viewport}
                         onMove={e => handleMapChange(e.viewState)}
@@ -252,77 +350,6 @@ const PublicRedeAthis = () => {
                             </Paper>
                         </ClickAwayListener>
                     )}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    {/* LEGENDA */}
-                    <Legend open={open} show={show} />
-
-                    {/* SELETOR DE JANELA CRONOLÓGICA */}
-                    <TimeSlider />
-
-                    {/* CONTROLES */}
-                    <Controls open={open} show={show} setOpen={handleDrawerOpen} />
-
-                    {/* FILTROS */}
-                    <Drawer
-                        PaperProps={{ 
-                            elevation: 0,
-                            style: {
-                                background: 'rgba(244, 240, 235, 0.85)',
-                            }
-                        }}
-                        sx={{
-                            width: drawerWidth,
-                            flexShrink: 0,
-                            '& .MuiDrawer-paper': {
-                                width: drawerWidth,
-                                height: 'calc(100vh - 112px - 150px)',
-                                marginRight: 6.5,
-                                marginTop: '112px',
-                            },
-                        }}
-                        variant="persistent"
-                        anchor="right"
-                        open={open}
-                    >
-                        {/* <DrawerHeader>
-                            <IconButton onClick={handleDrawerClose}>
-                                {publicTheme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                            </IconButton>
-                        </DrawerHeader>
-                        <Divider /> */}
-                        <FilterSelect />
-                    </Drawer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                     {hoverInfo.object && (  
                         <Paper 
