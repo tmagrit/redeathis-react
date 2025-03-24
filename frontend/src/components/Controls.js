@@ -17,7 +17,7 @@ import SearchResults from './SearchResults';
 import { publicTheme, PaperControls } from '../styles/publicStyles';
 // import { isFullTimeInterval } from './isFullTimeInterval';
 
-const PublicMenuBar = (props) => {
+const Controls = (props) => {
 
     const { open, setOpen, show } = props;
 
@@ -104,4 +104,4 @@ const PublicMenuBar = (props) => {
     );
 };
 
-export default PublicMenuBar;
+export default Controls;

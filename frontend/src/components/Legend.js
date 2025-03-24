@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { publicTheme, PaperLegend } from '../styles/publicStyles';
 
-const PublicMenuBar = (props) => {
+const Legend = (props) => {
 
     const { open, show } = props;
 
@@ -70,4 +70,4 @@ const PublicMenuBar = (props) => {
         return null;
 };
 
-export default PublicMenuBar;
+export default Legend;
