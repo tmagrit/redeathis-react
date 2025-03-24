@@ -69,8 +69,6 @@ const ResearchNavigation = () => {
           },          
       ];
 
-
-
     // REDUX SELECTORS
     const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
@@ -81,7 +79,7 @@ const ResearchNavigation = () => {
     const researchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) );
 
     // REACT STATES
-    const [researchData, setResearchData] = useState(researchWithDate);
+    const [researchData, setResearchData] = useState(researchWithDate); console.log('researchData',researchData);
     const [viewport, setViewport] = useState({...researchData.geolocation, zoom: 4});
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;   
@@ -238,7 +236,7 @@ const ResearchNavigation = () => {
                     </Toolbar>
                 </AppBar>
 
-                <Typography 
+                {/* <Typography 
                     variant="mainNavigationItem"
                     color={staticPages[activePageIndex].color}
                     sx={{ 
@@ -253,7 +251,7 @@ const ResearchNavigation = () => {
                     }}
                 >
                     {staticPages[activePageIndex].title}
-                </Typography>
+                </Typography> */}
 
                 <Container 
                     maxWidth={false} 
@@ -270,8 +268,6 @@ const ResearchNavigation = () => {
                         mt: '112px',
                     }} 
                 >
-
-
 
                     <Container 
                         sx={{ 
@@ -293,11 +289,28 @@ const ResearchNavigation = () => {
                                     <Box sx={{ pb:1, }}>
                                         {/* TÍTULO */}
                                         <Box>
-                                            <Typography  variant="h6" component="h2" gutterBottom={false} sx={{ display: 'inline', pr: 0.5, }}> 
+                                            <Typography  
+                                                variant="viewResearchTitle" 
+                                                component="h2" 
+                                                gutterBottom={false} 
+                                                sx={{  
+                                                    color: researchData.category.color, 
+                                                    display: 'inline', 
+                                                    pr: 0.5, 
+                                                }}
+                                            > 
                                                 {researchData.title} 
                                             </Typography> 
                                             {/* DATA */}
-                                            <Typography variant="h6" component="span" noWrap sx={{ color: 'text.secondary', display: 'inline', }}> 
+                                            <Typography 
+                                                variant="viewResearchTitle" 
+                                                component="span" 
+                                                noWrap 
+                                                sx={{ 
+                                                    color: researchData.category.color, 
+                                                    display: 'inline', 
+                                                }}
+                                            > 
                                                 {researchData.date.interval ? 
                                                     (`[${researchData.date.start.year}-${researchData.date.end.year}]`) 
                                                     : 

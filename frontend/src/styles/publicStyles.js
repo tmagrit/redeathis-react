@@ -405,6 +405,12 @@ export const publicTheme = createTheme({
             fontSize: '1.5rem',
             fontWeight: 400 
         },
+        viewResearchTitle: { 
+            fontFamily: 'Aberforth', 
+            fontSize: '1.5rem',
+            fontWeight: 400, 
+            textTransform: 'uppercase', 
+        },
         clickInfoTitle: { 
             fontFamily: 'Aberforth', 
             fontSize: '1.5rem',
