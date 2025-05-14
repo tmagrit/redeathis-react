@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import Container from '@mui/material/Container';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -95,6 +96,71 @@ const Navigation = () => {
 
                         <Box sx={{ flexGrow: 1 }} />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {/* <Box 
+                            sx={{ 
+                                display: { xs: 'none', md: 'none', lg: 'block' },
+                                // maxWidth: { xs: 30, md: 50 }, 
+                                overflow: 'visible'                           
+                            }}
+
+                        > 
+                            {staticPages.slice(1).map((pa) => (
+                                <Button 
+                                    key={slugger(pa.slug)} 
+                                    component={Link} 
+                                    to={`/${slugger(pa.slug)}`}
+                                    onClick={() => handleMenuPageIndex(pa.id)}
+                                    color='#eee9e0'
+                                    variant="mainNavigationItem" 
+                                >
+                                    {pa.slug}
+                                </Button>
+                            ))}
+                        </Box> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         {/* CIRCLE NAVIGATION ELEMENT */}
                         <Box 
                             sx={{ 
@@ -108,10 +174,10 @@ const Navigation = () => {
                             {staticPages.slice(1).map((pa) => (
                                 <Box 
                                     key={slugger(pa.slug)} 
-                                    sx={{ 
-                                        maxWidth: { xs: 30, md: 50 }, 
-                                        overflow: 'visible'
-                                    }}
+                                    //sx={{ 
+                                        //maxWidth: { xs: 30, md: 50 }, 
+                                        //overflow: 'visible'
+                                    //}}
                                 >
                                     <Link 
                                         to={`/${slugger(pa.slug)}`} 
@@ -123,9 +189,9 @@ const Navigation = () => {
                                                 alignItems: 'center', 
                                                 flexDirection: 'column',
                                                 textAlign: 'center',
-                                                minWidth: 40,
-                                                paddingTop: 5,
-                                                paddingBottom: 1 
+                                                //minWidth: 40,
+                                                //paddingTop: 5,
+                                                //paddingBottom: 1 
                                             }}
                                             onMouseEnter={() => setIsHoveredOrTouchedIndex(pa.id)}
                                             onMouseLeave={() => setIsHoveredOrTouchedIndex(null)}
@@ -133,7 +199,7 @@ const Navigation = () => {
                                             onTouchEnd={() => setIsHoveredOrTouchedIndex(null)} 
                                             onClick={() => handleMenuPageIndex(pa.id)}
                                         >
-                                            <svg width="18" height="18" viewBox="0 0 18 18">
+                                            {/* <svg width="18" height="18" viewBox="0 0 18 18">
                                                 <circle
                                                     cx="9"
                                                     cy="9"
@@ -142,7 +208,7 @@ const Navigation = () => {
                                                     stroke={isHoveredOrTouchedIndex === pa.id  || location.pathname === `/institutional/${slugger(pa.slug)}` === pa.id ? `${pa.color}` : '#CFC1AD'}
                                                     strokeWidth="2"
                                                 />
-                                            </svg>
+                                            </svg> */}
 
                                             <Box 
                                                 sx={{ 
@@ -150,10 +216,15 @@ const Navigation = () => {
                                                     alignItems: 'center', 
                                                     flexDirection: 'column',
                                                     textAlign: 'center',
-                                                    backgroundColor: `${pa.color}`,
-                                                    marginTop: 0.5,
+                                                    backgroundColor: isHoveredOrTouchedIndex === pa.id || location.pathname === `/institutional/${slugger(pa.slug)}` ? `${pa.color}` : 'transparent',
+                                                    //backgroundColor: `${pa.color}`,
+                                                    //marginTop: 0.5,
                                                     padding: '3px',
-                                                    visibility: isHoveredOrTouchedIndex === pa.id ? 'visible' : 'hidden',
+                                                    borderRight: pa.id === staticPages.length - 1 ? 
+                                                        'none' : 
+                                                        isHoveredOrTouchedIndex === pa.id ? '1px solid #eee9e0' : '1px solid #CFC1AD',
+                                                    
+                                                    //visibility: isHoveredOrTouchedIndex === pa.id ? 'visible' : 'hidden',
                                                 }}
                                             >
                                                 <Typography 
@@ -166,7 +237,8 @@ const Navigation = () => {
                                                         textDecoration: 'none', 
                                                         textTransform: 'uppercase',
                                                     }}
-                                                    color='#eee9e0'
+                                                    //color='#eee9e0'
+                                                    color={isHoveredOrTouchedIndex === pa.id  || location.pathname === `/institutional/${slugger(pa.slug)}` === pa.id ? '#eee9e0' : '#CFC1AD'}
                                                     variant="mainNavigationItem"
                                                     noWrap
                                                 >
@@ -180,6 +252,29 @@ const Navigation = () => {
 
                             ))}
                         </Box>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     </Toolbar>
                 </AppBar>
