@@ -19,6 +19,7 @@ const LogoRedeAthis = (props) => {
                 sx={{ 
                     textDecoration: 'none', 
                     color: 'text.primary', 
+                    paddingTop:  1.1,
                 }} 
             >
                 {/* <svg 

@@ -96,72 +96,7 @@ const Navigation = () => {
 
                         <Box sx={{ flexGrow: 1 }} />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        {/* <Box 
-                            sx={{ 
-                                display: { xs: 'none', md: 'none', lg: 'block' },
-                                // maxWidth: { xs: 30, md: 50 }, 
-                                overflow: 'visible'                           
-                            }}
-
-                        > 
-                            {staticPages.slice(1).map((pa) => (
-                                <Button 
-                                    key={slugger(pa.slug)} 
-                                    component={Link} 
-                                    to={`/${slugger(pa.slug)}`}
-                                    onClick={() => handleMenuPageIndex(pa.id)}
-                                    color='#eee9e0'
-                                    variant="mainNavigationItem" 
-                                >
-                                    {pa.slug}
-                                </Button>
-                            ))}
-                        </Box> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        {/* CIRCLE NAVIGATION ELEMENT */}
+                        {/* MAIN NAVIGATION ELEMENT */}
                         <Box 
                             sx={{ 
                                     display: 'flex',
@@ -209,7 +144,6 @@ const Navigation = () => {
                                                     strokeWidth="2"
                                                 />
                                             </svg> */}
-
                                             <Box 
                                                 sx={{ 
                                                     display: 'flex', 
@@ -238,7 +172,7 @@ const Navigation = () => {
                                                         textTransform: 'uppercase',
                                                     }}
                                                     //color='#eee9e0'
-                                                    color={isHoveredOrTouchedIndex === pa.id  || location.pathname === `/institutional/${slugger(pa.slug)}` === pa.id ? '#eee9e0' : '#CFC1AD'}
+                                                    color={isHoveredOrTouchedIndex === pa.id  || location.pathname === `/institutional/${slugger(pa.slug)}` === pa.id ? '#eee9e0' : publicTheme.palette.text.secondary}
                                                     variant="mainNavigationItem"
                                                     noWrap
                                                 >
@@ -252,30 +186,6 @@ const Navigation = () => {
 
                             ))}
                         </Box>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     </Toolbar>
                 </AppBar>
 
