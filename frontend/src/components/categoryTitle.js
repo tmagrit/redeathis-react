@@ -57,7 +57,7 @@ export function categoryTitle(categoryname) {
     return (
           <React.Fragment>
             <Box sx={{ display: 'inline', }}>Legislação e </Box>
-            <Box sx={{ fontWeight: 'bold', display: 'inline', }}>Suporte</Box> 
+            <Box sx={{ fontWeight: 'bold', display: 'inline', }}>Fomento</Box> 
           </React.Fragment>
         );
 
