@@ -7,7 +7,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import Container from '@mui/material/Container';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -32,16 +31,16 @@ const Navigation = () => {
         },
         {
             id: 1,
-            title: 'Rede ATHIS',
-            slug: 'redeathis',
-            color: '#F5A449',
-        },
-        {
-            id: 2,
             title: 'Apresentação',
             slug: 'apresentacao',
+            color: '#F5A449',
+          },        
+        {
+            id: 2,
+            title: 'Rede ATHIS',
+            slug: 'redeathis',
             color: '#EB6145',
-          },
+        },
           {
             id: 3,
             title: 'Quem Somos',
