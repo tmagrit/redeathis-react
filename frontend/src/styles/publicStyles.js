@@ -14,7 +14,7 @@ import "@fontsource/montserrat/800.css";
 import "@fontsource/montserrat/900.css";
 
 export const drawerWidth = 420;
-export const footerHeight = 150;
+export const footerHeight = 200;
 
 export const PaperControls = styled(MuiPaper, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open, show }) => ({
