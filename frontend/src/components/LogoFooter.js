@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import { ThemeProvider } from '@mui/material';
 //import CasaAthis from './CasaAthis';
 import { publicTheme } from '../styles/publicStyles';
@@ -17,14 +18,18 @@ const LogoFooter = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'left',
-                    pr: 2,
+                    alignItems: 'center',
+                    //pt: 1,
                     textDecoration: 'none',
+                    flexGrow: 1
                 }} 
             >
                 <Typography component="h2" variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", }} >
                     Laboratório de Habitação e Cidade
                 </Typography>
+
+                <Divider flexItem />
+                
                 <Typography component="span" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
                     Faculdade de Arquitetura da UFBA
                 </Typography>

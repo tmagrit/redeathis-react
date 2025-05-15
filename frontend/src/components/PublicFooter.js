@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeProvider } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
+//import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -24,9 +24,7 @@ const PublicFooter = (props) => {
             >
                 <Toolbar sx={{ mt: '15px',}} >
 
-                    {/* ADDRESS */}
-                    <LogoFooter sx={{ flexGrow: 1 }} />
-                    
+                    {/* PARTNERS TOOLBAR */}
                     <Grid container justifyContent="center" display="flex" spacing={2} >
 
                         {/* FOOTER 01 */}
@@ -218,7 +216,7 @@ const PublicFooter = (props) => {
                                             </a>
                                         </Box>
 
-                                        <Divider flexItem />
+                                        <Divider sx={{ width: '100%', flex: '1 1 auto' }} flexItem />
 
                                         <Typography variant="footerSubtitle"  sx={{ textDecoration: 'none', color: publicTheme.palette.footerText, }} >
                                             Apoio
@@ -231,7 +229,14 @@ const PublicFooter = (props) => {
                             
 
                         </Grid>
+
+                        {/* ADDRESS TOOLBAR */}
+                        <Grid item xs={12} display="flex" justifyContent="center"  >
+                            <LogoFooter sx={{ flexGrow: 1 }} />
+                        </Grid>
+
                     </Grid> 
+
                 </Toolbar> 
             </PaperFooter>
         </ThemeProvider>
