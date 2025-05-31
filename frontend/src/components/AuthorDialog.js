@@ -37,9 +37,16 @@ const AuthorDialog = (props) => {
 
     // TRACK RESEARCH AUTHORS CHANGES 
     useEffect(() => {
-        const updatedResearchAuthors = allResearchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
-        setResearchAuthors([...updatedResearchAuthors]);
+        if (addResearchAuthorStatus === 'succeeded') {
+            const updatedResearchAuthors = allResearchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10));
+            setResearchAuthors([...updatedResearchAuthors]);
+        }
     }, [allResearchAuthors, addResearchAuthorStatus, params.researchId]);
+
+    // useEffect(() => {
+    //     const updatedResearchAuthors = allResearchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
+    //     setResearchAuthors([...updatedResearchAuthors]);
+    // }, [allResearchAuthors, addResearchAuthorStatus, params.researchId]);
 
     const handleUpdateResearchAuthors = (allresearchauthors) => {
         const updatedResearchAuthors = allresearchauthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) );
