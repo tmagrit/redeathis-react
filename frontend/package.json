@@ -12,6 +12,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.11",
     "@mui/x-date-pickers": "^5.0.0-alpha.2",
+    "@react-hook/resize-observer": "^1.2.6",
     "@reduxjs/toolkit": "^1.9.3",
     "@supabase/supabase-js": "^1.35.6",
     "@uppy/core": "^3.0.5",

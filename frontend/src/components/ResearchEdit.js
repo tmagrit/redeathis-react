@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { updateResearch, refreshResearchTags, selectResearchSources } from '../features/researchSlice';
+import { useState, useRef, useEffect } from 'react';
+import { updateResearch, refreshResearchTags, selectResearchSources, updateContentEditImageGallerySize } from '../features/researchSlice';
+//import { updateContent, refreshContentCategories, updateContentEditImageGallerySize } from '../features/contentSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { DateTime } from 'luxon';
@@ -12,6 +13,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
@@ -38,6 +40,9 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
 
+import { useHistory } from './history';
+import { useElementSize } from './useElementSize'
+
 // DIALOG TO RELATE SOURCE AND AUTHOR
 import SourceDialog from './SourceDialog';
 import AuthorDialog from './AuthorDialog';
@@ -45,6 +50,7 @@ import Source from './Source';
 import Author from './Author';
 import ImageGallery from './ImageGallery'; 
 import UppyDashboard from './UppyDashboard';
+import ImagekitFilesIndex from './ImagekitFilesIndex';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -53,6 +59,9 @@ const ResearchEdit = () => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
+
+    // MY HISTORY HOOK
+    const history = useHistory(); 
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
@@ -183,12 +192,38 @@ const ResearchEdit = () => {
         setChecked(newChecked);
     }; 
 
+
+    // REF TO IMAGE GRID
+    const ref = useRef(null);
+    const size = useElementSize(ref);
+
+    // TRACK IMAGE GRID WIDTH
+    useEffect(() => {
+        const getMainSize = (size) => { 
+            const { x, y, width, height, top, right, left, bottom, } = size;
+            const mainsize = {
+                x: x, 
+                y: y, 
+                width: width, 
+                height: height, 
+                top: top, 
+                right: right, 
+                left: left, 
+                bottom: bottom
+            };
+            
+            return mainsize;
+        };
+         
+        dispatch(updateContentEditImageGallerySize(getMainSize(size)));
+    }, []); //TODO estudar e corrigir dependência com history.pathArray
+
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
                 {/* LEFT PANEL */}
                 <Grid item xs={12} md={8}>
-                    <Paper sx={{ minHeight: 240, mb: 2, }} square >
+                    <Paper sx={{ minHeight: 240, }} square >
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'left'}/> 
                         </Grid>
@@ -311,7 +346,7 @@ const ResearchEdit = () => {
                                 size="small"
                                 multiline={true}
                                 //minRows={3}
-                                rows={2}
+                                rows={5}
                                 type="text"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -326,7 +361,7 @@ const ResearchEdit = () => {
                                 size="small"
                                 type="text"
                                 multiline={true}
-                                rows={6}
+                                rows={23}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
                             />
@@ -383,32 +418,17 @@ const ResearchEdit = () => {
                                                         </IconButton>
                                                     </InputAdornment>,
                                 }}
-                                //error={emailError(email)}
-                                //helperText={emailError(email) ? "Digite um endereço de e-mail válido" : null}
                             >
                             </TextField>
 
                         </Grid>
                     </Paper>
 
-                {/* IMAGE GALLERY */}
-                    <Paper square >
-                        <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
-                            <Title position={'contentGallery'}/> 
-                        </Grid>
-                        <Divider />
-                        <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}> 
-
-                        <ImageGallery />
-                        
-                        </Grid >
-                    </Paper>
-
                 </Grid>
 
                 {/* RIGHT PANEL */}
                 <Grid item xs={12} md={4}>
-                    <Paper sx={{ mb: 3, }} square >
+                    <Paper  square >
 
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'status'}/> 
@@ -436,6 +456,7 @@ const ResearchEdit = () => {
                             <Button 
                                 variant="contained"
                                 color="success" 
+                                size="small"
                                 fullWidth 
                                 sx={{ mb: 2, }} 
                                 onClick={handleUpdateResearch}  
@@ -497,7 +518,7 @@ const ResearchEdit = () => {
 
                     </Paper>
 
-                     <Paper sx={{ mb: 3, }} square >
+                     <Paper square >
 
                         <Grid item xs={12} sx={{ px: 2, pt: 2, display: 'flex', flexDirection: 'column', }}>
                             <Title position={'geolocation'}/> 
@@ -562,6 +583,51 @@ const ResearchEdit = () => {
                     </Paper>
 
                 </Grid>
+
+                <ImagekitFilesIndex />
+
+                <Grid item xs={12} >
+                {/* IMAGE GALLERY */}
+                    <Paper >
+                        <Grid item xs={12} sx={{ px: 2, py: 2, display: 'flex', flexDirection: 'column', }}>
+                            <Stack 
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                            >
+                                <Title position={'contentGallery'}/>
+                                <Box sx={{ flexgrow: 1, }}/>
+                                <UppyDashboard />
+                            </Stack> 
+                             
+                        </Grid>
+                        <Divider />
+                        <Grid ref={ref} id="image-gallery" item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}> 
+
+                            <ImageGallery />
+                        
+                        </Grid >
+                    </Paper>
+                </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 
             </Grid>
             <Copyright sx={{ pt: 4 }} />

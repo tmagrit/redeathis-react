@@ -96,6 +96,12 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
             else 
                 return r;
         });  
+        dispatch(
+            openSnackbar({
+                message: 'Referência atualizada com sucesso!',
+                severity: 'success'
+            })
+        ); 
         alert('Pesquisa atualizada com sucesso.');
         if(error) {
             throw error
@@ -103,6 +109,12 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
 
         return payload;
     } catch (error) {
+        dispatch(
+            openSnackbar({
+                message: `Erro na atualização da referência: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
         alert('updateResearch()-error')
         console.log(error)
         alert(error.message)
@@ -619,10 +631,13 @@ export const insertResearchTags = createAsyncThunk('content/insertResearchTags',
 
 export const researchSlice = createSlice({
     name: 'research',
-    initialState: {
+    initialState: { 
+        snackbar: { open: false, message: '', severity: 'success' }, //snackbar state
         newResearchCategory: { category_id: 1, color: '#3d85c6' },
         research: [],
         categories: [],
+        content: [],
+        content_articles: [],
         statuses: [],
         authors: [],
         researchAuthors: [],
@@ -710,8 +725,37 @@ export const researchSlice = createSlice({
         insertResearchTagsStatus: 'idle',
         insertResearchTagsError: null,
 
+        mainDivSize: { x: 0, y: 0, width: 1168, height: 40, top: 0, right: 1168, bottom: 40, left: 0 },
+        publicImageGalleryContainerSize: { x: 0, y: 0, width: 897, height: 554, top: 0, right: 1168, bottom: 40, left: 0 },
+        publicFeaturedImageContainerSize: { x: 0, y: 0, width: 897, height: 554, top: 0, right: 1168, bottom: 40, left: 0 },
+        mainImageIndex: 0,
+        contentEditImageGallerySize: { x: 0, y: 0, width: 1168, height: 40, top: 0, right: 1168, bottom: 40, left: 0 },
+        imageViewSize: { x: 0, y: 0, width: 500, height: 500, top: 0, right: 500, bottom: 500, left: 0 },
+
     },
     reducers: {
+        //SNACKBAR ALERT REDUCERS <--
+        openSnackbar(state, action) { 
+            const newSnackbar = {
+                ...state.snackbar,
+                open: true,
+                message: action.payload.message,
+                severity: action.payload.severity
+                
+            };
+            state.snackbar = newSnackbar;
+        },
+        closeSnackbar: (state) => {
+            const newSnackbar = {
+                ...state.snackbar,
+                open: false,
+                message: '',
+                severity: 'success'
+                
+            };
+            state.snackbar = newSnackbar;
+        },
+        //SNACKBAR ALERT REDUCERS -->
         updateClassName: {
             reducer(state, action) {
                 const newstate = state.classes.map(c => {
@@ -809,6 +853,29 @@ export const researchSlice = createSlice({
         },
         updateTimeInterval(state, action) { 
             state.timeInterval = action.payload;
+        },
+
+
+
+
+        // IMAGE GALLERY REDUCERS
+        updateMainDivSize(state, action) { 
+            state.mainDivSize = action.payload;
+        },
+        updatePublicFeaturedImageContainerSize(state, action) { 
+            state.publicFeaturedImageContainerSize = action.payload;
+        },
+        updatePublicImageGalleryContainerSize(state, action) { 
+            state.publicImageGalleryContainerSize = action.payload;
+        },
+        updateContentEditImageGallerySize(state, action) { 
+            state.contentEditImageGallerySize = action.payload;
+        },
+        updateImageViewSize(state, action) { 
+            state.imageViewSize = action.payload;
+        },
+        updateMainImageIndex(state, action) { 
+            state.mainImageIndex = action.payload;
         },
         
     },
@@ -1253,6 +1320,8 @@ export const selectFilteredTagsArray = state => {
 };
 
 export const { 
+    openSnackbar,
+    closeSnackbar,
     updateClassName,
     updateTagsNames,
     removeSource,
@@ -1266,6 +1335,15 @@ export const {
     updateCategoriesFilter,
     updateResearchMinYear,
     updateTimeInterval,
+
+
+    updateMainDivSize,
+    updatePublicFeaturedImageContainerSize,
+    updatePublicImageGalleryContainerSize,
+    updateContentEditImageGallerySize,
+    updateImageViewSize,
+    updateMainImageIndex
+
 } = researchSlice.actions
 
 export default researchSlice.reducer;

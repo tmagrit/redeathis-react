@@ -11,17 +11,32 @@ import Typography from '@mui/material/Typography';
 import ActionMenu from './ActionMenu';
 import ActionAuthorMenu from './ActionAuthorMenu';
 import ActionSourceMenu from './ActionSourceMenu';
-import { truncate } from './truncate';
+//import { truncate } from './truncate';
+
+//IMAGE GALLERI ADD <--
+import IconButton from '@mui/material/IconButton';
+import CircleIcon from '@mui/icons-material/Circle';
+import ActionMenuRelatedContent from './ActionMenuRelatedContent'; 
+import { getRelatedContentName, truncate } from '../utils';  
+//IMAGE GALLERI ADD -->
 
 export function useTableTemplates(props) {
 
-    //const { action } = props
+    // IMAGEKIT
+    const urlEndpoint = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT; 
+    const imgSize = 50; 
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
+    
+    //IMAGE GALLERI ADD <--
+    const content = useSelector(state => state.research.research);
+    //const contentArticles = useSelector(state => state.content.content_articles);
+    //IMAGE GALLERI ADD -->
+    
     const sources = useSelector(state => state.research.sources);
     const categories = useSelector(state => state.research.categories);
     const statuses = useSelector(state => state.research.statuses);
@@ -434,6 +449,239 @@ export function useTableTemplates(props) {
         ]
     );   
 
+
+
+
+
+
+
+
+
+
+
+
+
+    // // COLUMNS TO VIDEO LIST
+    // const contentArticlesColumns = (
+    //     [
+    //         {
+    //             name: 'ID',
+    //             selector: row => row.fileId ,
+    //             sortable: true,
+    //             omit: true,
+    //             width: '70px',
+    //         },
+    //         {
+    //             name: 'Título | Ano | Autor',
+    //             selector: row => row.title + row.technique + row.date,
+    //             //cell: row => <span style={{ wordBreak: "break-word" }}> {truncate(row.title, 15)} </span>,
+    //             cell: (row) => (
+    //                 <div style={{ paddingTop: "5px", paddingBottom: "5px", }}>
+    //                     <div style={{ wordBreak: "break-word" }}>{`${truncate(row.title, 15)} [${row.date}]`}</div>
+    //                     <div style={{ paddingTop: "3px", fontWeight: "bold" }}>{row.technique}</div>
+    //                 </div>
+    //             ),
+    //             sortable: true,
+    //             //maxWidth: '250px',
+    //             grow: 3,
+    //         },
+    //         {
+    //             name: 'Descrição',
+    //             selector: row => row.description,
+    //             cell: row => <span style={{ wordBreak: "break-word" }}> {truncate(row.description, 25)} </span>,
+    //             sortable: true,
+    //             //maxWidth: '200px',
+    //             grow: 3,
+    //         },  
+    //         // {
+    //         //     name: 'Ano',
+    //         //     selector: row => row.date,
+    //         //     cell: row => row.date,
+    //         //     sortable: true,
+    //         //     maxWidth: '100px',
+    //         //     grow: 1,
+    //         // },
+    //         {
+    //             name: 'Publicação Relacionada',
+    //             selector: row => getRelatedContentName(content, contentArticles, row.fileId),
+    //             cell: row => getRelatedContentName(content, contentArticles, row.fileId),
+    //             sortable: true,
+    //             //maxWidth: '140px',
+    //             grow: 2,
+    //         },
+     
+    //         // {
+    //         //     name: 'Autor',
+    //         //     selector: row => row.technique,
+    //         //     //cell: row => <span style={{ wordBreak: "break-word" }}> {truncate(row.description, 25)} </span>,
+    //         //     sortable: true,
+    //         //     //maxWidth: '200px',
+    //         //     grow: 2,
+    //         // }, 
+    //         {
+    //             name: 'Categoria',
+    //             selector: row => row.dimensions,
+    //             sortable: true,
+    //             //maxWidth: '200px',
+    //             grow: 1,
+    //         }, 
+    //         // {
+    //         //     name: 'YouTube',
+    //         //     selector: row => row.video_id,
+    //         //     cell: row => <IconButton color="info" aria-label="link para youtube" size="small" component={Link} target="_blank" rel="noopener" href={`https://www.youtube.com/watch?v=${row.video_id}`}>
+    //         //             <LaunchIcon fontSize="inherit" /> 
+    //         //         </IconButton>,
+    //         //     sortable: true,
+    //         //     maxWidth: '120px',
+    //         //     grow: 2,
+    //         // },
+    //         // {
+    //         //     name: 'Atualizado',
+    //         //     selector: row => row.updated_at,
+    //         //     cell: row => DateTime.fromISO(row.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy'),
+    //         //     sortable: true,
+    //         //     maxWidth: '120px',
+    //         //     grow: 2,
+    //         // },
+    //         {
+    //             name: 'Ações',
+    //             maxWidth: '80px',
+    //             cell: row => <ActionMenuRelatedContent section={'contentarticles'} row={row}/>,
+    //             right: true,
+    //             grow: 1,
+    //         },
+    //     ]
+    // );     
+
+    // MAIN TABLE FOR REDEATHIS IMAGE CONTENT. TODO: REVIEW TABLE CONTENT TO FIT IMAGES FROM ANOTHER CONTENT TYPES DIFFERENT FROM RESEARCH
+    const researchImagesColumns = (
+        [
+            {
+                name: 'ID',
+                selector: row => row.fileId ,
+                sortable: true,
+                omit: true,
+                width: '70px',
+            },
+            {
+                name: "Imagem", 
+                selector: row => row.url,
+                sortable: true,
+                reorder: true,
+                cell: (row) => (
+                    <div style={{ paddingTop: "3px", paddingBottom: "3px" }}>
+                        <img 
+                            style={{ borderStyle: "outset"}}
+                            src={`${urlEndpoint}/tr:h-${imgSize},w-${imgSize}${row.filePath}?w=${imgSize}&h=${imgSize}&fit=crop&auto=format`}           
+                            srcSet={`${urlEndpoint}/tr:h-${imgSize},w-${imgSize}${row.filePath}?w=${imgSize}&h=${imgSize}&fit=crop&auto=format&dpr=2 2x`}
+                            alt={row.description}
+                            loading="lazy"
+                        />
+                    </div>
+                ),
+                grow: 1,
+            },
+            {
+                name: 'Ordem',
+                selector: row => row.serial,
+                cell: row => row.serial,
+                sortable: true,
+                maxWidth: '50px',
+                grow: 0.5,
+            },
+            {
+                name: 'Título',
+                selector: row => row.title,
+                cell: row => <span style={{ wordBreak: "break-word" }}> {truncate(row.title, 25)} </span>,
+                //sortable: true,
+                omit: true,
+                //maxWidth: '200px',
+                grow: 2,
+            },              
+            {
+                name: 'Descrição',
+                selector: row => row.description,
+                cell: row => <span style={{ wordBreak: "break-word" }}> {truncate(row.description, 25)} </span>,
+                sortable: true,
+                //maxWidth: '200px',
+                grow: 10,
+            },  
+            {
+                name: 'Ano',
+                selector: row => row.date,
+                cell: row => row.date,
+                //sortable: true,
+                omit: true,
+                maxWidth: '100px',
+                grow: 1,
+            },
+            {
+                name: 'Link',
+                selector: row => row.technique,
+                sortable: true,
+                //maxWidth: '200px',
+                //right: true,
+                grow: 10,
+            },
+            {
+                name: 'Dimensões',
+                selector: row => row.dimensions,
+                sortable: true,
+                omit: true,
+                //maxWidth: '200px',
+                grow: 2,
+            }, 
+            {
+                name: "Disponível", 
+                selector: row => row.available,
+                //sortable: true,
+                omit: true,
+                //reorder: true,
+                //center: true,
+                //right: true,
+                cell: (row) => (
+                    <IconButton 
+                        color="success" 
+                        disabled={!row.available}
+                        disableFocusRipple
+                        disableRipple
+                        aria-label="obra disponível para aquisição" 
+                        size="small" 
+                        sx={{ fontSize: '10px' }} 
+                    >
+                        <CircleIcon fontSize="inherit" /> 
+                    </IconButton>
+                ),
+                // cell: row => <Switch 
+                //                 checked={row.available} 
+                //                 inputProps={{ 'aria-label': 'Obra disponível para compra' }} 
+                //                 size="small" 
+                //                 color="success"
+                //             />,
+                grow: 1.5,
+            },
+            // {
+            //     name: 'Ações',
+            //     maxWidth: '80px',
+            //     cell: row => <ActionMenu section={'contentarticles'} row={row}/>,
+            //     right: true,
+            //     grow: 1,
+            // },
+        ]
+    );         
+
+
+
+
+
+
+
+
+
+
+
+
+
     return {
         fullProfilesColumns: fullProfilesColumns,
         fullResearchColumns: fullResearchColumns,
@@ -441,6 +689,8 @@ export function useTableTemplates(props) {
         authorsSourcesColumns: authorsSourcesColumns,
         researchSourcesColumns: researchSourcesColumns,
         pagesColumns: pagesColumns,
+        //contentArticlesColumns: contentArticlesColumns, 
+        researchImagesColumns: researchImagesColumns, 
     };
 };
 

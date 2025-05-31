@@ -24,6 +24,7 @@ ecosystem.config.js
 .env.production.local
 .env.development
 .env.production
+.tool-versions
 
 npm-debug.log*
 yarn-debug.log*

@@ -6,3 +6,4 @@ docker-compose-prod.yml
 .git
 .gitignore
 .dockerignore
+.tool-versions
