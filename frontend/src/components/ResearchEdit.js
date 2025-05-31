@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { updateResearch, refreshResearchTags, selectResearchSources, updateContentEditImageGallerySize } from '../features/researchSlice';
 //import { updateContent, refreshContentCategories, updateContentEditImageGallerySize } from '../features/contentSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -216,7 +216,7 @@ const ResearchEdit = () => {
         };
          
         dispatch(updateContentEditImageGallerySize(getMainSize(size)));
-    }, []); //TODO estudar e corrigir dependência com history.pathArray
+    }, [size]); 
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

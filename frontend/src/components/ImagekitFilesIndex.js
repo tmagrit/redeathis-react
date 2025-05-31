@@ -38,14 +38,14 @@ const ImagekitFilesIndex = () => {
 
     // REDUX SELECTORS
     // ARTICLES TO CONTENT ARTICLES EDIT PAGE
-    const articles = useSelector(selectArticles); console.log('articles', articles);
+    const articles = useSelector(selectArticles); //console.log('articles', articles);
     const authorArticles = useSelector(selectAuthorArticles); 
     const catalogues = useSelector(selectCatalogues);
     const clipping = useSelector(selectClipping);
     const getImagesStatus = useSelector(state => state.images.getImagesStatus);
     // IMAGES TO CONTENT EDIT PAGE
     const images = useSelector(state => state.images.images); 
-    const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : []; console.log('contentImages', contentImages); 
+    const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : []; //console.log('contentImages', contentImages); 
 
     const createContentTable = Boolean( getImagesStatus === "succeeded" );
     const isContentEdit = Boolean( history.pathArray[1] === "admin" &&
