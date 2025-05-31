@@ -68,7 +68,7 @@ const Signup = () => {
       <Paper elevation={3} sx={{ maxWidth: 500, }} >
         <Box sx={{ p: 4, }} >
         <Typography component="span" variant="h5" align="center" mb={4} >
-          Inscrição Rede Residência ATHIS
+          Inscrição Rede ATHIS
         </Typography>
         <TextField
           value={name}

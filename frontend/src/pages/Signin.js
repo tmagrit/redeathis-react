@@ -70,7 +70,7 @@ const Signin = () => {
       <Paper elevation={3} sx={{ maxWidth: 500, }} >
         <Box sx={{ p: 4, }} >
         <Typography component="span" variant="h5" align="center" mb={4} >
-          Acesso Rede Residência ATHIS
+          Acesso Rede ATHIS
         </Typography>
         <TextField
           value={email}

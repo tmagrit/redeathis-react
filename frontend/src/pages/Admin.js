@@ -113,7 +113,7 @@ const Admin = () => {
                     variant="inherit" 
                     style={{ color: "inherit", textDecoration: "none" }} 
                 >
-                    Rede Residência ATHIS
+                    Rede ATHIS
                 </Link>
             </Typography>
             <IconButton color="inherit" onClick={handleMenu}>
