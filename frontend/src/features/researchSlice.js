@@ -97,12 +97,12 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
                 return r;
         });  
         dispatch(
-            openSnackbar({
+            openResearchSnackbar({
                 message: 'Referência atualizada com sucesso!',
                 severity: 'success'
             })
         ); 
-        alert('Pesquisa atualizada com sucesso.');
+        // alert('Pesquisa atualizada com sucesso.');
         if(error) {
             throw error
         }  
@@ -110,12 +110,12 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
         return payload;
     } catch (error) {
         dispatch(
-            openSnackbar({
+            openResearchSnackbar({
                 message: `Erro na atualização da referência: ${error.message}`,
                 severity: 'error'
             })
         ); 
-        alert('updateResearch()-error')
+        // alert('updateResearch()-error')
         console.log(error)
         alert(error.message)
     };
@@ -735,7 +735,7 @@ export const researchSlice = createSlice({
     },
     reducers: {
         //SNACKBAR ALERT REDUCERS <--
-        openSnackbar(state, action) { 
+        openResearchSnackbar(state, action) { 
             const newSnackbar = {
                 ...state.snackbar,
                 open: true,
@@ -745,7 +745,7 @@ export const researchSlice = createSlice({
             };
             state.snackbar = newSnackbar;
         },
-        closeSnackbar: (state) => {
+        closeResearchSnackbar: (state) => {
             const newSnackbar = {
                 ...state.snackbar,
                 open: false,
@@ -1320,8 +1320,8 @@ export const selectFilteredTagsArray = state => {
 };
 
 export const { 
-    openSnackbar,
-    closeSnackbar,
+    openResearchSnackbar,
+    closeResearchSnackbar,
     updateClassName,
     updateTagsNames,
     removeSource,

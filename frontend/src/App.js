@@ -26,6 +26,7 @@ import AuthorIndex from './components/AuthorIndex';
 import PagesIndex from './components/PagesIndex';
 import PagesCreate from './components/PagesCreate';
 import PagesEdit from './components/PagesEdit';
+import AlertSnackbar from './components/AlertSnackbar';
 
 // PAGES
 import Home from './pages/Home';
@@ -115,6 +116,7 @@ function App() {
                     path="admin/*" 
                     element={
                         <ProtectedRoute>
+                            <AlertSnackbar />
                             <Admin />
                         </ProtectedRoute>
                     } 
