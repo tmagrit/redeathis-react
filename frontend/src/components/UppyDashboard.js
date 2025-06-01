@@ -40,9 +40,9 @@ const UppyDashboard = () => {
     // METAFIELDS ALLOWED IN IMAGE EDIT BEFORE UPLOAD
     const metaFields = [
         // {id: 'title', name: 'Título', placeholder: 'ex: Composição'},
-        {id: 'description', name: 'Descrição', placeholder: 'Legenda da imagem'},
+        {id: 'description', name: 'Descrição', placeholder: 'Descrição da imagem'},
         // {id: 'date', name: 'Ano', placeholder: 'ex: 2021'},
-        {id: 'technique', name: 'Técnica', placeholder: 'ex: A.s/T'},
+        {id: 'technique', name: 'Link', placeholder: 'https://www.loremipsum.io'},
         // {id: 'dimensions', name: 'Dimensões', placeholder: 'ex: 100 x 100 cm'},
         // {id: 'serial', name: 'Número de Série', placeholder: 'ex: 003B'},
         // {
