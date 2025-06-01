@@ -26,9 +26,10 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import DefaultDialog from '../components/DefaultDialog';
 import Invite from '../components/Invite';
 import MainMenu from '../components/MainMenu';
+import LogoRedeAthisAdmin from '../components/LogoRedeAthisAdmin';
 
 // STYLES
-import { AppBar, Drawer, mdTheme } from '../styles/adminStyles';
+import { AppBar, Drawer, adminTheme } from '../styles/adminStyles';
 
 const Admin = () => {
 
@@ -73,7 +74,7 @@ const Admin = () => {
     };
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={adminTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar 
@@ -81,7 +82,7 @@ const Admin = () => {
           color="inherit" 
           open={drawerState}  
           elevation={0} 
-          sx={{ borderBottom: 1, borderColor: mdTheme.palette.divider, }}
+          sx={{ borderBottom: 1, borderColor: adminTheme.palette.divider, }}
         >
           <Toolbar
             sx={{
@@ -90,7 +91,7 @@ const Admin = () => {
           >
             <IconButton
               edge="start"
-              color="inherit"
+              //color="inherit"
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
@@ -100,7 +101,12 @@ const Admin = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
+            {/* LOGO <--- */}
+            <Box sx={{ flexGrow: 1 }}>
+              <LogoRedeAthisAdmin width={'90'} />
+            </Box>
+            
+            {/* <Typography
                 component="div"
                 variant="h6"
                 color="inherit"
@@ -115,8 +121,9 @@ const Admin = () => {
                 >
                     Rede ATHIS
                 </Link>
-            </Typography>
-            <IconButton color="inherit" onClick={handleMenu}>
+            </Typography> */}
+            {/* LOGO ---> */}
+            <IconButton onClick={handleMenu}>
               {/* <Badge badgeContent={4} color="secondary"> */}
                 <SettingsIcon />
               {/* </Badge> */}
@@ -125,13 +132,13 @@ const Admin = () => {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
+                  vertical: 'bottom',
+                  horizontal: 'right',
                 }}
                 keepMounted
                 transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                  vertical: 'top',
+                  horizontal: 'right',
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
