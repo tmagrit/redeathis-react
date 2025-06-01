@@ -59,6 +59,9 @@ const FilteredDataTable = ( props ) => {
                     responsive
                     pagination
                     paginationResetDefaultPage={resetPaginationToggle} 
+                    paginationComponentOptions={{
+                        rowsPerPageText: 'Linhas por página:',
+                    }}
                     subHeader
                     subHeaderComponent={subHeaderComponentMemo}
                     conditionalRowStyles={conditionalRowStyles}

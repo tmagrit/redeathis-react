@@ -276,6 +276,9 @@ const ImagekitEditableTable = ( props ) => {
                 columns={columns}
                 data={data}
                 customStyles={customStyles}
+                paginationComponentOptions={{
+                    rowsPerPageText: 'Linhas por página:',
+                }}
                 striped
                 responsive
                 pagination
@@ -288,6 +291,9 @@ const ImagekitEditableTable = ( props ) => {
                 columns={columns}
                 data={data}
                 customStyles={customStyles}
+                paginationComponentOptions={{
+                    rowsPerPageText: 'Linhas por página:',
+                }}
                 striped
                 responsive
                 pagination

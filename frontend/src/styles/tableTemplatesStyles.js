@@ -1,7 +1,14 @@
+import { createTheme } from '@mui/material';
+import { adminTheme } from '../styles/adminStyles';
+
+const theme = createTheme(adminTheme);
+
 export const customStyles = {
 	table: {
 		style: {
 			// color: theme.text.primary,
+			color: 'red',
+			backgroundColor: 'blue',
 			// backgroundColor: theme.background.default,
 		},
 	},
@@ -17,9 +24,9 @@ export const customStyles = {
 	},
 	header: {
 		style: {
-			// fontSize: '22px',
-			// color: theme.text.primary,
-			// backgroundColor: theme.background.default,
+			//fontSize: '22px',
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.default,
 			// minHeight: '56px',
 			// paddingLeft: '16px',
 			// paddingRight: '8px',
@@ -27,20 +34,22 @@ export const customStyles = {
 	},
 	subHeader: {
 		style: {
-			// backgroundColor: theme.background.default,
+			backgroundColor: theme.palette.background.default,
 			// minHeight: '52px',
 		},
 	},
 	head: {
 		style: {
-			// color: theme.text.primary,
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.default,
 			// fontSize: '12px',
 			fontWeight: 600,
 		},
 	},
 	headRow: {
 		style: {
-			// backgroundColor: theme.background.default,
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.default,
 			// minHeight: '52px',
 			// borderBottomWidth: '1px',
 			// borderBottomColor: theme.divider.default,
@@ -61,7 +70,7 @@ export const customStyles = {
 	},
 	contextMenu: {
 		style: {
-			// backgroundColor: theme.context.background,
+			backgroundColor: theme.palette.background.default,
 			// fontSize: '18px',
 			// fontWeight: 400,
 			// color: theme.context.text,
@@ -88,8 +97,8 @@ export const customStyles = {
 		style: {
 			// fontSize: '13px',
 			// fontWeight: 400,
-			// color: theme.text.primary,
-			// backgroundColor: theme.background.default,
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.default,
 			// minHeight: '48px',
 			// '&:not(:last-of-type)': {
 			// 	borderBottomStyle: 'solid',
@@ -103,14 +112,14 @@ export const customStyles = {
 		selectedHighlightStyle: {
 			// // use nth-of-type(n) to override other nth selectors
 			// '&:nth-of-type(n)': {
-			// 	color: theme.selected.text,
+			color: theme.palette.text.primary,
 			// 	backgroundColor: theme.selected.default,
 			// 	borderBottomColor: theme.background.default,
 			// },
 		},
 		highlightOnHoverStyle: {
-			// color: theme.highlightOnHover.text,
-			// backgroundColor: theme.highlightOnHover.default,
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.hovered,
 			// transitionDuration: '0.15s',
 			// transitionProperty: 'background-color',
 			// borderBottomColor: theme.background.default,
@@ -119,8 +128,8 @@ export const customStyles = {
 			// outlineColor: theme.background.default,
 		},
 		stripedStyle: {
-			// color: theme.striped.text,
-			// backgroundColor: theme.striped.default,
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.striped,
 		},
 	},
     // expanderRow: {
@@ -162,57 +171,57 @@ export const customStyles = {
 	// 		},
 	// 	},
 	// },
-	// pagination: {
-	// 	style: {
-	// 		color: theme.text.secondary,
-	// 		fontSize: '13px',
-	// 		minHeight: '56px',
-	// 		backgroundColor: theme.background.default,
-	// 		borderTopStyle: 'solid',
-	// 		borderTopWidth: '1px',
-	// 		borderTopColor: theme.divider.default,
-	// 	},
-	// 	pageButtonsStyle: {
-	// 		borderRadius: '50%',
-	// 		height: '40px',
-	// 		width: '40px',
-	// 		padding: '8px',
-	// 		margin: 'px',
-	// 		cursor: 'pointer',
-	// 		transition: '0.4s',
-	// 		color: theme.button.default,
-	// 		fill: theme.button.default,
-	// 		backgroundColor: 'transparent',
-	// 		'&:disabled': {
-	// 			cursor: 'unset',
-	// 			color: theme.button.disabled,
-	// 			fill: theme.button.disabled,
-	// 		},
-	// 		'&:hover:not(:disabled)': {
-	// 			backgroundColor: theme.button.hover,
-	// 		},
-	// 		'&:focus': {
-	// 			outline: 'none',
-	// 			backgroundColor: theme.button.focus,
-	// 		},
-	// 	},
-	// },
-	// noData: {
-	// 	style: {
-	// 		display: 'flex',
-	// 		alignItems: 'center',
-	// 		justifyContent: 'center',
-	// 		color: theme.text.primary,
-	// 		backgroundColor: theme.background.default,
-	// 	},
-	// },
-	// progress: {
-	// 	style: {
-	// 		display: 'flex',
-	// 		alignItems: 'center',
-	// 		justifyContent: 'center',
-	// 		color: theme.text.primary,
-	// 		backgroundColor: theme.background.default,
-	// 	},
-	// },
+	pagination: {
+		style: {
+			color: theme.palette.text.primary,
+			// fontSize: '13px',
+			// minHeight: '56px',
+			backgroundColor: theme.palette.background.default,
+			// borderTopStyle: 'solid',
+			// borderTopWidth: '1px',
+			// borderTopColor: theme.divider.default,
+		},
+		pageButtonsStyle: {
+			// borderRadius: '50%',
+			// height: '40px',
+			// width: '40px',
+			// padding: '8px',
+			// margin: 'px',
+			// cursor: 'pointer',
+			// transition: '0.4s',
+			color: theme.palette.text.primary,
+			fill: theme.palette.text.primary,
+			backgroundColor: 'transparent',
+			'&:disabled': {
+				cursor: 'unset',
+				color: theme.palette.text.primary,
+				// fill: theme.palette.action.hover,
+			},
+			'&:hover:not(:disabled)': {
+				fill: theme.palette.text.primary,
+			},
+			'&:focus': {
+				outline: 'none',
+				// backgroundColor: theme.button.focus,
+			},
+		},
+	},
+	noData: {
+		style: {
+			// display: 'flex',
+			// alignItems: 'center',
+			// justifyContent: 'center',
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.default,
+		},
+	},
+	progress: {
+		style: {
+			// display: 'flex',
+			// alignItems: 'center',
+			// justifyContent: 'center',
+			color: theme.palette.text.primary,
+			backgroundColor: theme.palette.background.default,
+		},
+	},
 };
