@@ -11,7 +11,7 @@
 # Production sync routine
 #   Stop pm2:                   cd /usr/apps/ra && pm2 stop ecosystem.config.js
 #   Pull and build app:         git pull origin master
-#   Build app:                  cd frontend && npm run build
+#   Build app:                  cd frontend && npm run build (or npm ci --force if new packages was added)
 #   Stop pm2:                   cd /usr/apps/ra && pm2 start ecosystem.config.js
 #
 ############
