@@ -35,10 +35,20 @@ const PagesEdit = () => {
     const statuses = useSelector(state => state.research.statuses);
 
     // EDIT PAGE STATES
-    const [pageData, setPageData] = useState(page);
+    const [pageData, setPageData] = useState(page); //console.log('pageData',pageData);
 
     // TEXT EDITOR STATES
     const [readOnly, setReadOnly] = useState(false);
+
+    // IMPORTANTE: Garanta que o body sempre tenha um valor válido
+    useEffect(() => {
+        if(page) {
+        setPageData({
+            ...page,
+            body: page.body || "" // Garante que body não seja undefined
+        });
+        }
+    }, [page]);
 
     // CHANGE PAGE STATES
     const handleChangePageData = (event) => {
@@ -93,7 +103,7 @@ const PagesEdit = () => {
                                 helperText="Termo do menu de navegação principal, que dá acesso à página"
                             />
 
-                            <FormBox 
+                            {/* <FormBox 
                                 id='text-editor-box' 
                                 label='Conteúdo'
                                 padding={{ p: 0, }} 
@@ -104,7 +114,13 @@ const PagesEdit = () => {
                                         readOnly={readOnly}
                                     />
                                 } 
-                            />        
+                            />         */}
+
+                            <TextEditor 
+                                value={pageData.body}
+                                setValue={body => setPageData({...pageData, body})}
+                                readOnly={readOnly}
+                            />
 
                         </Grid>
                     </Paper>
