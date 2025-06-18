@@ -15,7 +15,7 @@ const TextEditor = ({ value, setValue, readOnly }) => {
   const sanitizeOptions = React.useMemo(() => ({
     allowedTags: [
       'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
-      'strong', 'em', 'u', 's', 'blockquote', 
+      'strong', 'em', 'u', 's',
       'ul', 'ol', 'li', 'a', 'img', 'br', 
       'div', 'span', 'hr', 'table', 'thead', 
       'tbody', 'tr', 'th', 'td', 'code', 'pre'
@@ -131,6 +131,99 @@ const TextEditor = ({ value, setValue, readOnly }) => {
     };
   }, []);
 
+  // STYLING 
+
+  const contentStyle = `
+    body {
+      font-family: 'Roboto';
+      font-size: 16px;
+      font-weight: 300;
+      background-color: #f4f0eb;
+    }
+    h1 {
+        font-family: 'Aberforth';
+        font-weight: 300;
+        font-size: 32px;
+        text-transform: uppercase;
+        margin-block-start: 20px;
+        margin-block-end: 20px;
+        color: #f5a449;
+    }
+    h2 {
+      font-family: 'Aberforth';
+      font-weight: 300;
+      font-size: 25px;
+      text-transform: uppercase;
+      margin-block-start: 16px;
+      margin-block-end: 16px;
+      color: #f5a449;em 0;
+    }
+    h3 {
+      font-family: 'Roboto';
+      font-weight: 500;
+      margin-block-start: 13px;
+      margin-block-end: 13px;
+      font-size: 20px;
+    }
+    h4 {
+      font-family: 'Roboto';
+      font-weight: 400;
+      margin-block-start: 10px;
+      margin-block-end: 10px;
+      font-size: 16px;
+    }
+  `;
+  
+  const setupEditor = (editor) => {
+    const applyStylesToNode = (node) => {
+      switch (node.nodeName.toLowerCase()) {
+        case 'h1':
+          node.className = 'institutional-h1';
+          break;
+        case 'h2':
+          node.className = 'institutional-h2';
+          break;
+        case 'h3':
+          node.className = 'institutional-h3';
+          break;
+        case 'h4':
+          node.className = 'institutional-h4';
+          break;    
+        case 'p':
+        case 'ul':
+        case 'ol':
+        case 'table':
+          node.className = 'institutional-body';
+          break;
+      }
+      
+      Array.from(node.children).forEach(applyStylesToNode);
+    };
+
+    editor.on('init', () => {
+      // Aplica estilos ao conteúdo inicial
+      editor.dom.addClass(editor.dom.select('h1'), 'institutional-h1');
+      editor.dom.addClass(editor.dom.select('h2'), 'institutional-h2');
+      editor.dom.addClass(editor.dom.select('h3'), 'institutional-h3');
+      editor.dom.addClass(editor.dom.select('h4'), 'institutional-h4');
+      editor.dom.addClass(editor.dom.select('p, ul, ol, table'), 'institutional-body');
+    });
+
+    // Aplica estilos apenas quando o editor perde o foco
+    editor.on('blur', () => {
+      const selection = editor.selection.getBookmark();
+      applyStylesToNode(editor.getBody());
+      editor.selection.moveToBookmark(selection);
+    });
+
+    // Aplica estilos ao salvar
+    editor.on('submit', () => {
+      applyStylesToNode(editor.getBody());
+    });
+  };
+
+
+
   return (
     <div className="tox-tinymce-container" style={{ margin: '16px 0' }}>
       <Editor
@@ -144,12 +237,23 @@ const TextEditor = ({ value, setValue, readOnly }) => {
           menubar: false,
           plugins: 'lists link image table code',
           toolbar: 'undo redo | styles | bold italic underline strikethrough | ' +
-                   'alignleft aligncenter alignright alignjustify | bullist numlist | ' +
-                   'outdent indent | link image table code',
-          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                   'alignleft aligncenter alignright | bullist numlist | ' +
+                   'outdent indent | link image',
+          // content_style: 'body { font-family:Roboto,Arial,sans-serif; font-size:144px }',
+          content_style: contentStyle,
+          style_formats: [
+            { title: 'Título 1', block: 'h1', classes: 'institutional-h1' },
+            { title: 'Título 2', block: 'h2', classes: 'institutional-h2' },
+            { title: 'Título 3', block: 'h3', classes: 'institutional-h3' },
+            { title: 'Título 4', block: 'h4', classes: 'institutional-h4' },
+            { title: 'Parágrafo', block: 'p', classes: 'institutional-body' },
+          ],
           branding: false,
           content_security_policy: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;",
           sandbox: 'allow-same-origin allow-scripts',
+          // STYLING FUNCTION
+          setup:setupEditor,
+          // TODO: REWRITE IMAGE UPLOAD
           images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
             // Implementação de upload com tratamento de erros
             const formData = new FormData();
@@ -184,6 +288,90 @@ const TextEditor = ({ value, setValue, readOnly }) => {
 };
 
 export default TextEditor;
+
+
+
+
+
+
+
+// toolbar: 'undo redo | styles | bold italic underline strikethrough | ' +
+//                    'alignleft aligncenter alignright alignjustify | bullist numlist | ' +
+//                    'outdent indent | link image table code',
+          //content_style: 'body { font-family:Roboto,Arial,sans-serif; font-size:14px }',
+
+
+
+
+//ORIGINAL SANITIZE OPTIONS
+  // const sanitizeOptions = React.useMemo(() => ({
+  //   allowedTags: [
+  //     'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
+  //     'strong', 'em', 'u', 's', 'blockquote', 
+  //     'ul', 'ol', 'li', 'a', 'img', 'br', 
+  //     'div', 'span', 'hr', 'table', 'thead', 
+  //     'tbody', 'tr', 'th', 'td', 'code', 'pre'
+  //   ],
+  //   allowedAttributes: {
+  //     a: ['href', 'target', 'rel', 'title'],
+  //     img: ['src', 'alt', 'width', 'height', 'style', 'title', 'data-mce-src'],
+  //     div: ['class', 'style'],
+  //     span: ['class', 'style'],
+  //     table: ['class', 'style', 'border'],
+  //     td: ['class', 'style', 'colspan', 'rowspan'],
+  //     th: ['class', 'style', 'colspan', 'rowspan']
+  //   },
+  //   allowedStyles: {
+  //     '*': {
+  //       'text-align': [/^left$/, /^right$/, /^center$/, /^justify$/],
+  //       'color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/, /^[a-z]+$/],
+  //       'background-color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/, /^[a-z]+$/]
+  //     },
+  //     img: {
+  //       'float': [/left|right/],
+  //       'margin': [/^\d+(px|%)$/],
+  //       'width': [/^\d+(px|%)$/],
+  //       'height': [/^\d+(px|%)$/],
+  //       'max-width': [/^\d+(px|%)$/],
+  //       'max-height': [/^\d+(px|%)$/]
+  //     }
+  //   },
+  //   transformTags: {
+  //     'a': (tagName, attribs) => {
+  //       // Adiciona segurança a links externos
+  //       if (attribs.href && attribs.href.startsWith('http')) {
+  //         return {
+  //           tagName: 'a',
+  //           attribs: {
+  //             ...attribs,
+  //             target: '_blank',
+  //             rel: 'noopener noreferrer'
+  //           }
+  //         };
+  //       }
+  //       return { tagName, attribs };
+  //     }
+  //   },
+  //   // Opção específica do sanitize-html-react:
+  //   transformText: (text) => {
+  //     // Preserva quebras de linha
+  //     return text.replace(/\n/g, '<br>');
+  //   }
+  // }), []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
