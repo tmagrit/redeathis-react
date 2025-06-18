@@ -7,7 +7,7 @@ export function useHistory() {
     const navigate = useNavigate();
     const location = useLocation();
   
-    const pathArray = location.pathname.split('/');
+    const pathArray = location.pathname.split('/').filter(Boolean);
   
     return {
       push: navigate,
