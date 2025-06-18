@@ -188,12 +188,13 @@ const Navigation = () => {
                     </Toolbar>
                 </AppBar>
 
+                {/* NAVIGATION ARROWS */}
                 <Fab 
                     variant="extended" 
                     component={Link}
                     to={`/${staticPages[(activePageIndex - 1 + staticPages.length) % staticPages.length].slug}`}
                     sx={{ 
-                        position: "absolute",
+                        position: "fixed",
                         boxShadow: "none",
                         backgroundColor: `${staticPages[activePageIndex].color}`,
                         transition: 'opacity 0.5s',
@@ -218,7 +219,7 @@ const Navigation = () => {
                     variant="mainNavigationItem"
                     color={staticPages[activePageIndex].color}
                     sx={{ 
-                        position: "absolute",
+                        position: "fixed",
                         zIndex: 100, 
                         bottom: '31vh', 
                         left: '30px',
@@ -236,7 +237,7 @@ const Navigation = () => {
                     component={Link}
                     to={`/${staticPages[(activePageIndex + 1) % staticPages.length].slug}`}
                     sx={{ 
-                        position: "absolute",
+                        position: "fixed",
                         boxShadow: "none",
                         backgroundColor: `${staticPages[(activePageIndex + 1) % staticPages.length].color}`,
                         transition: 'opacity 0.5s',
