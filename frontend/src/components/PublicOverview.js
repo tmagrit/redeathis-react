@@ -9,7 +9,7 @@ const PublicOverview = () => {
 
         <Grid container spacing={3}>
             <Grid item xs={12} >
-                <Grid item xs={12} sx={{ pt: 5, pl: 20, display: 'flex', flexDirection: 'column', }}>
+                <Grid item xs={12} sx={{ pr:10, display: 'flex', flexDirection: 'column', }}>
                     <Institutional />
                 </Grid>
             </Grid>  
