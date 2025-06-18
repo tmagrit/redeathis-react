@@ -110,3 +110,48 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+/* TINYMCE STYLES */
+/* Estilos para o container do editor */
+.tox-tinymce-container {
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+}
+
+.tox-tinymce-container:hover {
+  border-color: rgba(0, 0, 0, 0.87);
+}
+
+/* Melhorias na barra de ferramentas */
+.tox .tox-toolbar__primary {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eee;
+  padding: 4px;
+}
+
+/* Ajustes nos botões */
+.tox .tox-tbtn {
+  border-radius: 4px;
+  margin: 0 2px;
+}
+
+.tox .tox-tbtn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Melhorias no conteúdo editável */
+.tox .tox-edit-area {
+  padding: 16px;
+  background-color: #fff;
+}
+
+/* Estilos para modo de leitura */
+.tox-tinymce-container.read-only .tox-toolbar {
+  display: none;
+}
