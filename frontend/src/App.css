@@ -147,8 +147,26 @@
   display: none;
 }
 
+/* Estilos para lista suspensa */
+.tox .tox-menu.tox-collection.tox-collection--list {
+  background-color: #f4f0eb !important;
+}
 
+.tox .tox-collection__item-label > :is(h1, h2, h3, h4, p) {
+  background-color: transparent !important;
+}
 
+.tox .tox-collection--list .tox-collection__item:hover {
+  background-color: #E1DDD9  !important;
+}
+
+.tox .tox-collection--list .tox-collection__item--enabled {
+  background-color: #EBE5DF  !important;
+}
+
+.tox .tox-collection--list .tox-collection__item--active {
+  background-color: #EBE5DF  !important;
+}
 
 
 
