@@ -41,11 +41,11 @@ const Institutional = () => {
         <React.Fragment>
             <PublicMenuBar />
             {currentPage && (
-                <Container maxWidth="xl" sx={{ mt: 4, mb: 4, pt: 6, }} >
-                    <Grid container spacing={3}>
+                <Container maxWidth="xl" >
+                    <Grid container >
                         {/* LEFT PANEL */}
                         <Grid item xs={12} >
-                            <Grid item xs={12} sx={{ pt: 2, pr:10, display: 'flex', flexDirection: 'column', }}>
+                            <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
                                 {/* <Typography variant="h5" component="h1" > {currentPage.title} </Typography>  */}
                                 {/* <Typography variant="body1" component="div" display="block" > <span dangerouslySetInnerHTML={{ __html: currentPage.body }} /> </Typography> */}
                                 <Typography variant="body1" component="div" display="block" >
