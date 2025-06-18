@@ -118,40 +118,130 @@
 /* TINYMCE STYLES */
 /* Estilos para o container do editor */
 .tox-tinymce-container {
-  border-radius: 4px;
+  border-radius: 0px;
   overflow: hidden;
   transition: border-color 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.23);
+  border: 1px solid rgba(13, 11, 7, 0.12);
 }
 
 .tox-tinymce-container:hover {
-  border-color: rgba(0, 0, 0, 0.87);
+  border-color: rgba(13, 11, 7, 0.87);
+}
+
+.tox-editor-header {
+  background-color: #f4f0eb !important;
 }
 
 /* Melhorias na barra de ferramentas */
 .tox .tox-toolbar__primary {
-  background-color: #f8f8f8;
-  border-bottom: 1px solid #eee;
-  padding: 4px;
-}
-
-/* Ajustes nos botões */
-.tox .tox-tbtn {
-  border-radius: 4px;
-  margin: 0 2px;
-}
-
-.tox .tox-tbtn:hover {
-  background-color: #f0f0f0;
+  background-color: #f4f0eb !important;
 }
 
 /* Melhorias no conteúdo editável */
-.tox .tox-edit-area {
-  padding: 16px;
-  background-color: #fff;
+.tox-statusbar {
+  background-color: #f4f0eb !important;
 }
 
 /* Estilos para modo de leitura */
 .tox-tinymce-container.read-only .tox-toolbar {
   display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos para páginas institucionais públicas (Apresentação e Quem Somos) */
+.institutional-h1 {
+  font-family: 'Aberforth';
+  font-weight: 300;
+  font-size: 32px;
+  text-transform: uppercase;
+  margin-block-start: 20px;
+  margin-block-end: 20px;
+  color: #f5a449;
+}
+.institutional-h2 {
+  font-family: 'Aberforth';
+  font-weight: 300;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin-block-start: 16px;
+  margin-block-end: 16px;
+  color: #f5a449;
+}
+.institutional-h3 {
+  font-family: 'Roboto';
+  font-weight: 500;
+  margin-block-start: 13px;
+  margin-block-end: 13px;
+  font-size: 20px;
+}
+.institutional-h4 {
+  font-family: 'Roboto';
+  font-weight: 400;
+  margin-block-start: 10px;
+  margin-block-end: 10px;
+  font-size: 16px;
+}
+.institutional-body {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.team-h1 {
+  font-family: 'Aberforth';
+  font-weight: 300;
+  font-size: 32px;
+  text-transform: uppercase;
+  margin-block-start: 20px;
+  margin-block-end: 20px;
+  color: #f5a449;
+}
+.team-h2 {
+  font-family: 'Aberforth';
+  font-weight: 300;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin-block-start: 16px;
+  margin-block-end: 16px;
+  color: #f5a449;
+}
+.team-h3 {
+  font-family: 'Roboto';
+  font-weight: 500;
+  margin-block-start: 13px;
+  margin-block-end: 13px;
+  font-size: 20px;
+}
+.team-h4 {
+  font-family: 'Roboto';
+  font-weight: 400;
+  margin-block-start: 10px;
+  margin-block-end: 10px;
+  font-size: 16px;
+}
+.team-body {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 300;
 }
