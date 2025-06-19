@@ -72,7 +72,7 @@ const PagesEdit = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            <TextField
+                            {/* <TextField
                                 value={pageData.title}
                                 onChange={(event) => handleChangePageData(event)}
                                 fullWidth
@@ -101,7 +101,7 @@ const PagesEdit = () => {
                                 InputLabelProps={{ shrink: true }}
                                 //error={true}
                                 helperText="Termo do menu de navegação principal, que dá acesso à página"
-                            />
+                            /> */}
 
                             {/* <FormBox 
                                 id='text-editor-box' 
