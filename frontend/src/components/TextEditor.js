@@ -311,7 +311,7 @@ const TextEditor = ({ value, setValue, readOnly, pageId }) => {
           plugins: 'lists link image table code',
           toolbar: 'undo redo | styles | bold italic underline strikethrough | ' +
                    'alignleft aligncenter alignright | bullist numlist | ' +
-                   'outdent indent | link image',
+                   'outdent indent | link',
           // content_style: 'body { font-family:Roboto,Arial,sans-serif; font-size:144px }',
           content_style: pageId === 2 ? overviewContentStyle : teamContentStyle,
           style_formats: pageId === 2 ? overviewStyleFormats : teamStyleFormats,
