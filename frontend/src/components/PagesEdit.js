@@ -120,6 +120,7 @@ const PagesEdit = () => {
                                 value={pageData.body}
                                 setValue={body => setPageData({...pageData, body})}
                                 readOnly={readOnly}
+                                pageId={pageData.id}
                             />
 
                         </Grid>
