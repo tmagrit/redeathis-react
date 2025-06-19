@@ -4,7 +4,7 @@ import sanitizeHtml from 'sanitize-html';
 
 const tinyMceKey = process.env.REACT_APP_TINYMCE_API_KEY
 
-const TextEditor = ({ value, setValue, readOnly }) => {
+const TextEditor = ({ value, setValue, readOnly, pageId }) => {
   const editorRef = useRef(null);
   const [isMounted, setIsMounted] = useState(false);
   
@@ -133,7 +133,7 @@ const TextEditor = ({ value, setValue, readOnly }) => {
 
   // STYLING 
 
-  const contentStyle = `
+  const overviewContentStyle = `
     body {
       font-family: 'Roboto';
       font-size: 16px;
@@ -156,7 +156,7 @@ const TextEditor = ({ value, setValue, readOnly }) => {
       text-transform: uppercase;
       margin-block-start: 16px;
       margin-block-end: 16px;
-      color: #f5a449;em 0;
+      color: #f5a449;
     }
     h3 {
       font-family: 'Roboto';
@@ -173,21 +173,94 @@ const TextEditor = ({ value, setValue, readOnly }) => {
       font-size: 16px;
     }
   `;
+
+    const teamContentStyle = `
+    body {
+      font-family: 'Roboto';
+      font-size: 16px;
+      font-weight: 300;
+      background-color: #f4f0eb;
+    }
+    h1 {
+        font-family: 'Aberforth';
+        font-weight: 300;
+        font-size: 32px;
+        text-transform: uppercase;
+        margin-block-start: 20px;
+        margin-block-end: 20px;
+        color: #981F62;
+    }
+    h2 {
+      font-family: 'Aberforth';
+      font-weight: 300;
+      font-size: 25px;
+      text-transform: uppercase;
+      margin-block-start: 16px;
+      margin-block-end: 16px;
+      color: #981F62;
+    }
+    h3 {
+      font-family: 'Roboto';
+      font-weight: 500;
+      margin-block-start: 13px;
+      margin-block-end: 13px;
+      font-size: 20px;
+    }
+    h4 {
+      font-family: 'Roboto';
+      font-weight: 400;
+      margin-block-start: 10px;
+      margin-block-end: 10px;
+      font-size: 16px;
+    }
+  `;
+
+  const overviewStyleFormats = [
+    { title: 'Título 1', block: 'h1', classes: 'institutional-h1' },
+    { title: 'Título 2', block: 'h2', classes: 'institutional-h2' },
+    { title: 'Título 3', block: 'h3', classes: 'institutional-h3' },
+    { title: 'Título 4', block: 'h4', classes: 'institutional-h4' },
+    { title: 'Parágrafo', block: 'p', classes: 'institutional-body' },
+  ];
+
+    const teamStyleFormats = [
+    { title: 'Título 1', block: 'h1', classes: 'team-h1' },
+    { title: 'Título 2', block: 'h2', classes: 'team-h2' },
+    { title: 'Título 3', block: 'h3', classes: 'team-h3' },
+    { title: 'Título 4', block: 'h4', classes: 'team-h4' },
+    { title: 'Parágrafo', block: 'p', classes: 'institutional-body' },
+  ];
   
   const setupEditor = (editor) => {
     const applyStylesToNode = (node) => {
       switch (node.nodeName.toLowerCase()) {
         case 'h1':
-          node.className = 'institutional-h1';
+          if (pageId === 2) {
+            node.className = 'institutional-h1';
+          } else {
+            node.className = 'team-h1';
+          }
           break;
         case 'h2':
-          node.className = 'institutional-h2';
+          if (pageId === 2) {
+            node.className = 'institutional-h2';
+          } else {
+            node.className = 'team-h2';
+          }
           break;
         case 'h3':
-          node.className = 'institutional-h3';
+          if (pageId === 2) {
+            node.className = 'institutional-h3';
+          } else {
+            node.className = 'team-h3';
+          }
           break;
         case 'h4':
-          node.className = 'institutional-h4';
+          if (pageId === 2) {
+            node.className = 'institutional-h4';
+          } else {
+            node.className = 'team-h4';
+          }
           break;    
         case 'p':
         case 'ul':
@@ -240,14 +313,8 @@ const TextEditor = ({ value, setValue, readOnly }) => {
                    'alignleft aligncenter alignright | bullist numlist | ' +
                    'outdent indent | link image',
           // content_style: 'body { font-family:Roboto,Arial,sans-serif; font-size:144px }',
-          content_style: contentStyle,
-          style_formats: [
-            { title: 'Título 1', block: 'h1', classes: 'institutional-h1' },
-            { title: 'Título 2', block: 'h2', classes: 'institutional-h2' },
-            { title: 'Título 3', block: 'h3', classes: 'institutional-h3' },
-            { title: 'Título 4', block: 'h4', classes: 'institutional-h4' },
-            { title: 'Parágrafo', block: 'p', classes: 'institutional-body' },
-          ],
+          content_style: pageId === 2 ? overviewContentStyle : teamContentStyle,
+          style_formats: pageId === 2 ? overviewStyleFormats : teamStyleFormats,
           branding: false,
           content_security_policy: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;",
           sandbox: 'allow-same-origin allow-scripts',
