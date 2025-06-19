@@ -7,12 +7,18 @@ import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+
+
+// import EditDocumentIcon from '@mui/icons-material/EditDocument';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import BadgeIcon from '@mui/icons-material/Badge';
+
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Box from '@mui/material/Box';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
-import ArticleIcon from '@mui/icons-material/Article';
+//import ArticleIcon from '@mui/icons-material/Article';
 import LayersIcon from '@mui/icons-material/Layers';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import ViewListIcon from '@mui/icons-material/ViewList';
@@ -194,13 +200,6 @@ const MainMenu = () => {
                         </List>
                     </Collapse>
 
-                    <ListItemButton component={Link} to="/admin/pages" selected={activeMenu(section,'pages')} >
-                        <ListItemIcon>
-                            <ArticleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Seções" />
-                    </ListItemButton>
-
                     <Collapse in={section === 'pages'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
@@ -217,7 +216,38 @@ const MainMenu = () => {
 
                 <Divider />
 
-                {/* NAVIGATION  */}
+                {/* PÁGINAS  */}
+                <List 
+                    component="nav"
+                    aria-labelledby="Páginas"
+                    subheader={
+                        <ListSubheader component="div" id="paginas">
+                            <Box color={drawerState ? 'inherit' : 'background.paper'} >
+                                Páginas
+                            </Box>
+                        </ListSubheader>
+                    }
+                >
+
+                    <ListItemButton component={Link} to="/admin/pages/edit/2" selected={activeMenu(section,'pages')} >
+                        <ListItemIcon>
+                            <DriveFileRenameOutlineIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Apresentação" />
+                    </ListItemButton>
+
+                    <ListItemButton component={Link} to="/admin/pages/edit/5" selected={activeMenu(section,'pages')} >
+                        <ListItemIcon>
+                            <BadgeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Quem Somos" />
+                    </ListItemButton>
+
+                </List>
+
+                <Divider />
+
+                {/* BACK BUTTON  */}
                 <ListItemButton onClick={() => history.goBack()} >
                     <ListItemIcon>
                         <ArrowBackIcon />  
