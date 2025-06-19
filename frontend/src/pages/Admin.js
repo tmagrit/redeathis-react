@@ -239,7 +239,7 @@ const Admin = () => {
           title={'Convidar Colaborador'}
           children={<Invite/>}
         />
-  );
+  
     </ThemeProvider>
   );
 }
