@@ -170,6 +170,27 @@
 
 
 /* Estilos para páginas institucionais públicas (Apresentação e Quem Somos) */
+/* GENERAL CONTENT STYLES */
+.content-body {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 300;
+}
+.content-h3 {
+  font-family: 'Roboto';
+  font-weight: 500;
+  margin-block-start: 13px;
+  margin-block-end: 13px;
+  font-size: 20px;
+}
+.content-h4 {
+  font-family: 'Roboto';
+  font-weight: 400;
+  margin-block-start: 10px;
+  margin-block-end: 10px;
+  font-size: 16px;
+}
+/* INSTITUTIONAL STYLES*/
 .institutional-h1 {
   font-family: 'Aberforth';
   font-weight: 300;
@@ -188,26 +209,7 @@
   margin-block-end: 16px;
   color: #f5a449;
 }
-.institutional-h3 {
-  font-family: 'Roboto';
-  font-weight: 500;
-  margin-block-start: 13px;
-  margin-block-end: 13px;
-  font-size: 20px;
-}
-.institutional-h4 {
-  font-family: 'Roboto';
-  font-weight: 400;
-  margin-block-start: 10px;
-  margin-block-end: 10px;
-  font-size: 16px;
-}
-.institutional-body {
-  font-family: 'Roboto';
-  font-size: 16px;
-  font-weight: 300;
-}
-
+/* TEAM STYLES */
 .team-h1 {
   font-family: 'Aberforth';
   font-weight: 300;
@@ -226,22 +228,4 @@
   margin-block-end: 16px;
   color: #981F62;
 }
-.team-h3 {
-  font-family: 'Roboto';
-  font-weight: 500;
-  margin-block-start: 13px;
-  margin-block-end: 13px;
-  font-size: 20px;
-}
-.team-h4 {
-  font-family: 'Roboto';
-  font-weight: 400;
-  margin-block-start: 10px;
-  margin-block-end: 10px;
-  font-size: 16px;
-}
-.team-body {
-  font-family: 'Roboto';
-  font-size: 16px;
-  font-weight: 300;
-}
+
