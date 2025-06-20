@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createPage } from '../features/pagesSlice';
 
 import TextField from '@mui/material/TextField';
-import TextEditor from './TextEditor';
+import TextEditor from './TextEditorTeam';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';

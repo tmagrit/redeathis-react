@@ -1,10 +1,8 @@
-// import { createTheme } from '@mui/material';
-// import { adminTheme } from '../styles/adminStyles';
-
-// const theme = createTheme(adminTheme);
-
-export const overviewContentStyle = `
+export const institutionalContentStyle = `
 	body {
+	  background-color: #f4f0eb;
+	}
+	p, ul, ol, table {
 	  font-family: 'Roboto';
 	  font-size: 16px;
 	  font-weight: 300;
@@ -46,6 +44,9 @@ export const overviewContentStyle = `
 
   export const teamContentStyle = `
 	body {
+	  background-color: #f4f0eb;
+	}	
+  	p, ul, ol, table {
 	  font-family: 'Roboto';
 	  font-size: 16px;
 	  font-weight: 300;
@@ -85,18 +86,18 @@ export const overviewContentStyle = `
 	}
   `;
 
-export  const overviewStyleFormats = [
+export  const institutionalStyleFormats = [
 	{ title: 'Título 1', block: 'h1', classes: 'institutional-h1' },
 	{ title: 'Título 2', block: 'h2', classes: 'institutional-h2' },
-	{ title: 'Título 3', block: 'h3', classes: 'institutional-h3' },
-	{ title: 'Título 4', block: 'h4', classes: 'institutional-h4' },
-	{ title: 'Parágrafo', block: 'p', classes: 'institutional-body' },
+	{ title: 'Título 3', block: 'h3', classes: 'content-h3' },
+	{ title: 'Título 4', block: 'h4', classes: 'content-h4' },
+	{ title: 'Parágrafo', block: 'p', classes: 'content-body' },
   ];
 
 export const teamStyleFormats = [
 	{ title: 'Título 1', block: 'h1', classes: 'team-h1' },
 	{ title: 'Título 2', block: 'h2', classes: 'team-h2' },
-	{ title: 'Título 3', block: 'h3', classes: 'team-h3' },
-	{ title: 'Título 4', block: 'h4', classes: 'team-h4' },
-	{ title: 'Parágrafo', block: 'p', classes: 'institutional-body' },
+	{ title: 'Título 3', block: 'h3', classes: 'content-h3' },
+	{ title: 'Título 4', block: 'h4', classes: 'content-h4' },
+	{ title: 'Parágrafo', block: 'p', classes: 'content-body' },
   ];

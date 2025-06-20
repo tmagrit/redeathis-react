@@ -2,36 +2,31 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { updatePage } from '../features/pagesSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from "react-router-dom";
-import { DateTime } from 'luxon';
-
+import { useParams, useLocation } from "react-router-dom";
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import LinkIcon from '@mui/icons-material/Link';
-import TextEditor from './TextEditor';
+import TextEditorInstitutional from './TextEditorInstitutional';
+import TextEditorTeam from './TextEditorTeam';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Fab from '@mui/material/Fab'; 
-import MultipleStopIcon from '@mui/icons-material/MultipleStop';
-
 import Copyright from './Copyright';
 import Title from './Title';    
-import FormBox from './FormBox';
-
 
 const PagesEdit = () => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
+    const location = useLocation();
+    const isInstitutionalPage = location.pathname.includes('apresentacao');
+    const pageId = isInstitutionalPage ? 2 : 5;
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const page = useSelector(state => state.pages.pages.find(p => p.id === parseInt(params.pageId, 10) ));
+    // const page = useSelector(state => state.pages.pages.find(p => p.id === parseInt(params.pageId, 10) ));
+    const page = useSelector(state => state.pages.pages.find(p => p.id === pageId ));
     const statuses = useSelector(state => state.research.statuses);
 
     // EDIT PAGE STATES
@@ -59,7 +54,6 @@ const PagesEdit = () => {
     const handleUpdatePage = () => {
         dispatch(updatePage(pageData))
     };
-
 
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -116,12 +110,20 @@ const PagesEdit = () => {
                                 } 
                             />         */}
 
-                            <TextEditor 
-                                value={pageData.body}
-                                setValue={body => setPageData({...pageData, body})}
-                                readOnly={readOnly}
-                                pageId={pageData.id}
-                            />
+                            {isInstitutionalPage ? 
+                                <TextEditorInstitutional 
+                                    value={pageData.body}
+                                    setValue={body => setPageData({...pageData, body})}
+                                    readOnly={readOnly}
+                                    pageId={pageData.id}
+                                /> :
+                                <TextEditorTeam
+                                    value={pageData.body}
+                                    setValue={body => setPageData({...pageData, body})}
+                                    readOnly={readOnly}
+                                    pageId={pageData.id}
+                                /> 
+                            }
 
                         </Grid>
                     </Paper>
