@@ -229,14 +229,14 @@ const MainMenu = () => {
                     }
                 >
 
-                    <ListItemButton component={Link} to="/admin/pages/edit/2" selected={activeMenu(section,'pages')} >
+                    <ListItemButton component={Link} to="/admin/pages/edit/apresentacao" selected={activeMenu(section,'pages')} >
                         <ListItemIcon>
                             <DriveFileRenameOutlineIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Apresentação" />
                     </ListItemButton>
 
-                    <ListItemButton component={Link} to="/admin/pages/edit/5" selected={activeMenu(section,'pages')} >
+                    <ListItemButton component={Link} to="/admin/pages/edit/quemsomos" selected={activeMenu(section,'pages')} >
                         <ListItemIcon>
                             <BadgeIcon />
                         </ListItemIcon>
