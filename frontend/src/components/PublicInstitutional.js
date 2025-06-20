@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 
 import Institutional from '../pages/Institutional';
 
-const PublicOverview = () => {
+const PublicInstitutional = () => {
 
     return ( 
 
@@ -18,4 +18,4 @@ const PublicOverview = () => {
     );
 };
 
-export default PublicOverview;
+export default PublicInstitutional;
