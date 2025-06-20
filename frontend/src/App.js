@@ -143,10 +143,13 @@ function App() {
                     {/* <Route path="members/all" element={<MembersIndex />} /> */}
 
                     {/* PAGES ROUTE */}
-                    <Route path="pages" element={<PagesIndex />} />
+                    {/* <Route path="pages" element={<PagesIndex />} /> */}
                     {/* <Route path="pages/all" element={<PagesIndex />} />     */}
-                    <Route path="pages/create" element={<PagesCreate />} />
-                    <Route path="pages/edit/:pageId" element={<PagesEdit />} />
+                    {/* <Route path="pages/create" element={<PagesCreate />} /> */}
+                    {/* <Route path="pages/edit/:pageId" element={<PagesEdit />} /> */}
+                    <Route path="pages/edit/apresentacao" element={<PagesEdit />} />
+                    <Route path="pages/edit/quemsomos" element={<PagesEdit />} />
+                    <Route path="pages/edit/colabore" element={<PagesEdit />} />
                         
                 </Route>    
             </Routes>
