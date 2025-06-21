@@ -27,7 +27,7 @@ const Organization = () => {
 
     // REDUX SELECTORS
     const pages = useSelector(state => state.pages.pages.filter(pa => pa.status === 1 )); 
-    const page = pages.find( p => slugger(p.slug) === last); console.log('page',page);
+    const page = pages.find( p => slugger(p.slug) === last); 
 
     // REACT STATES 
     const [currentPage, setCurrentPage] = useState(null); 

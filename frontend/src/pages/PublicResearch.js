@@ -43,7 +43,7 @@ const PublicResearch = () => {
     const researchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) );
 
     // REACT STATES
-    const [researchData, setResearchData] = useState(researchWithDate); console.log('researchData',researchData);
+    const [researchData, setResearchData] = useState(researchWithDate); 
     const [viewport, setViewport] = useState({...researchData.geolocation, zoom: 4});
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;   
