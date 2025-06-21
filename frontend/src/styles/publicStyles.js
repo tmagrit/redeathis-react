@@ -192,7 +192,7 @@ export const PaperLegend = styled(MuiPaper, {
 
 export const RedeAthisSlider = styled(Slider)(({ theme }) => ({
     color: theme.palette.primary.main,
-    height: 8,
+    height: 6,
     zIndex: 900,
     position: 'absolute',
     left: 145,
@@ -204,8 +204,8 @@ export const RedeAthisSlider = styled(Slider)(({ theme }) => ({
       border: 'none',
     },
     '& .MuiSlider-thumb': {
-      height: 24,
-      width: 24,
+      height: 18,
+      width: 18,
       backgroundColor: theme.palette.common.white,
       border: '2px solid currentColor',
       '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {

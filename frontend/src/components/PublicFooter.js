@@ -43,10 +43,10 @@ const PublicFooter = (props) => {
                                     flexGrow: 1,
                                 }}
                             >
-                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", display: { lg: 'none', xl: 'block' } }} >
+                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", display: { xs: 'none', sm: 'none', md: 'none', lg: 'none', xl: 'block' } }} >
                                     Rede ATHIS: Habitação e Direito à Cidade
                                 </Typography> 
-                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", display: { lg: 'block', xl: 'none' } }} >
+                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", display: { xs: 'block', sm: 'block', md: 'block', lg: 'block', xl: 'none' } }} >
                                     Rede ATHIS
                                 </Typography>
 
