@@ -20,21 +20,21 @@ const ImageGallery = () => {
     const urlEndpoint = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT;
 
     // MY HISTORY HOOK
-    const history = useHistory();
+    const history = useHistory(); console.log('history', history.pathArray);
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
     // REDUX SELECTORS
     const images = useSelector(state => state.images.images); 
-    const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : [];  //console.log('contentImages',contentImages);
+    const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : [];  console.log('contentImages',contentImages);
     const contentEditImageGallerySize = useSelector(state => state.research.contentEditImageGallerySize); 
 
     // IMAGEGRID LAYOUT ELEMENTS
     const imgSize = 280;
     const gap = 8;
-    const imgCount = contentImages ? contentImages.length : 0;
-    const grid = contentEditImageGridLayout(contentEditImageGallerySize, imgCount, imgSize, gap); //console.log('grid', grid);
+    const imgCount = contentImages ? contentImages.length : 0; console.log('imgCount', imgCount);
+    const grid = contentEditImageGridLayout(contentEditImageGallerySize, imgCount, imgSize, gap); console.log('grid', grid);
     
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -50,9 +50,9 @@ const ImageGallery = () => {
     };
 
     // CONTENT GALLERY
-    if( history.pathArray[1] === 'admin' &&
-        history.pathArray[2] === 'research' &&
-        history.pathArray[3] === 'edit' ) {
+    if( history.pathArray[0] === 'admin' &&
+        history.pathArray[1] === 'research' &&
+        history.pathArray[2] === 'edit' ) {
 
             if(imgCount && contentImages) 
                 return (
