@@ -61,9 +61,6 @@ const PublicRedeAthis = () => {
     const handleDrawerClose = () => {
       setOpen(false);
     };
-
-
-
     
     // REDUX SELECTORS   
     const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === clickInfo.object.id ));   
