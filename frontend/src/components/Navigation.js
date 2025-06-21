@@ -248,13 +248,17 @@ const Navigation = () => {
                 <Container 
                     maxWidth={false} 
                     sx={{ 
-                        backgroundImage: 'url(/images/background/background-left.png), url(/images/background/background-right.png)',
+                        backgroundImage: {
+                            xs: 'none',
+                            lg:'url(/images/background/background-left.png), url(/images/background/background-right.png)'
+                        },
                         // height: 'calc(100vh - 112px)',
                         backgroundSize: 'auto, auto',
                         backgroundRepeat: 'repeat-y, repeat-y',
                         backgroundPosition: 'left top, right top',
                         backgroundAttachment: 'fixed',
                         mt: '112px',
+                        // display: { xs: 'none', sm: 'none', md: 'block' }
                     }} 
                 >
 
