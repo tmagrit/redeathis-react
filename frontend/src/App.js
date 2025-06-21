@@ -14,8 +14,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import PublicIndex from './components/PublicIndex';
 import PublicRedeAthis from './components/PublicRedeAthis';
 import PublicInstitutional from './components/PublicInstitutional';
-import PublicTeam from './components/PublicTeam';
-import PublicGetInvolved from './components/PublicGetInvolved';
+// import PublicTeam from './components/PublicTeam';
+// import PublicContribute from './components/PublicContribute';
 import MainDashboard from './components/MainDashboard';
 import ResearchCreate from './components/ResearchCreate';
 import ResearchEdit from './components/ResearchEdit';
@@ -23,8 +23,8 @@ import ResearchIndex from './components/ResearchIndex';
 import CategoriesMain from './components/CategoriesMain';
 import MembersIndex from './components/MembersIndex';
 import AuthorIndex from './components/AuthorIndex';
-import PagesIndex from './components/PagesIndex';
-import PagesCreate from './components/PagesCreate';
+// import PagesIndex from './components/PagesIndex';
+// import PagesCreate from './components/PagesCreate';
 import PagesEdit from './components/PagesEdit';
 import AlertSnackbar from './components/AlertSnackbar';
 
@@ -99,8 +99,8 @@ function App() {
                     <Route index element={<PublicIndex />} />
                     <Route path="redeathis" element={<PublicRedeAthis />} />
                     <Route path="apresentacao" element={<PublicInstitutional />} />
-                    <Route path="quemsomos" element={<PublicTeam />} />
-                    <Route path="colabore" element={<PublicGetInvolved />} />
+                    <Route path="quemsomos" element={<PublicInstitutional />} />
+                    <Route path="colabore" element={<PublicInstitutional />} />
                 
                 </Route>
 
