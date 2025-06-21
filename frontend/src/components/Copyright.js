@@ -12,7 +12,7 @@ const Copyright = (props) => {
               aria-label='Lab Habitar'
               style={{ color: "inherit", textDecoration: "none" }}
           >
-              Lab Habitar PPGAU/UFBA
+              Rede ATHIS: Habitação e Direito à Cidade - Lab Habitar - PPGAU/UFBA
           </a>
       </Typography>
     );
