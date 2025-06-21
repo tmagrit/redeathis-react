@@ -13,7 +13,7 @@ import { slugger } from '../components/slugger';
 import { useHistory } from '../components/history';
 
 
-const Institutional = () => {
+const Organization = () => {
 
     // REACT ROUTER DYNAMIC PARAMETER
     //let params = useParams();
@@ -62,4 +62,4 @@ const Institutional = () => {
     );
 }
 
-export default Institutional;
+export default Organization;

@@ -30,11 +30,12 @@ import AlertSnackbar from './components/AlertSnackbar';
 
 // PAGES
 import Home from './pages/Home';
-import ViewResearch from './pages/ViewResearch';
+import Research from './pages/Research';
+import ViewResearch from './components/ViewResearch';
 import Admin from './pages/Admin';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import Institutional from './pages/Institutional';
+import Organization from './pages/Organization';
 
 // MY HISTORY HOOK
 import { useHistory } from './components/history';
@@ -104,12 +105,14 @@ function App() {
                 </Route>
 
                 {/* PUBLIC RESEARCH ROUTES */}
-                <Route path="view/research/:researchId" element={<ViewResearch />} />
+                <Route path="/" element={<Research />} >
+                    <Route path="view/research/:researchId" element={<ViewResearch />} />
+                </Route>
                 <Route path="signin" element={<Signin />} />
                 <Route path="signup" element={<Signup />} />
 
                 {/* INSTITUTIONAL ROUTES */}
-                <Route path="institutional/:pageSlug" element={<Institutional />} />
+                <Route path="institutional/:pageSlug" element={<Organization />} />
 
                 {/* PRIVATE ROUTE */}
                 <Route 
@@ -124,8 +127,8 @@ function App() {
                     {/* MAIN DASHBOARD */}
                     <Route index element={<MainDashboard />} />
 
-                    {/* PUBLIC RESEARCH ROUTES */}
-                    <Route path="view/research/:researchId" element={<ViewResearch />} />
+                    {/* PUBLIC RESEARCH ROUTES - TODO: UPDATE ROUTES BASED ON PUBLIC ONES*/}
+                    <Route path="view/research/:researchId" element={<ViewResearch />} /> 
 
                     {/* RESEARCH ROUTE */}
                     <Route path="research" element={<ResearchIndex />} />

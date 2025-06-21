@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 
-import Institutional from '../pages/Institutional';
+import Organization from '../pages/Organization';
 
 const PublicTeam = () => {
 
@@ -10,7 +10,7 @@ const PublicTeam = () => {
         <Grid container spacing={3}>
             <Grid item xs={12} >
                 <Grid item xs={12} sx={{ pr:10, pb: 40, display: 'flex', flexDirection: 'column', }}>
-                    <Institutional />
+                    <Organization />
                 </Grid>
             </Grid>  
         </Grid>
