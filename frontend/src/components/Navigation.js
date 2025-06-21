@@ -20,6 +20,7 @@ const Navigation = () => {
 
     // REACT ROUTER 
     const location = useLocation();
+    const isViewResearch = location.pathname.includes('/view/research/');
 
     const pages = useSelector(state => state.pages.pages).filter(pa => pa.status === 1 ); //TODO CONVERT TO DYNAMIC PAGES
     const staticPages = [
@@ -106,13 +107,7 @@ const Navigation = () => {
                                 }}
                         >  
                             {staticPages.slice(1).map((pa) => (
-                                <Box 
-                                    key={slugger(pa.slug)} 
-                                    //sx={{ 
-                                        //maxWidth: { xs: 30, md: 50 }, 
-                                        //overflow: 'visible'
-                                    //}}
-                                >
+                                <Box key={slugger(pa.slug)} >
                                     <Link 
                                         to={`/${slugger(pa.slug)}`} 
                                         style={{ textDecoration: 'none' }}   
@@ -123,9 +118,6 @@ const Navigation = () => {
                                                 alignItems: 'center', 
                                                 flexDirection: 'column',
                                                 textAlign: 'center',
-                                                //minWidth: 40,
-                                                //paddingTop: 5,
-                                                //paddingBottom: 1 
                                             }}
                                             onMouseEnter={() => setIsHoveredOrTouchedIndex(pa.id)}
                                             onMouseLeave={() => setIsHoveredOrTouchedIndex(null)}
@@ -133,16 +125,6 @@ const Navigation = () => {
                                             onTouchEnd={() => setIsHoveredOrTouchedIndex(null)} 
                                             onClick={() => handleMenuPageIndex(pa.id)}
                                         >
-                                            {/* <svg width="18" height="18" viewBox="0 0 18 18">
-                                                <circle
-                                                    cx="9"
-                                                    cy="9"
-                                                    r="7"
-                                                    fill={isHoveredOrTouchedIndex === pa.id || location.pathname === `/institutional/${slugger(pa.slug)}` ? `${pa.color}` : 'transparent'}
-                                                    stroke={isHoveredOrTouchedIndex === pa.id  || location.pathname === `/institutional/${slugger(pa.slug)}` === pa.id ? `${pa.color}` : '#CFC1AD'}
-                                                    strokeWidth="2"
-                                                />
-                                            </svg> */}
                                             <Box 
                                                 sx={{ 
                                                     display: 'flex', 
@@ -189,84 +171,89 @@ const Navigation = () => {
                 </AppBar>
 
                 {/* NAVIGATION ARROWS */}
-                <Fab 
-                    variant="extended" 
-                    component={Link}
-                    to={`/${staticPages[(activePageIndex - 1 + staticPages.length) % staticPages.length].slug}`}
-                    sx={{ 
-                        position: "fixed",
-                        boxShadow: "none",
-                        backgroundColor: `${staticPages[activePageIndex].color}`,
-                        transition: 'opacity 0.5s',
-                        opacity: 1,
-                        '&:hover': {
-                            backgroundColor: `${staticPages[activePageIndex].color}`, 
-                            opacity: 0.8, 
-                        },
-                        color: publicTheme.palette.background.default,
-                        zIndex: 100, 
-                        top: '70vh', 
-                        left: '0%', 
-                        borderRadius: "0%"
-                    }}
-                    key={activePageIndex - 1} 
-                    onClick={() => handleFabRewind(activePageIndex)}                    
-                >
-                    <ChevronLeftIcon />
-                </Fab>
+                {!isViewResearch && (
+                    <React.Fragment>
+                        <Fab 
+                            variant="extended" 
+                            component={Link}
+                            to={`/${staticPages[(activePageIndex - 1 + staticPages.length) % staticPages.length].slug}`}
+                            sx={{ 
+                                position: "fixed",
+                                boxShadow: "none",
+                                backgroundColor: `${staticPages[activePageIndex].color}`,
+                                transition: 'opacity 0.5s',
+                                opacity: 1,
+                                '&:hover': {
+                                    backgroundColor: `${staticPages[activePageIndex].color}`, 
+                                    opacity: 0.8, 
+                                },
+                                color: publicTheme.palette.background.default,
+                                zIndex: 100, 
+                                top: '70vh', 
+                                left: '0%', 
+                                borderRadius: "0%"
+                            }}
+                            key={activePageIndex - 1} 
+                            onClick={() => handleFabRewind(activePageIndex)}                    
+                        >
+                            <ChevronLeftIcon />
+                        </Fab>
 
-                <Typography 
-                    variant="mainNavigationItem"
-                    color={staticPages[activePageIndex].color}
-                    sx={{ 
-                        position: "fixed",
-                        zIndex: 100, 
-                        bottom: '31vh', 
-                        left: '30px',
-                        transform: 'rotate(180deg)',
-                        writingMode: 'vertical-lr', 
-                        textTransform: 'uppercase',
-                        display: activePageIndex === 0 ? 'none' : 'block',
-                    }}
-                >
-                    {staticPages[activePageIndex].title}
-                </Typography>
+                        <Typography 
+                            variant="mainNavigationItem"
+                            color={staticPages[activePageIndex].color}
+                            sx={{ 
+                                position: "fixed",
+                                zIndex: 100, 
+                                bottom: '31vh', 
+                                left: '30px',
+                                transform: 'rotate(180deg)',
+                                writingMode: 'vertical-lr', 
+                                textTransform: 'uppercase',
+                                display: activePageIndex === 0 ? 'none' : 'block',
+                            }}
+                        >
+                            {staticPages[activePageIndex].title}
+                        </Typography>
 
-                <Fab 
-                    variant="extended" 
-                    component={Link}
-                    to={`/${staticPages[(activePageIndex + 1) % staticPages.length].slug}`}
-                    sx={{ 
-                        position: "fixed",
-                        boxShadow: "none",
-                        backgroundColor: `${staticPages[(activePageIndex + 1) % staticPages.length].color}`,
-                        transition: 'opacity 0.5s',
-                        opacity: 0.8,
-                        '&:hover': {
-                            backgroundColor: `${staticPages[(activePageIndex + 1) % staticPages.length].color}`,
-                            opacity: 1, 
-                        },
-                        color: publicTheme.palette.background.default,
-                        zIndex: 100, 
-                        top: '70vh', 
-                        right: '0%',  
-                        pl: 10,
-                        borderRadius: "0%" 
-                    }}
-                    key={activePageIndex + 1} 
-                    onClick={() => handleFabForward(activePageIndex)}
-                >
-                    <ChevronRightIcon />
-                </Fab>
+                        <Fab 
+                            variant="extended" 
+                            component={Link}
+                            to={`/${staticPages[(activePageIndex + 1) % staticPages.length].slug}`}
+                            sx={{ 
+                                position: "fixed",
+                                boxShadow: "none",
+                                backgroundColor: `${staticPages[(activePageIndex + 1) % staticPages.length].color}`,
+                                transition: 'opacity 0.5s',
+                                opacity: 0.8,
+                                '&:hover': {
+                                    backgroundColor: `${staticPages[(activePageIndex + 1) % staticPages.length].color}`,
+                                    opacity: 1, 
+                                },
+                                color: publicTheme.palette.background.default,
+                                zIndex: 100, 
+                                top: '70vh', 
+                                right: '0%',  
+                                pl: 10,
+                                borderRadius: "0%" 
+                            }}
+                            key={activePageIndex + 1} 
+                            onClick={() => handleFabForward(activePageIndex)}
+                        >
+                            <ChevronRightIcon />
+                        </Fab>
+                    </React.Fragment> 
+                )}
 
                 <Container 
                     maxWidth={false} 
                     sx={{ 
                         backgroundImage: 'url(/images/background/background-left.png), url(/images/background/background-right.png)',
-                        height: 'calc(100vh - 112px)',
+                        // height: 'calc(100vh - 112px)',
                         backgroundSize: 'auto, auto',
                         backgroundRepeat: 'repeat-y, repeat-y',
                         backgroundPosition: 'left top, right top',
+                        backgroundAttachment: 'fixed',
                         mt: '112px',
                     }} 
                 >
