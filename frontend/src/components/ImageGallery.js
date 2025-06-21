@@ -34,7 +34,7 @@ const ImageGallery = () => {
     const imgSize = 280;
     const gap = 8;
     const imgCount = contentImages ? contentImages.length : 0;
-    const grid = contentEditImageGridLayout(contentEditImageGallerySize, imgCount, imgSize, gap); console.log('grid', grid);
+    const grid = contentEditImageGridLayout(contentEditImageGallerySize, imgCount, imgSize, gap); //console.log('grid', grid);
     
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
