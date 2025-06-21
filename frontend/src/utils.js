@@ -546,6 +546,6 @@ export const buttonArticleIndexSetter = (path) => {
     } if(path === 'contentcatalogues') {
         return 'Editar Publicações';
     } else {
-        return 'Editar Clipping';
+        return 'Editar Imagens';
     };
 };
