@@ -359,7 +359,7 @@ export const publicTheme = createTheme({
     typography: {
         fontFamily: 'Roboto, Arial',
         fontWeightLight: 200,
-        fontWeightRegular: 400,
+        fontWeightRegular: 300,
         fontWeightMedium: 500,
         fontWeightBold: 700,
 
