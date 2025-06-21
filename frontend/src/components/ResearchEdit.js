@@ -602,32 +602,13 @@ const ResearchEdit = () => {
                              
                         </Grid>
                         <Divider />
-                        <Grid ref={ref} id="image-gallery" item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', }}> 
+                        <Grid ref={ref} id="image-gallery" item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 280, }}> 
 
                             <ImageGallery />
                         
                         </Grid >
                     </Paper>
                 </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 
             </Grid>
             <Copyright sx={{ pt: 4 }} />
