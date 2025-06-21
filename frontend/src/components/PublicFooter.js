@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ThemeProvider } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
-//import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,20 +11,27 @@ import { publicTheme, PaperFooter } from '../styles/publicStyles';
 const PublicFooter = (props) => {
 
     const { open, show, setShow } = props;
-
+    
     return (
         <ThemeProvider theme={publicTheme}> 
             <PaperFooter 
                 onMouseOver={() => setShow(true)}
                 onMouseOut={() => setShow(false)}
                 open={open} 
-                show={true} 
+                show={show} 
                 sx={{ color: 'common.white', }}
             >
-                <Toolbar sx={{ mt: '15px',}} >
+                <Toolbar 
+                    disableGutters 
+                    sx={{ 
+                        mt: '9px', 
+                        paddingLeft: '0 !important', 
+                        paddingRight: '0 !important', 
+                    }} 
+                >
 
                     {/* PARTNERS TOOLBAR */}
-                    <Grid container justifyContent="center" display="flex" spacing={2} >
+                    <Grid container justifyContent="center" display="flex" spacing={1} >
 
                         {/* FOOTER 01 */}
                         <Grid item sm={2} display="flex" justifyContent="center">
@@ -37,9 +43,12 @@ const PublicFooter = (props) => {
                                     flexGrow: 1,
                                 }}
                             >
-                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", display: { lg: 'none', xl: 'block' } }} >
                                     Rede ATHIS: Habitação e Direito à Cidade
                                 </Typography> 
+                                <Typography variant="footerTitle" sx={{ textDecoration: 'none', color: "#55534E", display: { lg: 'block', xl: 'none' } }} >
+                                    Rede ATHIS
+                                </Typography>
 
                                 <Divider flexItem />
 

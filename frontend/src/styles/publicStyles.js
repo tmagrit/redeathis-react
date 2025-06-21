@@ -113,7 +113,9 @@ export const PaperFooter = styled(MuiPaper, {
     })(({ theme, open, show }) => ({
         zIndex: 900,
         height: '30px',
-        //background: 'linear-gradient(to top, rgba(13, 11, 7,0.5) 0%, rgba(13, 11, 7,0) 100%)',
+        // background: 'linear-gradient(to top, rgba(13, 11, 7, 0.2) 0%, rgba(13, 11, 7,0) 100%)',
+        borderTop: `1px solid ${theme.palette.divider}`,
+        
         position: 'fixed',
         width: '100%',
         bottom: 0,
@@ -134,7 +136,7 @@ export const PaperFooter = styled(MuiPaper, {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        //background: '#0D0B07',
+        // background: theme.palette.common.white,
         height: `${footerHeight}px`,
     }),
     ...(show && open && {

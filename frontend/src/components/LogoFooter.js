@@ -36,6 +36,9 @@ const LogoFooter = () => {
                 <Typography component="span" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
                     Rua Caetano de Moura 121, Federação, CEP: 40210-905
                 </Typography>
+                <Typography component="span" variant="footerBody" sx={{ textDecoration: 'none', color: "#55534E", }} >
+                    Salvador, Bahia, Brasil, Tel: 71 3283-5896
+                </Typography>
 
             </Box>   
 
