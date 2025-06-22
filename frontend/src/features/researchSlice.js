@@ -116,8 +116,8 @@ export const updateResearch = createAsyncThunk('research/updateResearch', async 
             })
         ); 
         // alert('updateResearch()-error')
-        console.log(error)
-        alert(error.message)
+        // console.log(error)
+        // alert(error.message)
     };
 });
 

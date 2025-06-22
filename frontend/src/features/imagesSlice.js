@@ -93,7 +93,13 @@ export const updateImage = createAsyncThunk('images/updateImage', async (obj , {
                 return newData;
             } else 
                 return i;
-        });  
+        });
+        dispatch(
+            openImagesSnackbar({
+                message: 'Imagens atualizadas com sucesso!',
+                severity: 'success'
+            })
+        ); 
 
         //alert('Detalhes atualizados com sucesso.');
         
@@ -104,15 +110,22 @@ export const updateImage = createAsyncThunk('images/updateImage', async (obj , {
         return payload;
 
     } catch (error) {
-        alert('updateImages()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openImagesSnackbar({
+                message: `Erro na atualização das imagens: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('updateImages()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
 export const imagesSlice = createSlice({
     name: 'images',
     initialState: {
+        snackbar: { open: false, message: '', severity: 'success' }, //snackbar state
         images: [],
         getImagesStatus: 'idle',
         getImagesError: null,        
@@ -128,6 +141,28 @@ export const imagesSlice = createSlice({
 
     },
     reducers: {
+        //SNACKBAR ALERT REDUCERS <--
+        openImagesSnackbar(state, action) { 
+            const newSnackbar = {
+                ...state.snackbar,
+                open: true,
+                message: action.payload.message,
+                severity: action.payload.severity
+                
+            };
+            state.snackbar = newSnackbar;
+        },
+        closeImagesSnackbar: (state) => {
+            const newSnackbar = {
+                ...state.snackbar,
+                open: false,
+                message: '',
+                severity: 'success'
+                
+            };
+            state.snackbar = newSnackbar;
+        },
+        //SNACKBAR ALERT REDUCERS -->
         removeImage(state, action) { 
             const newImages = state.images.filter(i => i.fileId !== action.payload);
             state.images = newImages;
@@ -407,6 +442,8 @@ export const selectRelatedContentChronology  = state => {
 };
 
 export const { 
+    openImagesSnackbar,
+    closeImagesSnackbar,
     removeImage
 } = imagesSlice.actions;
 
