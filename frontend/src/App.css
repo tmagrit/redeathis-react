@@ -228,4 +228,23 @@
   margin-block-end: 16px;
   color: #981F62;
 }
+/* CONTRIBUTE STYLES */
+.contribute-h1 {
+  font-family: 'Aberforth';
+  font-weight: 300;
+  font-size: 32px;
+  text-transform: uppercase;
+  margin-block-start: 20px;
+  margin-block-end: 20px;
+  color: #33377A;
+}
+.contribute-h2 {
+  font-family: 'Aberforth';
+  font-weight: 300;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin-block-start: 16px;
+  margin-block-end: 16px;
+  color: #33377A;
+}
 
