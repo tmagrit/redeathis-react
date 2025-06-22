@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { updateImage } from '../features/imagesSlice';
+import { updateImage, openImagesSnackbar } from '../features/imagesSlice';
 import Switch from '@mui/material/Switch';
 // REACT DATA TABLE COMPONENT
 import DataTable from 'react-data-table-component';
@@ -49,6 +49,12 @@ const ImagekitEditableTable = ( props ) => {
             };
 
             dispatch(updateImage(imageObj));
+            dispatch(
+                openImagesSnackbar({
+                    message: 'Atualizando imagem, por favor aguarde...',
+                    severity: 'warning'
+                })
+            ); 
             setData(newData);            
         };
 

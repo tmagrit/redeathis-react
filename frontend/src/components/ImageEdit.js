@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useLayoutEffect, useState, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
-import { deleteImage, updateImage } from '../features/imagesSlice';
+import { deleteImage, updateImage, openImagesSnackbar } from '../features/imagesSlice';
 //import { upsertContentArticle, deleteContentArticle } from '../features/researchSlice'; 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -19,17 +19,17 @@ import IconButton from '@mui/material/IconButton';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import CollectionsIcon from '@mui/icons-material/Collections';
 //import ClearIcon from '@mui/icons-material/Clear';
-import { useHistory } from './history';
+// import { useHistory } from './history';
 import { fitImageToContainer } from '../utils';
 
 const ImageEdit = (props) => {
 
     const { image, onDelete } = props;
     
-    const emptyContentArticle = {
-        content_id: null,
-        file_id: image.fileId,
-    };
+    // const emptyContentArticle = {
+    //     content_id: null,
+    //     file_id: image.fileId,
+    // };
 
     // REDUX DISPATCH
     const dispatch = useDispatch();
@@ -108,6 +108,12 @@ const ImageEdit = (props) => {
         };
         onDelete();
         dispatch(updateImage(imageObj));
+        dispatch(
+            openImagesSnackbar({
+                message: 'Atualizando imagem, por favor aguarde...',
+                severity: 'warning'
+            })
+        ); 
     };
 
     const handleDeleteImage = (fileid) => {

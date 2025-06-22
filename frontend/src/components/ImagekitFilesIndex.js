@@ -52,19 +52,19 @@ const ImagekitFilesIndex = () => {
                                     history.pathArray[2] === "research" && 
                                     history.pathArray[3] === "edit" ); 
 
-    const isContentArticle = Boolean( history.pathArray[2] === "contentarticles" ); 
+    // const isContentArticle = Boolean( history.pathArray[2] === "contentarticles" ); 
 
-    const imagesSetter = (path) => {
-        if(path === 'contentarticles') {
-            return articles;
-        } if(path === 'contentauthorarticles') {
-            return authorArticles;
-        } if(path === 'contentcatalogues') {
-            return catalogues;
-        } else {
-            return clipping;
-        };
-    };
+    // const imagesSetter = (path) => {
+    //     if(path === 'contentarticles') {
+    //         return articles;
+    //     } if(path === 'contentauthorarticles') {
+    //         return authorArticles;
+    //     } if(path === 'contentcatalogues') {
+    //         return catalogues;
+    //     } else {
+    //         return clipping;
+    //     };
+    // };
 
     // const folderSetter = (path) => {
     //     if(path === 'contentarticles') {
