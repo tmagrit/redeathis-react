@@ -54,7 +54,7 @@ export const deleteImage = createAsyncThunk('images/deleteImage', async (obj , {
         };
 
         //if(status === '204'){
-        // dispatch(removeImage(obj));
+        dispatch(removeImage(obj));
         // alert(`Imagem ${obj} deletada com sucesso. Status: ${status}`)
         //};
 
