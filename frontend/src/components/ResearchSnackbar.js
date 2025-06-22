@@ -4,7 +4,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { closeResearchSnackbar } from '../features/researchSlice';
 
-const AlertSnackbar = () => {
+const ResearchSnackbar = () => {
   const dispatch = useDispatch();
   const { open, message, severity } = useSelector(
     (state) => state.research.snackbar
@@ -34,4 +34,4 @@ const AlertSnackbar = () => {
   );
 };
 
-export default AlertSnackbar;
+export default ResearchSnackbar;
