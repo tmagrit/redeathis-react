@@ -127,7 +127,8 @@ function App() {
                     } 
                 >
                     {/* MAIN DASHBOARD */}
-                    <Route index element={<MainDashboard />} />
+                    {/* <Route index element={<MainDashboard />} /> */}
+                    <Route index element={<ResearchIndex />} />
 
                     {/* PUBLIC RESEARCH ROUTES - TODO: UPDATE ROUTES BASED ON PUBLIC ONES*/}
                     <Route path="view/research/:researchId" element={<ViewResearch />} /> 
