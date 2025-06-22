@@ -240,7 +240,7 @@ const PublicResearch = () => {
 
 
                         <Grid key="gridRef" ref={gridRef}  item xs={12} sx={{  display: 'flex', flexDirection: 'column', }}>
-                            {imgCount && (
+                            {imgCount ? (
                                 
                                     <ImageList 
                                         sx={{ width: '100%', overflow: 'hidden', }} 
@@ -300,7 +300,7 @@ const PublicResearch = () => {
 
                                     </ImageList> 
 
-                                )}
+                                ) : (null) }
                                 
                         </Grid>
 
