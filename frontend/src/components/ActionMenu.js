@@ -112,7 +112,7 @@ const ActionMenu = (props) => {
                         </MenuItem> 
                     )}
                     <Divider />
-                    <MenuItem component={Link} to="#" onClick={() => handleDelete(row)} disabled>
+                    <MenuItem component={Link} to="#" onClick={() => handleDelete(row)}>
                         <ListItemIcon>
                             <DeleteIcon fontSize="small" color="error"/> 
                         </ListItemIcon>
