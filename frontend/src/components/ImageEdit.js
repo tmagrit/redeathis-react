@@ -20,6 +20,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import CollectionsIcon from '@mui/icons-material/Collections';
 //import ClearIcon from '@mui/icons-material/Clear';
 import { useHistory } from './history';
+import { fitImageToContainer } from '../utils';
 
 const ImageEdit = (props) => {
 
@@ -34,18 +35,18 @@ const ImageEdit = (props) => {
     const dispatch = useDispatch();
 
     // MY HISTORY HOOK
-    const history = useHistory(); 
-    const content = useSelector(state => state.research.research);
-    const contentArticle = useSelector(state => state.research.content_articles).find(ca => ca.file_id === image.fileId) || emptyContentArticle;
-    const isContent = Boolean( history.pathArray[1] === 'admin' &&
-                                history.pathArray[2] === 'research' &&
-                                history.pathArray[3] === 'edit' );   
+    // const history = useHistory(); 
+    // const content = useSelector(state => state.research.research);
+    // const contentArticle = useSelector(state => state.research.content_articles).find(ca => ca.file_id === image.fileId) || emptyContentArticle;
+    // const isContent = Boolean( history.pathArray[1] === 'admin' &&
+    //                             history.pathArray[2] === 'research' &&
+    //                             history.pathArray[3] === 'edit' );   
 
     // IMAGELIST WIDTH TRACKING
     const ref = useRef(null); 
     const [width, setWidth] = useState(200);
     const [height, setHeight] = useState(200);
-    const [contentArticleData, setContentArticleData] = useState({ ...contentArticle }); 
+    // const [contentArticleData, setContentArticleData] = useState({ ...contentArticle }); 
 
     // GET MEASURES FROM THE DOM
     useLayoutEffect(() => {
@@ -150,8 +151,8 @@ const ImageEdit = (props) => {
                 >
                     {image.fileType !== 'non-image' ? (
                         <img 
-                            src={`${urlEndpoint}/tr:h-${imageRatio(image.height, image.width).height},w-${imageRatio(image.height, image.width).width}${image.filePath}?w=${imageRatio(image.height, image.width).width}&h=${imageRatio(image.height, image.width).height}&fit=contain&auto=format`}           
-                            srcSet={`${urlEndpoint}/tr:h-${imageRatio(image.height, image.width).height},w-${imageRatio(image.height, image.width).width}${image.filePath}?w=${imageRatio(image.height, image.width).width}&h=${imageRatio(image.height, image.width).height}&fit=contain&auto=format&dpr=2 2x`}
+                            src={`${urlEndpoint}/tr:h-${fitImageToContainer(image.width, image.height, width, height).h},w-${fitImageToContainer(image.width, image.height, width, height).w}${image.filePath}?w=${fitImageToContainer(image.width, image.height, width, height).w}&h=${fitImageToContainer(image.width, image.height, width, height).h}&fit=contain&auto=format`}           
+                            srcSet={`${urlEndpoint}/tr:h-${fitImageToContainer(image.width, image.height, width, height).h},w-${fitImageToContainer(image.width, image.height, width, height).w}${image.filePath}?w=${fitImageToContainer(image.width, image.height, width, height).w}&h=${fitImageToContainer(image.width, image.height, width, height).h}&fit=contain&auto=format&dpr=2 2x`}
                             alt={image.description}
                         />
                     ) : (
@@ -219,8 +220,19 @@ const ImageEdit = (props) => {
                     onChange={(event) => handleImageCustomMetaData(event)} 
                     fullWidth
                     //label={isContent ? 'Técnica' : 'Autor'}
-                    label="Link"
+                    label="Fonte"
                     name="technique"
+                    size="small"
+                    margin="dense"
+                    type="text"
+                    InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                    value={imageCustomMetaData.serial}
+                    onChange={(event) => handleImageCustomMetaData(event)} 
+                    fullWidth
+                    label="Ordem (define a ordem de exbição das imagens)"
+                    name="serial"
                     size="small"
                     margin="dense"
                     type="text"
