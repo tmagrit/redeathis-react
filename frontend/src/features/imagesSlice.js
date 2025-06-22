@@ -53,10 +53,7 @@ export const deleteImage = createAsyncThunk('images/deleteImage', async (obj , {
             throw error
         };
 
-        //if(status === '204'){
         dispatch(removeImage(obj));
-        // alert(`Imagem ${obj} deletada com sucesso. Status: ${status}`)
-        //};
 
         dispatch(
             openImagesSnackbar({
@@ -72,9 +69,6 @@ export const deleteImage = createAsyncThunk('images/deleteImage', async (obj , {
                 severity: 'error'
             })
         ); 
-        // alert('deleteImage()-error')
-        // console.log(error)
-        // alert(error.message)
     };
 });
 
@@ -113,8 +107,6 @@ export const updateImage = createAsyncThunk('images/updateImage', async (obj , {
                 severity: 'success'
             })
         ); 
-
-        //alert('Detalhes atualizados com sucesso.');
         
         if(error) {
             throw error
@@ -129,9 +121,6 @@ export const updateImage = createAsyncThunk('images/updateImage', async (obj , {
                 severity: 'error'
             })
         ); 
-        // alert('updateImages()-error')
-        // console.log(error)
-        // alert(error.message)
     };
 });
 
