@@ -69,13 +69,13 @@ const ImageEdit = (props) => {
         };
     }, []); 
 
-    // IMAGE RATIO HANDLING
-    const imageRatio = (h,w) => {
-        if(h > w) 
-            return { height: height, width: w*height/h };
-        else 
-            return { height: h*width/w, width: width };
-    };    
+    // // IMAGE RATIO HANDLING
+    // const imageRatio = (h,w) => {
+    //     if(h > w) 
+    //         return { height: height, width: w*height/h };
+    //     else 
+    //         return { height: h*width/w, width: width };
+    // };    
 
     // IMAGE STATES
     const [imageCustomMetaData, setCustomMetaData] = useState({
