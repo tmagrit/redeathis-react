@@ -19,8 +19,8 @@ const ResearchIndex = () => {
 
     // MY HISTORY HOOK
     const history = useHistory();
-    //const section = history?.pathArray[2] || ''
-    const context = history?.pathArray[3] || ''
+    const section = history?.pathArray[1] || '';
+    const context = history?.pathArray[2] || '';
 
     // REDUX SELECTORS
     const fullResearch = useSelector(state => state.research.research);

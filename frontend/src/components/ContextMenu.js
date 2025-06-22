@@ -24,8 +24,8 @@ const ContextMenu = () => {
 
     // MY HISTORY HOOK
     const history = useHistory();
-    const section = history?.pathArray[2] || ''
-    const context = history?.pathArray[3] || ''
+    const section = history?.pathArray[1] || ''; console.log('section', section);
+    const context = history?.pathArray[2] || '';
 
     // TRACK ROUTES 
     useEffect(() => {
