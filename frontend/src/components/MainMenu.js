@@ -12,6 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 // import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import BadgeIcon from '@mui/icons-material/Badge';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -200,7 +201,7 @@ const MainMenu = () => {
                         </List>
                     </Collapse>
 
-                    <Collapse in={section === 'pages'} timeout="auto" unmountOnExit>
+                    {/* <Collapse in={section === 'pages'} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{ bgcolor: 'action.selected' }}>
 
                             <ListItemButton component={Link} to="/admin/pages/create" selected={activeMenu(context,'create')} >
@@ -211,7 +212,7 @@ const MainMenu = () => {
                             </ListItemButton>   
 
                         </List>
-                    </Collapse>
+                    </Collapse> */}
                 </List>
 
                 <Divider />
@@ -241,6 +242,13 @@ const MainMenu = () => {
                             <BadgeIcon />
                         </ListItemIcon>
                         <ListItemText primary="Quem Somos" />
+                    </ListItemButton>
+
+                    <ListItemButton component={Link} to="/admin/pages/edit/colabore" selected={activeMenu(section,'pages')} >
+                        <ListItemIcon>
+                            <Diversity3Icon />
+                        </ListItemIcon>
+                        <ListItemText primary="Colabore" />
                     </ListItemButton>
 
                 </List>
