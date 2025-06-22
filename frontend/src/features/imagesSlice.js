@@ -54,14 +54,27 @@ export const deleteImage = createAsyncThunk('images/deleteImage', async (obj , {
         };
 
         //if(status === '204'){
-            dispatch(removeImage(obj));
-            alert(`Imagem ${obj} deletada com sucesso. Status: ${status}`)
+        // dispatch(removeImage(obj));
+        // alert(`Imagem ${obj} deletada com sucesso. Status: ${status}`)
         //};
 
+        dispatch(
+            openImagesSnackbar({
+                message: `Imagem ${obj} deletada com sucesso. Status: ${status}`,
+                severity: 'success'
+            })
+        );
+
     } catch (error) {
-        alert('deleteImage()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openImagesSnackbar({
+                message: `Erro ao deletar imagem  ${obj}: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('deleteImage()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 

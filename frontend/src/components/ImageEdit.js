@@ -119,6 +119,12 @@ const ImageEdit = (props) => {
     const handleDeleteImage = (fileid) => {
         onDelete();
         dispatch(deleteImage(fileid));
+        dispatch(
+            openImagesSnackbar({
+                message: 'Comunicando com o servidor, por favor aguarde...',
+                severity: 'warning'
+            })
+        );
     };
 
 
