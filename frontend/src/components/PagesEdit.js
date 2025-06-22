@@ -6,6 +6,7 @@ import { useParams, useLocation } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import TextEditorInstitutional from './TextEditorInstitutional';
 import TextEditorTeam from './TextEditorTeam';
+import TextEditorContribute from './TextEditorContribute';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -21,7 +22,9 @@ const PagesEdit = () => {
     let params = useParams();
     const location = useLocation();
     const isInstitutionalPage = location.pathname.includes('apresentacao');
-    const pageId = isInstitutionalPage ? 2 : 5;
+    const isTeamPage = location.pathname.includes('quemsomos');
+    // const isContributePage = location.pathname.includes('colabore');
+    const pageId = isInstitutionalPage ? 2 : (isTeamPage ? 5 : 3);
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
@@ -116,13 +119,18 @@ const PagesEdit = () => {
                                     setValue={body => setPageData({...pageData, body})}
                                     readOnly={readOnly}
                                     pageId={pageData.id}
-                                /> :
+                                /> : isTeamPage ? 
                                 <TextEditorTeam
                                     value={pageData.body}
                                     setValue={body => setPageData({...pageData, body})}
                                     readOnly={readOnly}
                                     pageId={pageData.id}
-                                /> 
+                                /> :
+                                <TextEditorContribute
+                                    value={pageData.body}
+                                    setValue={body => setPageData({...pageData, body})}
+                                    readOnly={readOnly}
+                                />
                             }
 
                         </Grid>
