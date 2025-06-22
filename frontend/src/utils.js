@@ -546,6 +546,17 @@ export const buttonArticleIndexSetter = (path) => {
     } if(path === 'contentcatalogues') {
         return 'Editar Publicações';
     } else {
-        return 'Editar Imagens';
+        return 'Editar Informações das Imagens';
     };
 };
+
+export const fitImageToContainer = (imgWidth,imgHeight,containerWidth,containerHeight) => {
+    const imgWidthByContainerHeight = containerHeight/imgHeight*imgWidth;
+    const imgHeightByContainerHeight = containerHeight;
+    const imgWidthByContainerWidth = containerWidth;
+    const imgHeightByContainerWidth = containerWidth/imgWidth*imgHeight;
+    if(imgWidthByContainerHeight <= containerWidth) 
+        return { h: imgHeightByContainerHeight, w: imgWidthByContainerHeight };
+    else 
+        return { h: imgHeightByContainerWidth, w: imgWidthByContainerWidth };
+}; 
