@@ -136,7 +136,14 @@ export const createResearch = createAsyncThunk('research/createResearch', async 
                 researchTagsData: obj.researchTagsData,
             };
             var dataId = data.id;
-            alert('Pesquisa criada com sucesso.');
+            dispatch(
+                openResearchSnackbar({
+                    message: 'Nova referência criada com sucesso!',
+                    severity: 'success'
+                })
+            ); 
+
+            // alert('Pesquisa criada com sucesso.');
             dispatch(insertResearchTags(newResearchTags));
         };    
 
@@ -146,9 +153,15 @@ export const createResearch = createAsyncThunk('research/createResearch', async 
         
         return { ...data, category: category };
     } catch (error) {
-        alert('createResearch()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao criar referência: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('createResearch()-error')
+        // console.log(error)
+        // alert(error.message)
     } finally {
         const location = `/admin/research/edit/${dataId}`
         navigate(location);
@@ -241,21 +254,37 @@ export const addSource = createAsyncThunk('research/addSource', async (obj , { d
             .upsert({ source_id: obj.source_id, target_id: obj.target_id }, { ignoreDuplicates: true })
             .single()
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Referência relacionada com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
+
         const { research } = getState();
         const newData = {
             ...data,
             research_source: research.research.find(r => r.id === data.source_id),
             research_target: research.research.find(r => r.id === data.target_id),
         }     
+
+
         
         return newData;
 
     } catch (error) {
-        alert('addSource()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao relacionar referência: ${error.message}`,
+                severity: 'error'
+            })
+        );         
+        // alert('addSource()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -266,13 +295,26 @@ export const deleteSource = createAsyncThunk('research/deleteSource', async (obj
             .delete()
             .match({ id: obj.id })
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Relação excluída com sucesso!',
+                severity: 'success'
+            })
+        );
+
         if (error) 
             throw error;
 
     } catch (error) {
-        alert('deleteSource()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao excluir relação: ${error.message}`,
+                severity: 'error'
+            })
+        );        
+        // alert('deleteSource()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -285,19 +327,34 @@ export const addResearchAuthor = createAsyncThunk('research/addResearchAuthor', 
 
         if (error) 
             throw error;
+
+
         const { research } = getState();
         const newData = {
             ...data,
             author: research.authors.find(a => a.id === data.author_id),
             research_source: research.research.find(r => r.id === data.research_id),
         }     
+
+        dispatch(
+            openResearchSnackbar({
+                message: 'Autor relacionado com sucesso!',
+                severity: 'success'
+            })
+        );         
         
         return newData;
 
     } catch (error) {
-        alert('addResearchAuthor()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao relacionar Autor: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('addResearchAuthor()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -308,13 +365,20 @@ export const deleteResearchAuthor = createAsyncThunk('research/deleteResearchAut
             .delete()
             .match({ id: obj.id })
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Autor desvinculado com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
 
     } catch (error) {
-        alert('deleteResearchAuthor()-error')
-        console.log(error)
-        alert(error.message)
+        // alert('deleteResearchAuthor()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -325,15 +389,28 @@ export const createAuthor = createAsyncThunk('research/createAuthor', async (obj
             .upsert(obj, { ignoreDuplicates: true })
             .single()
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Autor criado com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
         
         return data;
 
     } catch (error) {
-        alert('addSource()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao criar Autor: ${error.message}`,
+                severity: 'error'
+            })
+        );
+        // alert('addSource()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -344,15 +421,28 @@ export const deleteAuthor = createAsyncThunk('research/deleteAuthor', async (obj
             .delete()
             .match({ id: obj.id })
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Autor excluído com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
           
         dispatch(removeAuthor(obj)); 
 
     } catch (error) {
-        alert('deleteResearchAuthor()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao excluir Autor: ${error.message}`,
+                severity: 'error'
+            })
+        );
+        // alert('deleteResearchAuthor()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -365,6 +455,13 @@ export const updateAuthor = createAsyncThunk('research/updateAuthor', async (obj
             .match({ id: obj.id })
             .single()
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Autor atualizado com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error; 
 
@@ -375,9 +472,15 @@ export const updateAuthor = createAsyncThunk('research/updateAuthor', async (obj
         return newData;
 
     } catch (error) {
-        alert('upsertAuthor()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro na atualização das informações de Autor: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('upsertAuthor()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -387,7 +490,14 @@ export const addClass = createAsyncThunk('research/addClass', async (obj , { dis
             .from('classes')
             .upsert({ category_id: obj.category_id, name: obj.name }, { ignoreDuplicates: true })
             .single();
-  
+ 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Classe criada com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
 
@@ -405,9 +515,15 @@ export const addClass = createAsyncThunk('research/addClass', async (obj , { dis
         return data;
 
     } catch (error) {
-        alert('addClass()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao criar Classe: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('addClass()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -441,15 +557,27 @@ export const updateClass = createAsyncThunk('research/updateClass', async (obj ,
                 returning: 'minimal'
             })
             .match({ id: obj });
-        alert('updateClass()-Success');
+        // alert('updateClass()-Success');
+        dispatch(
+            openResearchSnackbar({
+                message: 'Classe atualizada com sucesso!',
+                severity: 'success'
+            })
+        ); 
 
         if (error) 
             throw error; 
 
     } catch (error) {
-        alert('updateClass()-Error');
-        console.log(error);
-        alert(error.message);
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao atualizar Classe: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('updateClass()-Error');
+        // console.log(error);
+        // alert(error.message);
     };
 });
 
@@ -482,15 +610,28 @@ export const deleteClass = createAsyncThunk('research/deleteClass', async (obj ,
             .delete()
             .match({ id: obj.id })
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Classe excluída com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
           
         dispatch(removeClass(obj)); 
 
     } catch (error) {
-        alert('deleteClass()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao excluir Classe: ${error.message}`,
+                severity: 'error'
+            })
+        ); 
+        // alert('deleteClass()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -525,16 +666,29 @@ export const addTag = createAsyncThunk('research/addTag', async (obj , { dispatc
             .from('tags')
             .upsert({ class_id: obj.class_id, name: obj.name }, { ignoreDuplicates: true })
             .single();
-  
+
+        dispatch(
+            openResearchSnackbar({
+                message: 'Marcador criado com sucesso!',
+                severity: 'success'
+            })
+        );            
+
         if (error) 
             throw error;
         
         return data;
 
     } catch (error) {
-        alert('addTag()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao criar Marcador: ${error.message}`,
+                severity: 'error'
+            })
+        );
+        // alert('addTag()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
@@ -545,16 +699,29 @@ export const deleteTag = createAsyncThunk('research/deleteTag', async (obj , { d
             .delete()
             .match({ id: obj.id })
 
+        dispatch(
+            openResearchSnackbar({
+                message: 'Marcador excluído com sucesso!',
+                severity: 'success'
+            })
+        ); 
+
         if (error) 
             throw error;
           
         dispatch(removeTag(obj)); 
-        alert('deleteTag()-success - Tag removida com sucesso');
+        // alert('deleteTag()-success - Tag removida com sucesso');
 
     } catch (error) {
-        alert('deleteTag()-error')
-        console.log(error)
-        alert(error.message)
+        dispatch(
+            openResearchSnackbar({
+                message: `Erro ao excluir Marcador: ${error.message}`,
+                severity: 'error'
+            })
+        );
+        // alert('deleteTag()-error')
+        // console.log(error)
+        // alert(error.message)
     };
 });
 
