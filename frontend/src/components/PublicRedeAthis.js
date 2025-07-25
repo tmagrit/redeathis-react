@@ -214,9 +214,9 @@ const PublicRedeAthis = () => {
                                     {/* <Typography variant="clickInfoTitle" component="span" sx={{ color: clickInfo.object.category.color, }}>  */}
                                         {clickInfo.object.date.start && 
                                             (clickInfo.object.date.interval ? 
-                                                (` [${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}]`) 
+                                                (` - ${clickInfo.object.date.start.year}-${clickInfo.object.date.end.year}`) 
                                                 : 
-                                                (` [${clickInfo.object.date.start.year}]`) 
+                                                (` - ${clickInfo.object.date.start.year}`) 
                                             )
                                         } 
                                     </Typography>
