@@ -176,6 +176,7 @@ const PublicRedeAthis = () => {
                         onMove={e => handleMapChange(e.viewState)}
                         mapStyle={mapboxStyle} 
                         mapboxAccessToken={mapboxKey} 
+                        renderWorldCopies={false}
                         reuseMaps
                     >
                         <DeckGLOverlay layers={[scatterplotLayer]}  />
