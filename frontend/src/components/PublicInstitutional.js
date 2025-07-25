@@ -12,8 +12,10 @@ const PublicInstitutional = () => {
                 <Grid 
                     item xs={12} 
                     sx={{ 
-                        pr:10,
-                        pl: 10, 
+                        pr: { xs: 10, lg: 0 },
+                        pl: { xs: 10, lg: 0 },
+                        mr: { xs: 0, lg: '450px' },
+                        ml: { xs: 0, lg: '200px' },
                         pb: 40, 
                         pt: 4, 
                         display: 'flex', 
