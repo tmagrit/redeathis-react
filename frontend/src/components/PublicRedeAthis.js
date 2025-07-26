@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateViewport } from '../features/sessionSlice';
 import { selectFilteredResearch } from '../features/researchSlice';
@@ -19,13 +20,13 @@ import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { categoryTitle } from '../components/categoryTitle';
-import ResearchTag from '../components/ResearchTag';
+// import ResearchTag from '../components/ResearchTag';
 
 import Controls from './Controls';
 import Legend from './Legend';
 import TimeSlider from './TimeSlider';
 import FilterSelect from './FilterSelect';
-
+import { truncateUrl } from '../utils';
 
 // import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 // import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -48,7 +49,7 @@ const PublicRedeAthis = () => {
 
     // REACT STATES
     const [viewport, setViewport] = useState(sessionViewport); 
-    const [clickInfo, setClickInfo] = useState({ object: false }); 
+    const [clickInfo, setClickInfo] = useState({ object: false }); //console.log('clickInfo',truncateUrl(clickInfo.object.link));
     const [hoverInfo, setHoverInfo] = useState({ object: false });
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
@@ -223,13 +224,39 @@ const PublicRedeAthis = () => {
                                 </Box>
 
                                 {/* AUTHORS */}
-                                <Box sx={{ my:0, py: 0, }}>
-                                    {researchAuthors.length > 0 && ( 
-                                        researchAuthors.map(ra => {
-                                            return  <Typography variant="caption" component="span" sx={{ color: 'text.secondary', my:0, py: 0, textTransform: 'uppercase', }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
-                                        })
+                                {/* <Box sx={{ my:0, py: 0, }}>
+                                    {researchAuthors.length > 0 && 
+                                        ( 
+                                            researchAuthors.map(ra => {
+                                                return <Typography key={ra.author.id} variant="caption" component="span" sx={{ color: 'text.secondary', my:0, py: 0, textTransform: 'uppercase', }}> {`${ra.author.name} ${ra.author.surname}; `} </Typography> 
+                                            })
+                                        )}
+                                </Box> */}
+
+                                <Box sx={{ my: 0, py: 0 }}>
+                                    {researchAuthors.length > 0 && (
+                                        <React.Fragment>
+                                            <Typography
+                                                variant="footerBodyBold"
+                                                component="span"
+                                                sx={{ fontSize: 15, lineHeight: 1.5 }}
+                                            >
+                                                {researchAuthors.length === 1 ? 'Responsável: ' : 'Responsáveis: '}
+                                            </Typography>
+                                            {researchAuthors.map(ra => (
+                                                <Typography
+                                                    key={ra.author.id}
+                                                    variant="caption"
+                                                    component="span"
+                                                    sx={{ color: 'text.secondary', my: 0, py: 0, textTransform: 'uppercase' }}
+                                                    >
+                                                    {`${ra.author.name} ${ra.author.surname}; `}
+                                                </Typography>
+                                            ))}
+                                        </React.Fragment>
                                     )}
                                 </Box>
+
 
                                 {/* CATEGORY */}
                                 <Stack 
@@ -243,19 +270,52 @@ const PublicRedeAthis = () => {
                                 </Stack>
                                 
                                 {/* EXCERPT */}
+                                <Typography variant="footerBodyBold" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > Excerto: </Typography> 
                                 <Typography variant="footerBody" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
                                 <Typography 
                                     variant="footerBody" 
                                     sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} 
                                     component={Link} to={`/view/research/${clickInfo.object.id}`} 
                                 >
-                                        <span>Saiba mais</span> <LinkIcon sx={{ pl: 0.5, color: 'inherit', }} /> 
+                                        <span><strong>Saiba mais</strong></span> <LinkIcon sx={{ pl: 0.5, color: 'inherit', }} /> 
                                 </Typography>   
 
-                                <Divider sx={{ pt: 1, }} />
+                                <Divider sx={{ pt: 1.5, }} /> 
+
+                                <Typography 
+                                    variant="footerBody" 
+                                    component="span" 
+                                    sx={{ 
+                                        fontSize: 15, 
+                                        lineHeight: 1.5, 
+                                    }} 
+                                > 
+                                    <strong>Fonte: </strong> 
+                                    <a 
+                                        href={clickInfo.object.link} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                    >
+                                        {truncateUrl(clickInfo.object.link)}
+                                    </a> 
+                                </Typography> 
+
+                                <Typography 
+                                    variant="footerBody" 
+                                    component="div" 
+                                    sx={{ 
+                                        fontSize: 15, 
+                                        lineHeight: 1.5, 
+                                    }} 
+                                > 
+                                    <strong>Inserção: </strong>
+                                    {DateTime.fromISO(clickInfo.object.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy')} 
+                                    
+                                </Typography> 
+                                
 
                                 {/* TAGS */}
-                                <Stack 
+                                {/* <Stack 
                                     sx={{ pt: 1, }}
                                     direction="row"
                                     justifyContent="flex-start"
@@ -286,7 +346,7 @@ const PublicRedeAthis = () => {
                                             )
                                         })
                                     }
-                                </Stack>
+                                </Stack> */}
                             </Paper>
                         </ClickAwayListener>
                     )}
