@@ -402,6 +402,17 @@ export const publicTheme = createTheme({
             fontSize: '0.8rem',
             fontWeight: 200, 
         },
+        footerBodyItalic: { 
+            fontFamily: 'Roboto', 
+            fontSize: '0.8rem',
+            fontWeight: 200,
+            fontStyle: 'italic',
+        },
+        footerBodyBold: { 
+            fontFamily: 'Roboto', 
+            fontSize: '0.8rem',
+            fontWeight: 600,
+        },
         mainNavigationItem: { 
             fontFamily: 'Aberforth', 
             fontSize: '1.5rem',
