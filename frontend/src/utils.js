@@ -560,3 +560,13 @@ export const fitImageToContainer = (imgWidth,imgHeight,containerWidth,containerH
     else 
         return { h: imgHeightByContainerWidth, w: imgWidthByContainerWidth };
 }; 
+
+export function truncateUrl(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return `${parsedUrl.protocol}//${parsedUrl.hostname}`;
+  } catch (error) {
+    // se a URL for inválida, retorna a string original ou string vazia
+    return url || '';
+  }
+}
