@@ -22,7 +22,7 @@ import { categoryTitle } from '../components/categoryTitle';
 import ResearchTag from '../components/ResearchTag';
 import ResearchImagesDialog from '../components/ResearchImagesDialog';
 import { publicTheme } from '../styles/publicStyles';
-import { imageDescription, sortImages } from '../utils';
+import { imageDescription, sortImages, truncateUrl } from '../utils';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -246,7 +246,41 @@ const PublicResearch = () => {
 
                             </Stack>
 
-                            <Divider sx={{ pt: 1.5, }} />  
+                            <Divider sx={{ mt: 2, mb: 1.5, }} />  
+
+                            <Typography 
+                                variant="body2" 
+                                component="span"  
+                            > 
+                                <strong>Fonte: </strong> 
+                                <a 
+                                    href={researchData.link} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    {truncateUrl(researchData.link)}
+                                </a> 
+                            </Typography> 
+
+                            <Typography 
+                                variant="body2" 
+                                component="div" 
+                                // sx={{ 
+                                //     fontSize: 15, 
+                                //     lineHeight: 1.5, 
+                                // }} 
+                            > 
+                                <strong>Inserção: </strong>
+                                {DateTime.fromISO(researchData.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy')} 
+                                
+                            </Typography> 
+
+                            <Divider sx={{ mt: 2, mb: 1.5, }} />  
+
+
+
+
+
 
                         </Grid>
                     </Grid>
