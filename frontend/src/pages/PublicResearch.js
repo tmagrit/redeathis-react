@@ -115,7 +115,7 @@ const PublicResearch = () => {
             <Container maxWidth={true} >
                 <Grid container spacing={10}>
                     {/* LEFT PANEL */}
-                    <Grid item xs={12} md={9}  >
+                    <Grid item xs={12} md={8} lg={9}  >
                         <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                             
                             <Box sx={{ pt: 3, }}>
@@ -217,6 +217,8 @@ const PublicResearch = () => {
                                 </Typography>
                             </Box> 
 
+                            <Divider sx={{ mt: 2, mb: 1.5, }} /> 
+
                             <Stack 
                                 direction="row"
                                 justifyContent="flex-start"
@@ -277,6 +279,18 @@ const PublicResearch = () => {
 
                             <Divider sx={{ mt: 2, mb: 1.5, }} />  
 
+                            <Typography  
+                                variant="viewResearchTitle" 
+                                component="h2" 
+                                gutterBottom={false} 
+                                sx={{  
+                                    color: 'text.secondary', 
+                                    pr: 0.5, 
+                                }}
+                            > 
+                                Itens Relacionados
+                            </Typography>                             
+
 
 
 
@@ -286,7 +300,7 @@ const PublicResearch = () => {
                     </Grid>
 
                     {/* RIGHT PANEL */}
-                    <Grid item xs={12} md={3} 
+                    <Grid item xs={12} md={4} lg={3}
                         sx={{ mt: { sm: 0, md: 6.5, } }} 
                     >                     
                         
