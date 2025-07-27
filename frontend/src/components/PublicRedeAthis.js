@@ -237,9 +237,9 @@ const PublicRedeAthis = () => {
                                     {researchAuthors.length > 0 && (
                                         <React.Fragment>
                                             <Typography
-                                                variant="footerBodyBold"
+                                                variant="body2"
                                                 component="span"
-                                                sx={{ fontSize: 15, lineHeight: 1.5 }}
+                                                sx={{ fontWeight: 'bold' }}
                                             >
                                                 {researchAuthors.length === 1 ? 'Responsável: ' : 'Responsáveis: '}
                                             </Typography>
@@ -263,18 +263,18 @@ const PublicRedeAthis = () => {
                                     direction="row" 
                                     alignItems="center"
                                     spacing={0.7}
-                                    sx={{ mt:0.5, mb:1, }}
+                                    sx={{ mt:1.5, mb:1.5, }}
                                 >
                                     <Avatar sx={{ width: 10, height: 10, bgcolor: `${categories.find(c => c.id === clickInfo.object.category_id ).color}` }}> </Avatar>
-                                    <Typography variant="footerBody" component="div" sx={{ fontSize: 15, lineHeight: 1.5, }}> {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
+                                    <Typography variant="body2" component="div" > {categoryTitle(categories.find(c => c.id === clickInfo.object.category_id).name)} </Typography>
                                 </Stack>
                                 
                                 {/* EXCERPT */}
-                                <Typography variant="footerBodyBold" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > Excerto: </Typography> 
-                                <Typography variant="footerBody" component="span" sx={{ fontSize: 15, lineHeight: 1.5, }} > {clickInfo.object.excerpt} </Typography> 
+                                <Typography variant="body2" component="span" sx={{ fontWeight: 'bold',}} > Excerto: </Typography> 
+                                <Typography variant="body2" component="span" > {clickInfo.object.excerpt} </Typography> 
                                 <Typography 
-                                    variant="footerBody" 
-                                    sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', fontSize: 15, lineHeight: 1.5, }} 
+                                    variant="body2" 
+                                    sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', lineHeight: 1.5, }} 
                                     component={Link} to={`/view/research/${clickInfo.object.id}`} 
                                 >
                                         <span><strong>Saiba mais</strong></span> <LinkIcon sx={{ pl: 0.5, color: 'inherit', }} /> 
@@ -283,12 +283,12 @@ const PublicRedeAthis = () => {
                                 <Divider sx={{ pt: 1.5, }} /> 
 
                                 <Typography 
-                                    variant="footerBody" 
+                                    variant="body2" 
                                     component="span" 
-                                    sx={{ 
-                                        fontSize: 15, 
-                                        lineHeight: 1.5, 
-                                    }} 
+                                    // sx={{ 
+                                    //     fontSize: 15, 
+                                    //     lineHeight: 1.5, 
+                                    // }} 
                                 > 
                                     <strong>Fonte: </strong> 
                                     <a 
@@ -301,12 +301,12 @@ const PublicRedeAthis = () => {
                                 </Typography> 
 
                                 <Typography 
-                                    variant="footerBody" 
+                                    variant="body2" 
                                     component="div" 
-                                    sx={{ 
-                                        fontSize: 15, 
-                                        lineHeight: 1.5, 
-                                    }} 
+                                    // sx={{ 
+                                    //     fontSize: 15, 
+                                    //     lineHeight: 1.5, 
+                                    // }} 
                                 > 
                                     <strong>Inserção: </strong>
                                     {DateTime.fromISO(clickInfo.object.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy')} 

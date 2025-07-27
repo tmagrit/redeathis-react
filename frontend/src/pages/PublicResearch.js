@@ -11,6 +11,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
 import Map from 'react-map-gl';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import DeckGLOverlay from '../components/DeckGLOverlay';
@@ -115,20 +116,9 @@ const PublicResearch = () => {
                 <Grid container spacing={10}>
                     {/* LEFT PANEL */}
                     <Grid item xs={12} md={8}  >
-                        <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column',  }}>
+                        <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                             
                             <Box sx={{ pt:3, }}>
-
-                                {/* CATEGORIA */}
-                                <Stack 
-                                    direction="row" 
-                                    alignItems="center"
-                                    spacing={1} 
-
-                                >
-                                    <Avatar sx={{ width: 12, height: 12, bgcolor: `${categoryColor}` }}> </Avatar>
-                                    <Typography variant="subtitle2" component="h4" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
-                                </Stack>
 
                                 {/* TÍTULO */}
                                 <Box>
@@ -155,21 +145,63 @@ const PublicResearch = () => {
                                         }}
                                     > 
                                         {researchData.date.interval ? 
-                                            (`[${researchData.date.start.year}-${researchData.date.end.year}]`) 
+                                            (` - ${researchData.date.start.year}-${researchData.date.end.year}`) 
                                             : 
-                                            (`[${researchData.date.start.year}]`) 
+                                            (` - ${researchData.date.start.year}`) 
                                         } 
                                     </Typography>
                                 </Box>
 
                                 {/* AUTORES */}
-                                <Box>
+                                {/* <Box>
                                     {researchAuthors.length > 0 && ( 
                                         researchAuthors.map(ra => {
                                             return  <Typography key={ra.author.id} variant="overline" component="h3" sx={{ color: 'text.secondary', display: 'inline', lineHeight: 1, }} > {`${ra.author.name} ${ra.author.surname}; `} </Typography>
                                         })
                                     )}
-                                </Box> 
+                                </Box>  */}
+
+                                <Box sx={{ my: 0, py: 0 }}>
+                                    {researchAuthors.length > 0 && (
+                                        <React.Fragment>
+                                            <Typography
+                                                variant="body2"
+                                                component="span"
+                                                sx={{ fontWeight: 'bold' }}
+                                            >
+                                                {researchAuthors.length === 1 ? 'Responsável: ' : 'Responsáveis: '}
+                                            </Typography>
+                                            {researchAuthors.map(ra => (
+                                                <Typography
+                                                    key={ra.author.id}
+                                                    variant="overline"
+                                                    component="span"
+                                                    sx={{ color: 'text.secondary', my: 0, py: 0, textTransform: 'uppercase' }}
+                                                    >
+                                                    {`${ra.author.name} ${ra.author.surname}; `}
+                                                </Typography>
+                                            ))}
+                                        </React.Fragment>
+                                    )}
+                                </Box>
+
+
+
+
+                                {/* CATEGORIA */}
+                                <Stack 
+                                    direction="row" 
+                                    alignItems="center"
+                                    spacing={1} 
+                                    sx={{ mt:1.5,  }}
+                                >
+                                    <Avatar sx={{ width: 12, height: 12, bgcolor: `${categoryColor}` }}> </Avatar>
+                                    <Typography variant="subtitle2" component="h4" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
+                                </Stack>
+
+
+
+
                             </Box> 
                             
                         </Grid>
@@ -179,11 +211,11 @@ const PublicResearch = () => {
                         
                             
                             <Box sx={{ pt: 3, pb: 2, }}>
-                                <Typography variant="body2" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
-                                <Typography variant="body2" component="div" sx={{ display: 'inline', }}> 
+                                <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
+                                <Typography variant="body1" component="div" sx={{ display: 'inline', whiteSpace: 'pre-line', }}> 
                                     {researchData.summary} 
                                 </Typography>
-                            </Box>
+                            </Box> 
 
                             <Stack 
                                 direction="row"
@@ -212,7 +244,9 @@ const PublicResearch = () => {
                                     )
                                 })}
 
-                            </Stack>  
+                            </Stack>
+
+                            <Divider sx={{ pt: 1.5, }} />  
 
                         </Grid>
                     </Grid>
