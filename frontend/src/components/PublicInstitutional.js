@@ -15,7 +15,7 @@ const PublicInstitutional = () => {
                         pr: { xs: 10, lg: 0 },
                         pl: { xs: 10, lg: 0 },
                         mr: { xs: 0, lg: '450px' },
-                        ml: { xs: 0, lg: '200px' },
+                        ml: { xs: 0, lg: '160px' },
                         pb: 40, 
                         pt: 4, 
                         display: 'flex', 

@@ -115,10 +115,10 @@ const PublicResearch = () => {
             <Container maxWidth={true} >
                 <Grid container spacing={10}>
                     {/* LEFT PANEL */}
-                    <Grid item xs={12} md={8}  >
+                    <Grid item xs={12} md={9}  >
                         <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                             
-                            <Box sx={{ pt:3, }}>
+                            <Box sx={{ pt: 3, }}>
 
                                 {/* TÍTULO */}
                                 <Box>
@@ -286,7 +286,7 @@ const PublicResearch = () => {
                     </Grid>
 
                     {/* RIGHT PANEL */}
-                    <Grid item xs={12} md={4} 
+                    <Grid item xs={12} md={3} 
                         sx={{ mt: { sm: 0, md: 6.5, } }} 
                     >                     
                         

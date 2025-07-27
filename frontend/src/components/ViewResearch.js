@@ -9,7 +9,7 @@ const ViewResearch = () => {
 
         <Grid container spacing={3}>
             <Grid item xs={12} >
-                <Grid item xs={12} sx={{ pr:0, pl: 7, pb: 40, display: 'flex', flexDirection: 'column', }}>
+                <Grid item xs={12} sx={{ pr:0, pl: '160px', pb: 40, display: 'flex', flexDirection: 'column', }}>
                     <PublicResearch />
                 </Grid>
             </Grid>  
