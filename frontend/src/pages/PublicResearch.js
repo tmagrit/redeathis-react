@@ -82,7 +82,7 @@ const PublicResearch = () => {
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
     // const [image, setImage] = useState(null);
-    const [imageIndex, setImageIndex] = useState(0); console.log('imageIndex',imageIndex);
+    const [imageIndex, setImageIndex] = useState(0); //console.log('imageIndex',imageIndex);
 
     // HANDLE TOGGLE DIALOG
     const handleDialogOpen = () => {

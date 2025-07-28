@@ -22,7 +22,7 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const ResearchImagesDialog = (props) => {
 
-  const { onClose, open, fullWidth, maxWidth, stepIndex, imgCount, contentImages } = props; console.log('contentImages', contentImages);  
+  const { onClose, open, fullWidth, maxWidth, stepIndex, imgCount, contentImages } = props; //console.log('contentImages', contentImages);  
 
   // REF TO TRACK IMAGEbox WIDTH
   const boxRef = useRef(null);
