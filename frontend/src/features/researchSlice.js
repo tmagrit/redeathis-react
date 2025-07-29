@@ -1598,36 +1598,36 @@ export const selectSearchedResearch  = state => {
 
 
 
-export const selectResearchSources = state => {
-  // Fallbacks para estruturas ausentes usando optional chaining e nullish coalescing
-  const researchArray = state.research?.research ?? [];
-  const sourcesArray = state.research?.sources ?? [];
-  const authorsArray = state.research?.researchAuthors ?? [];
+// export const selectResearchSources = state => {
+//   // Fallbacks para estruturas ausentes usando optional chaining e nullish coalescing
+//   const researchArray = state.research?.research ?? [];
+//   const sourcesArray = state.research?.sources ?? [];
+//   const authorsArray = state.research?.researchAuthors ?? [];
 
-  return researchArray.map(rr => {
-    // Previne erros se `rr` for null/undefined
-    if (!rr) return null;
+//   return researchArray.map(rr => {
+//     // Previne erros se `rr` for null/undefined
+//     if (!rr) return null;
     
-    const researchsources = sourcesArray.filter(
-      rs => rs?.target_id === rr.id
-    );
+//     const researchsources = sourcesArray.filter(
+//       rs => rs?.target_id === rr.id
+//     );
     
-    const researchtargets = sourcesArray.filter(
-      rs => rs?.source_id === rr.id
-    );
+//     const researchtargets = sourcesArray.filter(
+//       rs => rs?.source_id === rr.id
+//     );
     
-    const researchauthors = authorsArray.filter(
-      ra => ra?.research_id === rr.id
-    );
+//     const researchauthors = authorsArray.filter(
+//       ra => ra?.research_id === rr.id
+//     );
 
-    return {
-      ...rr,
-      authors: researchauthors,
-      sources: researchsources,
-      targets: researchtargets
-    };
-  }).filter(Boolean); // Remove entradas inválidas
-};
+//     return {
+//       ...rr,
+//       authors: researchauthors,
+//       sources: researchsources,
+//       targets: researchtargets
+//     };
+//   }).filter(Boolean); // Remove entradas inválidas
+// };
 
 
 
