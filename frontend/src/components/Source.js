@@ -7,7 +7,7 @@ import { truncate } from './truncate';
 
 const Source = (props) => {
 
-    const { source, color } = props;
+    const { source, color } = props; console.log('source',source);
 
     return (
         <Chip 
@@ -17,11 +17,11 @@ const Source = (props) => {
                 <ActionSourceMenu 
                     section={'research'} 
                     source={source} 
-                    row={source.research_source} 
+                    row={source.relatedResearch} 
                 />
             }
             onDelete={() => {}}
-            label={truncate(source.research_source.title, 12)}
+            label={truncate(source.relatedResearch.title, 36)}
         />
     );
 };

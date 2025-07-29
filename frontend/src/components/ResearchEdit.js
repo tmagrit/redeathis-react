@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { updateResearch, refreshResearchTags, selectResearchSources, updateContentEditImageGallerySize } from '../features/researchSlice';
+import { useState, useRef, useEffect, } from 'react';
+import { updateResearch, refreshResearchTags, updateContentEditImageGallerySize, selectResearchRelations } from '../features/researchSlice';
 //import { updateContent, refreshContentCategories, updateContentEditImageGallerySize } from '../features/contentSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
@@ -70,10 +70,12 @@ const ResearchEdit = () => {
     const categories = useSelector(state => state.research.categories);
     const classes = useSelector(state => state.research.classes);
     const tags = useSelector(state => state.research.tags); 
-    const allResearchSources = useSelector(selectResearchSources); //console.log('allResearchSources',allResearchSources);
-    const localResearchSources = allResearchSources.find(rs => rs.id === parseInt(params.researchId, 10));
+    // const allResearchSources = useSelector(selectResearchSources); //console.log('allResearchSources',allResearchSources);
+    const allResearchRelations = useSelector(selectResearchRelations); //console.log('allResearchRelations',allResearchRelations);
+    // const localResearchSources = allResearchSources.find(rs => rs.id === parseInt(params.researchId, 10)); //console.log('localResearchSources',localResearchSources);
+    const localResearchSources = allResearchRelations.find(arr => arr.id === parseInt(params.researchId, 10)); //console.log('localResearchSources',localResearchSources);
 
-    const sources = useSelector(state => state.research.sources);
+    // const sources = useSelector(state => state.research.sources);
     
     // FILTER TAGS RELATED
     const allResearchTags = useSelector(state => state.research.research_tags);
@@ -86,7 +88,8 @@ const ResearchEdit = () => {
     const researchWithDate = { ...research, date: dateTime }; //console.log('researchWithDate',researchWithDate);
     const [researchData, setResearchData] = useState(researchWithDate);
 
-    const allLocalResearchSources = [...localResearchSources.targets, ...localResearchSources.sources]; //console.log('allLocalResearchSources',allLocalResearchSources);
+    // const allLocalResearchSources = [...localResearchSources.targets, ...localResearchSources.sources]; //console.log('allLocalResearchSources',allLocalResearchSources);
+    const alllocalResearchSources = localResearchSources.relations ?? []; //console.log('alllocalResearchSources',alllocalResearchSources);
     const [checked, setChecked] = useState([...researchTags]); //console.log('checked',checked);
 
     const categoryColor = categories.find(c => c.id === researchData.category_id).color;
@@ -120,15 +123,27 @@ const ResearchEdit = () => {
     };
 
     // SOURCE RESEARCH FIELD ROW SIZE - CONTROLS FORM SIZE
+    // const sourceResearchRows = () => {
+    //     if(allLocalResearchSources.length > 0) {
+    //         if(allLocalResearchSources.length < 4)
+    //             return allLocalResearchSources.length + 2;       
+    //         else 
+    //             return allLocalResearchSources.length + 3;
+    //     } else
+    //         return 1;
+    // }; //console.log('sourceResearchRows',sourceResearchRows());
+
+
+    // SOURCE RESEARCH FIELD ROW SIZE - CONTROLS FORM SIZE
     const sourceResearchRows = () => {
-        if(allLocalResearchSources.length > 0) {
-            if(allLocalResearchSources.length < 4)
-                return allLocalResearchSources.length + 2;       
+        if(localResearchSources.relations?.length > 0) {
+            if(localResearchSources.relations?.length < 4)
+                return localResearchSources.relations?.length + 2;       
             else 
-                return allLocalResearchSources.length + 3;
+                return localResearchSources.relations?.length + 3;
         } else
             return 1;
-    };
+    }; //console.log('sourceResearchRows',sourceResearchRows());
 
     // MAP DIALOG STATES 
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
@@ -400,11 +415,12 @@ const ResearchEdit = () => {
                                                         alignItems="flex-start"
                                                         spacing={0.5}
                                                     >
-                                                        {allLocalResearchSources && allLocalResearchSources.map(alrs => {
+                                                        {alllocalResearchSources && alllocalResearchSources.map(alrs => {
+                                                            const source = {researchId: research.id, relatedResearch: alrs}; 
                                                             return  <Source 
                                                                         key={alrs.id} 
-                                                                        source={alrs} 
-                                                                        color={categories.find(c => c.id === alrs.research_source.category_id ).color} 
+                                                                        source={source} 
+                                                                        color={categories.find(c => c.id === alrs.category_id ).color} 
                                                                     />
                                                         })}
                                                     </Stack>,

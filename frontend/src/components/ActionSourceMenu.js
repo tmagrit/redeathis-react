@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addSource, deleteSource, removeSource } from '../features/researchSlice';
+import { addSource, deleteSource, removeSource, selectResearchRelations } from '../features/researchSlice';
 import { useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
@@ -17,15 +17,21 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionSourceMenu = (props) => {
 
-    const { section, source, row } = props;
+    const { section, source, row } = props; console.log('source',source); console.log('row',row);
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) ));
-    const researchSourcesIds = researchSources.map(rs => {return rs.source_id});
+
+    const researchRelations = useSelector(selectResearchRelations); //console.log('researchRelations',researchRelations);
+
+    // const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) )); console.log('researchSources',researchSources);
+    const researchSources = researchRelations.find(rr => rr.id === parseInt(params.researchId, 10) ); //console.log('researchSources2',researchSources);
+    
+    // const researchSourcesIds = researchSources.map(rs => {return rs.source_id}); console.log('researchSourcesIds',researchSourcesIds);
+    const researchSourcesIds = researchSources.relations?.map(rsr => {return rsr.id}) ?? []; //console.log('researchSourcesIds2',researchSourcesIds);
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
@@ -48,14 +54,36 @@ const ActionSourceMenu = (props) => {
 
     // HANDLE RELATE SOURCE
     const handleRelate = (row) => {
-        dispatch(addSource({ source_id: row.id, target_id: parseInt(params.researchId, 10) }));
+        if (row.id > parseInt(params.researchId, 10)) {
+            const newSource = { source_id: parseInt(params.researchId, 10), target_id: row.id };
+            dispatch(addSource(newSource));
+        }
+            
+        else {
+            const newSource = { source_id: row.id, target_id: parseInt(params.researchId, 10) }
+            dispatch(addSource(newSource));
+        };
+            
+        // dispatch(addSource({ source_id: row.id, target_id: parseInt(params.researchId, 10) }));
         handleClose();
     };
 
     // HANDLE UNRELATE SOURCE
     const handleUnrelate = () => {
-        dispatch(removeSource(source));
-        dispatch(deleteSource(source));
+        if (row.id > parseInt(params.researchId, 10)) {
+            const oldSource = { source_id: parseInt(params.researchId, 10), target_id: row.id };
+            dispatch(removeSource(oldSource));
+            dispatch(deleteSource(oldSource));
+        }
+            
+        else {
+            const oldSource = { source_id: row.id, target_id: parseInt(params.researchId, 10) }
+            dispatch(removeSource(oldSource));
+            dispatch(deleteSource(oldSource));
+        };
+
+        // dispatch(removeSource(source));
+        // dispatch(deleteSource(source));
 
         handleClose();
     };
@@ -93,7 +121,7 @@ const ActionSourceMenu = (props) => {
                 }}
             >
                 <MenuList dense>
-                    <MenuItem component={Link} to={`/admin/${section}/view/${params.researchId}`} onClick={handleClose} >
+                    <MenuItem component={Link} to={`/admin/view/research/${source.relatedResearch.id}`} onClick={handleClose} >
                         <ListItemIcon>
                             <VisibilityIcon fontSize="small" color="info"/> 
                         </ListItemIcon>

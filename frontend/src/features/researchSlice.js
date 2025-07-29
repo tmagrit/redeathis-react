@@ -218,20 +218,47 @@ export const getResearchAuthors = createAsyncThunk('research/getResearchAuthors'
     };
 });
 
+// export const getSources = createAsyncThunk('research/getSources', async (obj , { dispatch, getState }) => {
+//     try { 
+//         const { data, error } = await supabase
+//             .from('sources')
+//             .select(`
+//                 *,
+//                 research_source:source_id ( 
+//                     *,
+//                     id
+//                 ),
+//                 research_target:target_id ( 
+//                     *,
+//                     id
+//                 )
+//             `)   
+//             .order('updated_at', { ascending: false });
+
+//         if (error) 
+//             throw error;
+
+//         return data;
+
+//     } catch (error) {
+//         alert('getSources()-error')
+//         console.log(error)
+//         alert(error.message)
+//     };
+// });
+
+
+
+
+
 export const getSources = createAsyncThunk('research/getSources', async (obj , { dispatch, getState }) => {
     try { 
         const { data, error } = await supabase
             .from('sources')
             .select(`
                 *,
-                research_source:source_id ( 
-                    *,
-                    id
-                ),
-                research_target:target_id ( 
-                    *,
-                    id
-                )
+                research_source:source_id (*),
+                research_target:target_id (*)
             `)   
             .order('updated_at', { ascending: false });
 
@@ -247,11 +274,32 @@ export const getSources = createAsyncThunk('research/getSources', async (obj , {
     };
 });
 
+
+
+
+
+
+
+
+
+
 export const addSource = createAsyncThunk('research/addSource', async (obj , { dispatch, getState }) => {
-    try {     
+    try {
+        // 1. Garante que não é auto-relacionamento
+        if (obj.source_id === obj.target_id) {
+            throw new Error("Não é possível relacionar uma pesquisa com ela mesma!");
+        }
+
+        // 2. Ordena os IDs para criar uma "chave canônica"
+        const [id1, id2] = 
+        obj.source_id < obj.target_id 
+            ? [obj.source_id, obj.target_id] 
+            : [obj.target_id, obj.source_id];
+
+    // try {     
         const { data, error } = await supabase
             .from('sources')
-            .upsert({ source_id: obj.source_id, target_id: obj.target_id }, { ignoreDuplicates: true })
+            .upsert({ source_id: id1, target_id: id2 }, { onConflict: ['source_id', 'target_id'], ignoreDuplicates: true })
             .single()
 
         dispatch(
@@ -288,12 +336,94 @@ export const addSource = createAsyncThunk('research/addSource', async (obj , { d
     };
 });
 
+
+
+
+
+
+
+
+
+// export const addSource = createAsyncThunk('research/addSource', async (obj, { dispatch, getState }) => {
+//   try {
+//     // 1. Garante que não é auto-relacionamento
+//     if (obj.source_id === obj.target_id) {
+//       throw new Error("Não é possível relacionar uma pesquisa com ela mesma!");
+//     }
+
+//     // 2. Ordena os IDs para criar uma "chave canônica"
+//     const [id1, id2] = 
+//       obj.source_id < obj.target_id 
+//         ? [obj.source_id, obj.target_id] 
+//         : [obj.target_id, obj.source_id];
+
+//     // 3. Insere os dois relacionamentos (direto e inverso)
+//     const { data, error } = await supabase
+//       .from('sources')
+//       .upsert([
+//         { source_id: id1, target_id: id2 },  // Ordem canônica
+//         { source_id: id2, target_id: id1 }   // Relação inversa
+//       ], { 
+//         onConflict: ['source_id', 'target_id'], 
+//         ignoreDuplicates: true 
+//       });
+
+//     if (error) 
+//         throw error;
+
+//     dispatch(
+//       openResearchSnackbar({
+//         message: 'Referência relacionada com sucesso!',
+//         severity: 'success'
+//       })
+//     );
+
+//     // 4. Atualiza o estado com ambas as direções
+//     const { research } = getState();
+//     const newData = [
+//       {
+//         ...data[0],
+//         research_source: research.research.find(r => r.id === data[0]?.source_id),
+//         research_target: research.research.find(r => r.id === data[0]?.target_id),
+//       },
+//       {
+//         ...data[1],
+//         research_source: research.research.find(r => r.id === data[1]?.source_id),
+//         research_target: research.research.find(r => r.id === data[1]?.target_id),
+//       }
+//     ];
+
+//     return newData;
+
+//   } catch (error) {
+//     dispatch(
+//       openResearchSnackbar({
+//         message: `Erro: ${error.message}`,
+//         severity: 'error'
+//       })
+//     );
+//     throw error;
+//   };
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const deleteSource = createAsyncThunk('research/deleteSource', async (obj , { dispatch, getState }) => {
     try {     
         const { error } = await supabase
             .from('sources')
             .delete()
-            .match({ id: obj.id })
+            .match({ source_id: obj.source_id, target_id: obj.target_id,  })
 
         dispatch(
             openResearchSnackbar({
@@ -978,7 +1108,7 @@ export const researchSlice = createSlice({
             }
         },
         removeSource(state, action) { 
-            const newSources = state.sources.filter(s => s.id !== action.payload.id);
+            const newSources = state.sources.filter(s => !(s.source_id === action.payload.source_id && s.target_id === action.payload.target_id)  );
             state.sources = newSources;
         },
         removeResearchAuthor(state, action) { 
@@ -1451,17 +1581,93 @@ export const selectSearchedResearch  = state => {
         return searchedResearch;
 };
 
-export const selectResearchSources  = state => {
-    const researchSources = state.research.research.map(rr => {
-        const researchsources = state.research.sources.filter(rs => rs.target_id === rr.id);
-        const researchtargets = state.research.sources.filter(rs => rs.source_id === rr.id);
-        const researchauthors = state.research.researchAuthors.filter(ra => ra.research_id === rr.id);
+// export const selectResearchSources  = state => {
+//     const researchSources = state.research.research.map(rr => {
+//         const researchsources = state.research.sources.filter(rs => rs.target_id === rr.id);
+//         const researchtargets = state.research.sources.filter(rs => rs.source_id === rr.id);
+//         const researchauthors = state.research.researchAuthors.filter(ra => ra.research_id === rr.id);
         
-        return ({...rr, authors: researchauthors, sources: researchsources, targets: researchtargets });
+//         return ({...rr, authors: researchauthors, sources: researchsources, targets: researchtargets });
+//     });
+
+//     return researchSources;
+// };
+
+
+
+
+
+
+export const selectResearchSources = state => {
+  // Fallbacks para estruturas ausentes usando optional chaining e nullish coalescing
+  const researchArray = state.research?.research ?? [];
+  const sourcesArray = state.research?.sources ?? [];
+  const authorsArray = state.research?.researchAuthors ?? [];
+
+  return researchArray.map(rr => {
+    // Previne erros se `rr` for null/undefined
+    if (!rr) return null;
+    
+    const researchsources = sourcesArray.filter(
+      rs => rs?.target_id === rr.id
+    );
+    
+    const researchtargets = sourcesArray.filter(
+      rs => rs?.source_id === rr.id
+    );
+    
+    const researchauthors = authorsArray.filter(
+      ra => ra?.research_id === rr.id
+    );
+
+    return {
+      ...rr,
+      authors: researchauthors,
+      sources: researchsources,
+      targets: researchtargets
+    };
+  }).filter(Boolean); // Remove entradas inválidas
+};
+
+
+
+
+export const selectResearchRelations = state => {
+  const researchArray = state.research?.research ?? [];
+  const sourcesArray = state.research?.sources ?? [];
+  const authorsArray = state.research?.researchAuthors ?? [];
+
+  return researchArray.map(rr => {
+    // Previne erros se `rr` for null/undefined
+    if (!rr) 
+        return null;
+    
+    const researchRelations = sourcesArray.map(ss => {
+        if (ss?.source_id === rr.id)
+            return {...ss.research_target};
+        if (ss?.target_id === rr.id)
+            return {...ss.research_source};
+        else
+            return null;
     });
 
-    return researchSources;
+    const researchauthors = authorsArray.filter(
+      ra => ra?.research_id === rr.id
+    );
+
+    return {
+      ...rr,
+      relations: researchRelations.filter(Boolean), // Remove entradas inválidas
+      authors: researchauthors,
+    };
+  }).filter(Boolean); // Remove entradas inválidas
 };
+
+
+
+
+
+
 
 export const selectCategoryLegendGrade = state => {
     const grade = [[1, 6], [2, 7], [3, 5], [4, 8]];
