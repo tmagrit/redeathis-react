@@ -44,7 +44,7 @@ const PublicResearch = () => {
     const researchWithDate = { ...research, date: dateTime }
     const categories = useSelector(state => state.research.categories);
     const { allResearchTags } = useSelector(selectFilteredResearch);
-    const researchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) );
+    const researchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) ); console.log('researchTags',researchTags);
     // IMAGE SELECTORS
     const images = useSelector(state => state.images.images); 
     const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : []; 
@@ -217,7 +217,7 @@ const PublicResearch = () => {
                                 </Typography>
                             </Box> 
 
-                            <Divider sx={{ mt: 2, mb: 1.5, }} /> 
+                            {researchTags.ResearchClassesData && <Divider sx={{ mt: 2, mb: 1.5, }} /> }
 
                             <Stack 
                                 direction="row"
