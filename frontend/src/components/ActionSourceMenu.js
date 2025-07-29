@@ -17,7 +17,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionSourceMenu = (props) => {
 
-    const { section, source, row } = props; console.log('source',source); console.log('row',row);
+    const { source, row } = props; //console.log('source',source); console.log('row',row);
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -121,7 +121,7 @@ const ActionSourceMenu = (props) => {
                 }}
             >
                 <MenuList dense>
-                    <MenuItem component={Link} to={`/admin/view/research/${source.relatedResearch.id}`} onClick={handleClose} >
+                    <MenuItem component={Link} to={`/admin/view/research/${source.relatedResearch?.id ?? row.id}`} onClick={handleClose} >
                         <ListItemIcon>
                             <VisibilityIcon fontSize="small" color="info"/> 
                         </ListItemIcon>

@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+
+import { selectResearchRelations, } from '../features/researchSlice';
+
 import { useParams } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
@@ -27,16 +30,19 @@ const SourceDialog = (props) => {
     let params = useParams();
 
     // REDUX SELECTORS
+    const allResearchRelations = useSelector(selectResearchRelations); //console.log('allResearchRelations',allResearchRelations);
+    const localResearchSources = allResearchRelations.find(arr => arr.id === parseInt(params.researchId, 10)); //console.log('localResearchSources',localResearchSources);
+    const allLocalResearchSources = localResearchSources.relations ?? []; //console.log('allLocalResearchSources',allLocalResearchSources);
+
+
     const sources = useSelector(state => state.research.sources);
     const getSourcesStatus = useSelector(state => state.research.getSourcesStatus);
     const addSourceStatus = useSelector(state => state.research.addSourceStatus);
-    const researchList = useSelector(state => state.research.research);
-    //const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
+    const researchList = useSelector(state => state.research.research).filter(rl => rl.id !== parseInt(params.researchId, 10) ); //console.log('researchList',researchList);
     const categories = useSelector(state => state.research.categories);
-    //const statuses = useSelector(state => state.research.statuses);
 
     // STATE
-    const [researchSources, setResearchSources] = useState([]);
+    // const [researchSources, setResearchSources] = useState([]); console.log('researchSources',researchSources);
 
     const createSourcesTable = Boolean( getSourcesStatus === "succeeded"  ) 
 
@@ -45,25 +51,24 @@ const SourceDialog = (props) => {
     };
 
     // TRACK SOURCE CHANGES 
-    useEffect(() => {
-        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        setResearchSources([...updatedResearchSources]);
-    }, [sources, addSourceStatus, params.researchId]);
+    // useEffect(() => {
+    //     const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+    //     setResearchSources([...updatedResearchSources]);
+    // }, [sources, addSourceStatus, params.researchId]);
 
-    const handleUpdateResearchSources = (sources) => {
-        const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
-        setResearchSources(updatedResearchSources);
-    };
+    // const handleUpdateResearchSources = (sources) => {
+    //     const updatedResearchSources = sources.filter(s => s.target_id === parseInt(params.researchId, 10) );
+    //     setResearchSources(updatedResearchSources);
+    // };
 
-    // CONDITIONAL ROW STYLING
     const conditionalRowStyles = [
         {
-            when: row => researchSources.map(rs => {return rs.source_id}).includes(row.id),
+            when: row => allLocalResearchSources.map(alrs => {return alrs.id}).includes(row.id),
             style: {
-                backgroundColor: 'rgba(63, 195, 128, 0.3)',
+                backgroundColor: 'lightgreen',
             },
         },
-    ];
+    ]; 
 
     return (
         <Dialog 
@@ -93,14 +98,28 @@ const SourceDialog = (props) => {
                     alignItems="flex-start"
                     spacing={0.5}
                 >
-                    {researchSources.map(rs => {
+                    {/* {researchSources.map(rs => {
                         return  <Source 
                                     key={rs.id}
                                     source={rs} 
                                     sourceAction={() => handleUpdateResearchSources(sources)} 
                                     color={categories.find(c => c.id === rs.research_source.category_id ).color} 
                                 />
+                    })} */}
+
+                    {allLocalResearchSources && allLocalResearchSources.map(alrs => {
+                        const source = {
+                            researchId: parseInt(params.researchId, 10), 
+                            relatedResearch: alrs
+                        };
+                        return  <Source 
+                                    key={alrs.id}
+                                    source={source} 
+                                    // sourceAction={() => handleUpdateResearchSources(sources)} 
+                                    color={categories.find(c => c.id === alrs.category_id).color} 
+                                />
                     })}
+
                 </Stack>     
             </DialogContent>
 
@@ -129,36 +148,3 @@ SourceDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
 };
-
-//import { DateTime } from 'luxon';
-//import Chip from '@mui/material/Chip';
-//import DialogTitle from '@mui/material/DialogTitle';
-// import SearchIcon from '@mui/icons-material/Search';
-// import TextField from '@mui/material/TextField';
-// import InputAdornment from '@mui/material/InputAdornment';
-// REACT DATA TABLE COMPONENT
-// import DataTable from 'react-data-table-component';
-// import { customStyles } from '../styles/tableTemplatesStyles'
-// import ActionSourceMenu from './ActionSourceMenu';
-
-
-    // AUTHORS
-    //const authors = useSelector(state => state.research.authors);
-    
-
-    // EDIT RESEARCH STATES
-    // const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
-    // const researchWithDate = { ...research, date: dateTime }
-    // const [researchData, setResearchData] = useState(researchWithDate);
-
-
-////////////////////////////
-                        // <DataTable
-                    //     columns={researchSourcesColumns}
-                    //     data={researchList}
-                    //     customStyles={customStyles}
-                    //     striped
-                    //     conditionalRowStyles={conditionalRowStyles}
-                    //     responsive
-                    //     pagination
-                    // />

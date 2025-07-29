@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { selectResearchRelations, } from '../features/researchSlice';
+
 import { useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,8 +19,8 @@ import ActionSourceMenu from './ActionSourceMenu';
 //IMAGE GALLERI ADD <--
 import IconButton from '@mui/material/IconButton';
 import CircleIcon from '@mui/icons-material/Circle';
-import ActionMenuRelatedContent from './ActionMenuRelatedContent'; 
-import { getRelatedContentName, truncate } from '../utils';  
+// import ActionMenuRelatedContent from './ActionMenuRelatedContent'; 
+import { truncate } from '../utils';  
 //IMAGE GALLERI ADD -->
 
 export function useTableTemplates(props) {
@@ -43,6 +46,14 @@ export function useTableTemplates(props) {
     // AUTHORS SELECTORS
     const allResearchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
  
+
+    const allResearchRelations = useSelector(selectResearchRelations); 
+    const localResearchSources = allResearchRelations.find(arr => arr.id === parseInt(params.researchId, 10)) ?? { id: null, relations: null}; 
+    const allLocalResearchSources = localResearchSources.relations ?? []; 
+
+
+
+
     /////////////////////
 
     // RESEARCH AND AUTHORS STATES
@@ -373,18 +384,45 @@ export function useTableTemplates(props) {
                 maxWidth: '140px',
                 grow: 2,
             },
+
             {
                 name: 'Ações',
                 maxWidth: '100px',
                 cell: row =>    <ActionSourceMenu 
-                                    section={'research'} 
-                                    sourceAction={() => handleUpdateResearchSources(sources)} 
+                                    // section={'research'} 
+                                    // sourceAction={() => handleUpdateResearchSources(sources)} 
                                     row={row} 
-                                    source={researchSources.find(rs => rs.source_id === row.id)} 
+                                    // source={allLocalResearchSources.find(alrs => alrs.id === row.id)}
+                                    source={row} 
                                 />,
                 right: true,
                 grow: 1,
             },
+
+            // {
+            //     name: 'Ações',
+            //     maxWidth: '100px',
+            //     cell: row => {
+            //         const source = allLocalResearchSources.find(alrs => alrs.id === row.id);
+            //         if (!source) {
+            //         // Se não existir no allLocalResearchSources, não renderiza nada
+            //         return null;
+            //         // Ou pode retornar algo como:
+            //         // return <span style={{ color: '#ccc' }}>Sem ação</span>;
+            //         }
+            //         return (
+            //             <ActionSourceMenu
+            //                 section={'research'}
+            //                 // sourceAction={() => handleUpdateResearchSources(sources)}
+            //                 row={row}
+            //                 source={source}
+            //             />
+            //         );
+            //     },
+            //     right: true,
+            //     grow: 1,
+            // }
+            
         ]
     );
 
