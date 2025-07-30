@@ -12,3 +12,16 @@ export const SearchResult = styled(Box)(({ theme }) => ({
     width: '100%',
     textDecoration: 'none',
 }));
+
+export const RelatedResearch = styled(Box)(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+        },
+    color: 'inherit',
+    width: '100%',
+    textDecoration: 'none',
+    // height: '70px',
+}));

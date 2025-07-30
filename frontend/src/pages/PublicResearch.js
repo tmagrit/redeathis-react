@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFilteredResearch } from '../features/researchSlice';
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { DateTime } from 'luxon';
 import { ThemeProvider } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -23,6 +23,8 @@ import ResearchTag from '../components/ResearchTag';
 import ResearchImagesDialog from '../components/ResearchImagesDialog';
 import { publicTheme } from '../styles/publicStyles';
 import { imageDescription, sortImages, truncateUrl } from '../utils';
+import ResearchRelated from '../components/ResearchRelated';
+
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -31,20 +33,28 @@ const urlEndpoint = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT;
 
 const PublicResearch = () => {
 
+    // MY HISTORY HOOK
+    const location = useLocation(); 
+
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
     // REF TO TRACK IMAGEGRID WIDTH
     const gridRef = useRef(null);
 
     // REDUX SELECTORS
+
     // RESEARCH SELECTORS
-    const research = useSelector(state => state.research.research.find(r => r.id === parseInt(params.researchId, 10) ));
-    const researchAuthors = useSelector(state => state.research.researchAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10) ));
+    const allResearch = useSelector(state => state.research.research);
+    const allAuthors = useSelector(state => state.research.researchAuthors);
+
+    const research = allResearch.find(r => r.id === parseInt(params.researchId, 10));
+    const thisReseachAuthors = allAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10));
     const dateTime = { ...research.date, start: DateTime.fromObject(research.date.start), end: DateTime.fromObject(research.date.end) }
     const researchWithDate = { ...research, date: dateTime }
     const categories = useSelector(state => state.research.categories);
     const { allResearchTags } = useSelector(selectFilteredResearch);
-    const researchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) ); console.log('researchTags',researchTags);
+    const thisResearchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10)); 
+    
     // IMAGE SELECTORS
     const images = useSelector(state => state.images.images); 
     const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : []; 
@@ -52,6 +62,8 @@ const PublicResearch = () => {
 
     // REACT STATES
     const [researchData, setResearchData] = useState(researchWithDate); 
+    const [researchAuthors, setResearchAuthors] = useState(thisReseachAuthors); 
+    const [researchTags, setResearchTags] = useState(thisResearchTags); 
     const [viewport, setViewport] = useState({...researchData.geolocation, zoom: 4});
     const [width, setWidth] = useState(0);
 
@@ -81,7 +93,7 @@ const PublicResearch = () => {
 
     // DIALOG STATES 
     const [dialogOpen, setDialogOpen] = useState(false);
-    // const [image, setImage] = useState(null);
+    //IMAGE INDEX STATES
     const [imageIndex, setImageIndex] = useState(0); //console.log('imageIndex',imageIndex);
 
     // HANDLE TOGGLE DIALOG
@@ -109,6 +121,21 @@ const PublicResearch = () => {
         
         return () => window.removeEventListener('resize', updateWidth);
     }, []);
+
+    // HANDLE RESEARCH DATA CHANGE ON ROUTE NAVIGATION
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+        const newResearch = allResearch.find(r => r.id === parseInt(params.researchId, 10));
+        const newResearchAuthors = allAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10));
+        const dateTime = { ...newResearch.date, start: DateTime.fromObject(newResearch.date.start), end: DateTime.fromObject(newResearch.date.end) }
+        const researchWithDate = { ...newResearch, date: dateTime }
+        const newResearchTags = allResearchTags.find(art => art.research_id === parseInt(params.researchId, 10) ); 
+
+        setResearchData(researchWithDate); 
+        setResearchAuthors(newResearchAuthors);
+        setResearchTags(newResearchTags);
+    }, [params.researchId,setResearchData,setResearchAuthors,setResearchTags]);
 
     return ( 
         <ThemeProvider theme={publicTheme} > 
@@ -185,9 +212,6 @@ const PublicResearch = () => {
                                     )}
                                 </Box>
 
-
-
-
                                 {/* CATEGORIA */}
                                 <Stack 
                                     direction="row" 
@@ -199,17 +223,12 @@ const PublicResearch = () => {
                                     <Typography variant="subtitle2" component="h4" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
                                 </Stack>
 
-
-
-
                             </Box> 
                             
                         </Grid>
 
                         <Grid xs={12} item > 
-                        
-                        
-                            
+                             
                             <Box sx={{ pt: 3, pb: 2, }}>
                                 <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
                                 <Typography variant="body1" component="div" sx={{ display: 'inline', whiteSpace: 'pre-line', }}> 
@@ -248,7 +267,7 @@ const PublicResearch = () => {
 
                             </Stack>
 
-                            <Divider sx={{ mt: 2, mb: 1.5, }} />  
+                            <Box sx={{ mt: 2, mb: 1.5, }} />  
 
                             <Typography 
                                 variant="body2" 
@@ -267,17 +286,13 @@ const PublicResearch = () => {
                             <Typography 
                                 variant="body2" 
                                 component="div" 
-                                // sx={{ 
-                                //     fontSize: 15, 
-                                //     lineHeight: 1.5, 
-                                // }} 
                             > 
                                 <strong>Inserção: </strong>
                                 {DateTime.fromISO(researchData.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy')} 
                                 
                             </Typography> 
 
-                            <Divider sx={{ mt: 2, mb: 1.5, }} />  
+                            <Box sx={{ mt: 2, mb: 1.5, }} />  
 
                             <Typography  
                                 variant="viewResearchTitle" 
@@ -285,16 +300,14 @@ const PublicResearch = () => {
                                 gutterBottom={false} 
                                 sx={{  
                                     color: 'text.secondary', 
-                                    pr: 0.5, 
+                                    pt: 5,
+                                    pb: 2, 
                                 }}
                             > 
                                 Itens Relacionados
-                            </Typography>                             
+                            </Typography>     
 
-
-
-
-
+                            <ResearchRelated />                        
 
                         </Grid>
                     </Grid>
