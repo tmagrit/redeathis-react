@@ -44,12 +44,12 @@
 a {
   color: #eb6145;
   text-decoration: none;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
 }
 
 a:hover {
-  font-weight: bold;
-  text-decoration: underline;
+  /* font-weight: bold; */
+  /* text-decoration: underline; */
 }
 
 
@@ -111,9 +111,6 @@ a:hover {
   fill: #33a8aa;
 }
 
-
-
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -122,10 +119,6 @@ a:hover {
     transform: rotate(360deg);
   }
 }
-
-
-
-
 
 /* TINYMCE STYLES */
 /* Estilos para o container do editor */
