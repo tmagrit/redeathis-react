@@ -37,9 +37,21 @@
   color: white;
 }
 
-.App-link {
+/* .App-link {
   color: #61dafb;
+} */
+
+a {
+  color: #eb6145;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
+
+a:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 
 /* SVG colors */
 .ra-svg-lightBeige {
@@ -185,6 +197,7 @@
 }
 .content-h4 {
   font-family: 'Roboto';
+  text-transform: uppercase;
   font-weight: 400;
   margin-block-start: 10px;
   margin-block-end: 10px;
@@ -247,4 +260,3 @@
   margin-block-end: 16px;
   color: #33377A;
 }
-
