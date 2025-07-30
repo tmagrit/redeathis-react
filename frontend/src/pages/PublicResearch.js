@@ -231,8 +231,14 @@ const PublicResearch = () => {
                              
                             <Box sx={{ pt: 3, pb: 2, }}>
                                 <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
-                                <Typography variant="body1" component="div" sx={{ display: 'inline', whiteSpace: 'pre-line', }}> 
+                                {/* <Typography variant="body1" component="div" sx={{ display: 'inline', whiteSpace: 'pre-line', }}> 
                                     {researchData.summary} 
+                                </Typography> */}
+
+                                <Typography variant="body1" component="div" display="inline" >
+                                    {researchData.summary && (
+                                        <div dangerouslySetInnerHTML={{ __html: researchData.summary }} />
+                                    )}
                                 </Typography>
                             </Box> 
 

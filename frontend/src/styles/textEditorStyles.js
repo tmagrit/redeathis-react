@@ -35,6 +35,7 @@ export const institutionalContentStyle = `
 	}
 	h4 {
 	  font-family: 'Roboto';
+	  text-transform: uppercase;
 	  font-weight: 400;
 	  margin-block-start: 10px;
 	  margin-block-end: 10px;
@@ -79,6 +80,7 @@ export const teamContentStyle = `
 	}
 	h4 {
 	  font-family: 'Roboto';
+	  text-transform: uppercase;
 	  font-weight: 400;
 	  margin-block-start: 10px;
 	  margin-block-end: 10px;
@@ -123,6 +125,34 @@ export const contributeContentStyle = `
 	}
 	h4 {
 	  font-family: 'Roboto';
+	  text-transform: uppercase;
+	  font-weight: 400;
+	  margin-block-start: 10px;
+	  margin-block-end: 10px;
+	  font-size: 16px;
+	}
+`;
+
+export const researchContentStyle = `
+	body {
+	  background-color: #f4f0eb;
+	}	
+  	p, ul, ol, table {
+	  font-family: 'Roboto';
+	  font-size: 16px;
+	  font-weight: 300;
+	  background-color: #f4f0eb;
+	}	
+	h3 {
+	  font-family: 'Roboto';
+	  font-weight: 500;
+	  margin-block-start: 13px;
+	  margin-block-end: 13px;
+	  font-size: 20px;
+	}
+	h4 {
+	  font-family: 'Roboto';
+	  text-transform: uppercase;
 	  font-weight: 400;
 	  margin-block-start: 10px;
 	  margin-block-end: 10px;
@@ -151,5 +181,11 @@ export const contributeStyleFormats = [
 	{ title: 'Título 2', block: 'h2', classes: 'contribute-h2' },
 	{ title: 'Título 3', block: 'h3', classes: 'content-h3' },
 	{ title: 'Título 4', block: 'h4', classes: 'content-h4' },
+	{ title: 'Parágrafo', block: 'p', classes: 'content-body' },
+];
+
+export const researchStyleFormats = [
+	{ title: 'Título 1', block: 'h3', classes: 'content-h3' },
+	{ title: 'Título 2', block: 'h4', classes: 'content-h4' },
 	{ title: 'Parágrafo', block: 'p', classes: 'content-body' },
 ];

@@ -38,6 +38,7 @@ import MapViewport from './MapViewport';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
+import TextEditorResearch from './TextEditorResearch';
 
 import { useHistory } from './history';
 import { useElementSize } from './useElementSize'
@@ -163,6 +164,22 @@ const ResearchEdit = () => {
     const handleChangeResearchData = (event) => {
         setResearchData({...researchData, [event.target.name]: event.target.value});
     };
+
+    // IMPORTANTE: Garanta que o body sempre tenha um valor válido
+    useEffect(() => {
+        if(researchData) {
+        setResearchData({
+            ...researchData,
+            summary: researchData.summary || "" 
+        });
+        }
+    }, [researchData]);
+
+    // CHANGE PAGE STATES
+    const handleChangeSummaryData = (event) => {
+        setResearchData({...researchData, [event.target.name]: event.target.value});
+    };
+
 
     // UPDATE RESEARCH
     const handleUpdateResearch = () => {
@@ -350,7 +367,7 @@ const ResearchEdit = () => {
                                 InputLabelProps={{ shrink: true }}
                             />
 
-                            <TextField
+                            {/* <TextField
                                 value={researchData.summary}
                                 onChange={(event) => handleChangeResearchData(event)}
                                 fullWidth
@@ -362,6 +379,12 @@ const ResearchEdit = () => {
                                 rows={23}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
+                            /> */}
+
+                            <TextEditorResearch
+                                value={researchData.summary}
+                                setValue={summary => setResearchData({...researchData, summary})}
+                                readOnly={false}
                             />
 
                             <TextField
