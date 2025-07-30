@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectFilteredResearch } from '../features/researchSlice';
+import { selectFilteredResearch, selectResearchRelations } from '../features/researchSlice';  
 import { useParams, useLocation } from "react-router-dom";
 import { DateTime } from 'luxon';
 import { ThemeProvider } from '@mui/material';
@@ -46,6 +46,8 @@ const PublicResearch = () => {
     // RESEARCH SELECTORS
     const allResearch = useSelector(state => state.research.research);
     const allAuthors = useSelector(state => state.research.researchAuthors);
+    const researchRelations = useSelector(selectResearchRelations); 
+    const researchSources = researchRelations.find(rr => rr.id === parseInt(params.researchId, 10) );
 
     const research = allResearch.find(r => r.id === parseInt(params.researchId, 10));
     const thisReseachAuthors = allAuthors.filter(ra => ra.research_id === parseInt(params.researchId, 10));
@@ -217,7 +219,7 @@ const PublicResearch = () => {
                                     direction="row" 
                                     alignItems="center"
                                     spacing={1} 
-                                    sx={{ mt:1.5,  }}
+                                    sx={{ mt:0.5,  }}
                                 >
                                     <Avatar sx={{ width: 12, height: 12, bgcolor: `${categoryColor}` }}> </Avatar>
                                     <Typography variant="subtitle2" component="h4" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
@@ -300,7 +302,7 @@ const PublicResearch = () => {
 
                             <Box sx={{ mt: 2, mb: 1.5, }} />  
 
-                            <Typography  
+                            {researchSources.relations?.length > 0 && <Typography  
                                 variant="viewResearchTitle" 
                                 component="h2" 
                                 gutterBottom={false} 
@@ -311,7 +313,7 @@ const PublicResearch = () => {
                                 }}
                             > 
                                 Itens Relacionados
-                            </Typography>     
+                            </Typography> }    
 
                             <ResearchRelated />                        
 
@@ -381,7 +383,10 @@ const PublicResearch = () => {
                                                     <Box component="span" sx={{ fontWeight: 'bold' }}>
                                                         {'Fonte: '}
                                                     </Box> 
-                                                    {imageDescription(ci).subtitle}
+                                                    
+                                                    <a href={imageDescription(ci).subtitle} target="_blank" rel="noopener noreferrer">
+                                                        {truncateUrl(imageDescription(ci).subtitle)}
+                                                    </a>
                                                 </Typography>                                         
                                             </React.Fragment>
                                         ))}

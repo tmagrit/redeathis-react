@@ -12,7 +12,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { publicTheme } from '../styles/publicStyles';
-import { imageDescription, fitImageToContainer } from '../utils';
+import { imageDescription, fitImageToContainer, truncateUrl } from '../utils'; 
 
 // IMAGEKIT
 const urlEndpoint = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT;
@@ -129,7 +129,9 @@ const ResearchImagesDialog = (props) => {
                 <Box component="span" sx={{ fontWeight: 'bold' }}>
                     {'Fonte: '}
                 </Box> 
-                {imageDescription(contentImages[activeStep]).subtitle}
+                <a href={imageDescription(contentImages[activeStep]).subtitle} target="_blank" rel="noopener noreferrer">
+                    {truncateUrl(imageDescription(contentImages[activeStep]).subtitle)}
+                </a>
             </Typography> 
           <MobileStepper
             steps={imgCount}
