@@ -19,15 +19,10 @@ const ResearchRelated = () => {
     let params = useParams();
 
     // REDUX SELECTORS
-    // const searchedResearch = useSelector(selectSearchedResearch); 
     const researchRelations = useSelector(selectResearchRelations); 
     const researchSources = researchRelations.find(rr => rr.id === parseInt(params.researchId, 10) );
     const categories = useSelector(state => state.research.categories); 
   
-    // const handleScrollToTop = () => {
-    //     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    // };
-
     return (
         <Stack >
             {researchSources.relations && researchSources.relations.map((rs, index) => {
