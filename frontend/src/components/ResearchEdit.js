@@ -483,6 +483,12 @@ const ResearchEdit = () => {
                                 sx={{ mb: 2, }} 
                                 component={Link} 
                                 to={`/admin/view/research/${params.researchId}`}  
+                                onClick={(event) => {
+                                    const confirmSave = window.confirm('Ao continuar, quaisquer dados não salvos serão perdidos. Deseja realmente continuar ou cancelar para salvar suas alterações?');
+                                    if (!confirmSave) {
+                                        event.preventDefault();
+                                    }
+                                }}
                             >
                                 Visualizar
                             </Button>
