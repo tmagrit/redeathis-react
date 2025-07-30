@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectFilteredTagsArray } from '../features/researchSlice'; 
+import { useSelector, useDispatch } from 'react-redux';
+import { selectFilteredTagsArray, setResearchSearchInput } from '../features/researchSlice'; 
 import { ThemeProvider } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 // import TimelapseIcon from '@mui/icons-material/Timelapse';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+// import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import { publicTheme, PaperControls } from '../styles/publicStyles';
@@ -21,10 +21,13 @@ const Controls = (props) => {
 
     const { open, setOpen, show } = props;
 
+    // REDUX SELECTORS
+    const dispatch = useDispatch();
+
     //REDUX SELECTORS
     const filteredTags = useSelector(selectFilteredTagsArray); 
-    const minYear = useSelector(state => state.research.researchMinYear); 
-    const researchTimeInterval = useSelector(state => state.research.timeInterval); 
+    // const minYear = useSelector(state => state.research.researchMinYear); 
+    // const researchTimeInterval = useSelector(state => state.research.timeInterval); 
 
     const [researchSearchDialog, setResearchSearchDialog] = useState(false);
 
@@ -32,7 +35,10 @@ const Controls = (props) => {
     const handleResearchSearchDialog = () => {
         setResearchSearchDialog(!researchSearchDialog);
     }; 
-
+    const handleCloseSearchDialog = () => {
+        setResearchSearchDialog(!researchSearchDialog);
+        setTimeout(dispatch(setResearchSearchInput('')), 1000); 
+    }; 
     return ( 
         <ThemeProvider theme={publicTheme} > 
             <PaperControls 
@@ -85,9 +91,11 @@ const Controls = (props) => {
 
             {/* RESEARCH SEARCH DIALOG */}
             <Dialog 
-                fullWidth	
+                //fullWidth	
+                maxWidth={false}
                 PaperProps={{ square: true, }}
-                onClose={handleResearchSearchDialog} 
+                // onClose={handleResearchSearchDialog}
+                onClose={handleCloseSearchDialog} 
                 open={researchSearchDialog} 
                 >
                 <DialogTitle> 

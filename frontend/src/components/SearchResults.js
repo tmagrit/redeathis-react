@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import { selectSearchedResearch } from '../features/researchSlice'; 
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-
+import { categoryTitle } from '../components/categoryTitle';
 import { truncate } from './truncate';
 
 // STYLES
@@ -16,7 +16,6 @@ const SearchResults = () => {
 
     const searchedResearch = useSelector(selectSearchedResearch); 
     const categories = useSelector(state => state.research.categories); 
-  
 
     return (
         <Stack >
@@ -25,10 +24,14 @@ const SearchResults = () => {
                 return (
                     <SearchResult key={fr.id} component={Link} to={`/view/research/${fr.id}`} > 
                         <Stack sx={{ p: 1, }} >
-                            <Typography variant="searchResultsTitle" component="div" sx={{ color: `${category.color}`, }} >{truncate(fr.title, 9)}</Typography>
+                            <Typography variant="searchResultsTitle" component="div" sx={{ color: `${category.color}`, }} >{truncate(fr.title, 36)}</Typography>
                             <Stack direction="row" spacing={0.5} justifyContent="flex-start" alignItems="center" >
                                 <Avatar sx={{ width: 7, height: 7, bgcolor: `${category.color}` }}> </Avatar>
-                                <Typography variant="caption" component="div" >{category.name}</Typography>
+                                <Typography 
+                                    variant="caption" 
+                                    component="div" >
+                                        {categoryTitle(categories.find(c => c.id === fr.category_id).name)}
+                                    </Typography>
                             </Stack>
                         </Stack>
                         <Divider />

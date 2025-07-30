@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { setResearchSearchInput } from '../features/researchSlice'; 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +13,7 @@ const SearchBar = ( ) => {
 
     // REDUX SELECTORS
     const dispatch = useDispatch();
-    const researchSearchInput = useSelector(state => state.research.researchSearchInput);   
+    // const researchSearchInput = useSelector(state => state.research.researchSearchInput);   
     
     // REACT STATES
     const [value, setValue] = useState('');
