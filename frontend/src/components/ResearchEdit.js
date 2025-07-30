@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useRef, useEffect, } from 'react';
 import { updateResearch, refreshResearchTags, updateContentEditImageGallerySize, selectResearchRelations } from '../features/researchSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { DateTime } from 'luxon';
 
 import TextField from '@mui/material/TextField';
@@ -176,9 +176,9 @@ const ResearchEdit = () => {
     }, [researchData]);
 
     // CHANGE PAGE STATES
-    const handleChangeSummaryData = (event) => {
-        setResearchData({...researchData, [event.target.name]: event.target.value});
-    };
+    // const handleChangeSummaryData = (event) => {
+    //     setResearchData({...researchData, [event.target.name]: event.target.value});
+    // };
 
 
     // UPDATE RESEARCH
@@ -475,6 +475,17 @@ const ResearchEdit = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            <Button 
+                                variant="contained"
+                                // color="success" 
+                                size="small"
+                                fullWidth 
+                                sx={{ mb: 2, }} 
+                                component={Link} 
+                                to={`/admin/view/research/${params.researchId}`}  
+                            >
+                                Visualizar
+                            </Button>
                             <Button 
                                 variant="contained"
                                 color="success" 
