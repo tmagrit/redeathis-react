@@ -77,7 +77,7 @@ const PublicFooter = (props) => {
                                 <Divider flexItem />
 
                                 <Typography variant="footerSubtitle"  sx={{ textDecoration: 'none', color: publicTheme.palette.footerText, }} >
-                                    Realização
+                                    Idealização
                                 </Typography>                                 
                             </Box>
                         </Grid>
@@ -144,7 +144,7 @@ const PublicFooter = (props) => {
                                         <Divider flexItem />
 
                                         <Typography variant="footerSubtitle"  sx={{ textDecoration: 'none', color: publicTheme.palette.footerText, }} >
-                                            Realização
+                                            Parceria UFBA
                                         </Typography> 
                                     </Grid>
 
@@ -189,7 +189,7 @@ const PublicFooter = (props) => {
                                         <Divider flexItem />
 
                                         <Typography variant="footerSubtitle"  sx={{ textDecoration: 'none', color: publicTheme.palette.footerText, }} >
-                                            Parcerias
+                                            Outras Parcerias
                                         </Typography> 
 
 
@@ -228,7 +228,7 @@ const PublicFooter = (props) => {
                                         <Divider sx={{ width: '100%', flex: '1 1 auto' }} flexItem />
 
                                         <Typography variant="footerSubtitle"  sx={{ textDecoration: 'none', color: publicTheme.palette.footerText, }} >
-                                            Apoio
+                                            Fomento
                                         </Typography> 
 
                                         </Grid>
