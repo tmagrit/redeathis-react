@@ -18,7 +18,7 @@ const ResearchTag = (props) => {
 
     return (
         <ThemeProvider theme={publicTheme} >
-            <Chip  label={tag ? tag.name : ''} color={classCategory.style} size="small" />
+            <Chip  label={tag ? tag.name : ''} color={classCategory.style} size="small" sx={{ minWidth: 50,}} />
         </ThemeProvider>  
     );
 
