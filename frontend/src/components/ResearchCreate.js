@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createResearch } from '../features/researchSlice';
 import { DateTime } from 'luxon';
@@ -36,6 +36,7 @@ import MapDialog from './MapDialog';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
+import TextEditorResearch from './TextEditorResearch';
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 const mapboxStyle = process.env.REACT_APP_MAPBOX_STYLE
@@ -112,6 +113,16 @@ const ResearchCreate = () => {
     const handleChangeResearchData = (event) => {
         setResearchData({...researchData, [event.target.name]: event.target.value});
     };
+
+    // IMPORTANTE: Garanta que o body sempre tenha um valor válido
+    useEffect(() => {
+        if(researchData) {
+        setResearchData({
+            ...researchData,
+            summary: researchData.summary || "" 
+        });
+        }
+    }, [researchData]);
 
     // CREATE RESEARCH
     const handleCreateResearch = () => {
@@ -238,7 +249,7 @@ const ResearchCreate = () => {
                                 InputLabelProps={{ shrink: true }}
                             />
 
-                            <TextField
+                            {/* <TextField
                                 value={researchData.summary}
                                 onChange={(event) => handleChangeResearchData(event)}
                                 fullWidth
@@ -250,6 +261,12 @@ const ResearchCreate = () => {
                                 rows={6}
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
+                            /> */}
+
+                            <TextEditorResearch
+                                value={researchData.summary}
+                                setValue={summary => setResearchData({...researchData, summary})}
+                                readOnly={false}
                             />
 
                             <TextField
