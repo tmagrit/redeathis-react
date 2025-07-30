@@ -17,7 +17,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ActionSourceMenu = (props) => {
 
-    const { source, row } = props; //console.log('source',source); console.log('row',row);
+    const { source, row } = props; 
 
     // REACT ROUTER DYNAMIC PARAMETER
     let params = useParams();
@@ -25,13 +25,9 @@ const ActionSourceMenu = (props) => {
     // REDUX SELECTORS
     const dispatch = useDispatch();
 
-    const researchRelations = useSelector(selectResearchRelations); //console.log('researchRelations',researchRelations);
-
-    // const researchSources = useSelector(state => state.research.sources.filter(s => s.target_id === parseInt(params.researchId, 10) )); console.log('researchSources',researchSources);
-    const researchSources = researchRelations.find(rr => rr.id === parseInt(params.researchId, 10) ); //console.log('researchSources2',researchSources);
-    
-    // const researchSourcesIds = researchSources.map(rs => {return rs.source_id}); console.log('researchSourcesIds',researchSourcesIds);
-    const researchSourcesIds = researchSources.relations?.map(rsr => {return rsr.id}) ?? []; //console.log('researchSourcesIds2',researchSourcesIds);
+    const researchRelations = useSelector(selectResearchRelations); 
+    const researchSources = researchRelations.find(rr => rr.id === parseInt(params.researchId, 10) ); 
+    const researchSourcesIds = researchSources.relations?.map(rsr => {return rsr.id}) ?? []; 
 
     // ACTION MENU STATES
     const [anchorActionEl, setAnchorActionEl] = useState(null);
@@ -64,7 +60,6 @@ const ActionSourceMenu = (props) => {
             dispatch(addSource(newSource));
         };
             
-        // dispatch(addSource({ source_id: row.id, target_id: parseInt(params.researchId, 10) }));
         handleClose();
     };
 
@@ -81,9 +76,6 @@ const ActionSourceMenu = (props) => {
             dispatch(removeSource(oldSource));
             dispatch(deleteSource(oldSource));
         };
-
-        // dispatch(removeSource(source));
-        // dispatch(deleteSource(source));
 
         handleClose();
     };

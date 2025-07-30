@@ -20,20 +20,13 @@ import DeckGLOverlay from '../components/DeckGLOverlay';
 import { hexToRgb } from '../components/colorConverter';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { categoryTitle } from '../components/categoryTitle';
-// import ResearchTag from '../components/ResearchTag';
-
 import Controls from './Controls';
 import Legend from './Legend';
 import TimeSlider from './TimeSlider';
 import FilterSelect from './FilterSelect';
 import { truncateUrl } from '../utils';
-
-// import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-// import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import { drawerWidth } from '../styles/publicStyles';
-// import { DrawerHeader, publicTheme, drawerWidth } from '../styles/publicStyles';
 
 
 const mapboxKey = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -49,7 +42,7 @@ const PublicRedeAthis = () => {
 
     // REACT STATES
     const [viewport, setViewport] = useState(sessionViewport); 
-    const [clickInfo, setClickInfo] = useState({ object: false }); //console.log('clickInfo',truncateUrl(clickInfo.object.link));
+    const [clickInfo, setClickInfo] = useState({ object: false }); 
     const [hoverInfo, setHoverInfo] = useState({ object: false });
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
@@ -73,6 +66,9 @@ const PublicRedeAthis = () => {
             data: filteredResearch,
             pickable: true,
             stroked: false,
+            
+            //cluster: true,
+
             filled: true,
             radiusScale: 5,
             radiusMinPixels: 5,
@@ -285,10 +281,6 @@ const PublicRedeAthis = () => {
                                 <Typography 
                                     variant="body2" 
                                     component="span" 
-                                    // sx={{ 
-                                    //     fontSize: 15, 
-                                    //     lineHeight: 1.5, 
-                                    // }} 
                                 > 
                                     <strong>Fonte: </strong> 
                                     <a 
@@ -303,10 +295,6 @@ const PublicRedeAthis = () => {
                                 <Typography 
                                     variant="body2" 
                                     component="div" 
-                                    // sx={{ 
-                                    //     fontSize: 15, 
-                                    //     lineHeight: 1.5, 
-                                    // }} 
                                 > 
                                     <strong>Inserção: </strong>
                                     {DateTime.fromISO(clickInfo.object.updated_at).setLocale('pt-br').toFormat('dd/MM/yyyy')} 

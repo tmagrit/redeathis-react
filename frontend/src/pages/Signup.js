@@ -26,7 +26,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const trackLocation = location.state?.from?.pathname || '/admin';
-  console.log('trackLocation', trackLocation)
+  // console.log('trackLocation', trackLocation)
 
   // COMPARE PASSWORDS
   const confirmPassword = (pass) => {
