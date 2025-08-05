@@ -69,49 +69,6 @@ const PagesEdit = () => {
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column', }}>
-                            {/* <TextField
-                                value={pageData.title}
-                                onChange={(event) => handleChangePageData(event)}
-                                fullWidth
-                                label="Título"
-                                name="title"
-                                size="small"
-                                multiline={true}
-                                minRows={1}
-                                maxRows={2}
-                                type="text"
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                                //error={true}
-                                helperText="Título principal da página"
-                            />
-
-                            <TextField
-                                value={pageData.slug}
-                                onChange={(event) => handleChangePageData(event)}
-                                fullWidth
-                                label="Título de Menu"
-                                name="slug"
-                                size="small"
-                                type="text"
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                                //error={true}
-                                helperText="Termo do menu de navegação principal, que dá acesso à página"
-                            /> */}
-
-                            {/* <FormBox 
-                                id='text-editor-box' 
-                                label='Conteúdo'
-                                padding={{ p: 0, }} 
-                                children={
-                                    <TextEditor 
-                                        value={pageData.body}
-                                        setValue={body => setPageData({...pageData, body})}
-                                        readOnly={readOnly}
-                                    />
-                                } 
-                            />         */}
 
                             {isInstitutionalPage ? 
                                 <TextEditorInstitutional 
