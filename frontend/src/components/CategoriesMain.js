@@ -87,7 +87,7 @@ const CategoriesMain = () => {
                 {/* LEFT PANEL */}
                 <Grid item xs={12} >
                     {categories && categories.map(c => (
-                        <Accordion>
+                        <Accordion key={c.id}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls={c.name}
