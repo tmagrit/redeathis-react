@@ -20,13 +20,15 @@ const TagsEdit = ( props ) => {
 
     const { classId, cleanTypes } = props;
 
+    // FALLBACK OBJECT
+    const dummyTagObj = { class_id: classId, name: '', };
+
     // REDUX STATES
     const dispatch = useDispatch();
-    const classObj = useSelector(state => state.research.classes).find(c => c.id === classId);  // console.log('classObj',classObj);
+    const classObj = useSelector(state => state.research.classes).find(c => c.id === classId) || dummyTagObj;  // console.log('classObj',classObj);
     const tags = useSelector(state => state.research.tags); 
 
     const classTagsLength = tags.filter(t => t.class_id === classId).length; //console.log(tags.filter(t => t.class_id === classId)); 
-    const dummyTagObj = { class_id: classId, name: '', };
 
     const [newTagData, setNewTagData] = useState({...dummyTagObj});
     const [classObjData, setClassObjData] = useState({...classObj});  //console.log('classObjData',classObjData);
@@ -219,5 +221,5 @@ export default TagsEdit;
 // };
 
 TagsEdit.propTypes = {
-    classId: PropTypes.number.isRequired,
+    classId: PropTypes.number,
 };
