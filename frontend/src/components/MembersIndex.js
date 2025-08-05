@@ -11,7 +11,7 @@ import Title from './Title';
 import FilteredDataTable from './FilteredDataTable';
 
 // MY HISTORY HOOK
-import { useHistory } from './history';
+// import { useHistory } from './history';
 
 const MembersIndex = () => {
 
@@ -19,7 +19,7 @@ const MembersIndex = () => {
     const tableTemplates = useTableTemplates(); 
 
     // MY HISTORY HOOK
-    const history = useHistory();
+    // const history = useHistory();
 
     // REDUX SELECTORS
     const fullProfiles = useSelector(selectFullProfiles);
@@ -27,6 +27,16 @@ const MembersIndex = () => {
     const getRolesStatus = useSelector(state => state.members.getRolesStatus);
     const getProfileRolesStatus = useSelector(state => state.members.getProfileRolesStatus);
     const getOrganizationsStatus = useSelector(state => state.members.getOrganizationsStatus);
+
+    // EMPTY CONDITIONAL ROW STYLING
+    const conditionalRowStyles = [
+        {
+            when: () => false,
+            style: {
+                backgroundColor: 'transparent',
+            },
+        },
+    ]    
 
     const createProfileTable = Boolean( getMembersStatus === "succeeded" && 
                                     getRolesStatus === "succeeded" && 
@@ -40,6 +50,7 @@ const MembersIndex = () => {
                     <FilteredDataTable 
                         data={fullProfiles} 
                         columns={tableTemplates.fullProfilesColumns} 
+                        conditionalRowStyles={conditionalRowStyles}
                         title={<Title position={'middle'}/>}
                     />
                 ) : (
