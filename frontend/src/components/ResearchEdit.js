@@ -84,6 +84,9 @@ const ResearchEdit = () => {
     const researchWithDate = { ...research, date: dateTime }; 
     const [researchData, setResearchData] = useState(researchWithDate);
 
+    // TEXT EDITOR STATES
+    const [readOnly, setReadOnly] = useState(false);
+
     
     const allLocalResearchSources = localResearchSources.relations ?? []; 
     const [checked, setChecked] = useState([...researchTags]); 
@@ -166,14 +169,14 @@ const ResearchEdit = () => {
     };
 
     // IMPORTANTE: Garanta que o body sempre tenha um valor válido
-    useEffect(() => {
-        if(researchData) {
-        setResearchData({
-            ...researchData,
-            summary: researchData.summary || "" 
-        });
-        }
-    }, [researchData]);
+    // useEffect(() => {
+    //     if(researchData) {
+    //     setResearchData({
+    //         ...researchData,
+    //         summary: researchData.summary || "" 
+    //     });
+    //     }
+    // }, [researchData]);
 
     // CHANGE PAGE STATES
     // const handleChangeSummaryData = (event) => {
@@ -367,24 +370,12 @@ const ResearchEdit = () => {
                                 InputLabelProps={{ shrink: true }}
                             />
 
-                            {/* <TextField
-                                value={researchData.summary}
-                                onChange={(event) => handleChangeResearchData(event)}
-                                fullWidth
-                                label="Resumo"
-                                name="summary"
-                                size="small"
-                                type="text"
-                                multiline={true}
-                                rows={23}
-                                sx={{ my: 1,}}
-                                InputLabelProps={{ shrink: true }}
-                            /> */}
 
                             <TextEditorResearch
                                 value={researchData.summary}
                                 setValue={summary => setResearchData({...researchData, summary})}
-                                readOnly={false}
+                                readOnly={readOnly}
+                                pageId={researchData.id}
                             />
 
                             <TextField
