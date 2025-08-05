@@ -91,7 +91,7 @@ const ResearchEdit = () => {
     const allLocalResearchSources = localResearchSources.relations ?? []; 
     const [checked, setChecked] = useState([...researchTags]); 
 
-    const categoryColor = categories.find(c => c.id === researchData.category_id).color;
+    const categoryColor = categories.find(c => c.id === researchData.category_id).color; 
 
     // DECK GL OVERLAY LAYER
     const scatterplotLayer = 
@@ -580,7 +580,7 @@ const ResearchEdit = () => {
                                         viewport={researchData.geolocation}
                                         setViewport={(geolocation) => setResearchData({ ...researchData, geolocation:geolocation })}
                                         style={{ width: '100vw', height: '100vh' }}  
-                                        color={categoryColor} 
+                                        color={[categoryColor]} 
                                     />
                                 }
                             />
