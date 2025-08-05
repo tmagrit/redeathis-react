@@ -19,14 +19,24 @@ const ResearchIndex = () => {
 
     // MY HISTORY HOOK
     const history = useHistory();
-    const section = history?.pathArray[1] || '';
-    const context = history?.pathArray[2] || '';
+    // const section = history?.pathArray[1] || '';
+    // const context = history?.pathArray[2] || '';
 
     // REDUX SELECTORS
     const fullResearch = useSelector(state => state.research.research);
     const getResearchStatus = useSelector(state => state.research.getStatusesStatus);
     const getCategoriesStatus = useSelector(state => state.research.getCategoriesStatus);
     const getStatusesStatus = useSelector(state => state.research.getStatusesStatus);
+
+    // EMPTY CONDITIONAL ROW STYLING
+    const conditionalRowStyles = [
+        {
+            when: () => false,
+            style: {
+                backgroundColor: 'transparent',
+            },
+        },
+    ]
 
     const createResearchTable = Boolean( getResearchStatus === "succeeded" && 
                                     getCategoriesStatus === "succeeded" && 
@@ -39,6 +49,7 @@ const ResearchIndex = () => {
                     <FilteredDataTable 
                         data={fullResearch} 
                         columns={tableTemplates.fullResearchColumns} 
+                        conditionalRowStyles={conditionalRowStyles}
                         title={<Title position={'middle'}/>}
                     />
                 ) : (

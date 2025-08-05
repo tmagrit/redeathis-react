@@ -20,6 +20,16 @@ const AuthorIndex = () => {
     const authors = useSelector(state => state.research.authors);
     const getAuthorsStatus = useSelector(state => state.research.getAuthorsStatus);
 
+    // EMPTY CONDITIONAL ROW STYLING
+    const conditionalRowStyles = [
+        {
+            when: () => false,
+            style: {
+                backgroundColor: 'transparent',
+            },
+        },
+    ]
+    
     const createAuthorsTable = Boolean( getAuthorsStatus === "succeeded"  ) 
                                    
     const index = () => {
@@ -29,6 +39,7 @@ const AuthorIndex = () => {
                     <FilteredDataTable 
                         data={authors} 
                         columns={tableTemplates.authorsColumns}
+                        conditionalRowStyles={conditionalRowStyles}
                         title={<Title position={'middle'}/>}
                     />
                 ) : (

@@ -64,7 +64,7 @@ const AuthorDialog = (props) => {
         {
             when: row => researchAuthors.map(ra => {return ra.author_id}).includes(row.id),
             style: {
-                backgroundColor: 'rgba(63, 195, 128, 0.3)',
+                backgroundColor: 'lightgreen',
             },
         },
     ];

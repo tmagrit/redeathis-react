@@ -47,6 +47,16 @@ const ImagekitFilesIndex = () => {
     const images = useSelector(state => state.images.images); 
     const contentImages = images ? images.filter(i => parseInt(i.folder, 10) === parseInt(params.researchId, 10) && i.fileType === 'image').sort(sortImages) : []; //console.log('contentImages', contentImages); 
 
+    // EMPTY CONDITIONAL ROW STYLING
+    const conditionalRowStyles = [
+        {
+            when: () => false,
+            style: {
+                backgroundColor: 'transparent',
+            },
+        },
+    ]
+
     const createContentTable = Boolean( getImagesStatus === "succeeded" );
     const isContentEdit = Boolean( history.pathArray[1] === "admin" &&
                                     history.pathArray[2] === "research" && 
@@ -112,6 +122,7 @@ const ImagekitFilesIndex = () => {
                                 // stateData={isContentEdit ? contentImages : imagesSetter(history.pathArray[2]) } 
                                 stateData={contentImages}
                                 title={<Title position={'editImagekitIndex'}/>}
+                                conditionalRowStyles={conditionalRowStyles}
                                 // folder={isContentEdit ? params.researchId : folderSetter(history.pathArray[2]) }
                                 folder={params.researchId}
                             />
