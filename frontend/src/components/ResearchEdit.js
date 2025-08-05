@@ -292,7 +292,7 @@ const ResearchEdit = () => {
                                 name="source-authors"
                                 size="small"
                                 multiline={true}
-                                rows={sourceAuthorsRows()}
+                                rows={sourceAuthorsRows() || 2}
                                 type="hidden"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -402,7 +402,7 @@ const ResearchEdit = () => {
                                 name="source-research"
                                 size="small"
                                 multiline={true}
-                                rows={sourceResearchRows()}
+                                rows={sourceResearchRows() || 2}
                                 type="hidden"
                                 sx={{ my: 1,}}
                                 InputLabelProps={{ shrink: true }}
@@ -507,11 +507,12 @@ const ResearchEdit = () => {
                         <Divider />
 
                         {classes && classes.filter(c => c.category_id === researchData.category_id).map(sc => (
-                            <Accordion disableGutters elevation={0} square >
+                            <Accordion key={sc.id} disableGutters elevation={0} square >
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls={sc.name}
                                     id={sc.id}
+                                    
                                 >
                                     <Stack direction="row"  alignItems="center" spacing={1.5} sx={{ flexGrow: 1 }} >
                                         <Avatar sx={{ width: 15, height: 15,  bgcolor: `${categories.find(cat => cat.id === sc.category_id).color}`, }} > </Avatar>
