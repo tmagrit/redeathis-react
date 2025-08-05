@@ -111,15 +111,17 @@ const ResearchEdit = () => {
     );  
 
     // SOURCE AUTHORS FIELD ROW SIZE - CONTROLS FORM SIZE 
-    const sourceAuthorsRows = () => {
-        if(localResearchSources.authors.length > 0) {
-            if(localResearchSources.authors.length < 4)
-                return localResearchSources.authors.length + 2;       
-            else 
-                return localResearchSources.authors.length + 3;
-        } else
-            return 1;
-    };
+    const sourceAuthorsRows = () => Math.max(1, localResearchSources.authors.length + (localResearchSources.authors.length < 4 ? 2 : 3));
+
+    // const sourceAuthorsRows = () => {
+    //     if(localResearchSources.authors.length > 0) {
+    //         if(localResearchSources.authors.length < 4)
+    //             return localResearchSources.authors.length + 2;       
+    //         else 
+    //             return localResearchSources.authors.length + 3;
+    //     } else
+    //         return 1;
+    // };
 
     // SOURCE RESEARCH FIELD ROW SIZE - CONTROLS FORM SIZE
     const sourceResearchRows = () => {
