@@ -48,7 +48,7 @@ const Organization = () => {
                             <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', }}>
                                 {/* <Typography variant="h5" component="h1" > {currentPage.title} </Typography>  */}
                                 {/* <Typography variant="body1" component="div" display="block" > <span dangerouslySetInnerHTML={{ __html: currentPage.body }} /> </Typography> */}
-                                <Typography variant="body1" component="div" display="block" >
+                                <Typography variant="body1" component="div" display="block" align="justify" >
                                     {currentPage.body && (
                                         <div dangerouslySetInnerHTML={{ __html: currentPage.body }} />
                                     )}

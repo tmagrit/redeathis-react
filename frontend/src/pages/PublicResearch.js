@@ -150,7 +150,7 @@ const PublicResearch = () => {
                             <Box sx={{ pt: 3, }}>
 
                                 {/* TÍTULO */}
-                                <Box>
+                                <Box sx={{ pb: 0.5, }} >
                                     <Typography  
                                         variant="viewResearchTitle" 
                                         component="h2" 
@@ -196,7 +196,7 @@ const PublicResearch = () => {
                                             <Typography
                                                 variant="body2"
                                                 component="span"
-                                                sx={{ fontWeight: 'bold' }}
+                                                sx={{ fontWeight: 'bold', lineHeight: 1, }}
                                             >
                                                 {researchAuthors.length === 1 ? 'Responsável: ' : 'Responsáveis: '}
                                             </Typography>
@@ -205,7 +205,7 @@ const PublicResearch = () => {
                                                     key={ra.author.id}
                                                     variant="overline"
                                                     component="span"
-                                                    sx={{ color: 'text.secondary', my: 0, py: 0, textTransform: 'uppercase' }}
+                                                    sx={{ color: 'text.secondary', my: 0, py: 0, textTransform: 'uppercase', lineHeight: 1, }}
                                                     >
                                                     {`${ra.author.name} ${ra.author.surname}; `}
                                                 </Typography>
@@ -219,7 +219,7 @@ const PublicResearch = () => {
                                     direction="row" 
                                     alignItems="center"
                                     spacing={1} 
-                                    sx={{ mt:0.5,  }}
+                                    sx={{ mt:2,  }}
                                 >
                                     <Avatar sx={{ width: 12, height: 12, bgcolor: `${categoryColor}` }}> </Avatar>
                                     <Typography variant="subtitle2" component="h4" >{categoryTitle(categories.find(c => c.id === researchData.category_id).name)}</Typography> 
@@ -232,12 +232,12 @@ const PublicResearch = () => {
                         <Grid xs={12} item > 
                              
                             <Box sx={{ pt: 3, pb: 2, }}>
-                                <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold', display: 'inline', }}>Resumo: </Typography> 
+                                <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold', display: 'block', }}>Resumo </Typography> 
                                 {/* <Typography variant="body1" component="div" sx={{ display: 'inline', whiteSpace: 'pre-line', }}> 
                                     {researchData.summary} 
                                 </Typography> */}
 
-                                <Typography variant="body1" component="div" display="inline" >
+                                <Typography variant="body1" component="div" display="block" align="justify" >
                                     {researchData.summary && (
                                         <div dangerouslySetInnerHTML={{ __html: researchData.summary }} />
                                     )}

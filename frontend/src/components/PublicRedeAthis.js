@@ -266,15 +266,18 @@ const PublicRedeAthis = () => {
                                 </Stack>
                                 
                                 {/* EXCERPT */}
-                                <Typography variant="body2" component="span" sx={{ fontWeight: 'bold',}} > Excerto: </Typography> 
-                                <Typography variant="body2" component="span" > {clickInfo.object.excerpt} </Typography> 
+                                {/* <Box sx={{ width: '100%' }}> */}
+                                {/* <Typography variant="body2"  align="justify" sx={{ fontWeight: 'bold',}} > Excerto: </Typography>  */}
+                                <Typography variant="body2" lineHeight={1.5} align="justify"> <span><strong>Excerto:</strong></span> {clickInfo.object.excerpt} </Typography> 
                                 <Typography 
                                     variant="body2" 
+                                    align="justify"
                                     sx={{ display: 'inline-flex', alignItems: 'center',  textDecoration: 'none', color: 'inherit', lineHeight: 1.5, }} 
                                     component={Link} to={`/view/research/${clickInfo.object.id}`} 
                                 >
                                         <span><strong>Saiba mais</strong></span> <LinkIcon sx={{ pl: 0.5, color: 'inherit', }} /> 
                                 </Typography>   
+                                {/* </Box> */}
 
                                 <Divider sx={{ pt: 1.5, }} /> 
 
